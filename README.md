@@ -2,22 +2,16 @@
 
 Can we build an \(r\) and a bank \(D\) that track **strategy given topic**?
 
-This is not the hinge paper. Glossary: [kummahiih/regret-heuristic](https://github.com/kummahiih/regret-heuristic). Neighbors: [RELATED.md](RELATED.md).
+Glossary: [kummahiih/regret-heuristic](https://github.com/kummahiih/regret-heuristic). [RELATED.md](RELATED.md). [PROTOCOL.md](PROTOCOL.md).
 
-## Already failed
+Identity last-token failed on `pairs.jsonl` and `pairs_paraphrase.jsonl` (topic acc 1.00, |gap| ≤ 0.01).
 
-Old jsonl last-token 0.77 / 0.80; mean-pool 0.86 / 0.85.  
-`pairs.jsonl` identity (2026-09-16): mean s* 0.918 deceptive / 0.928 honest, topic probe **1.00**. Failed.
-
-## This repo
-
-[PROTOCOL.md](PROTOCOL.md) — gap must survive a topic probe **and** a paraphrase.
+Next sensor: drop the bank topic axis.
 
 ```bash
 source /media/pauli/datapata/rh-venv/bin/activate
-python pair_metrics.py --model Qwen/Qwen2.5-7B-Instruct --data data/pairs.jsonl
+python topic_residual.py --model Qwen/Qwen2.5-7B-Instruct --data data/pairs.jsonl
+python topic_residual.py --model Qwen/Qwen2.5-7B-Instruct --data data/pairs_paraphrase.jsonl
 ```
-
-## Ledger
 
 [results/README.md](results/README.md)
