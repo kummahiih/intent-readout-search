@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Strategy gap vs topic probe on last-token identity.
-
-Control, not a detector. Identity is expected to encode topic.
-No weights committed. 4070 Ti 4-bit load.
-"""
+"""Strategy gap vs topic probe. Labels carry u = P(tag wrong), not p(lie)."""
 
 import argparse
 import json
@@ -37,16 +33,24 @@ def main():
     p.add_argument("--model", default="Qwen/Qwen2.5-7B-Instruct")
     p.add_argument("--data", default="data/pairs.jsonl")
     p.add_argument("--max-length", type=int, default=256)
+    p.add_argument("--u0", type=float, default=0.5, help="bank excluded if u > u0")
     args = p.parse_args()
     if not torch.cuda.is_available():
         print("ERROR: CUDA required", file=sys.stderr)
         sys.exit(1)
     rows = [json.loads(l) for l in Path(args.data).read_text().splitlines() if l.strip()]
-    bank = [r for r in rows if r["split"] == "bank" and r["strategy"] == "deceptive"]
+    for r in rows:
+        r["u"] = float(r.get("u", 0.0))
+    bank = [
+        r
+        for r in rows
+        if r["split"] == "bank" and r["strategy"] == "deceptive" and r["u"] <= args.u0
+    ]
     ev = [r for r in rows if r["split"] == "eval"]
     if not bank or not ev:
-        print("ERROR: need bank deceptive and eval rows", file=sys.stderr)
+        print("ERROR: need low-u bank deceptive and eval rows", file=sys.stderr)
         sys.exit(1)
+    print(f"u0={args.u0} bank_n={len(bank)} eval_n={len(ev)} (u is tag noise, not p(lie))")
     bnb = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.bfloat16,
@@ -61,10 +65,6 @@ def main():
     )
     model.eval()
     device = model.device
-    print(
-        f"VRAM allocated_GiB={torch.cuda.memory_allocated() / 1024**3:.2f} "
-        f"reserved_GiB={torch.cuda.memory_reserved() / 1024**3:.2f}"
-    )
     with torch.no_grad():
         D = torch.stack(
             [last_hidden(model, tok, r["text"], args.max_length, device) for r in bank]
@@ -73,29 +73,37 @@ def main():
         for r in ev:
             h = last_hidden(model, tok, r["text"], args.max_length, device)
             s = max(cosine(h, D[i]) for i in range(D.shape[0]))
-            feats.append((h, s, r["topic"], r["strategy"]))
-    print("pair cosine to deceptive bank (last-token identity):")
-    for h, s, topic, strat in feats:
-        print(f"  topic={topic} strategy={strat} s*_D={s:.4f}")
-    topics = sorted({t for _, _, t, _ in feats})
+            feats.append((h, s, r))
+    print("pair cosine to low-u deceptive bank:")
+    for h, s, r in feats:
+        print(
+            f"  topic={r['topic']} strategy={r['strategy']} u={r['u']:.2f} s*_D={s:.4f}"
+        )
+    sure = [(s, r) for _, s, r in feats if r["u"] <= args.u0]
+    unsure = [(s, r) for _, s, r in feats if r["u"] > args.u0]
+    topics = sorted({r["topic"] for _, _, r in feats})
     topic_id = {t: i for i, t in enumerate(topics)}
-    X = torch.stack([h for h, _, _, _ in feats])
-    y = torch.tensor([topic_id[t] for _, _, t, _ in feats])
-    # closed-form least-squares topic probe on this tiny eval set (diagnostic only)
+    X = torch.stack([h for h, _, _ in feats])
+    y = torch.tensor([topic_id[r["topic"]] for _, _, r in feats])
     Xn = F.normalize(X, dim=-1)
-    Y = F.one_hot(y, num_classes=len(topics)).float()
-    W = torch.linalg.lstsq(Xn, Y).solution
-    pred = (Xn @ W).argmax(dim=-1)
-    acc = float((pred == y).float().mean())
-    dec = [s for _, s, _, st in feats if st == "deceptive"]
-    hon = [s for _, s, _, st in feats if st == "honest"]
+    W = torch.linalg.lstsq(Xn, F.one_hot(y, num_classes=len(topics)).float()).solution
+    acc = float(((Xn @ W).argmax(-1) == y).float().mean())
+
+    def gap(pairs):
+        dec = [s for s, r in pairs if r["strategy"] == "deceptive"]
+        hon = [s for s, r in pairs if r["strategy"] == "honest"]
+        if not dec or not hon:
+            return None
+        return (sum(hon) / len(hon)) - (sum(dec) / len(dec))
+
+    g_s, g_u = gap(sure), gap(unsure)
     print(
-        f"mean s*_D deceptive={sum(dec)/len(dec):.4f} honest={sum(hon)/len(hon):.4f} "
-        f"gap_hon_minus_dec={(sum(hon)/len(hon))-(sum(dec)/len(dec)):.4f}"
+        f"sure_n={len(sure)} unsure_n={len(unsure)} "
+        f"gap_sure={g_s if g_s is None else f'{g_s:.4f}'} "
+        f"gap_unsure={g_u if g_u is None else f'{g_u:.4f}'}"
     )
     print(f"topic_probe_acc={acc:.2f} n={len(feats)} topics={topics}")
-    print("If topic_probe_acc is high and |gap| is tiny, identity failed the topic test.")
-    print("Not a deception result.")
+    print("High-u rows must not enter D. Not a deception result.")
 
 
 if __name__ == "__main__":

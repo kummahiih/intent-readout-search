@@ -1,15 +1,20 @@
 # Protocol
 
-Qwen pair tests: a gap counts only if the topic probe is poor and a paraphrase keeps the pattern. Identity and one-axis residual failed that.
+Truth is a random variable. Pair tags and toy actions are **observations**, not nature.
 
-## CPU known-z (`synthetic_z.py`)
+\(u\) is uncertainty of that observation (label-flip rate, or walk entropy / NLL). It is not \(p(\mathrm{lie})\).
 
-Different question: if z is an action bit we know, does the hinge change the **action** or only h?
+Rules that apply from the first file, not after a clean toy:
 
-- Action 0 honest, 1 lie in D, 2 lie not in D.
-- Task: predict topic. Temptation bonus on lying.
-- Baseline builds frozen D from h when action=1.
-- Hinge mask: action 2 banned. Pass would be lie_D down, honest up, task held.
-- Evade open: action 2 allowed. lie_out up + hinge down = hid from D.
+1. Do not put a point in \(D\) if \(u > u_0\).
+2. Report strategy gaps in sure / unsure bins. A gap only on \(u=0\) author tags is a toy gap.
+3. Wider hinge threshold on high \(u\) (glossary §F). Quiet on mush is not honesty.
+4. Topic probe still has to fail on the same vectors.
+5. Paraphrase still required for a language gap.
 
-This does not unfail last-token r on Qwen. It is the poor-person evasion demo.
+Qwen identity / residual already failed under author-sure tags (\(u=0\) in the jsonl). That does not licence treating those tags as nature.
+
+## CPU (`synthetic_z.py`)
+
+`--noise p` flips the *labeler* that builds \(D\). True action is still logged.
+Contamination of \(D\) is printed. Hinge on a dirty bank is the default story, not a variant.
