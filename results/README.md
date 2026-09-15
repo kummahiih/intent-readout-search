@@ -1,6 +1,6 @@
-# Failed-sensor ledger
+# Sensor ledger
 
-Do not collapse tries. A drop in hinge is not reduced deception.
+Do not collapse attempts. A drop in hinge is not reduced deception.
 
 ## Baseline A — last-token identity
 
@@ -14,6 +14,12 @@ Source: same repo §6.
 
 0.8575 / 0.8524. Gap gone. Failed.
 
-## Try 2
+## Identity control on pairs.jsonl
 
-Not run. See PROTOCOL.md.
+Not run. Command:
+
+```bash
+python pair_metrics.py --model Qwen/Qwen2.5-7B-Instruct --data data/pairs.jsonl
+```
+
+Paste stdout here. Expected: topic probe high, strategy gap small.

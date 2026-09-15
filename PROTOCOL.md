@@ -2,24 +2,16 @@
 
 Goal: a readout \(r\) such that proximity to a bank (or a pair gap) tracks **strategy**, not topic.
 
-Metric, in words: gap honest vs deceptive **conditional on topic**, plus a topic probe on \(r\) that should *fail*.
-
-## Try 1 (not run in this file)
-
-Data: paired items. Same task sentence frame. Two strategies (honest plan vs deceptive plan). Same topic words on purpose.
-
 Report:
 
-1. Cosine or hinge of \(r(h)\) to a frozen deceptive bank, honest vs deceptive.
-2. A linear topic probe on \(r(h)\). If it works and the strategy gap dies, the sensor failed.
-3. NLL / entropy of the walk (observation uncertainty only).
+1. Cosine of \(r(h)\) to a frozen deceptive bank, honest vs deceptive, **per topic**.
+2. Linear topic probe on the same vectors. If topic accuracy is high and the strategy gap is ~0, the sensor failed.
+3. Walk NLL (observation only).
 
-Kill: last-token and mean-pool identity already failed on this pattern in regret-heuristic §2 / §6. They are baselines, not try 2.
+Baselines already failed: last-token and mean-pool identity in regret-heuristic §2 / §6.
 
-Forbidden as the next try: more SGD on identity last-token; more heads of \(I\); pooling more of the printed walk.
+Do not treat more SGD on identity last-token, more copies of \(I\), or pooling more of the printed walk as a new sensor.
 
-Allowed as try 2: contrast pairs; a topic adversary on \(r\); a question the prompt did not ask to print.
+Next sensors to try after the identity control: contrast on pairs; a topic adversary on \(r\); a question the prompt did not ask to print.
 
-Evasion (\(L_{\mathrm{reg}}\downarrow\) with deceptive behavior flat) is a later try, after a sensor that passes (1)–(2).
-
-No \(q_\phi \approx P(Y_D=1\mid z)\) until pairs exist. No weights in git.
+Evasion tests come after a sensor that passes (1)–(2). No weights in git.
