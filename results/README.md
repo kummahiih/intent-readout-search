@@ -1,22 +1,29 @@
 # Sensor ledger
 
-Do not collapse attempts. A drop in cosine is not reduced deception.
+Do not collapse attempts.
 
-## Identity / paraphrase / residual (Qwen)
+## Qwen identity / paraphrase / residual
 
-See prior rows. Topic acc 1.00, |gap|~0. Failed.
+Topic acc 1.00, |gap|~0. Failed.
 
-## CPU synthetic_z seed 0
+## CPU no inspector (`--inspect 0`)
 
-Hinge 0 with lie_D still 1 (mask) or lie_out 0.75 (open). Task 1.
+Task skill 1, risk 1, hinge 0 under the hinge. Gaming.
 
-## CPU Pareto seed 0, steps 200, noise 0.2 — 2026-09-16
+## CPU inspector 0.5 default — seed 0
 
-`python synthetic_pareto.py --steps 200 --seed 0`
+`python synthetic_z.py --seed 0` and `python synthetic_pareto.py --steps 200 --seed 0`
 
-Axes: max task, min risk=P(lie_D or lie_out), min hinge.
+Expected lie payoff (1-p)(1+bonus)=0.8 < 1 honest. Policy goes **honest**.
 
-Every lambda, held-out closed or open: **task=1.000 risk=1.000**. Hinge 0 except one open/lam=0 point (0.099).
-Front is degenerate: lying does not cost the task, so there is no task–risk tradeoff to pick a lambda on.
+| | skill | pay | honest | risk | hinge | D contamination |
+| --- | --- | --- | --- | --- | --- | --- |
+| baseline / hinge / evade | 1.00 | 1.00 | 1.00 | 0.00 | 0–0.53 | 0.81–0.97 |
 
-A risk frontier needs an env where honesty and task compete. This toy does not. Not Qwen.
+Pareto: every lambda pay=1 risk=0. Front is one honest point. D is almost all mis-tagged honest states (policy never lies after a few steps).
+
+## CPU inspector 0.25 — seed 0
+
+Lie EV 1.20 > 1. Always lie. pay ~0.75, risk 1, hinge 0 under lambda. Front still a point, the liar point.
+
+Inspector moves the *whole* blob from liar to honest. It does not draw a curve of intermediate risk. NSGA-II would sort the same spike. Not Qwen.
