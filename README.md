@@ -2,13 +2,12 @@
 
 Can \(r\) track strategy when the **tag is a random variable**?
 
-Walk = printed thought (or toy \(h\)). Map = possible thoughts. \(D\) = pins. \(u\) = how coarse the chart is, not \(p(\mathrm{lie})\).
-Vocabulary: [glossary slam_analogy](https://github.com/kummahiih/regret-heuristic/blob/main/slam_analogy.md). Rules: [PROTOCOL.md](PROTOCOL.md).
+Walk = printed thought (or toy \(h\)). Map = possible thoughts. \(D\) = pins. \(u\) = chart coarseness, not \(p(\mathrm{lie})\).
 
 ```bash
-python synthetic_z.py              # default --noise 0.2
-python synthetic_z.py --noise 0    # clean-tag toy
+python synthetic_z.py
+python synthetic_pareto.py    # task vs lie-rate vs hinge
 python pair_metrics.py --data data/pairs.jsonl
 ```
 
-[results/README.md](results/README.md)
+[PROTOCOL.md](PROTOCOL.md) · [results/README.md](results/README.md) · [glossary slam](https://github.com/kummahiih/regret-heuristic/blob/main/slam_analogy.md)
