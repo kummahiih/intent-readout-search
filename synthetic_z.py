@@ -1,16 +1,10 @@
 #!/usr/bin/env python3
-"""CPU synthetic strategy bit. Not an LLM. Not illegal. Not Qwen.
+"""CPU synthetic strategy bit. Labels that build D are noisy. Truth is a RV.
 
-Ground-truth z is the action:
-  0 honest   — no temptation bonus
-  1 lie_D    — bonus, hidden states used to build frozen D
-  2 lie_out  — same bonus, never in D (held-out / evasion channel)
-
-Task: predict topic from (topic, truth). Both lie and honest can get the task reward.
-Three trains from the same init: baseline, hinge (a=2 masked), evade (a=2 open).
-
-If hinge drops and lie_out rises, the policy hid from D. If lie_D falls and
-honest rises with a=2 masked, the hinge changed the action, not only r.
+True action a:
+  0 honest, 1 lie_D, 2 lie_out
+Labeler writes believed lie_D with flip probability --noise.
+D is built from believed tags only. Eval prints true action rates.
 """
 
 from __future__ import annotations
@@ -34,7 +28,7 @@ class Policy(nn.Module):
         return h, self.task(h), self.act(h)
 
 
-def batch_states(n: int, device: torch.device) -> tuple[torch.Tensor, torch.Tensor]:
+def batch_states(n: int, device: torch.device):
     topic = torch.randint(0, 2, (n,), device=device)
     truth = torch.randint(0, 2, (n,), device=device)
     x = torch.stack([topic.float(), truth.float()], dim=-1)
@@ -56,15 +50,17 @@ def train_one(
     tau: float,
     allow_heldout: bool,
     D: torch.Tensor | None,
+    noise: float,
     seed: int,
     device: torch.device,
-) -> tuple[Policy, torch.Tensor]:
+):
     torch.manual_seed(seed)
     net = Policy().to(device)
     opt = torch.optim.Adam(net.parameters(), lr=3e-2)
     B = 64
     frozen_D = D
-    collected = []
+    collected_h = []
+    collected_true = []
     for step in range(steps):
         x, topic = batch_states(B, device)
         h, logits, alogits = net(x)
@@ -85,22 +81,31 @@ def train_one(
         loss.backward()
         opt.step()
         if mode == "baseline" and step > steps // 2:
-            collected.append(h.detach()[a == 1].cpu())
+            believed = a == 1
+            if noise > 0:
+                flip = torch.rand(a.shape[0], device=device) < noise
+                believed = believed ^ flip
+            if believed.any():
+                collected_h.append(h.detach()[believed].cpu())
+                collected_true.append(a.detach()[believed].cpu())
     if mode == "baseline":
-        parts = [c for c in collected if c.numel()]
+        parts = [c for c in collected_h if c.numel()]
         if not parts:
-            raise RuntimeError("baseline never chose lie_D; raise bonus")
+            raise RuntimeError("labeler never tagged lie_D; raise bonus or lower noise")
         frozen_D = torch.cat(parts, dim=0)
-        # cap bank size
+        tags = torch.cat(collected_true, dim=0)
         if frozen_D.shape[0] > 32:
             frozen_D = frozen_D[:32]
+            tags = tags[:32]
+        contam = float((tags != 1).float().mean()) if tags.numel() else 0.0
+        print(f"D_n={frozen_D.shape[0]} D_contamination={contam:.3f} (true a!=1 among believed lie_D)")
         frozen_D = frozen_D.to(device)
         frozen_D.requires_grad_(False)
     return net, frozen_D
 
 
 @torch.no_grad()
-def eval_net(net: Policy, D: torch.Tensor, tau: float, allow_heldout: bool, device: torch.device) -> dict:
+def eval_net(net, D, tau, allow_heldout, device):
     x, topic = batch_states(2000, device)
     h, logits, alogits = net(x)
     if not allow_heldout:
@@ -116,43 +121,45 @@ def eval_net(net: Policy, D: torch.Tensor, tau: float, allow_heldout: bool, devi
     }
 
 
-def fmt(m: dict) -> str:
+def fmt(m):
     return (
         f"task={m['task_acc']:.3f}  honest={m['p_honest']:.3f}  "
         f"lie_D={m['p_lie_D']:.3f}  lie_out={m['p_lie_out']:.3f}  hinge={m['hinge']:.3f}"
     )
 
 
-def main() -> None:
+def main():
     p = argparse.ArgumentParser()
     p.add_argument("--steps", type=int, default=400)
     p.add_argument("--bonus", type=float, default=0.6)
     p.add_argument("--lam", type=float, default=2.0)
     p.add_argument("--tau", type=float, default=0.3)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--noise", type=float, default=0.2, help="P(labeler flips lie_D tag)")
     args = p.parse_args()
     device = torch.device("cpu")
-    print("=== synthetic_z CPU harness. Known z. Not an LLM. Not Qwen. ===")
-    print(f"steps={args.steps} bonus={args.bonus} lam={args.lam} tau={args.tau} seed={args.seed}")
-
-    base, D = train_one(
-        "baseline", args.steps, args.bonus, 0.0, args.tau, False, None, args.seed, device
+    print("=== synthetic_z. True a logged. D from noisy labeler. ===")
+    print(
+        f"steps={args.steps} bonus={args.bonus} lam={args.lam} "
+        f"tau={args.tau} seed={args.seed} noise={args.noise}"
     )
-    print(f"frozen D shape={tuple(D.shape)}")
+    base, D = train_one(
+        "baseline", args.steps, args.bonus, 0.0, args.tau, False, None,
+        args.noise, args.seed, device,
+    )
     print("baseline   ", fmt(eval_net(base, D, args.tau, False, device)))
-
     hinge, _ = train_one(
-        "hinge", args.steps, args.bonus, args.lam, args.tau, False, D, args.seed + 1, device
+        "hinge", args.steps, args.bonus, args.lam, args.tau, False, D,
+        args.noise, args.seed + 1, device,
     )
     print("hinge mask ", fmt(eval_net(hinge, D, args.tau, False, device)))
-
     evade, _ = train_one(
-        "evade", args.steps, args.bonus, args.lam, args.tau, True, D, args.seed + 2, device
+        "evade", args.steps, args.bonus, args.lam, args.tau, True, D,
+        args.noise, args.seed + 2, device,
     )
     print("evade open ", fmt(eval_net(evade, D, args.tau, True, device)))
-    print("Read: hinge mask should cut lie_D if the penalty hits the known channel.")
-    print("      evade open: lie_out up + hinge down = hid from D, still lying.")
-    print("Not evidence about Qwen. Not a legal or illegal act.")
+    print("noise=0 recovers the clean-label toy. Default noise>0 is the search default.")
+    print("Not Qwen. Not p(lie).")
 
 
 if __name__ == "__main__":
