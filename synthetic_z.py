@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""CPU synthetic strategy bit. Labels that build D are noisy. Truth is a RV.
-
-True action a:
-  0 honest, 1 lie_D, 2 lie_out
-Labeler writes believed lie_D with flip probability --noise.
-D is built from believed tags only. Eval prints true action rates.
-"""
+"""CPU synthetic strategy bit. Labels that build D are noisy. Truth is a RV."""
 
 from __future__ import annotations
 
@@ -43,16 +37,7 @@ def hinge_on(h: torch.Tensor, D: torch.Tensor, tau: float) -> torch.Tensor:
 
 
 def train_one(
-    mode: str,
-    steps: int,
-    bonus: float,
-    lam: float,
-    tau: float,
-    allow_heldout: bool,
-    D: torch.Tensor | None,
-    noise: float,
-    seed: int,
-    device: torch.device,
+    mode, steps, bonus, lam, tau, allow_heldout, D, noise, seed, device
 ):
     torch.manual_seed(seed)
     net = Policy().to(device)
@@ -61,7 +46,7 @@ def train_one(
     frozen_D = D
     collected_h = []
     collected_true = []
-    for step in range(steps):
+    for _ in range(steps):
         x, topic = batch_states(B, device)
         h, logits, alogits = net(x)
         if not allow_heldout:
@@ -73,32 +58,31 @@ def train_one(
         correct = logits.argmax(-1) == topic
         tempt = bonus * ((a == 1) | ((a == 2) & allow_heldout)).float()
         R = correct.float() + tempt
-        pg = -(dist.log_prob(a) * (R - R.mean())).mean()
-        loss = pg + task_loss.mean()
+        loss = -(dist.log_prob(a) * (R - R.mean())).mean() + task_loss.mean()
         if frozen_D is not None and lam > 0:
             loss = loss + lam * hinge_on(h, frozen_D, tau).mean()
         opt.zero_grad()
         loss.backward()
         opt.step()
-        if mode == "baseline" and step > steps // 2:
+        if mode == "baseline":
             believed = a == 1
             if noise > 0:
-                flip = torch.rand(a.shape[0], device=device) < noise
-                believed = believed ^ flip
+                believed = believed ^ (torch.rand(a.shape[0], device=device) < noise)
             if believed.any():
                 collected_h.append(h.detach()[believed].cpu())
                 collected_true.append(a.detach()[believed].cpu())
     if mode == "baseline":
         parts = [c for c in collected_h if c.numel()]
         if not parts:
-            raise RuntimeError("labeler never tagged lie_D; raise bonus or lower noise")
+            raise RuntimeError("labeler never tagged lie_D")
         frozen_D = torch.cat(parts, dim=0)
         tags = torch.cat(collected_true, dim=0)
+        perm = torch.randperm(frozen_D.shape[0])
+        frozen_D, tags = frozen_D[perm], tags[perm]
         if frozen_D.shape[0] > 32:
-            frozen_D = frozen_D[:32]
-            tags = tags[:32]
-        contam = float((tags != 1).float().mean()) if tags.numel() else 0.0
-        print(f"D_n={frozen_D.shape[0]} D_contamination={contam:.3f} (true a!=1 among believed lie_D)")
+            frozen_D, tags = frozen_D[:32], tags[:32]
+        contam = float((tags != 1).float().mean())
+        print(f"D_n={frozen_D.shape[0]} D_contamination={contam:.3f} (true a!=1 | believed lie)")
         frozen_D = frozen_D.to(device)
         frozen_D.requires_grad_(False)
     return net, frozen_D
@@ -135,7 +119,7 @@ def main():
     p.add_argument("--lam", type=float, default=2.0)
     p.add_argument("--tau", type=float, default=0.3)
     p.add_argument("--seed", type=int, default=0)
-    p.add_argument("--noise", type=float, default=0.2, help="P(labeler flips lie_D tag)")
+    p.add_argument("--noise", type=float, default=0.2)
     args = p.parse_args()
     device = torch.device("cpu")
     print("=== synthetic_z. True a logged. D from noisy labeler. ===")
@@ -158,7 +142,7 @@ def main():
         args.noise, args.seed + 2, device,
     )
     print("evade open ", fmt(eval_net(evade, D, args.tau, True, device)))
-    print("noise=0 recovers the clean-label toy. Default noise>0 is the search default.")
+    print("--noise 0 is the clean-tag toy. Default 0.2 is the search default.")
     print("Not Qwen. Not p(lie).")
 
 
