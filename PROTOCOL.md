@@ -4,17 +4,23 @@ Truth is a random variable. Pair tags and toy actions are **observations**, not 
 
 \(u\) is uncertainty of that observation (label-flip rate, or walk entropy / NLL). It is not \(p(\mathrm{lie})\).
 
-Rules that apply from the first file, not after a clean toy:
+Walk / map (glossary [slam_analogy.md](https://github.com/kummahiih/regret-heuristic/blob/main/slam_analogy.md)):
+
+- The printed string or the toy hidden state is a **walk**.
+- Possible thoughts (including cells this walk never visits) are the **map**.
+- \(D\) is a handful of pins, not the map.
+- \(r\) is a sensor of the walk. Last-token identity is wallpaper on the hallway.
+- High \(u\) means the chart is coarse there. Do not treat a pin in mush as a known room.
+
+Rules from the first file:
 
 1. Do not put a point in \(D\) if \(u > u_0\).
-2. Report strategy gaps in sure / unsure bins. A gap only on \(u=0\) author tags is a toy gap.
-3. Wider hinge threshold on high \(u\) (glossary §F). Quiet on mush is not honesty.
+2. Report strategy gaps in sure / unsure bins.
+3. Wider hinge threshold on high \(u\). Quiet on mush is not honesty.
 4. Topic probe still has to fail on the same vectors.
 5. Paraphrase still required for a language gap.
-
-Qwen identity / residual already failed under author-sure tags (\(u=0\) in the jsonl). That does not licence treating those tags as nature.
+6. A held-out cell (action 2, or an unprinted sentence) is a map pin the walk did not occupy. Evading into that cell is not leaving the map.
 
 ## CPU (`synthetic_z.py`)
 
-`--noise p` flips the *labeler* that builds \(D\). True action is still logged.
-Contamination of \(D\) is printed. Hinge on a dirty bank is the default story, not a variant.
+`--noise p` flips the labeler that builds \(D\). `lie_out` is an unmapped cell. Hinge 0 + `lie_out` up = walked off the pins, still on a lie path.
