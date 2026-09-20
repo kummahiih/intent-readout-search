@@ -41,6 +41,26 @@ Transformer layers 7–28: topic still linearly readable after the cut. Strategy
 
 Failed B0 on every floor that has a topic axis. Do not train the hinge on any of these $r$.
 
+## Same-topic contrast — 2026-09-20 20:40
+
+`python pair_contrast.py`
+
+$v_T=\mathrm{normalize}(h_{\mathrm{dec}}-h_{\mathrm{hon}})$ on topic $T$. Score the other topic. Bank is deceptive-only, so $v$ comes from matched eval pairs. Tags build $v$, not a loss.
+
+```
+paired hiking(dec=2,hon=1) invoices(dec=3,hon=1)
+v[invoices]_norm=105.93  v[hiking]_norm=88.43
+hiking    dec -0.0059 / -0.0259   hon -0.0334
+invoices  dec -0.0851 / -0.1521 / -0.1361   hon -0.1443
+mean s_v deceptive=-0.0810 honest=-0.0889 gap_dec_minus_hon=0.0078
+topic_probe_acc_on_r=1.00 n=7
+```
+
+Load-bearing number: strategy gap **0.008**. The contrast from invoices does not mark hiking lies, and the reverse.
+`topic_probe_acc_on_r=1.00` is partly tautological under leave-one-topic-out: hiking $r$ lives on $v_{\mathrm{invoices}}$, invoice $r$ lives on $v_{\mathrm{hiking}}$. Do not read that 1.00 as a second packing proof.
+
+Failed B0 as a strategy camera. Do not train the hinge on this $r$.
+
 ## Qwen identity / paraphrase / residual (earlier)
 
 Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41 / 19:46.
