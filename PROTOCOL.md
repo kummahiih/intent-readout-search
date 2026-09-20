@@ -22,6 +22,17 @@ Rules from the first file:
 6. A held-out cell (action 2, or an unprinted sentence) is a map pin the walk did not occupy. Evading into that cell is not leaving the map.
 7. Search $r_{\mathrm{strat}}$ here. Superposition packing fights a clean split. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). Do not put $z$ in a loss.
 
+Pass / fail for a camera (same scoreboard):
+
+- Pass: plan / stall transfers leave-one-topic-out.
+- Pass: a topic classifier on that same score is near chance.
+- Pass: paraphrase of the walk keeps the plan call.
+- Fail: in-sample plan only (LOTO chance).
+- Fail: the score still names hiking vs invoices.
+- Fail: path-patch from topic A prints A's words on topic B (lexical bleed).
+
+A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
+
 ## CPU (`synthetic_z.py`)
 
 `--noise p` flips the labeler that builds $D$. `lie_out` is an unmapped cell. Hinge 0 + `lie_out` up = walked off the pins, still on a lie path.
