@@ -2,20 +2,31 @@
 
 Do not collapse attempts.
 
-## B0 default camera: topic-subtract residual
+## B0 default camera: topic-subtract residual — 2026-09-20 19:41
 
 `python topic_residual.py`
 
-$r(h)=h-(h\cdot v)v$ with $v$ from the two-topic bank. Not LEACE. Not a trained adversary.
+$r(h)=h-(h\cdot v)v$, $v$ from bank hiking$\to$invoices. Not LEACE. Not a trained adversary.
 
-Already on the ledger: topic acc 1.00 after the subtract, strategy |gap| ~ 0. Failed B0.
+```
+topic_axis=hiking->invoices  v_norm=1.0000
+invoices deceptive  s*_D=0.9447
+invoices honest     s*_D=0.9310
+hiking deceptive    s*_D=0.8856
+hiking honest       s*_D=0.9251
+invoices deceptive  s*_D=0.8692
+mean s*_D deceptive=0.8998 honest=0.9280 gap_hon_minus_dec=0.0282
+topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=5
+```
+
+Failed B0. Cutting one topic axis left a linear topic probe at 1.00. Strategy gap 0.03 on n=5.
 Packing: one axis cut does not unmix plan from hallway. Lean cartoon next door: `no_two_orthogonal_units_on_real`.
 
-Do not train the hinge on this $r$. Do not invent a third residual until this number is re-run or a different probe is named.
+Do not train the hinge on this $r$.
 
-## Qwen identity / paraphrase / residual
+## Qwen identity / paraphrase / residual (earlier)
 
-Topic acc 1.00, |gap|~0. Failed.
+Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41.
 
 ## CPU no inspector (`--inspect 0`)
 
