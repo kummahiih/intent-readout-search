@@ -114,6 +114,20 @@ mean s*_D deceptive=0.9526 honest=0.8816  gap_hon_minus_dec=-0.0710
 
 Failed B0. Quiet heads still linearly read topic. They hug the bank harder than the loud set (s* ~0.95 vs ~0.45). Gap still small and the wrong sign for a slap. Do not train the hinge on this $r$.
 
+## Mean-ablate then subset — 2026-09-21 01:15
+
+`python head_ablate_probe.py`  layer 14  $k=4$  $n=7$
+
+```
+baseline_all_heads topic_loo=0.86 gap=0.0212
+picked_heads=2,8,10,18
+subset topic_probe_acc=1.00 topic_loo=0.43
+mean s*_D dec=0.5885 hon=0.7596 gap_hon_minus_dec=0.1711
+```
+
+Official B0 (linear topic acc) still **1.00**. Fat $r$ on seven rows interpolates topic.
+Leave-one-out topic centroid on the subset is 0.43 (near 3-class chance). Strategy gap 0.17 is the largest on this toy — and **selected on the same seven rows**. Single-head mean-ablation left all-heads topic_loo at 0.86. Not a held-out camera. Do not fill $D$. Do not train the hinge on this $r$ until the same heads are ranked on one split and scored on another.
+
 ## Qwen identity / paraphrase / residual (earlier)
 
 Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41 / 19:46.
