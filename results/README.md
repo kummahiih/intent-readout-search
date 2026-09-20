@@ -102,6 +102,18 @@ mean s*_D deceptive=0.4542 honest=0.4361  gap_hon_minus_dec=-0.0182
 
 Failed B0. A loud-head subset at mid-layer still linearly reads topic. Strategy gap ~0, wrong sign. This is not Pandey path-patching and not a found circuit. Do not train the hinge on this $r$. Do not fill $D$ from these heads.
 
+## Quiet mid-layer head writes — 2026-09-21 01:12
+
+`python head_write_probe.py --quiet`  layer 14  $k=4$  heads 0,2,3,5  $n=7$
+
+```
+mode=quiet
+topic_probe_acc_head_r=1.00  topic_probe_acc_layer_h=1.00
+mean s*_D deceptive=0.9526 honest=0.8816  gap_hon_minus_dec=-0.0710
+```
+
+Failed B0. Quiet heads still linearly read topic. They hug the bank harder than the loud set (s* ~0.95 vs ~0.45). Gap still small and the wrong sign for a slap. Do not train the hinge on this $r$.
+
 ## Qwen identity / paraphrase / residual (earlier)
 
 Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41 / 19:46.
