@@ -2,9 +2,10 @@
 
 Can $r$ track strategy when the tag is a random variable?
 
-Topic-subtract and same-topic contrast failed B0 (topic acc 1.00; contrast gap ~0.06). Next camera: a small $r$ scored for strategy while an adversary reads topic (`pair_adversary.py`). Tags are losses only. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic).
+Topic-subtract, mid-layer residual, same-topic contrast, a topic adversary, and mid-layer head writes all failed B0 (topic acc 1.00 on $r$; strategy gaps $\le 0.06$). Tags are losses only. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic).
 
 ```bash
+python head_write_probe.py            # GPU; k=4 mid-layer head writes (B0 fail 1.00)
 python pair_adversary.py              # GPU extract; CPU linear r vs topic adversary
 python pair_contrast.py               # GPU; v = h_dec - h_hon, leave-one-topic-out
 python topic_residual.py --sweep      # GPU; embed / 1/4 / 1/2 / 3/4 / last
