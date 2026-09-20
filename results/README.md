@@ -61,6 +61,21 @@ Load-bearing number: strategy gap **0.008**. The contrast from invoices does not
 
 Failed B0 as a strategy camera. Do not train the hinge on this $r$.
 
+## Same-topic contrast, three topics — 2026-09-20 20:45
+
+`python pair_contrast.py` and `--data data/pairs_paraphrase.jsonl`
+
+Honest bank + repairs. LOTO $v$ is the mean of the other two topics. $n=13$.
+
+| set | mean $s_v$ dec / hon | gap | topic acc on LOTO $r$ |
+| --- | --- | --- | --- |
+| pairs.jsonl | -0.025 / -0.087 | **0.061** | 0.77 |
+| paraphrase | -0.035 / -0.088 | **0.052** | 0.69 |
+
+Gap moved from 0.008 to ~0.06. Still near zero. Honest and deceptive still overlap. The print `bank_deceptive_only=3` is a leftover counter of deceptive bank rows; honest bank rows are present.
+
+Failed B0 as a strategy camera. Do not train the hinge on this $r$. Next camera, if any: topic adversary.
+
 ## Qwen identity / paraphrase / residual (earlier)
 
 Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41 / 19:46.
