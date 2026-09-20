@@ -74,7 +74,22 @@ Honest bank + repairs. LOTO $v$ is the mean of the other two topics. $n=13$.
 
 Gap moved from 0.008 to ~0.06. Still near zero. Honest and deceptive still overlap. The print `bank_deceptive_only=3` is a leftover counter of deceptive bank rows; honest bank rows are present.
 
-Failed B0 as a strategy camera. Do not train the hinge on this $r$. Next camera, if any: topic adversary.
+Failed B0 as a strategy camera. Do not train the hinge on this $r$.
+
+## Topic adversary — 2026-09-20 20:48
+
+`python pair_adversary.py`  $n=13$  $\dim r=8$  $\beta=1$  200 steps
+
+| hold | topic acc adv train | strat acc hold | logit gap |
+| --- | --- | --- | --- |
+| hiking | 1.00 | 0.50 | 39 |
+| invoices | 1.00 | 0.40 | 47 |
+| repairs | 1.00 | 0.50 | 143 |
+| mean | **1.00** | ~0.47 | 76 |
+
+Load-bearing numbers: train topic acc stays **1.00**; hold strategy acc is chance. The logit gap is an unregularized blow-up on $n\approx 9$, not a transferable camera.
+
+Failed B0. $r$ still carries hallway. Do not train the hinge on this $r$.
 
 ## Qwen identity / paraphrase / residual (earlier)
 
