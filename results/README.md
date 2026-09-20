@@ -16,22 +16,48 @@ Almost every `m_plan` is large-negative. The continuation is “there might be s
 
 ## Verbal intent oracle — 2026-09-21 02:17
 
-`python intent_oracle.py --data data/pairs_wide.jsonl`  Qwen2.5-7B-Instruct  n=24
+`python intent_oracle.py --data data/pairs_wide.jsonl`  n=24
 
 ```
-oracle_plan_acc=0.54  oracle_topic_acc=0.71
-mean_loto_plan_acc=0.50
-hold plan acc: cooking 0.50 hiking 0.50 invoices 0.75 pets 0.50 repairs 0.25 taxes 0.50
+oracle_plan_acc=0.54  oracle_topic_acc=0.71  mean_loto_plan_acc=0.50
 ```
 
-Forced-choice logprobs. Plan is chance. LOTO plan is chance (invoices 0.75 is n=4). Verbal topic 0.71 is the first topic score well below the linear-$h$ 1.00 — the mouth is a worse hallway reader than last-token $h$, and still not a plan checker. Taxes/repairs often predicted as hiking. Not $z$. Do not fill $D$.
+Plan chance. Mouth is a worse hallway reader than last-token $h$ (0.71 vs 1.00). Do not fill $D$.
 
 ## Overnight wide pairs — 2026-09-21 01:27
 
-`python overnight_b0.py`  `data/pairs_wide.jsonl`  6 topics  n_eval=24  raw log: [overnight_b0.md](overnight_b0.md)
+`python overnight_b0.py`  raw: [overnight_b0.md](overnight_b0.md)
 
-Linear B0 still fails on every head/residual cut. Adversary train topic mean 0.79 is 6-class difficulty. Do not fill $D$.
+| job | topic | strategy gap | note |
+| --- | --- | --- | --- |
+| residual sweep | 1.00 from layer 7 | \|gap\|\le0.05 | embed 0.50 missing axis |
+| pair_contrast n=36 | 0.81 LOTO r | 0.026 | overlap |
+| pair_adversary dim=8 | train topic 0.79 | hold strat 0.50 | 6-class |
+| loud heads 15,22,23,25 | 1.00 | -0.038 | |
+| quiet heads 0,2,3,5 | 1.00 | -0.045 | hugs bank |
+| ablate in-sample | lstsq 1.00 / loo 0.29 | -0.052 | selected on eval |
+| ablate holdout | lstsq 1.00 / loo 0.54 | -0.024 | flicker gone |
 
-## Earlier residual / heads / CPU
+## B0 topic-subtract residual — 2026-09-20 19:41
 
-Topic acc 1.00 on $h$ cuts. Hold-out head gap 0.04. Inspector moves the whole blob. See prior rows in git history if a line was shortened. Do not train the hinge.
+`topic_residual.py` topic acc raw=1.00 residual=1.00 gap 0.03 n=5. Failed B0.
+
+## Mid-layer sweep — 2026-09-20 19:46
+
+Layers 7–28 topic 1.00 after cut. Embed v=0. Failed B0.
+
+## Same-topic contrast — 20:40 / 20:45
+
+Gap 0.008 then ~0.05. Failed B0.
+
+## Topic adversary — 20:48
+
+Train topic 1.00; hold strat chance. Failed B0.
+
+## Head writes — 2026-09-21 01:06 / 01:12 / 01:15 / 01:20
+
+Loud and quiet topic 1.00. In-sample gap 0.17 died on hold-out (0.036). Failed B0.
+
+## CPU inspector
+
+Inspect 0: gaming. 0.5 whole blob honest. 0.25 whole blob liar.
