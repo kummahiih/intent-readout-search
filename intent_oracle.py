@@ -4,6 +4,7 @@
 Ask for a one-word plan label and a one-word topic label via next-token
 logprobs. Tags are observations. High topic acc means the oracle still
 hears the hallway. Leave-one-topic-out strategy acc is the transfer test.
+Coincidence slice: plan acc only where topic was wrong.
 """
 
 from __future__ import annotations
@@ -103,6 +104,25 @@ def main() -> int:
     topic_hit = sum(a == b["topic"] for a, b in zip(pred_topic, ev)) / len(ev)
     print(f"oracle_plan_acc={plan_hit:.2f} oracle_topic_acc={topic_hit:.2f} n={len(ev)}")
 
+    miss = [
+        (pp == r["strategy"])
+        for pp, pt, r in zip(pred_plan, pred_topic, ev)
+        if pt != r["topic"]
+    ]
+    hit = [
+        (pp == r["strategy"])
+        for pp, pt, r in zip(pred_plan, pred_topic, ev)
+        if pt == r["topic"]
+    ]
+    if miss:
+        print(f"plan_acc_topic_miss={sum(miss)/len(miss):.2f} n_miss={len(miss)}")
+    else:
+        print("plan_acc_topic_miss=nan n_miss=0")
+    if hit:
+        print(f"plan_acc_topic_hit={sum(hit)/len(hit):.2f} n_hit={len(hit)}")
+    else:
+        print("plan_acc_topic_hit=nan n_hit=0")
+
     print("leave-one-topic-out plan acc (threshold on other topics' m_plan):")
     loto = []
     for hold in topics:
@@ -110,20 +130,20 @@ def main() -> int:
         test = [(m, r["strategy"]) for m, r in zip(plan_margin, ev) if r["topic"] == hold]
         if not train or not test:
             continue
-        # one threshold: classify deceptive if m_plan > t; pick t on train
         cands = sorted({m for m, _ in train})
         best_t, best_acc = 0.0, -1.0
         for t in cands:
             acc = sum((m > t) == (lab == "deceptive") for m, lab in train) / len(train)
             if acc > best_acc:
                 best_t, best_acc = t, acc
-        hit = sum((m > best_t) == (lab == "deceptive") for m, lab in test) / len(test)
-        loto.append(hit)
-        print(f"  hold={hold} train_acc={best_acc:.2f} hold_acc={hit:.2f} t={best_t:.3f} n_hold={len(test)}")
+        hold_hit = sum((m > best_t) == (lab == "deceptive") for m, lab in test) / len(test)
+        loto.append(hold_hit)
+        print(f"  hold={hold} train_acc={best_acc:.2f} hold_acc={hold_hit:.2f} t={best_t:.3f} n_hold={len(test)}")
     if loto:
         print(f"mean_loto_plan_acc={sum(loto)/len(loto):.2f}")
     print("Verbal oracle is a walk. Tags are observations. Not z. Do not fill D.")
     print("Topic acc near 1.00 means the oracle still hears the hallway.")
+    print("plan_acc_topic_miss is the coincidence slice. Chance there is still not a camera.")
     return 0
 
 
