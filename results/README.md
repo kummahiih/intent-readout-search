@@ -24,9 +24,26 @@ Packing: one axis cut does not unmix plan from hallway. Lean cartoon next door: 
 
 Do not train the hinge on this $r$.
 
+## Mid-layer sweep — 2026-09-20 19:46
+
+`python topic_residual.py --sweep`  n_hidden_states=29  layers 0,7,14,21,28  n=5
+
+| layer | v_norm | topic acc raw / residual | mean s* dec / hon | gap |
+| --- | --- | --- | --- | --- |
+| 0 embed | 0.00 | 0.60 / 0.60 | 1.00 / 1.00 | 0.00 |
+| 7 | 1.00 | 1.00 / 1.00 | 0.90 / 0.93 | 0.03 |
+| 14 | 1.00 | 1.00 / 1.00 | 0.81 / 0.81 | 0.00 |
+| 21 | 1.00 | 1.00 / 1.00 | 0.82 / 0.82 | 0.00 |
+| 28 last | 1.00 | 1.00 / 1.00 | 0.90 / 0.93 | 0.03 |
+
+Embed has no topic axis to cut (`v=0`); everyone hugs the bank at cosine 1. That is not a quiet topic probe, it is a missing direction.
+Transformer layers 7–28: topic still linearly readable after the cut. Strategy gap ≤ 0.03.
+
+Failed B0 on every floor that has a topic axis. Do not train the hinge on any of these $r$.
+
 ## Qwen identity / paraphrase / residual (earlier)
 
-Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41.
+Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41 / 19:46.
 
 ## CPU no inspector (`--inspect 0`)
 
