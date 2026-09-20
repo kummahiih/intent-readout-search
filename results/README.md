@@ -91,6 +91,17 @@ Load-bearing numbers: train topic acc stays **1.00**; hold strategy acc is chanc
 
 Failed B0. $r$ still carries hallway. Do not train the hinge on this $r$.
 
+## Mid-layer head writes — 2026-09-21 01:06
+
+`python head_write_probe.py`  Qwen2.5-7B-Instruct  layer 14 / 28  $k=4$  heads 15,22,23,25 by bank write-norm  $n=7$
+
+```
+topic_probe_acc_head_r=1.00  topic_probe_acc_layer_h=1.00
+mean s*_D deceptive=0.4542 honest=0.4361  gap_hon_minus_dec=-0.0182
+```
+
+Failed B0. A loud-head subset at mid-layer still linearly reads topic. Strategy gap ~0, wrong sign. This is not Pandey path-patching and not a found circuit. Do not train the hinge on this $r$. Do not fill $D$ from these heads.
+
 ## Qwen identity / paraphrase / residual (earlier)
 
 Topic acc 1.00, |gap|~0. Failed. Same verdict as 19:41 / 19:46.
@@ -106,7 +117,7 @@ Task skill 1, risk 1, hinge 0 under the hinge. Gaming.
 Expected lie payoff (1-p)(1+bonus)=0.8 < 1 honest. Policy goes **honest**.
 
 | | skill | pay | honest | risk | hinge | D contamination |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- |
 | baseline / hinge / evade | 1.00 | 1.00 | 1.00 | 0.00 | 0–0.53 | 0.81–0.97 |
 
 Pareto: every lambda pay=1 risk=0. Front is one honest point. D is almost all mis-tagged honest states (policy never lies after a few steps).
