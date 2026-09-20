@@ -1,0 +1,15 @@
+nohup: ignoring input
+RUN python topic_residual.py --data /home/pauli/dockers/intent-readout-search/data/_overnight_two_topic.jsonl --sweep
+exit 0
+RUN python pair_contrast.py --data /home/pauli/dockers/intent-readout-search/data/pairs_wide.jsonl
+exit 0
+RUN python pair_adversary.py --data /home/pauli/dockers/intent-readout-search/data/pairs_wide.jsonl
+exit 0
+RUN python head_write_probe.py --data /home/pauli/dockers/intent-readout-search/data/pairs_wide.jsonl
+exit 0
+RUN python head_write_probe.py --data /home/pauli/dockers/intent-readout-search/data/pairs_wide.jsonl --quiet
+exit 0
+RUN python head_ablate_probe.py --data /home/pauli/dockers/intent-readout-search/data/pairs_wide.jsonl
+exit 0
+RUN python head_ablate_probe.py --data /home/pauli/dockers/intent-readout-search/data/pairs_wide.jsonl --holdout
+exit 0
