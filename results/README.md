@@ -126,7 +126,19 @@ mean s*_D dec=0.5885 hon=0.7596 gap_hon_minus_dec=0.1711
 ```
 
 Official B0 (linear topic acc) still **1.00**. Fat $r$ on seven rows interpolates topic.
-Leave-one-out topic centroid on the subset is 0.43 (near 3-class chance). Strategy gap 0.17 is the largest on this toy — and **selected on the same seven rows**. Single-head mean-ablation left all-heads topic_loo at 0.86. Not a held-out camera. Do not fill $D$. Do not train the hinge on this $r$ until the same heads are ranked on one split and scored on another.
+Leave-one-out topic centroid on the subset is 0.43 (near 3-class chance). Strategy gap 0.17 is the largest on this toy — and **selected on the same seven rows**. Single-head mean-ablation left all-heads topic_loo at 0.86. Not a held-out camera.
+
+## Hold-out head rank — 2026-09-21 01:20
+
+`python head_ablate_probe.py --holdout`  layer 14  $k=4$  n_rank=6 n_eval=7 n_pin=3  rank_has_honest=True
+
+```
+picked_heads=15,18,19,20
+eval topic_probe_acc=1.00 topic_loo=0.71
+mean s*_D dec=0.2314 hon=0.2669 gap_hon_minus_dec=0.0355
+```
+
+The in-sample 0.17 / 0.43 flicker died. Different heads. Linear topic acc still 1.00. Eval topic-LOO 0.71. Gap back to noise (~0.04). That 0.17 was selection on seven rows. Do not fill $D$. Do not train the hinge on this $r$. Stop cutting this pair set.
 
 ## Qwen identity / paraphrase / residual (earlier)
 
