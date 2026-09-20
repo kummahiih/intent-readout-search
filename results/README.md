@@ -2,21 +2,23 @@
 
 Do not collapse attempts.
 
+## Activation patch generate — 2026-09-21 02:57
+
+`python path_patch_gen.py --data data/pairs_wide.jsonl`  layer 14  n=12
+
+```
+mean_m_clean=-1.328  mean_m_patch=-1.227  bleed_rate=0.00
+```
+
+Last-prompt residual from a stall note written onto a truth ask. Both tails score honest. Margin barely moved. No source-topic words in the patched tail. Not edge path-patch. Gate was right. Do not fill $D$.
+
 ## Verbal oracle coincidence slice — 2026-09-21 02:45
 
-`python intent_oracle.py --data data/pairs_wide.jsonl`  n=24
-
-```
-oracle_plan_acc=0.54  oracle_topic_acc=0.71  mean_loto_plan_acc=0.50
-plan_acc_topic_miss=0.43  n_miss=7
-plan_acc_topic_hit=0.59  n_hit=17
-```
-
-Where the mouth missed the subject, plan acc is still chance. Delayed-choice verbal slice is null. Do not fill $D$.
+plan 0.54 topic 0.71 miss-slice 0.43 n_miss=7 hit-slice 0.59. Chance. Do not fill $D$.
 
 ## Reply mutate mid-walk — 2026-09-21 02:41
 
-`python reply_mutate.py`  tail_plan=0.46 tail_topic=0.46 bleed=0.08 LOTO=0.58. Confusion, not stall. Path-patch gated.
+tail_plan 0.46 tail_topic 0.46 bleed 0.08 LOTO 0.58. Confusion, not stall.
 
 ## Overnight / residual / heads / CPU
 
