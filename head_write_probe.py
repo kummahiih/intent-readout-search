@@ -3,6 +3,7 @@
 
 r = concat of k last-token head writes before o_proj.
 Heads picked by mean L2 write-norm on the bank, not by AUROC.
+--quiet picks the smallest norms instead of the largest.
 Control: last-token residual at the same layer.
 Not Pandey path-patching. Not SAE. Not a frozen D. Tiny-n diagnostic.
 """
@@ -85,6 +86,11 @@ def main():
     p.add_argument("--max-length", type=int, default=256)
     p.add_argument("--layer", type=int, default=-1, help="transformer block; default mid")
     p.add_argument("--k", type=int, default=4, help="how many heads to keep")
+    p.add_argument(
+        "--quiet",
+        action="store_true",
+        help="pick smallest bank write-norm heads instead of largest",
+    )
     args = p.parse_args()
     if not torch.cuda.is_available():
         print("ERROR: CUDA required", file=sys.stderr)
@@ -118,7 +124,8 @@ def main():
         f"VRAM allocated_GiB={torch.cuda.memory_allocated() / 1024**3:.2f} "
         f"reserved_GiB={torch.cuda.memory_reserved() / 1024**3:.2f}"
     )
-    print(f"n_layers={n_layers} layer={layer} k={args.k}")
+    mode = "quiet" if args.quiet else "loud"
+    print(f"n_layers={n_layers} layer={layer} k={args.k} mode={mode}")
     with torch.no_grad():
         bank_heads = []
         bank_h = []
@@ -138,7 +145,8 @@ def main():
             ev_h.append(residual)
     norms = torch.stack([h.norm(dim=-1) for h in bank_heads]).mean(0)
     k = min(args.k, norms.numel())
-    picked = torch.topk(norms, k).indices.tolist()
+    score = -norms if args.quiet else norms
+    picked = torch.topk(score, k).indices.tolist()
     picked_sorted = sorted(picked)
     print(
         "picked_heads="
