@@ -2,11 +2,12 @@
 
 Can $r$ track strategy when the tag is a random variable?
 
-B0 default camera is topic-subtract (`topic_residual.py`). Last-layer cut already failed the topic probe (acc 1.00, gap 0.03). Next cheap check: same cut at other layers. Packing fights a clean split. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic).
+B0 default camera is topic-subtract (`topic_residual.py`). Last-layer and mid-layer cuts failed the topic probe (acc 1.00). Next camera: same-topic contrast (`pair_contrast.py`). Tags build $v$ only. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic).
 
 ```bash
+python pair_contrast.py               # GPU; v = h_dec - h_hon, leave-one-topic-out
 python topic_residual.py --sweep      # GPU; embed / 1/4 / 1/2 / 3/4 / last
-python topic_residual.py --layer -1   # last hidden only (old default)
+python topic_residual.py --layer -1   # last hidden only
 python synthetic_z.py                 # inspector 0.5 default
 python synthetic_z.py --inspect 0     # old no-cost lie
 python synthetic_pareto.py            # pay vs lie-rate vs hinge
