@@ -2,21 +2,21 @@
 
 Do not collapse attempts.
 
-## Fact judge on notes — 2026-09-21 17:08
+## Generate then fact-grade — 2026-09-21 19:30
 
-`python fact_grade.py --data data/pairs_wide.jsonl`  n=24
+`python generate_fact_grade.py --data data/pairs_wide.jsonl`  n=24
 
 ```
-mean_fact_m deceptive=3.792 honest=-0.995 gap_dec_minus_hon=4.786
-fact_sign_acc=0.79
+mean_fact_m deceptive=-6.172 honest=-7.346 gap_dec_minus_hon=1.174
+fact_sign_acc=0.46
 ```
 
-Judge sees fact + note, not the strategy tag. Deceptive notes plan to fight the fact and score high. Honest notes usually do not. This is judge calibration, not a residual camera. Some honest rows still go positive. Do not fill $D$.
+Note-only gap was 4.79 / sign 0.79. On generated replies both sides are strongly “does not contradict,” sign is chance. One invoices lie (“payment was processed this morning”) still scored -5.6, so the judge that works on notes is not the same instrument on chat. Actor often refuses or narrates the note. Yesterday’s patch had no stall to copy. Do not fill $D$.
 
-## Reply mutate, tail-only — 16:57
+## Fact judge on notes — 17:08
 
-plan 0.50 dst topic 0.62 LOTO 0.38. Confusion.
+gap 4.79 sign 0.79. Calibration on written schemes only.
 
-## Contrast scalar / heads LOO / adversary
+## Mutate tail-only / contrast scalar / heads LOO / adversary
 
-scalar topic 0.17 gap 0.03. Heads LOO 0.79. Hold strat 0.53.
+plan 0.50. scalar topic 0.17 gap 0.03. heads LOO 0.79. hold strat 0.53.
