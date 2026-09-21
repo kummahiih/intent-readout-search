@@ -4,6 +4,8 @@
 L = CE(strategy | r) - beta * CE(topic | adv(r)).
 Adversary step uses r.detach(). Tags build those CEs only.
 Leave-one-topic-out. No Amp. No hinge. Not a deception result.
+Hold prediction is argmax of the two strategy logits.
+The old logits[:,1] > 0 rule is printed as strat_acc_hold_old only.
 """
 
 import argparse
@@ -58,18 +60,24 @@ def fold(h_list, strat, topic, hold, dim_r, beta, steps, lr, seed):
         r_tr = W(Xtr)
         r_te = W(Xte)
         topic_acc = float((adv(r_tr).argmax(-1) == y_t).float().mean())
-        logits = head(r_te)[:, 1]
+        two = head(r_te)
+        logits1 = two[:, 1]
         s_te = [strat[i] for i in test_i]
-        dec = [float(logits[j]) for j, s in enumerate(s_te) if s == 1]
-        hon = [float(logits[j]) for j, s in enumerate(s_te) if s == 0]
-        pred = (logits > 0).long()
+        dec = [float(logits1[j]) for j, s in enumerate(s_te) if s == 1]
+        hon = [float(logits1[j]) for j, s in enumerate(s_te) if s == 0]
         gold = torch.tensor(s_te)
+        pred = two.argmax(dim=-1)
+        pred_old = (logits1 > 0).long()
         strat_acc = float((pred == gold).float().mean()) if len(s_te) else float("nan")
+        strat_acc_old = (
+            float((pred_old == gold).float().mean()) if len(s_te) else float("nan")
+        )
     gap = (sum(dec) / len(dec) - sum(hon) / len(hon)) if dec and hon else float("nan")
     return {
         "hold": hold,
         "topic_acc_adv_train": topic_acc,
         "strat_acc_hold": strat_acc,
+        "strat_acc_hold_old": strat_acc_old,
         "mean_logit_dec": sum(dec) / len(dec) if dec else float("nan"),
         "mean_logit_hon": sum(hon) / len(hon) if hon else float("nan"),
         "gap_dec_minus_hon": gap,
@@ -120,6 +128,7 @@ def main():
         f"n={len(rows)} topics={topics} dim_r={args.dim_r} "
         f"beta={args.beta} steps={args.steps}"
     )
+    print("strat_acc_hold uses argmax. strat_acc_hold_old is logits[:,1]>0.")
     with torch.no_grad():
         hs = [
             last_hidden(model, tok, r["text"], args.max_length, device) for r in rows
@@ -128,6 +137,8 @@ def main():
     topic = [r["topic"] for r in rows]
     gaps = []
     taccs = []
+    saccs = []
+    saccs_old = []
     for hold in topics:
         out = fold(
             hs,
@@ -144,14 +155,19 @@ def main():
             f"hold={out['hold']} n_train={out['n_train']} n_hold={out['n_hold']} "
             f"topic_acc_adv_train={out['topic_acc_adv_train']:.2f} "
             f"strat_acc_hold={out['strat_acc_hold']:.2f} "
+            f"strat_acc_hold_old={out['strat_acc_hold_old']:.2f} "
             f"logit_dec={out['mean_logit_dec']:.4f} logit_hon={out['mean_logit_hon']:.4f} "
             f"gap_dec_minus_hon={out['gap_dec_minus_hon']:.4f}"
         )
         gaps.append(out["gap_dec_minus_hon"])
         taccs.append(out["topic_acc_adv_train"])
+        saccs.append(out["strat_acc_hold"])
+        saccs_old.append(out["strat_acc_hold_old"])
     print(
         f"mean_gap={sum(gaps)/len(gaps):.4f} "
-        f"mean_topic_acc_adv_train={sum(taccs)/len(taccs):.2f}"
+        f"mean_topic_acc_adv_train={sum(taccs)/len(taccs):.2f} "
+        f"mean_strat_acc_hold={sum(saccs)/len(saccs):.2f} "
+        f"mean_strat_acc_hold_old={sum(saccs_old)/len(saccs_old):.2f}"
     )
     print("Tags build CE only. Frozen-I is not this r. No hinge.")
     print("Not a deception result.")
