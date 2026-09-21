@@ -5,6 +5,7 @@ r = concat of k last-token head writes before o_proj.
 Heads picked by mean L2 write-norm on the bank, not by AUROC.
 --quiet picks the smallest norms instead of the largest.
 Control: last-token residual at the same layer.
+Official topic gate is LOO centroid, not in-sample lstsq.
 Not Pandey path-patching. Not SAE. Not a frozen D. Tiny-n diagnostic.
 """
 
@@ -16,27 +17,9 @@ import sys
 from pathlib import Path
 
 import torch
-import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-
-def cosine(a, b):
-    return float(
-        (F.normalize(a.unsqueeze(0), dim=-1) @ F.normalize(b.unsqueeze(0), dim=-1).T)
-        .clamp(-1, 1)
-        .item()
-    )
-
-
-def topic_acc(vecs, topics):
-    names = sorted(set(topics))
-    tid = {t: i for i, t in enumerate(names)}
-    X = F.normalize(torch.stack(vecs), dim=-1)
-    y = torch.tensor([tid[t] for t in topics])
-    Y = F.one_hot(y, num_classes=len(names)).float()
-    W = torch.linalg.lstsq(X, Y).solution
-    pred = (X @ W).argmax(dim=-1)
-    return float((pred == y).float().mean()), names
+from topic_metrics import cosine, loo_centroid_acc, topic_acc
 
 
 def transformer_layers(model):
@@ -160,8 +143,11 @@ def main():
 
     bank_r = [pack(h) for h in bank_heads]
     ev_r = [pack(h) for h in ev_heads]
-    acc_r, tnames = topic_acc(ev_r, [r["topic"] for r in ev])
-    acc_h, _ = topic_acc(ev_h, [r["topic"] for r in ev])
+    ev_topics = [r["topic"] for r in ev]
+    acc_r, tnames = topic_acc(ev_r, ev_topics)
+    acc_h, _ = topic_acc(ev_h, ev_topics)
+    loo_r = loo_centroid_acc(ev_r, ev_topics)
+    loo_h = loo_centroid_acc(ev_h, ev_topics)
     D = torch.stack(bank_r)
     dec, hon = [], []
     print("pair cosine of r to bank-deceptive head-writes:")
@@ -175,11 +161,12 @@ def main():
         f"gap_hon_minus_dec={gap:.4f}"
     )
     print(
-        f"topic_probe_acc_head_r={acc_r:.2f} topic_probe_acc_layer_h={acc_h:.2f} "
+        f"topic_lstsq_head_r={acc_r:.2f} topic_lstsq_layer_h={acc_h:.2f} "
+        f"topic_loo_head_r={loo_r:.2f} topic_loo_layer_h={loo_h:.2f} "
         f"n={len(ev)} topics={tnames}"
     )
+    print("Official topic gate is topic_loo_*. topic_lstsq_* can memorize.")
     print("Heads picked on bank write-norm only. Not a deception result.")
-    print("Topic acc 1.00 on r is a fail.")
 
 
 if __name__ == "__main__":
