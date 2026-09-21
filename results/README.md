@@ -2,21 +2,21 @@
 
 Do not collapse attempts.
 
+## Reply mutate, tail-only grade — 2026-09-21 16:57
+
+`python reply_mutate.py --data data/pairs_wide.jsonl`  n=24
+
+```
+tail_plan_acc=0.50  tail_topic_acc_dst=0.62  tail_topic_acc_src=0.08
+bleed_rate=0.08  mean_loto_plan_acc=0.38
+```
+
+Grade is the tail string only. Official topic is dst after the swap. Plan is chance; LOTO 0.38. The mouth follows the new ask (dst 0.62) and almost never the old subject (src 0.08). Confusion tails, not a transferred stall. Old 0.46 mixed head+tail and scored src. Do not fill $D$.
+
 ## Contrast on scalar s=h·v — 2026-09-21 16:43
 
-`python pair_contrast.py --data data/pairs_wide.jsonl`  n=36
+topic_loo_on_scalar=0.17 gap=0.026 n=36. Topic-blind, plan-blind.
 
-```
-mean s_v dec=-0.002 hon=-0.028 gap_dec_minus_hon=0.026
-topic_lstsq_on_scalar=0.31  topic_loo_on_scalar=0.17
-```
+## Loud heads LOO — 16:35 / adversary argmax — 16:27
 
-Official topic gate on the 1-d score is chance (~1/6). The old 0.81 on $(h\cdot v)v$ was fold identity. Topic-blind, plan-blind. Not a camera. Do not fill $D$.
-
-## Loud heads, official LOO topic — 2026-09-21 16:35
-
-lstsq 1.00 / loo heads 0.79 layer 0.62 / gap -0.038. Topic still in head writes. No plan.
-
-## Adversary argmax — 2026-09-21 16:27
-
-hold strat 0.53 old 0.50. Chance.
+loo heads 0.79 layer 0.62. Hold strat 0.53. Do not fill $D$.
