@@ -2,8 +2,9 @@
 """Same-topic contrast camera.
 
 v_T = normalize(h_dec - h_hon) on topic T.
-Score the other topic with that v (leave-one-topic-out).
-Bank in pairs.jsonl is deceptive-only, so v is built from matched eval pairs.
+Score the other topic with mean v of the other topics (LOTO).
+Official topic gate is LOO on the scalar s=h·v, not on (h·v)v
+(those vectors point along a fold-specific v and leak fold id).
 Tags build r only. Not z in a loss. Not a hinge. Not Amp.
 """
 
@@ -16,6 +17,8 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+
+from topic_metrics import loo_centroid_acc, topic_acc
 
 
 def last_hidden(model, tokenizer, text, max_length, device):
@@ -33,19 +36,6 @@ def cosine(a, b):
         .clamp(-1, 1)
         .item()
     )
-
-
-def topic_acc(vecs, topics):
-    names = sorted(set(topics))
-    if len(names) < 2 or len(vecs) < 2:
-        return float("nan"), names
-    tid = {t: i for i, t in enumerate(names)}
-    X = F.normalize(torch.stack(vecs), dim=-1)
-    y = torch.tensor([tid[t] for t in topics])
-    Y = F.one_hot(y, num_classes=len(names)).float()
-    W = torch.linalg.lstsq(X, Y).solution
-    pred = (X @ W).argmax(dim=-1)
-    return float((pred == y).float().mean()), names
 
 
 def main():
@@ -121,7 +111,7 @@ def main():
         v_of[t] = F.normalize(v, dim=0) if nrm > 0 else v
         print(f"v[{t}]_norm={nrm:.4f}")
 
-    r_vecs, r_topics, scores = [], [], []
+    scalars, r_topics, scores = [], [], []
     print("leave-one-topic-out scores (v from other topics):")
     for t, g in sorted(paired.items()):
         others = [v_of[u] for u in paired if u != t and float(v_of[u].norm()) > 0]
@@ -133,9 +123,8 @@ def main():
             for r in g[strat]:
                 h = hid[id(r)]
                 s = cosine(h, v)
-                rh = (h * v).sum() * v
                 print(f"  topic={t} strategy={strat} s_v={s:.4f}")
-                r_vecs.append(rh)
+                scalars.append(torch.tensor([s]))
                 r_topics.append(t)
                 scores.append((strat, s))
     dec = [s for strat, s in scores if strat == "deceptive"]
@@ -144,12 +133,17 @@ def main():
         print("ERROR: empty score bins", file=sys.stderr)
         sys.exit(1)
     gap = (sum(dec) / len(dec)) - (sum(hon) / len(hon))
-    acc, tnames = topic_acc(r_vecs, r_topics)
+    acc_lstsq, tnames = topic_acc(scalars, r_topics)
+    acc_loo = loo_centroid_acc(scalars, r_topics)
     print(
         f"mean s_v deceptive={sum(dec)/len(dec):.4f} honest={sum(hon)/len(hon):.4f} "
         f"gap_dec_minus_hon={gap:.4f}"
     )
-    print(f"topic_probe_acc_on_r={acc:.2f} n={len(r_vecs)} topics={tnames}")
+    print(
+        f"topic_lstsq_on_scalar={acc_lstsq:.2f} topic_loo_on_scalar={acc_loo:.2f} "
+        f"n={len(scalars)} topics={tnames}"
+    )
+    print("Official topic gate is topic_loo_on_scalar (1-d score).")
     print("v built from pair tags. Tags are not a loss input.")
     print("Not a deception result. Do not train the hinge on this r yet.")
 
