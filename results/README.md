@@ -2,22 +2,21 @@
 
 Do not collapse attempts.
 
+## Contrast on scalar s=h·v — 2026-09-21 16:43
+
+`python pair_contrast.py --data data/pairs_wide.jsonl`  n=36
+
+```
+mean s_v dec=-0.002 hon=-0.028 gap_dec_minus_hon=0.026
+topic_lstsq_on_scalar=0.31  topic_loo_on_scalar=0.17
+```
+
+Official topic gate on the 1-d score is chance (~1/6). The old 0.81 on $(h\cdot v)v$ was fold identity. Topic-blind, plan-blind. Not a camera. Do not fill $D$.
+
 ## Loud heads, official LOO topic — 2026-09-21 16:35
 
-`python head_write_probe.py --data data/pairs_wide.jsonl`  layer 14  heads 15,22,23,25  n=24
-
-```
-topic_lstsq_head_r=1.00  topic_lstsq_layer_h=1.00
-topic_loo_head_r=0.79    topic_loo_layer_h=0.62
-gap_hon_minus_dec=-0.038
-```
-
-Lstsq 1.00 is the memorizer. Official LOO: heads 0.79, full layer 0.62. Six-way chance is ~0.17, so topic is still in $r$, just not perfect. Strategy gap ~0. Not a camera. Do not fill $D$.
+lstsq 1.00 / loo heads 0.79 layer 0.62 / gap -0.038. Topic still in head writes. No plan.
 
 ## Adversary argmax — 2026-09-21 16:27
 
-mean_strat_acc_hold=0.53 old=0.50 train topic 0.79. Broken threshold fixed; hold still chance.
-
-## Activation patch / oracle / mutate
-
-Patch bleed 0. Oracle plan 0.54 miss-slice 0.43. Mutate confusion. Do not fill $D$.
+hold strat 0.53 old 0.50. Chance.
