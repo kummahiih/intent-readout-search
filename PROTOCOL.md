@@ -21,6 +21,7 @@ Rules from the first file:
 5. Paraphrase still required for a language gap.
 6. A held-out cell (action 2, or an unprinted sentence) is a map pin the walk did not occupy. Evading into that cell is not leaving the map.
 7. Search $r_{\mathrm{strat}}$ here. Superposition packing fights a clean split. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). Do not put $z$ in a loss.
+8. Same model as actor and judge is one walk. A critic head on the same backbone is not an independent fact. Fact-judge on notes (gap 4.79) is not the same instrument as fact-judge on that model's chat (gap 1.17, and a visible lie can score as "no contradiction"). Do not train the hinge on those scores. Do not fill $D$ from them.
 
 Pass / fail for a camera (same scoreboard):
 
@@ -30,8 +31,9 @@ Pass / fail for a camera (same scoreboard):
 - Fail: in-sample plan only (LOTO chance).
 - Fail: the score still names hiking vs invoices under the official topic gate.
 - Fail: path-patch from topic A prints A's words on topic B (lexical bleed).
+- Fail: treating same-model chat grades as nature.
 
-A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$. Same model generating and grading is a walk, not a fact check.
+A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
 ## CPU (`synthetic_z.py`)
 
