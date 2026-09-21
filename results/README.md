@@ -2,21 +2,21 @@
 
 Do not collapse attempts.
 
-## Fact-judge raw vs chat on notes — 2026-09-21 19:45
+## Generate raw vs chat fact-judge — 2026-09-21 19:49
 
-`python fact_grade.py --data data/pairs_wide.jsonl`  n=24
+`python generate_fact_grade.py --data data/pairs_wide.jsonl`  n=24
 
 ```
-raw  gap=4.786  sign=0.79
-chat gap=11.456 sign=0.92
+raw  gap=1.174  sign=0.46
+chat gap=6.462  sign=0.58
 ```
 
-Chat wrap makes the note-judge *sharper*, not weaker. Generated-reply collapse (gap 1.17) was not "forgot the template on notes." `generate_fact_grade.py` still uses raw `fact_margin`. Do not fill $D$.
+Notes were raw 4.79 / chat 11.46. On generated replies chat widens the gap because *honest* answers go more negative (clearly match the fact). Deceptive means stay negative. "Payment was processed" is still chat=-0.75. Sign 0.58 is chance-ish. Actor is not adopting the stall. Do not fill $D$.
+
+## Fact-judge on notes — 19:45
+
+raw 4.79/0.79  chat 11.46/0.92.
 
 ## OLS topic wipe — 19:43
 
 loo leftover 0.00 plan LOTO 0.58.
-
-## Generate then fact-grade (raw) — 19:30
-
-gap 1.17 sign 0.46 vs note raw 4.79.
