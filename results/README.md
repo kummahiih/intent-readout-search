@@ -2,21 +2,22 @@
 
 Do not collapse attempts.
 
-## Generate then fact-grade — 2026-09-21 19:30
+## OLS topic wipe — 2026-09-21 19:43
 
-`python generate_fact_grade.py --data data/pairs_wide.jsonl`  n=24
+`python leace_residual.py --data data/pairs_wide.jsonl`  n=36
 
 ```
-mean_fact_m deceptive=-6.172 honest=-7.346 gap_dec_minus_hon=1.174
-fact_sign_acc=0.46
+topic_loo_h=0.83  topic_loo_leftover=0.00
+topic_lstsq_leftover=0.64
+mean_loto_plan_leftover=0.58
 ```
 
-Note-only gap was 4.79 / sign 0.79. On generated replies both sides are strongly “does not contradict,” sign is chance. One invoices lie (“payment was processed this morning”) still scored -5.6, so the judge that works on notes is not the same instrument on chat. Actor often refuses or narrates the note. Yesterday’s patch had no stall to copy. Do not fill $D$.
+Not Belrose LEACE. Linear hallway is gone under official LOO. Plan LOTO 0.58 on n_hold=6 (folds 0.33–0.83). The leftover is topic-blind and still plan-blind. Do not fill $D$.
 
-## Fact judge on notes — 17:08
+## Generate then fact-grade — 19:30
 
-gap 4.79 sign 0.79. Calibration on written schemes only.
+gap 1.17 sign 0.46 vs note-only 4.79 / 0.79.
 
-## Mutate tail-only / contrast scalar / heads LOO / adversary
+## Contrast / heads / adversary / mutate
 
-plan 0.50. scalar topic 0.17 gap 0.03. heads LOO 0.79. hold strat 0.53.
+scalar topic 0.17. heads LOO 0.79. hold strat 0.53. mutate plan 0.50.
