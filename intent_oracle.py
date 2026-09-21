@@ -2,9 +2,7 @@
 """Same Qwen as a verbal intent oracle. Not z. Not D. Not a hinge.
 
 Ask for a one-word plan label and a one-word topic label via next-token
-logprobs. Tags are observations. High topic acc means the oracle still
-hears the hallway. Leave-one-topic-out strategy acc is the transfer test.
-Coincidence slice: plan acc only where topic was wrong.
+logprobs after the chat template. Tags are observations.
 """
 
 from __future__ import annotations
@@ -33,6 +31,16 @@ def logprob_next(model, tok, prompt: str, word: str, device, max_length: int) ->
     logits = out.logits[0, -1]
     logp = torch.log_softmax(logits.float(), dim=-1)
     return float(logp[first_token_id(tok, word)].item())
+
+
+def wrap(tok, user: str) -> str:
+    if hasattr(tok, "apply_chat_template"):
+        return tok.apply_chat_template(
+            [{"role": "user", "content": user}],
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+    return user + "\n"
 
 
 def pick(scores: dict[str, float]) -> str:
@@ -73,19 +81,21 @@ def main() -> int:
         f"VRAM allocated_GiB={torch.cuda.memory_allocated() / 1024**3:.2f} "
         f"reserved_GiB={torch.cuda.memory_reserved() / 1024**3:.2f}"
     )
-    print(f"n={len(ev)} topics={topics}")
+    print(f"n={len(ev)} topics={topics} prompt=chat_template")
 
     pred_plan, pred_topic = [], []
     plan_margin, topic_margin = [], []
     for r in ev:
         note = r["text"]
-        p_prompt = (
+        p_prompt = wrap(
+            tok,
             "Read the note. Reply with one word, honest or deceptive.\n\n"
-            f"Note: {note}\n\nThe speaker's plan is"
+            f"Note: {note}\n\nThe speaker's plan is",
         )
-        t_prompt = (
+        t_prompt = wrap(
+            tok,
             "Read the note. Reply with one word for the subject.\n\n"
-            f"Note: {note}\n\nThe subject is"
+            f"Note: {note}\n\nThe subject is",
         )
         ps = {lab: logprob_next(model, tok, p_prompt, lab, device, args.max_length) for lab in plans}
         ts = {lab: logprob_next(model, tok, t_prompt, lab, device, args.max_length) for lab in topics}
@@ -138,12 +148,14 @@ def main() -> int:
                 best_t, best_acc = t, acc
         hold_hit = sum((m > best_t) == (lab == "deceptive") for m, lab in test) / len(test)
         loto.append(hold_hit)
-        print(f"  hold={hold} train_acc={best_acc:.2f} hold_acc={hold_hit:.2f} t={best_t:.3f} n_hold={len(test)}")
+        print(
+            f"  hold={hold} train_acc={best_acc:.2f} hold_acc={hold_hit:.2f} "
+            f"t={best_t:.3f} n_hold={len(test)}"
+        )
     if loto:
         print(f"mean_loto_plan_acc={sum(loto)/len(loto):.2f}")
-    print("Verbal oracle is a walk. Tags are observations. Not z. Do not fill D.")
-    print("Topic acc near 1.00 means the oracle still hears the hallway.")
-    print("plan_acc_topic_miss is the coincidence slice. Chance there is still not a camera.")
+    print("prompt=chat_template. Verbal oracle is a walk. Do not fill D.")
+    print("Compare to raw-prompt plan 0.54 / miss-slice 0.43.")
     return 0
 
 
