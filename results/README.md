@@ -2,22 +2,21 @@
 
 Do not collapse attempts.
 
-## OLS topic wipe — 2026-09-21 19:43
+## Fact-judge raw vs chat on notes — 2026-09-21 19:45
 
-`python leace_residual.py --data data/pairs_wide.jsonl`  n=36
+`python fact_grade.py --data data/pairs_wide.jsonl`  n=24
 
 ```
-topic_loo_h=0.83  topic_loo_leftover=0.00
-topic_lstsq_leftover=0.64
-mean_loto_plan_leftover=0.58
+raw  gap=4.786  sign=0.79
+chat gap=11.456 sign=0.92
 ```
 
-Not Belrose LEACE. Linear hallway is gone under official LOO. Plan LOTO 0.58 on n_hold=6 (folds 0.33–0.83). The leftover is topic-blind and still plan-blind. Do not fill $D$.
+Chat wrap makes the note-judge *sharper*, not weaker. Generated-reply collapse (gap 1.17) was not "forgot the template on notes." `generate_fact_grade.py` still uses raw `fact_margin`. Do not fill $D$.
 
-## Generate then fact-grade — 19:30
+## OLS topic wipe — 19:43
 
-gap 1.17 sign 0.46 vs note-only 4.79 / 0.79.
+loo leftover 0.00 plan LOTO 0.58.
 
-## Contrast / heads / adversary / mutate
+## Generate then fact-grade (raw) — 19:30
 
-scalar topic 0.17. heads LOO 0.79. hold strat 0.53. mutate plan 0.50.
+gap 1.17 sign 0.46 vs note raw 4.79.
