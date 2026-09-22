@@ -3,8 +3,8 @@
 
 v_T = normalize(h_dec - h_hon) on topic T.
 Score the other topic with mean v of the other topics (LOTO).
-Official topic gate is LOO on the scalar s=h·v, not on (h·v)v
-(those vectors point along a fold-specific v and leak fold id).
+Official topic gate on the scalar s=h·v is LOO L2, not cosine
+(1-d cosine keeps only the sign).
 Tags build r only. Not z in a loss. Not a hinge. Not Amp.
 """
 
@@ -18,7 +18,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-from topic_metrics import loo_centroid_acc, topic_acc
+from topic_metrics import loo_centroid_acc, loo_l2_acc, topic_acc
 
 
 def last_hidden(model, tokenizer, text, max_length, device):
@@ -134,16 +134,20 @@ def main():
         sys.exit(1)
     gap = (sum(dec) / len(dec)) - (sum(hon) / len(hon))
     acc_lstsq, tnames = topic_acc(scalars, r_topics)
-    acc_loo = loo_centroid_acc(scalars, r_topics)
+    acc_loo_cos = loo_centroid_acc(scalars, r_topics)
+    acc_loo_l2 = loo_l2_acc(scalars, r_topics)
     print(
         f"mean s_v deceptive={sum(dec)/len(dec):.4f} honest={sum(hon)/len(hon):.4f} "
         f"gap_dec_minus_hon={gap:.4f}"
     )
     print(
-        f"topic_lstsq_on_scalar={acc_lstsq:.2f} topic_loo_on_scalar={acc_loo:.2f} "
+        f"topic_lstsq_on_scalar={acc_lstsq:.2f} "
+        f"topic_loo_cos_on_scalar={acc_loo_cos:.2f} "
+        f"topic_loo_l2_on_scalar={acc_loo_l2:.2f} "
         f"n={len(scalars)} topics={tnames}"
     )
-    print("Official topic gate is topic_loo_on_scalar (1-d score).")
+    print("Official topic gate on scalars is topic_loo_l2_on_scalar.")
+    print("topic_loo_cos_on_scalar is sign-only in 1-d. Do not read 0.17 as topic-blind.")
     print("v built from pair tags. Tags are not a loss input.")
     print("Not a deception result. Do not train the hinge on this r yet.")
 
