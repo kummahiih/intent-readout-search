@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Wipe the linear topic subspace, then score plan on the leftover.
+"""Wipe the linear topic span fitted on the train fold only.
 
-Not Belrose LEACE (no guaranteed concept erasure of other labels).
-OLS residual after one-hot topic. Official gates: loo_centroid topic
-and leave-one-topic-out plan threshold. Not z. Not D. Not a hinge.
+Not Belrose LEACE. Global OLS leftover + LOO cosine is invalid:
+same-topic residuals sum to zero, so the held-out centroid is -r_i/(n-1).
+Fit means on the complement, project test onto that span, then L2 / plan LOTO.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-from topic_metrics import loo_centroid_acc, topic_acc
+from topic_metrics import loo_centroid_acc, loo_l2_acc, topic_acc
 
 
 def last_hidden(model, tokenizer, text, max_length, device):
@@ -29,13 +29,15 @@ def last_hidden(model, tokenizer, text, max_length, device):
     return out.hidden_states[-1][0, -1, :].float().cpu()
 
 
-def erase_topic(H: torch.Tensor, topics: list[str]) -> torch.Tensor:
-    names = sorted(set(topics))
-    tid = {t: i for i, t in enumerate(names)}
-    Y = F.one_hot(torch.tensor([tid[t] for t in topics]), num_classes=len(names)).float()
-    # H ~ Y @ B  =>  B = lstsq(Y, H); leftover = H - YB
-    B = torch.linalg.lstsq(Y, H).solution
-    return H - Y @ B
+def topic_means(H: torch.Tensor, topics: list[str], idx: list[int]) -> torch.Tensor:
+    names = sorted({topics[i] for i in idx})
+    return torch.stack([H[idx][[j for j, i in enumerate(idx) if topics[i] == t]].mean(0) for t in names])
+
+
+def residual_on_span(H: torch.Tensor, means: torch.Tensor) -> torch.Tensor:
+    # H (n,d), means (k,d): leftover = H - proj_span(means)
+    coeff = torch.linalg.lstsq(means.T, H.T).solution  # (k, n)
+    return H - coeff.T @ means
 
 
 def main() -> int:
@@ -50,6 +52,7 @@ def main() -> int:
     rows = [json.loads(l) for l in Path(args.data).read_text().splitlines() if l.strip()]
     rows = [r for r in rows if r.get("strategy") in ("deceptive", "honest")]
     topics = [r["topic"] for r in rows]
+    strat = [r["strategy"] for r in rows]
     if len(set(topics)) < 3:
         print("ERROR: need >=3 topics", file=sys.stderr)
         return 1
@@ -76,53 +79,62 @@ def main() -> int:
         H = torch.stack(
             [last_hidden(model, tok, r["text"], args.max_length, device) for r in rows]
         )
-    leftover = erase_topic(H, topics)
     vecs_h = [H[i] for i in range(len(rows))]
-    vecs_r = [leftover[i] for i in range(len(rows))]
-    lstsq_h, names = topic_acc(vecs_h, topics)
-    lstsq_r, _ = topic_acc(vecs_r, topics)
-    loo_h = loo_centroid_acc(vecs_h, topics)
-    loo_r = loo_centroid_acc(vecs_r, topics)
     print(
-        f"topic_lstsq_h={lstsq_h:.2f} topic_loo_h={loo_h:.2f} "
-        f"topic_lstsq_leftover={lstsq_r:.2f} topic_loo_leftover={loo_r:.2f}"
+        f"topic_lstsq_h={topic_acc(vecs_h, topics)[0]:.2f} "
+        f"topic_loo_cos_h={loo_centroid_acc(vecs_h, topics):.2f} "
+        f"topic_loo_l2_h={loo_l2_acc(vecs_h, topics):.2f}"
     )
-    print("Official leftover topic gate is topic_loo_leftover.")
+    print("LOO topic after fold-fit span wipe (means from n-1, L2 on leftover):")
+    hit = 0
+    leftover_rows = [None] * len(rows)
+    for i in range(len(rows)):
+        train = [j for j in range(len(rows)) if j != i]
+        means = topic_means(H, topics, train)
+        R_tr = residual_on_span(H[train], means)
+        r_i = residual_on_span(H[i : i + 1], means)[0]
+        leftover_rows[i] = r_i
+        best_name, best_d = None, None
+        for name in sorted({topics[j] for j in train}):
+            mu = R_tr[[k for k, j in enumerate(train) if topics[j] == name]].mean(0)
+            d = float((r_i - mu).norm())
+            if best_d is None or d < best_d:
+                best_d, best_name = d, name
+        hit += int(best_name == topics[i])
+    print(f"topic_loo_l2_leftover_foldfit={hit / len(rows):.2f}")
+    print("Old global leftover + cosine LOO is retired (forces -1 to own topic).")
 
-    strat = [r["strategy"] for r in rows]
-    print("leave-one-topic-out plan on leftover (threshold on other topics):")
+    print("leave-one-topic-out plan; wipe fitted on other topics only:")
     loto = []
     for hold in sorted(set(topics)):
         train_i = [i for i, t in enumerate(topics) if t != hold]
         test_i = [i for i, t in enumerate(topics) if t == hold]
-        dec_tr = leftover[train_i][[i for i, j in enumerate(train_i) if strat[j] == "deceptive"]].mean(0)
-        hon_tr = leftover[train_i][[i for i, j in enumerate(train_i) if strat[j] == "honest"]].mean(0)
+        means = topic_means(H, topics, train_i)
+        R = residual_on_span(H, means)
+        dec_tr = R[train_i][[k for k, j in enumerate(train_i) if strat[j] == "deceptive"]].mean(0)
+        hon_tr = R[train_i][[k for k, j in enumerate(train_i) if strat[j] == "honest"]].mean(0)
         v = dec_tr - hon_tr
         if float(v.norm()) == 0:
             print(f"  hold={hold} skip empty v")
             continue
         v = F.normalize(v, dim=0)
-        scores_tr = [
-            (float((leftover[j] * v).sum()), strat[j]) for j in train_i
-        ]
+        scores_tr = [(float((R[j] * v).sum()), strat[j]) for j in train_i]
         best_t, best_acc = 0.0, -1.0
         for t in sorted({s for s, _ in scores_tr}):
             acc = sum((s > t) == (lab == "deceptive") for s, lab in scores_tr) / len(scores_tr)
             if acc > best_acc:
                 best_t, best_acc = t, acc
-        hit = sum(
-            (float((leftover[j] * v).sum()) > best_t) == (strat[j] == "deceptive")
-            for j in test_i
+        hit_p = sum(
+            (float((R[j] * v).sum()) > best_t) == (strat[j] == "deceptive") for j in test_i
         ) / len(test_i)
-        loto.append(hit)
+        loto.append(hit_p)
         print(
-            f"  hold={hold} train_acc={best_acc:.2f} hold_acc={hit:.2f} "
+            f"  hold={hold} train_acc={best_acc:.2f} hold_acc={hit_p:.2f} "
             f"t={best_t:.3f} n_hold={len(test_i)}"
         )
     if loto:
-        print(f"mean_loto_plan_leftover={sum(loto)/len(loto):.2f}")
-    print("OLS topic wipe is not LEACE. Leftover plan chance is not a camera.")
-    print("Do not fill D.")
+        print(f"mean_loto_plan_leftover_foldfit={sum(loto)/len(loto):.2f}")
+    print("Fold-fit wipe is still not LEACE. Do not fill D.")
     return 0
 
 
