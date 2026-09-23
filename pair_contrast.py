@@ -6,6 +6,9 @@ Score the other topic with mean v of the other topics (LOTO).
 Official topic gate on the scalar s=h·v is LOO L2, not cosine
 (1-d cosine keeps only the sign).
 Tags build r only. Not z in a loss. Not a hinge. Not Amp.
+
+--pool last is the 2026-09-23 run (gap 0.026).
+--pool mean averages token states at --layer. Still not a path encoder s_K.
 """
 
 import argparse
@@ -21,13 +24,21 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from topic_metrics import loo_centroid_acc, loo_l2_acc, topic_acc
 
 
-def last_hidden(model, tokenizer, text, max_length, device):
+def pooled_hidden(model, tokenizer, text, max_length, device, layer, pool):
     toks = tokenizer(
         text, return_tensors="pt", truncation=True, max_length=max_length
     )
     toks = {k: v.to(device) for k, v in toks.items()}
     out = model(**toks, output_hidden_states=True)
-    return out.hidden_states[-1][0, -1, :].float().cpu()
+    # hidden_states[0] is embed; [-1] is last layer
+    hs = out.hidden_states[layer][0].float()  # (T, d)
+    if pool == "last":
+        h = hs[-1]
+    elif pool == "mean":
+        h = hs.mean(0)
+    else:
+        raise ValueError(pool)
+    return h.cpu()
 
 
 def cosine(a, b):
@@ -43,6 +54,8 @@ def main():
     p.add_argument("--model", default="Qwen/Qwen2.5-7B-Instruct")
     p.add_argument("--data", default="data/pairs.jsonl")
     p.add_argument("--max-length", type=int, default=256)
+    p.add_argument("--layer", type=int, default=-1, help="hidden_states index; -1 last")
+    p.add_argument("--pool", choices=("last", "mean"), default="last")
     args = p.parse_args()
     if not torch.cuda.is_available():
         print("ERROR: CUDA required", file=sys.stderr)
@@ -67,6 +80,7 @@ def main():
             for t, g in sorted(paired.items())
         )
     )
+    print(f"layer={args.layer} pool={args.pool}")
     bank_only_dec = [
         r for r in rows if r["split"] == "bank" and r["strategy"] == "deceptive"
     ]
@@ -97,7 +111,9 @@ def main():
         needed.extend(g["deceptive"] + g["honest"])
     with torch.no_grad():
         hid = {
-            id(r): last_hidden(model, tok, r["text"], args.max_length, device)
+            id(r): pooled_hidden(
+                model, tok, r["text"], args.max_length, device, args.layer, args.pool
+            )
             for r in needed
         }
 
