@@ -2,59 +2,55 @@
 
 Do not collapse attempts.
 
+## Contrast layer sweep — 2026-09-23 night
+
+Last-token LOTO `v`, n=36, 6 topics. Official topic gate = L2 on the scalar.
+
+| layer / pool | plan gap | topic L2 |
+| --- | --- | --- |
+| -1 last | 0.026 | 0.31 |
+| 24 last | 0.027 | 0.31 |
+| 16 last | 0.071 | 0.22 |
+| 8 last | 0.066 | **0.17** |
+| -1 mean | 0.030 | 0.22 |
+| 16 mean | 0.002 | **1.00** |
+
+Early last-token: topic gate at chance, plan still ~0.07. Late last-token: topic returns. Mean mid-layer is wallpaper. None of these is a camera. Do not fill D.
+
 ## Contrast scalar LOTO — 2026-09-23 20:20
 
-`python pair_contrast.py --data data/pairs_wide.jsonl`  n=36, 6 topics, pool=last layer=-1
+`--pool last --layer -1`
 
 ```
-mean s_v deceptive=-0.0017 honest=-0.0277 gap_dec_minus_hon=0.0260
-topic_lstsq_on_scalar=0.31 topic_loo_cos_on_scalar=0.17 topic_loo_l2_on_scalar=0.31
+gap_dec_minus_hon=0.0260  topic_loo_l2_on_scalar=0.31
 ```
 
-Official topic gate is L2 0.31 (chance ~0.17). Plan gap 0.026. Not a camera.
+## Contrast mean-pool last layer — 21:49
 
-## Contrast mean-pool last layer — 2026-09-23 21:49
+`--pool mean --layer -1` gap=0.0297 topic L2=0.22. Fail.
 
-`--pool mean --layer -1`  n=36
+## Contrast last-token mid layer — 21:50
 
-```
-gap_dec_minus_hon=0.0297  topic_loo_l2_on_scalar=0.22
-```
+`--pool last --layer 16` gap=0.0714 topic L2=0.22. Fail.
 
-Fail.
+## Contrast last-token early layer — 21:54
 
-## Contrast last-token mid layer — 2026-09-23 21:50
+`--pool last --layer 8` gap=0.0657 topic L2=0.17 lstsq=0.28. Official topic chance. Plan tiny. Not D.
 
-`--pool last --layer 16`  n=36
+## Contrast last-token late layer — 21:55
 
-```
-mean s_v deceptive=0.0475 honest=-0.0240 gap_dec_minus_hon=0.0714
-topic_lstsq_on_scalar=0.28 topic_loo_cos_on_scalar=0.14 topic_loo_l2_on_scalar=0.22
-```
-
-Best plan gap so far. Still tiny. Topic leftover 0.22. Fail.
-
-## Contrast last-token early layer — 2026-09-23 21:54
-
-`--pool last --layer 8`  n=36
+`--pool last --layer 24`
 
 ```
-mean s_v deceptive=0.0421 honest=-0.0236 gap_dec_minus_hon=0.0657
-topic_lstsq_on_scalar=0.28 topic_loo_cos_on_scalar=0.17 topic_loo_l2_on_scalar=0.17
+mean s_v deceptive=-0.0324 honest=-0.0589 gap_dec_minus_hon=0.0265
+topic_lstsq_on_scalar=0.31 topic_loo_cos_on_scalar=0.20 topic_loo_l2_on_scalar=0.31
 ```
 
-Official topic L2 is chance. lstsq still 0.28. Plan gap 0.066, same order as layer 16. First time the official topic gate is clean on this scalar. Still not a camera: cosine gap is tiny and n=3 per cell. Do not fill D.
+Looks like last layer. Topic back. Fail.
 
-## Contrast mean-pool mid layer — 2026-09-23 21:52
+## Contrast mean-pool mid layer — 21:52
 
-`--pool mean --layer 16`  n=36
-
-```
-mean s_v deceptive=-0.8511 honest=-0.8530 gap_dec_minus_hon=0.0019
-topic_lstsq_on_scalar=0.33 topic_loo_cos_on_scalar=0.33 topic_loo_l2_on_scalar=1.00
-```
-
-Topic L2 = 1. Plan gap 0. Hallway wallpaper. Fail hard.
+`--pool mean --layer 16` gap=0.0019 topic L2=1.00. Wallpaper.
 
 ## Metric repairs — 2026-09-22
 
