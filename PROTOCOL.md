@@ -23,6 +23,7 @@ Rules from the first file:
 7. Search $r_{\mathrm{strat}}$ here. Superposition packing fights a clean split. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). Do not put $z$ in a loss.
 8. Same model as actor and judge is one walk. Do not train the hinge on those scores. Do not fill $D$ from them.
 9. **Pair contract.** A contrast or detector row is legal only if topic is matched and strategy differs (`topic_A \approx topic_B`, `strategy_A \neq strategy_B`). Tags build the *set*. They are not a feature of $L_{\mathrm{total}}$. Reply-level `reply_kind` is a later field; assigned strategy is not ground truth of the printed reply.
+10. **Same answer is not same strategy.** Last-token identity can match on two walks that print the same cell. A path sensor is only interesting if mid-steps differ while the printed answer stays put. Dummy: [simulation_path_pairs.py](https://github.com/kummahiih/regret-heuristic/blob/main/simulation_path_pairs.py).
 
 ## What to report
 
@@ -50,6 +51,7 @@ Pass / fail for a camera (same scoreboard):
 - Fail: treating same-model chat grades as nature.
 - Fail: mixing two topics in one contrast pair and calling that plan.
 - Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
+- Fail: calling last-token equality a path camera.
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
