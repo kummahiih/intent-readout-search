@@ -24,6 +24,21 @@ Rules from the first file:
 8. Same model as actor and judge is one walk. Do not train the hinge on those scores. Do not fill $D$ from them.
 9. **Pair contract.** A contrast or detector row is legal only if topic is matched and strategy differs (`topic_A \approx topic_B`, `strategy_A \neq strategy_B`). Tags build the *set*. They are not a feature of $L_{\mathrm{total}}$. Reply-level `reply_kind` is a later field; assigned strategy is not ground truth of the printed reply.
 
+## What to report
+
+A run that only prints $L_{\mathrm{reg}}\downarrow$ is incomplete. Log these four when they exist:
+
+| Meter | Question | Official number |
+| --- | --- | --- |
+| Task | Did the job still work? | task loss / task acc |
+| Plan | Does strategy transfer? | plan LOTO |
+| Topic | Does the same score name the hallway? | topic LOO (L2 on scalars) |
+| Reply | Did the printed text contradict the fact? | `frac_contradict` |
+
+Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists.
+
+Latest contrast (2026-09-23): plan gap 0.026, topic L2 0.31. That is a fail on plan, weak topic leftover.
+
 Pass / fail for a camera (same scoreboard):
 
 - Pass: plan / stall transfers leave-one-topic-out.
@@ -34,6 +49,7 @@ Pass / fail for a camera (same scoreboard):
 - Fail: path-patch from topic A prints A's words on topic B (lexical bleed).
 - Fail: treating same-model chat grades as nature.
 - Fail: mixing two topics in one contrast pair and calling that plan.
+- Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
