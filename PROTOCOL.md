@@ -21,9 +21,12 @@ Rules from the first file:
 5. Paraphrase still required for a language gap.
 6. A held-out cell (action 2, or an unprinted sentence) is a map pin the walk did not occupy. Evading into that cell is not leaving the map.
 7. Search $r_{\mathrm{strat}}$ here. Superposition packing fights a clean split. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). Do not put $z$ in a loss.
-8. Same model as actor and judge is one walk. Do not train the hinge on those scores. Do not fill $D$ from them.
-9. **Pair contract.** A contrast or detector row is legal only if topic is matched and strategy differs (`topic_A \approx topic_B`, `strategy_A \neq strategy_B`). Tags build the *set*. They are not a feature of $L_{\mathrm{total}}$. Reply-level `reply_kind` is a later field; assigned strategy is not ground truth of the printed reply.
+8. Same model as actor and judge is one walk. Do not train the hinge on those scores. Do not fill $D$ from them. A *second* judge is a different model later. Do not implement that as Qwen-vs-Qwen.
+9. **Pair contract.** A contrast or detector row is legal only if topic is matched and strategy differs (`topic_A \approx topic_B`, `strategy_A \neq strategy_B`). Tags build the *set*. They are not a feature of $L_{\mathrm{total}}$. Assigned strategy is not ground truth of the printed reply.
 10. **Same answer is not same strategy.** Last-token identity can match on two walks that print the same cell. A path sensor is only interesting if mid-steps differ while the printed answer stays put. Dummy: [simulation_path_pairs.py](https://github.com/kummahiih/regret-heuristic/blob/main/simulation_path_pairs.py).
+11. **`reply_kind`.** Optional field on a *generated reply*, not on the pair tag:
+    `{truth, contradict, evade, refuse, insufficient}`.
+    Keep it separate from assigned strategy. If the field is missing, print only `frac_contradict` (if you have a fact string) and `agree_assigned_strategy`. Do **not** print `fact_sign_acc` or a deception rate.
 
 ## What to report
 
@@ -36,7 +39,7 @@ A run that only prints $L_{\mathrm{reg}}\downarrow$ is incomplete. Log these fou
 | Topic | Does the same score name the hallway? | topic LOO (L2 on scalars) |
 | Reply | Did the printed text contradict the fact? | `frac_contradict` |
 
-Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists.
+Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists on the replies.
 
 Latest contrast (2026-09-23): plan gap 0.026, topic L2 0.31. That is a fail on plan, weak topic leftover.
 
@@ -52,6 +55,7 @@ Pass / fail for a camera (same scoreboard):
 - Fail: mixing two topics in one contrast pair and calling that plan.
 - Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
 - Fail: calling last-token equality a path camera.
+- Fail: printing accuracy when `reply_kind` is absent.
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
