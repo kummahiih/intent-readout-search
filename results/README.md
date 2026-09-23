@@ -34,6 +34,17 @@ topic_lstsq_on_scalar=0.28 topic_loo_cos_on_scalar=0.14 topic_loo_l2_on_scalar=0
 
 Best plan gap so far. Still tiny. Topic leftover 0.22. Fail.
 
+## Contrast last-token early layer — 2026-09-23 21:54
+
+`--pool last --layer 8`  n=36
+
+```
+mean s_v deceptive=0.0421 honest=-0.0236 gap_dec_minus_hon=0.0657
+topic_lstsq_on_scalar=0.28 topic_loo_cos_on_scalar=0.17 topic_loo_l2_on_scalar=0.17
+```
+
+Official topic L2 is chance. lstsq still 0.28. Plan gap 0.066, same order as layer 16. First time the official topic gate is clean on this scalar. Still not a camera: cosine gap is tiny and n=3 per cell. Do not fill D.
+
 ## Contrast mean-pool mid layer — 2026-09-23 21:52
 
 `--pool mean --layer 16`  n=36
@@ -43,7 +54,7 @@ mean s_v deceptive=-0.8511 honest=-0.8530 gap_dec_minus_hon=0.0019
 topic_lstsq_on_scalar=0.33 topic_loo_cos_on_scalar=0.33 topic_loo_l2_on_scalar=1.00
 ```
 
-Scores cluster by topic (~-0.83 cooking, ~-0.85 hiking, ~-0.73 invoices). Honest and deceptive match inside a topic. Topic L2 = 1. Plan gap 0. This is hallway wallpaper. Fail hard. Do not fill D.
+Topic L2 = 1. Plan gap 0. Hallway wallpaper. Fail hard.
 
 ## Metric repairs — 2026-09-22
 
