@@ -8,14 +8,19 @@ Last-token LOTO `v`, n=36, 6 topics. Official topic gate = L2 on the scalar.
 
 | layer / pool | plan gap | topic L2 |
 | --- | --- | --- |
-| -1 last | 0.026 | 0.31 |
-| 24 last | 0.027 | 0.31 |
+| 4 last | 0.044 | 0.25 |
+| **8 last** | **0.066** | **0.17** |
+| 12 last | 0.058 | 0.39 |
 | 16 last | 0.071 | 0.22 |
-| 8 last | 0.066 | **0.17** |
+| 24 last | 0.027 | 0.31 |
+| -1 last | 0.026 | 0.31 |
 | -1 mean | 0.030 | 0.22 |
-| 16 mean | 0.002 | **1.00** |
+| 16 mean | 0.002 | 1.00 |
 
-Early last-token: topic gate at chance, plan still ~0.07. Late last-token: topic returns. Mean mid-layer is wallpaper. None of these is a camera. Do not fill D.
+Layer 8: topic chance; gap from repairs/cooking/pets; hiking ~0.
+Layer 16: loudest gap; leftover topic; same three topics carry it.
+Layer 12: topic bump, not a midpoint.
+None of these is a camera. Do not fill D.
 
 ## Contrast scalar LOTO — 2026-09-23 20:20
 
@@ -68,3 +73,12 @@ mean_loto_plan_acc=0.79
 ## Notes vs generated fact-judge — 19:45 / 19:49
 
 notes chat gap 11.46 agree 0.92. generated chat gap 6.46 agree 0.58.
+
+## Contrast last-token layer 4 — 22:08
+
+`--pool last --layer 4` gap=0.0438 topic L2=0.25. Weaker than 8. Fail.
+
+## Contrast last-token layer 12 — 22:09
+
+`--pool last --layer 12` gap=0.0581 topic L2=0.39. Topic worse than neighbors. Fail.
+
