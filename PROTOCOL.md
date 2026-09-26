@@ -18,7 +18,7 @@ Rules from the first file:
 2. Report strategy gaps in sure / unsure bins.
 3. Wider hinge threshold on high $u$. Quiet on mush is not honesty.
 4. Topic probe still has to fail on the same vectors. Official number on vectors is leave-one-out cosine / held-out. Official number on **1-d scores** is `loo_l2_acc` (cosine on a scalar keeps only the sign).
-5. Paraphrase still required for a language gap.
+5. Paraphrase still required for a language gap. `data/pairs_paraphrase.jsonl` must cover every topic in the fit file. Do not score a high-$u$ mush row in the same bin as $u\le 0.2$.
 6. A held-out cell (action 2, or an unprinted sentence) is a map pin the walk did not occupy. Evading into that cell is not leaving the map.
 7. Search $r_{\mathrm{strat}}$ here. Superposition packing fights a clean split. The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). Do not put $z$ in a loss.
 8. Same model as actor and judge is one walk. Do not train the hinge on those scores. Do not fill $D$ from them. A *second* judge is a different model later. Do not implement that as Qwen-vs-Qwen.
@@ -27,6 +27,19 @@ Rules from the first file:
 11. **`reply_kind`.** Optional field on a *generated reply*, not on the pair tag:
     `{truth, contradict, evade, refuse, insufficient}`.
     Keep it separate from assigned strategy. If the field is missing, print only `frac_contradict` (if you have a fact string) and `agree_assigned_strategy`. Do **not** print `fact_sign_acc` or a deception rate.
+
+## Fit / transfer files (2026-09-26)
+
+- Fit: `data/pairs_wide.jsonl` — 8 topics (invoices, hiking, repairs, cooking, taxes, pets, travel, neighbors). Each topic has 3 deceptive + 3 honest notes.
+- Transfer: `data/pairs_paraphrase.jsonl` — same 8 topics, 2 deceptive + 2 honest each. No mush row.
+- Tags are observations. Do not put them in $L_{\mathrm{total}}$.
+
+Rerun after a data change:
+
+```bash
+python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
+  --permute 20000 --transfer data/pairs_paraphrase.jsonl
+```
 
 ## What to report
 
@@ -41,7 +54,7 @@ A run that only prints $L_{\mathrm{reg}}\downarrow$ is incomplete. Log these fou
 
 Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists on the replies.
 
-Latest contrast (2026-09-23): plan gap 0.026, topic L2 0.31. That is a fail on plan, weak topic leftover.
+P0 layer-8 (2026-09-26, 6-topic fit): plan gap 0.0657, topic L2 0.17, within-topic $p=0$. Transfer gap 0.0268, $p=0.10$ on a 3-topic paraphrase file. Hint kept. Camera killed. Do not fill $D$. Rerun on the 8-topic files before claiming the paraphrase kill is stable.
 
 Pass / fail for a camera (same scoreboard):
 
