@@ -2,9 +2,62 @@
 
 Do not collapse attempts.
 
+## P0b — 8-topic layer-8 + full paraphrase — 2026-09-26 22:47 EEST
+
+Same command on the widened files. Topic L2 line was off the photo; paste it if you still have scrollback. Eight-way chance is 0.125.
+Do not fill D.
+
+### Fit on `pairs_wide.jsonl` (n=48, 8 topics)
+
+```
+fit gap_dec_minus_hon=0.1045
+within_topic_perm N=20000 p=0.0000 n_ge=0
+per-topic LOTO gaps:
+  cooking    +0.1205
+  hiking     +0.0113
+  invoices   +0.0428
+  neighbors  +0.1673
+  pets       +0.1009
+  repairs    +0.1222
+  taxes      +0.1076
+  travel     +0.1633
+```
+
+### Transfer on 8-topic `pairs_paraphrase.jsonl` (n=32, 2+2 each, no mush)
+
+```
+transfer gap_dec_minus_hon=0.1084  dec=0.1021  hon=-0.0063  n_dec=16 n_hon=16
+within_topic_perm N=20000 p=0.0000 n_ge=0
+per-topic LOTO gaps:
+  cooking    +0.1293
+  hiking     +0.0402
+  invoices   -0.0012
+  neighbors  +0.1714
+  pets       +0.1238
+  repairs    +0.0925
+  taxes      +0.1197
+  travel     +0.1920
+```
+
+### Verdict vs P0
+
+The 3-topic paraphrase kill does **not** survive the wider file. Transfer gap matches fit (0.108 vs 0.105). Both permutation tests are 0/20000.
+
+Still not a camera:
+
+- Hiking stays near zero on fit (+0.011).
+- Invoices transfer dies (-0.001).
+- Travel and neighbors, which I just wrote, are the loudest rooms.
+- Topic L2 on the 8-topic scalar is not in this photo.
+- Paraphrase twins are close in template to the fit notes.
+
+Keep as a stronger hint. Do not freeze r. Do not fill D. Do not train the hinge.
+
+Need from scrollback: `topic_loo_l2_on_scalar` on the 8-topic fit.
+
 ## P0 — kill or keep the layer-8 hint — 2026-09-26 22:39 EEST
 
-4070 run (`rh-venv`, `pair_contrast.py --layer 8 --pool last --permute 20000 --transfer data/pairs_paraphrase.jsonl`).
+4070 run on the *old* 6-topic files (3-topic paraphrase + mush hiking row).
 Do not fill D.
 
 ### Fit on `pairs_wide.jsonl` (n=36, 6 topics)
@@ -22,50 +75,22 @@ per-topic LOTO gaps:
   taxes    +0.0949
 ```
 
-Official topic gate at six-way chance. In-sample plan gap is not a within-topic shuffle accident. Hiking is still ~0. Repairs / taxes / cooking / pets carry it.
-
-### Transfer on `pairs_paraphrase.jsonl` (v from wide, 3 topics + one mush hiking line)
+### Transfer on old paraphrase (3 topics + mush)
 
 ```
 transfer gap_dec_minus_hon=0.0268  dec=0.0254  hon=-0.0015  n_dec=7 n_hon=6
 within_topic_perm N=20000 p=0.1006 n_ge=2012
-per-topic LOTO gaps:
-  hiking   +0.0322 n=5
-  invoices +0.0017 n=4
-  repairs  +0.0533 n=4
 ```
 
-Gap halves. Invoices dies. Repairs still carries. p=0.10 fails the paraphrase gate.
-
-### Verdict
-
-Keep as a **hint**. Kill as a **camera**.
-
-- Pass: topic L2 chance on the fit scalar.
-- Pass: in-sample permutation (p < 1/20000).
-- Fail: paraphrase hold.
-- Fail: uniform plan residue (hiking ~0).
-
-Do not freeze r. Do not fill D. Do not train the hinge on this v.
+That kill was file-size, not a law. Superseded as a paraphrase verdict by P0b. Hiking ~0 still holds.
 
 ### Last-layer control on published LOTO scalars (overnight 2026-09-20)
 
-Same 36 rows, last hidden state. Not layer 8.
-
 ```
-gap_dec_minus_hon=0.0259  dec=-0.0017  hon=-0.0277  n=36
-within_topic_perm N=20000 p=0.3240
-global_perm N=20000 p=0.4149
-per-topic LOTO gaps:
-  cooking  +0.0088
-  hiking   +0.0422
-  invoices +0.0145
-  pets     -0.0423
-  repairs  +0.0604
-  taxes    +0.0720
+gap_dec_minus_hon=0.0259  within_topic_perm p=0.3240
 ```
 
-Last-layer gap 0.026 is noise. Pets has the wrong sign.
+Last-layer gap 0.026 is noise.
 
 ## Contrast layer sweep — 2026-09-23 night
 
@@ -82,18 +107,11 @@ Last-token LOTO `v`, n=36, 6 topics. Official topic gate = L2 on the scalar.
 | -1 mean | 0.030 | 0.22 |
 | 16 mean | 0.002 | 1.00 |
 
-Layer 8: topic chance; gap from repairs/cooking/pets; hiking ~0.
-Layer 16: loudest gap; leftover topic; same three topics carry it.
-Layer 12: topic bump, not a midpoint.
 None of these is a camera. Do not fill D.
 
 ## Contrast scalar LOTO — 2026-09-23 20:20
 
-`--pool last --layer -1`
-
-```
-gap_dec_minus_hon=0.0260  topic_loo_l2_on_scalar=0.31
-```
+`--pool last --layer -1` gap=0.0260 topic L2=0.31.
 
 ## Contrast mean-pool last layer — 21:49
 
@@ -105,18 +123,11 @@ gap_dec_minus_hon=0.0260  topic_loo_l2_on_scalar=0.31
 
 ## Contrast last-token early layer — 21:54
 
-`--pool last --layer 8` gap=0.0657 topic L2=0.17 lstsq=0.28. Official topic chance. Plan tiny. Not D.
+`--pool last --layer 8` gap=0.0657 topic L2=0.17 lstsq=0.28.
 
 ## Contrast last-token late layer — 21:55
 
-`--pool last --layer 24`
-
-```
-mean s_v deceptive=-0.0324 honest=-0.0589 gap_dec_minus_hon=0.0265
-topic_lstsq_on_scalar=0.31 topic_loo_cos_on_scalar=0.20 topic_loo_l2_on_scalar=0.31
-```
-
-Looks like last layer. Topic back. Fail.
+`--pool last --layer 24` gap=0.0265 topic L2=0.31. Fail.
 
 ## Contrast mean-pool mid layer — 21:52
 
@@ -141,8 +152,8 @@ notes chat gap 11.46 agree 0.92. generated chat gap 6.46 agree 0.58.
 
 ## Contrast last-token layer 4 — 22:08
 
-`--pool last --layer 4` gap=0.0438 topic L2=0.25. Weaker than 8. Fail.
+`--pool last --layer 4` gap=0.0438 topic L2=0.25. Fail.
 
 ## Contrast last-token layer 12 — 22:09
 
-`--pool last --layer 12` gap=0.0581 topic L2=0.39. Topic worse than neighbors. Fail.
+`--pool last --layer 12` gap=0.0581 topic L2=0.39. Fail.
