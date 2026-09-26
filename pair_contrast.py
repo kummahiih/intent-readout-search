@@ -3,6 +3,7 @@
 
 --pool last|mean|siren|kstep|mid3
 --in-room: score topic T with v_T from T. Not LOTO.
+--held-in-topic: fit v_T on all-but-one pair, score the held pair.
 --only-topics: keep these rooms only.
 """
 
@@ -197,6 +198,72 @@ def score_group(paired_src, v_of, hid, title, loto_from, in_room=False):
     return scores, topic_scores, (scalars, r_topics)
 
 
+def held_in_topic_block(paired, hid, v_full, permute):
+    """Fit v_T on all-but-one pair; score the held pair. LOTO uses other topics' full v."""
+    print("held-in-topic: fit v_T on remaining pairs, score held 1+1. split=bank|eval unused.")
+    inroom_ts = defaultdict(list)
+    loto_ts = defaultdict(list)
+    scalars, r_topics = [], []
+    inroom_scores, loto_scores = [], []
+    for t, g in sorted(paired.items()):
+        dec = list(g["deceptive"])
+        hon = list(g["honest"])
+        n = min(len(dec), len(hon))
+        if n < 2:
+            print(f"  topic={t} skip held-in-topic need >=2+2 got {len(dec)}+{len(hon)}")
+            continue
+        others = [v_full[u] for u in paired if u != t and float(v_full[u].norm()) > 0]
+        v_loto = (
+            F.normalize(torch.stack(others).mean(0), dim=0) if others else None
+        )
+        for i in range(n):
+            fit_d = [r for j, r in enumerate(dec) if j != i]
+            fit_h = [r for j, r in enumerate(hon) if j != i]
+            v = torch.stack([hid[id(r)] for r in fit_d]).mean(0) - torch.stack(
+                [hid[id(r)] for r in fit_h]
+            ).mean(0)
+            if float(v.norm()) <= 0:
+                print(f"  skip {t} fold={i}: zero v")
+                continue
+            v = F.normalize(v, dim=0)
+            for strat, row in (("deceptive", dec[i]), ("honest", hon[i])):
+                s = cosine(hid[id(row)], v)
+                print(f"  held_inroom fold={i} topic={t} strategy={strat} s_v={s:.4f}")
+                inroom_ts[t].append((strat, s))
+                inroom_scores.append((strat, s))
+                scalars.append(torch.tensor([s]))
+                r_topics.append(t)
+                if v_loto is None:
+                    continue
+                sl = cosine(hid[id(row)], v_loto)
+                print(f"  held_loto fold={i} topic={t} strategy={strat} s_v={sl:.4f}")
+                loto_ts[t].append((strat, sl))
+                loto_scores.append((strat, sl))
+    if not inroom_scores:
+        print("ERROR: no held-in-topic scores", file=sys.stderr)
+        return
+    gap_ir = report_gap(inroom_scores, "held_inroom")
+    per_topic_gaps(inroom_ts, "per-topic held_inroom gaps")
+    if gap_ir is not None and permute > 0:
+        permute_p(inroom_ts, gap_ir, permute)
+    if loto_scores:
+        gap_lo = report_gap(loto_scores, "held_loto")
+        per_topic_gaps(loto_ts, "per-topic held_loto gaps")
+        if gap_lo is not None and permute > 0:
+            permute_p(loto_ts, gap_lo, permute)
+    if scalars:
+        acc_lstsq, tnames = topic_acc(scalars, r_topics)
+        print(
+            f"held_topic_lstsq_on_scalar={acc_lstsq:.2f} "
+            f"held_topic_loo_cos_on_scalar={loo_centroid_acc(scalars, r_topics):.2f} "
+            f"held_topic_loo_l2_on_scalar={loo_l2_acc(scalars, r_topics):.2f} "
+            f"n={len(scalars)} topics={tnames}"
+        )
+        print("Official topic gate on held scalars is held_topic_loo_l2_on_scalar.")
+        print(f"held-way chance is {1.0 / max(len(tnames), 1):.3f}.")
+    print("held-in-topic is a diagnostic. Not a fifth freeze gate. Do not fill D.")
+
+
 def mean_meta(rows, key):
     xs = [m[key] for m in rows if key in m]
     return sum(xs) / len(xs) if xs else float("nan")
@@ -217,6 +284,11 @@ def main():
     p.add_argument("--hold-topics", default="")
     p.add_argument("--only-topics", default="", help="comma topics to keep")
     p.add_argument("--in-room", action="store_true", help="score T with v_T, not LOTO")
+    p.add_argument(
+        "--held-in-topic",
+        action="store_true",
+        help="2+2 fit / 1+1 hold inside each topic; print held_inroom and held_loto",
+    )
     p.add_argument("--siren-t", type=float, default=1.0)
     p.add_argument("--siren-steps", type=int, default=80)
     p.add_argument("--siren-hidden", type=int, default=16)
@@ -234,7 +306,7 @@ def main():
     hold = {t.strip() for t in args.hold_topics.split(",") if t.strip()}
     kept = {t: g for t, g in paired.items() if t not in hold}
     held = {t: g for t, g in paired.items() if t in hold}
-    need_kept = 1 if args.in_room else 2
+    need_kept = 1 if args.in_room or args.held_in_topic else 2
     if len(kept) < need_kept:
         print(f"ERROR: need >={need_kept} kept topics with both strategies", file=sys.stderr)
         sys.exit(1)
@@ -248,12 +320,15 @@ def main():
     )
     print(
         f"layer={args.layer} pool={args.pool} in_room={args.in_room} "
+        f"held_in_topic={args.held_in_topic} "
         f"only_topics={sorted(only) or 'all'} hold_topics={sorted(hold) or 'none'} "
         f"siren_t={args.siren_t} siren_steps={args.siren_steps} kstep_k={args.kstep_k}"
     )
     print(f"kept_topics={sorted(kept)} held_topics={sorted(held)}")
     if args.in_room:
         print("in-room: score T with v_T. Not LOTO. Topic L2 is off.")
+    if args.held_in_topic:
+        print("held-in-topic: within-room hold. Diagnostic, not a freeze voter.")
     if args.pool == "siren":
         print("SIREN r is f(t). theta not in L. Do not fill D from theta.")
     if args.pool == "kstep":
@@ -383,6 +458,8 @@ def main():
     per_topic_gaps(topic_scores, "per-topic in-room gaps" if args.in_room else "per-topic LOTO gaps")
     if args.permute > 0:
         permute_p(topic_scores, gap, args.permute)
+    if args.held_in_topic:
+        held_in_topic_block(kept, hid, v_of, args.permute)
     if held:
         h_scores, h_topic_scores, _ = score_group(
             held, v_of, hid, "fit_held", kept, in_room=args.in_room
