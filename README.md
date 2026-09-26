@@ -8,12 +8,11 @@ The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuris
 
 Layer-8 last-token LOTO contrast is a **hint**, not $r_{\mathrm{strat}}$.
 
-- 6-topic: gap 0.066, topic L2 **0.17**, $p=0$.
 - 8-topic: gap 0.105, topic L2 **0.06**, paraphrase $p=0$.
-- Hold travel/neighbors out of $v$: kept gap 0.066; held gap **0.149** $p=0.005$. Transfer of the six old rooms $p=0.0003$. Held paraphrase $p=0.056$ (n=8).
-- Last layer on the same 8-topic files: gap 0.029, topic L2 0.23, paraphrase $p=0.25$. Fail.
-- Hiking fit ~0. Invoices transfer ~0. Wipe and heads fail.
+- Hold travel/neighbors out of $v$: those rooms still separate (held 0.149, $p=0.005$).
+- Hold hiking/invoices out of $v$: original held gap 0.034 $p=0.10$. Rewritten voice file gap **-0.030** $p=0.31$.
+- Last layer on the same 8-topic files fails paraphrase ($p=0.25$).
 
-The new rooms were not the only source of the 8-topic gap. They still separate when they never enter $v$. That is not a license to freeze $r$: two hallways stay dead, notes share a template family, $\hat m$ is high-rank. Not reduced deception.
+Hiking and invoices are dead rooms, not a wording glitch. The hint lives in a subset of hallways that share a note family. Not a frozen $r$. Not reduced deception.
 
 Numbers: [results/README.md](results/README.md). Rules: [PROTOCOL.md](PROTOCOL.md).
