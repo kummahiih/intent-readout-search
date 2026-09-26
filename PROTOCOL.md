@@ -27,14 +27,51 @@ Rules from the first file:
 11. **`reply_kind`.** Optional field on a *generated reply*, not on the pair tag:
     `{truth, contradict, evade, refuse, insufficient}`.
     Keep it separate from assigned strategy. If the field is missing, print only `frac_contradict` (if you have a fact string) and `agree_assigned_strategy`. Do **not** print `fact_sign_acc` or a deception rate.
+12. **Genre.** A freeze-gate transfer file must keep the bank speech act (`User asked` / `I will`). Office-log / radio / trail-desk is a different walk. It may be logged. It does not vote.
 
-## Fit / transfer files (2026-09-26)
+## Voter set (2026-09-27)
 
-- Fit: `data/pairs_wide.jsonl` — 8 topics (invoices, hiking, repairs, cooking, taxes, pets, travel, neighbors). Each topic has 3 deceptive + 3 honest notes.
-- Transfer: `data/pairs_paraphrase.jsonl` — same 8 topics, 2 deceptive + 2 honest each. No mush row.
+A **voter** is a (model, depth, pool, room, file) cell that may count toward freeze. Diagnostics that are not voters stay in the ledger.
+
+**In (may vote)**
+
+| File | Rooms | Frame | Role |
+| --- | --- | --- | --- |
+| `data/pairs_wide.jsonl` | 8 topics, 3+3 each | bank (`User asked` / `I will`) | fit |
+| `data/pairs_paraphrase.jsonl` | 8 topics, 2+2 each | same speech act, reworded | transfer |
+| `data/pairs_frame.jsonl` | travel, neighbors only, 3+3 | bank syntax + `Desk note:` | transfer, prefix control |
+
+Models: Qwen2.5-7B layer 8, Mistral-7B layer 9. Pools last / kstep / siren / mid3 are **one arrow**. Report last-token as the official pool. The others are logs.
+
+**Out (do not vote)**
+
+| File or object | Why |
+| --- | --- |
+| `data/pairs_voice.jsonl` (hiking, invoices) | log/radio genre; LOTO dead |
+| `data/pairs_voice_loud.jsonl` (travel, neighbors) | same genre; LOTO Qwen 0.004 / Mistral 0.036 |
+| last layer | topic L2 leftover |
+| SIREN $\theta$ | plan L2 $\approx$ topic L2 |
+| $\hat m$ | cap 6 on every 6-note room |
+| SAE latents | not through these gates; not in $L$ |
+
+**In-room $v_T$** is a diagnosis, not a freeze voter. It asks whether a room contains a pair. Hiking-voice failed that. Hiking-paraphrase did not.
+
+**Holes in the set**
+
+- Paraphrase rows have no `fact` field. Wide / voice / frame do.
+- Frame covers only 2 of 8 rooms.
+- `split=bank|eval` is stored and unused: $v$ is fit on all 3+3 notes.
+- cooking, repairs, taxes, pets have no prefix control.
+- $n$ per room is 3+3 fit / 2+2 paraphrase. Permutation $p$ on a single room is coarse.
+
+Pass / fail for a camera still needs all four: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. Do not fill $D$.
+
+## Fit / transfer files
+
+- Fit: `data/pairs_wide.jsonl`.
+- Official transfer: `data/pairs_paraphrase.jsonl`.
+- Prefix control: `data/pairs_frame.jsonl` (travel, neighbors).
 - Tags are observations. Do not put them in $L_{\mathrm{total}}$.
-
-Rerun after a data change:
 
 ```bash
 python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
@@ -54,8 +91,6 @@ A run that only prints $L_{\mathrm{reg}}\downarrow$ is incomplete. Log these fou
 
 Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists on the replies.
 
-P0 layer-8 (2026-09-26, 6-topic fit): plan gap 0.0657, topic L2 0.17, within-topic $p=0$. Transfer gap 0.0268, $p=0.10$ on a 3-topic paraphrase file. Hint kept. Camera killed. Do not fill $D$. Rerun on the 8-topic files before claiming the paraphrase kill is stable.
-
 Pass / fail for a camera (same scoreboard):
 
 - Pass: plan / stall transfers leave-one-topic-out.
@@ -69,6 +104,7 @@ Pass / fail for a camera (same scoreboard):
 - Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
 - Fail: calling last-token equality a path camera.
 - Fail: printing accuracy when `reply_kind` is absent.
+- Fail: counting office-log / radio voice as paraphrase.
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
