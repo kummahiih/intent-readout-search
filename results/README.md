@@ -2,22 +2,15 @@
 
 Do not collapse attempts. Put new logs in this folder.
 
-Root logs still to move:
+## P0p — within-topic hold — 2026-09-27 01:55 EEST
 
-```bash
-git mv tests-loto-frame8-2026-09-27.log results/
-git mv tests-hiking-rewrite-2026-09-27.log results/
-```
+Log: `results/tests-held-in-topic-2026-09-27.log`.
+`held_loto` equals reuse LOTO (same v). New number is `held_inroom` (2+2 fit, 1+1 hold).
 
-## P0o — hiking lexical rewrite — 2026-09-27 01:09 EEST
+| | reuse / held LOTO hiking | held_inroom hiking | held_inroom travel | held topic L2 |
+| --- | --- | --- | --- | --- |
+| Qwen L8 | **0.013** | **0.203** | 0.120 | 0.29 |
+| Mistral L9 | 0.069 | **0.278** | 0.135 | 0.23 |
 
-Qwen hiking LOTO **0.013 / 0.009 / 0.016**. Mistral 0.069 / 0.052 / 0.070.
-Fail: axis is not outdoor-route general on Qwen. Keep hiking in the set.
-
-## P0n — 8-topic Desk-note frame
-
-Qwen transfer 0.102 topic L2 0.06. Mistral 0.125 / 0.12. Prefix is a voter.
-
-## P0l — voice genre
-
-LOTO held Qwen 0.004 / Mistral 0.036. Out of the voter set.
+Hiking is not an empty room. Its pair does not join the shared axis.
+held topic L2 is on in-room scalars (own $v_T$). Official topic gate stays LOTO L2 (0.10 / 0.08).
