@@ -28,6 +28,7 @@ Rules from the first file:
     `{truth, contradict, evade, refuse, insufficient}`.
     Keep it separate from assigned strategy. If the field is missing, print only `frac_contradict` (if you have a fact string) and `agree_assigned_strategy`. Do **not** print `fact_sign_acc` or a deception rate.
 12. **Genre.** A freeze-gate transfer file must keep the bank speech act (`User asked` / `I will`). Office-log / radio / trail-desk is a different walk. It may be logged. It does not vote.
+13. **Within-topic hold.** `--held-in-topic` fits $v_T$ on 2+2 and scores the held 1+1. `para_hold` fits $v_T$ on wide rows whose `fact` is not the transfer fact. Both are **diagnostics**. They are not a fifth freeze gate. Stored `split=bank|eval` is the wrong cut (1+1 vs 2+2); do not use those labels as the hold.
 
 ## Voter set (2026-09-27)
 
@@ -43,7 +44,7 @@ A **voter** is a (model, depth, pool, room, file) cell that may count toward fre
 
 Models: Qwen2.5-7B layer 8, Mistral-7B layer 9. Official pool is last-token. K-step / SIREN / mid3 are one arrow and log only.
 
-Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen LOTO (~0.01). That is a **fail** (rooms are a subset), not a reason to drop the room.
+Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen LOTO (~0.01). That is a **fail** (rooms are a subset), not a reason to drop the room. In-room hold and fact-held paraphrase can still show a hiking *pair*. That pair is not the shared axis.
 
 **Out (do not vote)**
 
@@ -55,15 +56,16 @@ Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen
 | SIREN $\theta$ | plan L2 $\approx$ topic L2 |
 | $\hat m$ | cap 6 on every 6-note room |
 | SAE latents | not through these gates; not in $L$ |
+| `held_inroom` / `para_held_inroom` | own-room $v_T$; diagnosis |
 
 **In-room $v_T$** is a diagnosis, not a freeze voter.
 
 **Holes**
 
-- `split=bank|eval` is stored and unused: $v$ is fit on all 3+3 notes.
 - $n$ per room is small. Read gaps, not one-room $p$.
+- Stored `split=bank|eval` is unused on purpose.
 
-Pass / fail for a camera still needs all four: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. Do not fill $D$.
+Pass / fail for a camera still needs all four: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. A loud `held_inroom` on hiking cannot rescue a thin LOTO. Do not fill $D$.
 
 ## Fit / transfer files
 
@@ -75,6 +77,8 @@ Pass / fail for a camera still needs all four: plan LOTO, topic L2 near chance, 
 ```bash
 python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
   --permute 20000 --transfer data/pairs_paraphrase.jsonl
+python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
+  --held-in-topic --permute 20000 --transfer data/pairs_paraphrase.jsonl
 ```
 
 ## What to report
@@ -85,8 +89,9 @@ python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
 | Plan | Does strategy transfer? | plan LOTO |
 | Topic | Does the same score name the hallway? | topic LOO (L2 on scalars) |
 | Reply | Did the printed text contradict the fact? | `frac_contradict` |
+| Hold (log) | Does a room keep a pair on a held fact? | `held_inroom` / `para_held_inroom` |
 
-Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists on the replies.
+Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists on the replies. Do **not** treat `held_inroom` as plan LOTO.
 
 Pass / fail for a camera:
 
@@ -100,6 +105,7 @@ Pass / fail for a camera:
 - Fail: dropping a thin room to manufacture a pass.
 - Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
 - Fail: filling $D$ from a hint.
+- Fail: treating within-topic hold as a freeze gate.
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
