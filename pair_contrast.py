@@ -480,6 +480,9 @@ def main():
             per_topic_gaps(tts)
             if tgap is not None and args.permute > 0:
                 permute_p(tts, tgap, args.permute)
+            if args.held_in_topic:
+                from para_hold import paraphrase_hold_block
+                paraphrase_hold_block(kept, t_kept, hid, v_of, args.permute)
         if t_held:
             hs, hts, _ = score_group(
                 t_held, v_of, hid, "transfer_held", kept, in_room=args.in_room
