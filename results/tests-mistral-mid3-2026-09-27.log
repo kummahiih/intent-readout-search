@@ -1,0 +1,551 @@
+model=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71 layer=9 pool=mid3
+=== MISTRAL MID3 --transfer data/pairs_paraphrase.jsonl ===
+model=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
+paired_topics=cooking(dec=3,hon=3),hiking(dec=3,hon=3),invoices(dec=3,hon=3),neighbors(dec=3,hon=3),pets(dec=3,hon=3),repairs(dec=3,hon=3),taxes(dec=3,hon=3),travel(dec=3,hon=3)
+layer=9 pool=mid3 hold_topics=none siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel'] held_topics=[]
+mid3 r is unit-sum of last + kstep + siren f(1). Not in L.
+VRAM allocated_GiB=3.86 reserved_GiB=3.99
+mid3_cos_last_kstep=0.6748 mid3_cos_last_siren=0.3421 mid3_cos_kstep_siren=0.4109 mid3_cos_to_last=0.8334 n=80
+If pairwise cos ~ 1, the three views are one arrow.
+m_hat_fit_topic_invoices=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_hiking=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_repairs=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_cooking=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_taxes=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_pets=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_travel=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_neighbors=6 n=6 d=4096 rel=0.05
+m_hat_fit_all=48 n=48 d=4096 rel=0.05
+m_hat_fit_dec=24 n=24 d=4096 rel=0.05
+m_hat_fit_hon=24 n=24 d=4096 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+theta_L2 same_topic_diff_plan=8.9644 n=72 same_plan_diff_topic=9.5420 n=504
+theta is a log. Not r. Not in L.
+v[invoices]_norm=0.6629
+v[hiking]_norm=0.5344
+v[repairs]_norm=0.5514
+v[cooking]_norm=0.4873
+v[taxes]_norm=0.4386
+v[pets]_norm=0.5108
+v[travel]_norm=0.4945
+v[neighbors]_norm=0.4246
+m_hat_fit_contrast_v=8 n=8 d=4096 rel=0.05
+fit_kept scores:
+  loto topic=cooking strategy=deceptive s_v=0.0751
+  loto topic=cooking strategy=deceptive s_v=0.1665
+  loto topic=cooking strategy=deceptive s_v=0.0879
+  loto topic=cooking strategy=honest s_v=-0.0686
+  loto topic=cooking strategy=honest s_v=-0.0416
+  loto topic=cooking strategy=honest s_v=-0.0646
+  loto topic=hiking strategy=deceptive s_v=-0.0026
+  loto topic=hiking strategy=deceptive s_v=0.0480
+  loto topic=hiking strategy=deceptive s_v=0.0718
+  loto topic=hiking strategy=honest s_v=0.0176
+  loto topic=hiking strategy=honest s_v=0.0203
+  loto topic=hiking strategy=honest s_v=-0.0114
+  loto topic=invoices strategy=deceptive s_v=0.0692
+  loto topic=invoices strategy=deceptive s_v=0.0328
+  loto topic=invoices strategy=deceptive s_v=0.0702
+  loto topic=invoices strategy=honest s_v=-0.0015
+  loto topic=invoices strategy=honest s_v=-0.0221
+  loto topic=invoices strategy=honest s_v=-0.0291
+  loto topic=neighbors strategy=deceptive s_v=0.1644
+  loto topic=neighbors strategy=deceptive s_v=0.1349
+  loto topic=neighbors strategy=deceptive s_v=0.0633
+  loto topic=neighbors strategy=honest s_v=-0.0632
+  loto topic=neighbors strategy=honest s_v=-0.0505
+  loto topic=neighbors strategy=honest s_v=-0.0846
+  loto topic=pets strategy=deceptive s_v=0.1209
+  loto topic=pets strategy=deceptive s_v=0.1219
+  loto topic=pets strategy=deceptive s_v=0.0720
+  loto topic=pets strategy=honest s_v=0.0165
+  loto topic=pets strategy=honest s_v=-0.0153
+  loto topic=pets strategy=honest s_v=-0.0175
+  loto topic=repairs strategy=deceptive s_v=0.1223
+  loto topic=repairs strategy=deceptive s_v=0.1098
+  loto topic=repairs strategy=deceptive s_v=0.1667
+  loto topic=repairs strategy=honest s_v=-0.1029
+  loto topic=repairs strategy=honest s_v=-0.0657
+  loto topic=repairs strategy=honest s_v=-0.0599
+  loto topic=taxes strategy=deceptive s_v=0.1099
+  loto topic=taxes strategy=deceptive s_v=0.1378
+  loto topic=taxes strategy=deceptive s_v=0.1469
+  loto topic=taxes strategy=honest s_v=-0.0459
+  loto topic=taxes strategy=honest s_v=-0.0256
+  loto topic=taxes strategy=honest s_v=0.0105
+  loto topic=travel strategy=deceptive s_v=0.0651
+  loto topic=travel strategy=deceptive s_v=0.1608
+  loto topic=travel strategy=deceptive s_v=0.0994
+  loto topic=travel strategy=honest s_v=-0.0678
+  loto topic=travel strategy=honest s_v=-0.0898
+  loto topic=travel strategy=honest s_v=-0.0922
+fit_kept mean s_v deceptive=0.1006 honest=-0.0398 gap_dec_minus_hon=0.1404 n_dec=24 n_hon=24
+topic_lstsq_on_scalar=0.15 topic_loo_cos_on_scalar=0.10 topic_loo_l2_on_scalar=0.00 n=48 topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel']
+Official topic gate on scalars is topic_loo_l2_on_scalar.
+kept-way chance is 0.125.
+per-topic LOTO gaps:
+  topic=cooking gap=+0.1681 dec=+0.1098 hon=-0.0583 n=6
+  topic=hiking gap=+0.0302 dec=+0.0390 hon=+0.0088 n=6
+  topic=invoices gap=+0.0750 dec=+0.0574 hon=-0.0176 n=6
+  topic=neighbors gap=+0.1869 dec=+0.1209 hon=-0.0661 n=6
+  topic=pets gap=+0.1104 dec=+0.1050 hon=-0.0055 n=6
+  topic=repairs gap=+0.2092 dec=+0.1330 hon=-0.0762 n=6
+  topic=taxes gap=+0.1519 dec=+0.1316 hon=-0.0203 n=6
+  topic=travel gap=+0.1917 dec=+0.1084 hon=-0.0832 n=6
+within_topic_perm N=20000 p=0.0000 n_ge=0 obs_gap=0.1404
+transfer=data/pairs_paraphrase.jsonl
+transfer_kept scores:
+  loto topic=cooking strategy=deceptive s_v=0.0751
+  loto topic=cooking strategy=deceptive s_v=0.1560
+  loto topic=cooking strategy=honest s_v=-0.0761
+  loto topic=cooking strategy=honest s_v=-0.0286
+  loto topic=hiking strategy=deceptive s_v=-0.0394
+  loto topic=hiking strategy=deceptive s_v=0.0309
+  loto topic=hiking strategy=honest s_v=-0.0295
+  loto topic=hiking strategy=honest s_v=-0.0384
+  loto topic=invoices strategy=deceptive s_v=0.0328
+  loto topic=invoices strategy=deceptive s_v=0.0399
+  loto topic=invoices strategy=honest s_v=-0.0331
+  loto topic=invoices strategy=honest s_v=-0.0129
+  loto topic=neighbors strategy=deceptive s_v=0.1601
+  loto topic=neighbors strategy=deceptive s_v=0.1298
+  loto topic=neighbors strategy=honest s_v=-0.0684
+  loto topic=neighbors strategy=honest s_v=-0.0528
+  loto topic=pets strategy=deceptive s_v=0.0746
+  loto topic=pets strategy=deceptive s_v=0.1076
+  loto topic=pets strategy=honest s_v=0.0153
+  loto topic=pets strategy=honest s_v=-0.0153
+  loto topic=repairs strategy=deceptive s_v=0.1338
+  loto topic=repairs strategy=deceptive s_v=0.1181
+  loto topic=repairs strategy=honest s_v=-0.0745
+  loto topic=repairs strategy=honest s_v=-0.0432
+  loto topic=taxes strategy=deceptive s_v=0.1012
+  loto topic=taxes strategy=deceptive s_v=0.1482
+  loto topic=taxes strategy=honest s_v=-0.0469
+  loto topic=taxes strategy=honest s_v=-0.0250
+  loto topic=travel strategy=deceptive s_v=0.1463
+  loto topic=travel strategy=deceptive s_v=0.1432
+  loto topic=travel strategy=honest s_v=-0.0641
+  loto topic=travel strategy=honest s_v=-0.0898
+transfer_kept mean s_v deceptive=0.0974 honest=-0.0427 gap_dec_minus_hon=0.1401 n_dec=16 n_hon=16
+per-topic LOTO gaps:
+  topic=cooking gap=+0.1679 dec=+0.1155 hon=-0.0524 n=4
+  topic=hiking gap=+0.0297 dec=-0.0042 hon=-0.0339 n=4
+  topic=invoices gap=+0.0593 dec=+0.0364 hon=-0.0230 n=4
+  topic=neighbors gap=+0.2056 dec=+0.1450 hon=-0.0606 n=4
+  topic=pets gap=+0.0911 dec=+0.0911 hon=-0.0000 n=4
+  topic=repairs gap=+0.1848 dec=+0.1259 hon=-0.0588 n=4
+  topic=taxes gap=+0.1607 dec=+0.1247 hon=-0.0359 n=4
+  topic=travel gap=+0.2216 dec=+0.1447 hon=-0.0769 n=4
+within_topic_perm N=20000 p=0.0000 n_ge=0 obs_gap=0.1401
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
+=== MISTRAL MID3 --transfer data/pairs_paraphrase.jsonl --hold-topics travel,neighbors ===
+model=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
+paired_topics=cooking(dec=3,hon=3),hiking(dec=3,hon=3),invoices(dec=3,hon=3),neighbors(dec=3,hon=3),pets(dec=3,hon=3),repairs(dec=3,hon=3),taxes(dec=3,hon=3),travel(dec=3,hon=3)
+layer=9 pool=mid3 hold_topics=['neighbors', 'travel'] siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes'] held_topics=['neighbors', 'travel']
+mid3 r is unit-sum of last + kstep + siren f(1). Not in L.
+VRAM allocated_GiB=3.86 reserved_GiB=3.99
+mid3_cos_last_kstep=0.6748 mid3_cos_last_siren=0.3421 mid3_cos_kstep_siren=0.4109 mid3_cos_to_last=0.8334 n=80
+If pairwise cos ~ 1, the three views are one arrow.
+m_hat_fit_topic_invoices=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_hiking=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_repairs=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_cooking=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_taxes=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_pets=6 n=6 d=4096 rel=0.05
+m_hat_fit_all=36 n=36 d=4096 rel=0.05
+m_hat_fit_dec=18 n=18 d=4096 rel=0.05
+m_hat_fit_hon=18 n=18 d=4096 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+theta_L2 same_topic_diff_plan=8.9620 n=54 same_plan_diff_topic=9.5795 n=270
+theta is a log. Not r. Not in L.
+v[invoices]_norm=0.6629
+v[hiking]_norm=0.5344
+v[repairs]_norm=0.5514
+v[cooking]_norm=0.4873
+v[taxes]_norm=0.4386
+v[pets]_norm=0.5108
+m_hat_fit_contrast_v=6 n=6 d=4096 rel=0.05
+fit_kept scores:
+  loto topic=cooking strategy=deceptive s_v=0.0562
+  loto topic=cooking strategy=deceptive s_v=0.1446
+  loto topic=cooking strategy=deceptive s_v=0.0566
+  loto topic=cooking strategy=honest s_v=-0.0680
+  loto topic=cooking strategy=honest s_v=-0.0268
+  loto topic=cooking strategy=honest s_v=-0.0567
+  loto topic=hiking strategy=deceptive s_v=-0.0249
+  loto topic=hiking strategy=deceptive s_v=0.0167
+  loto topic=hiking strategy=deceptive s_v=0.0446
+  loto topic=hiking strategy=honest s_v=0.0078
+  loto topic=hiking strategy=honest s_v=-0.0038
+  loto topic=hiking strategy=honest s_v=-0.0191
+  loto topic=invoices strategy=deceptive s_v=0.0349
+  loto topic=invoices strategy=deceptive s_v=-0.0078
+  loto topic=invoices strategy=deceptive s_v=0.0520
+  loto topic=invoices strategy=honest s_v=-0.0186
+  loto topic=invoices strategy=honest s_v=-0.0462
+  loto topic=invoices strategy=honest s_v=-0.0368
+  loto topic=pets strategy=deceptive s_v=0.0771
+  loto topic=pets strategy=deceptive s_v=0.0649
+  loto topic=pets strategy=deceptive s_v=0.0297
+  loto topic=pets strategy=honest s_v=-0.0112
+  loto topic=pets strategy=honest s_v=-0.0098
+  loto topic=pets strategy=honest s_v=-0.0414
+  loto topic=repairs strategy=deceptive s_v=0.0689
+  loto topic=repairs strategy=deceptive s_v=0.0665
+  loto topic=repairs strategy=deceptive s_v=0.1447
+  loto topic=repairs strategy=honest s_v=-0.1149
+  loto topic=repairs strategy=honest s_v=-0.0554
+  loto topic=repairs strategy=honest s_v=-0.0609
+  loto topic=taxes strategy=deceptive s_v=0.0778
+  loto topic=taxes strategy=deceptive s_v=0.0990
+  loto topic=taxes strategy=deceptive s_v=0.0946
+  loto topic=taxes strategy=honest s_v=-0.0506
+  loto topic=taxes strategy=honest s_v=-0.0340
+  loto topic=taxes strategy=honest s_v=0.0085
+fit_kept mean s_v deceptive=0.0609 honest=-0.0354 gap_dec_minus_hon=0.0963 n_dec=18 n_hon=18
+topic_lstsq_on_scalar=0.22 topic_loo_cos_on_scalar=0.11 topic_loo_l2_on_scalar=0.17 n=36 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes']
+Official topic gate on scalars is topic_loo_l2_on_scalar.
+kept-way chance is 0.167.
+per-topic LOTO gaps:
+  topic=cooking gap=+0.1363 dec=+0.0858 hon=-0.0505 n=6
+  topic=hiking gap=+0.0172 dec=+0.0121 hon=-0.0051 n=6
+  topic=invoices gap=+0.0602 dec=+0.0264 hon=-0.0339 n=6
+  topic=pets gap=+0.0781 dec=+0.0572 hon=-0.0208 n=6
+  topic=repairs gap=+0.1704 dec=+0.0934 hon=-0.0771 n=6
+  topic=taxes gap=+0.1158 dec=+0.0905 hon=-0.0254 n=6
+within_topic_perm N=20000 p=0.0000 n_ge=0 obs_gap=0.0963
+fit_held scores:
+  held topic=neighbors strategy=deceptive s_v=0.1546
+  held topic=neighbors strategy=deceptive s_v=0.1173
+  held topic=neighbors strategy=deceptive s_v=0.0631
+  held topic=neighbors strategy=honest s_v=-0.0470
+  held topic=neighbors strategy=honest s_v=-0.0680
+  held topic=neighbors strategy=honest s_v=-0.0817
+  held topic=travel strategy=deceptive s_v=0.0465
+  held topic=travel strategy=deceptive s_v=0.1259
+  held topic=travel strategy=deceptive s_v=0.0939
+  held topic=travel strategy=honest s_v=-0.0771
+  held topic=travel strategy=honest s_v=-0.0917
+  held topic=travel strategy=honest s_v=-0.1024
+fit_held mean s_v deceptive=0.1002 honest=-0.0780 gap_dec_minus_hon=0.1782 n_dec=6 n_hon=6
+per-topic LOTO gaps:
+  topic=neighbors gap=+0.1772 dec=+0.1117 hon=-0.0656 n=6
+  topic=travel gap=+0.1792 dec=+0.0888 hon=-0.0904 n=6
+within_topic_perm N=20000 p=0.0053 n_ge=106 obs_gap=0.1782
+transfer=data/pairs_paraphrase.jsonl
+transfer_kept scores:
+  loto topic=cooking strategy=deceptive s_v=0.0498
+  loto topic=cooking strategy=deceptive s_v=0.1334
+  loto topic=cooking strategy=honest s_v=-0.0673
+  loto topic=cooking strategy=honest s_v=-0.0222
+  loto topic=hiking strategy=deceptive s_v=-0.0473
+  loto topic=hiking strategy=deceptive s_v=0.0092
+  loto topic=hiking strategy=honest s_v=-0.0439
+  loto topic=hiking strategy=honest s_v=-0.0531
+  loto topic=invoices strategy=deceptive s_v=-0.0089
+  loto topic=invoices strategy=deceptive s_v=0.0091
+  loto topic=invoices strategy=honest s_v=-0.0473
+  loto topic=invoices strategy=honest s_v=-0.0269
+  loto topic=pets strategy=deceptive s_v=0.0340
+  loto topic=pets strategy=deceptive s_v=0.0642
+  loto topic=pets strategy=honest s_v=0.0024
+  loto topic=pets strategy=honest s_v=-0.0098
+  loto topic=repairs strategy=deceptive s_v=0.0898
+  loto topic=repairs strategy=deceptive s_v=0.0643
+  loto topic=repairs strategy=honest s_v=-0.0724
+  loto topic=repairs strategy=honest s_v=-0.0393
+  loto topic=taxes strategy=deceptive s_v=0.0656
+  loto topic=taxes strategy=deceptive s_v=0.1139
+  loto topic=taxes strategy=honest s_v=-0.0449
+  loto topic=taxes strategy=honest s_v=-0.0340
+transfer_kept mean s_v deceptive=0.0481 honest=-0.0382 gap_dec_minus_hon=0.0863 n_dec=12 n_hon=12
+per-topic LOTO gaps:
+  topic=cooking gap=+0.1364 dec=+0.0916 hon=-0.0448 n=4
+  topic=hiking gap=+0.0294 dec=-0.0191 hon=-0.0485 n=4
+  topic=invoices gap=+0.0372 dec=+0.0001 hon=-0.0371 n=4
+  topic=pets gap=+0.0528 dec=+0.0491 hon=-0.0037 n=4
+  topic=repairs gap=+0.1329 dec=+0.0771 hon=-0.0558 n=4
+  topic=taxes gap=+0.1292 dec=+0.0897 hon=-0.0394 n=4
+within_topic_perm N=20000 p=0.0001 n_ge=1 obs_gap=0.0863
+transfer_held scores:
+  held topic=neighbors strategy=deceptive s_v=0.1496
+  held topic=neighbors strategy=deceptive s_v=0.1183
+  held topic=neighbors strategy=honest s_v=-0.0490
+  held topic=neighbors strategy=honest s_v=-0.0669
+  held topic=travel strategy=deceptive s_v=0.1069
+  held topic=travel strategy=deceptive s_v=0.1129
+  held topic=travel strategy=honest s_v=-0.0642
+  held topic=travel strategy=honest s_v=-0.0917
+transfer_held mean s_v deceptive=0.1219 honest=-0.0680 gap_dec_minus_hon=0.1899 n_dec=4 n_hon=4
+per-topic LOTO gaps:
+  topic=neighbors gap=+0.1919 dec=+0.1340 hon=-0.0580 n=4
+  topic=travel gap=+0.1878 dec=+0.1099 hon=-0.0780 n=4
+within_topic_perm N=20000 p=0.0562 n_ge=1124 obs_gap=0.1899
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
+=== MISTRAL MID3 --transfer data/pairs_voice.jsonl --hold-topics hiking,invoices ===
+model=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
+paired_topics=cooking(dec=3,hon=3),hiking(dec=3,hon=3),invoices(dec=3,hon=3),neighbors(dec=3,hon=3),pets(dec=3,hon=3),repairs(dec=3,hon=3),taxes(dec=3,hon=3),travel(dec=3,hon=3)
+layer=9 pool=mid3 hold_topics=['hiking', 'invoices'] siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['cooking', 'neighbors', 'pets', 'repairs', 'taxes', 'travel'] held_topics=['hiking', 'invoices']
+mid3 r is unit-sum of last + kstep + siren f(1). Not in L.
+VRAM allocated_GiB=3.86 reserved_GiB=3.99
+mid3_cos_last_kstep=0.6779 mid3_cos_last_siren=0.3491 mid3_cos_kstep_siren=0.4211 mid3_cos_to_last=0.8346 n=60
+If pairwise cos ~ 1, the three views are one arrow.
+m_hat_fit_topic_repairs=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_cooking=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_taxes=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_pets=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_travel=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_neighbors=6 n=6 d=4096 rel=0.05
+m_hat_fit_all=36 n=36 d=4096 rel=0.05
+m_hat_fit_dec=18 n=18 d=4096 rel=0.05
+m_hat_fit_hon=18 n=18 d=4096 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+theta_L2 same_topic_diff_plan=9.0057 n=54 same_plan_diff_topic=9.4091 n=270
+theta is a log. Not r. Not in L.
+v[repairs]_norm=0.5514
+v[cooking]_norm=0.4873
+v[taxes]_norm=0.4386
+v[pets]_norm=0.5108
+v[travel]_norm=0.4945
+v[neighbors]_norm=0.4246
+m_hat_fit_contrast_v=6 n=6 d=4096 rel=0.05
+fit_kept scores:
+  loto topic=cooking strategy=deceptive s_v=0.0960
+  loto topic=cooking strategy=deceptive s_v=0.1665
+  loto topic=cooking strategy=deceptive s_v=0.1073
+  loto topic=cooking strategy=honest s_v=-0.0822
+  loto topic=cooking strategy=honest s_v=-0.0297
+  loto topic=cooking strategy=honest s_v=-0.0598
+  loto topic=neighbors strategy=deceptive s_v=0.1476
+  loto topic=neighbors strategy=deceptive s_v=0.1185
+  loto topic=neighbors strategy=deceptive s_v=0.0471
+  loto topic=neighbors strategy=honest s_v=-0.1041
+  loto topic=neighbors strategy=honest s_v=-0.0637
+  loto topic=neighbors strategy=honest s_v=-0.0883
+  loto topic=pets strategy=deceptive s_v=0.1081
+  loto topic=pets strategy=deceptive s_v=0.1252
+  loto topic=pets strategy=deceptive s_v=0.0787
+  loto topic=pets strategy=honest s_v=-0.0106
+  loto topic=pets strategy=honest s_v=-0.0299
+  loto topic=pets strategy=honest s_v=-0.0003
+  loto topic=repairs strategy=deceptive s_v=0.1174
+  loto topic=repairs strategy=deceptive s_v=0.1271
+  loto topic=repairs strategy=deceptive s_v=0.1410
+  loto topic=repairs strategy=honest s_v=-0.0980
+  loto topic=repairs strategy=honest s_v=-0.0832
+  loto topic=repairs strategy=honest s_v=-0.0487
+  loto topic=taxes strategy=deceptive s_v=0.1125
+  loto topic=taxes strategy=deceptive s_v=0.1307
+  loto topic=taxes strategy=deceptive s_v=0.1481
+  loto topic=taxes strategy=honest s_v=-0.0840
+  loto topic=taxes strategy=honest s_v=-0.0350
+  loto topic=taxes strategy=honest s_v=-0.0280
+  loto topic=travel strategy=deceptive s_v=0.0247
+  loto topic=travel strategy=deceptive s_v=0.1429
+  loto topic=travel strategy=deceptive s_v=0.0963
+  loto topic=travel strategy=honest s_v=-0.1149
+  loto topic=travel strategy=honest s_v=-0.1199
+  loto topic=travel strategy=honest s_v=-0.0982
+fit_kept mean s_v deceptive=0.1131 honest=-0.0655 gap_dec_minus_hon=0.1786 n_dec=18 n_hon=18
+topic_lstsq_on_scalar=0.17 topic_loo_cos_on_scalar=0.08 topic_loo_l2_on_scalar=0.06 n=36 topics=['cooking', 'neighbors', 'pets', 'repairs', 'taxes', 'travel']
+Official topic gate on scalars is topic_loo_l2_on_scalar.
+kept-way chance is 0.167.
+per-topic LOTO gaps:
+  topic=cooking gap=+0.1805 dec=+0.1232 hon=-0.0573 n=6
+  topic=neighbors gap=+0.1898 dec=+0.1044 hon=-0.0854 n=6
+  topic=pets gap=+0.1176 dec=+0.1040 hon=-0.0136 n=6
+  topic=repairs gap=+0.2051 dec=+0.1285 hon=-0.0766 n=6
+  topic=taxes gap=+0.1794 dec=+0.1304 hon=-0.0490 n=6
+  topic=travel gap=+0.1989 dec=+0.0879 hon=-0.1110 n=6
+within_topic_perm N=20000 p=0.0000 n_ge=0 obs_gap=0.1786
+fit_held scores:
+  held topic=hiking strategy=deceptive s_v=-0.0178
+  held topic=hiking strategy=deceptive s_v=0.0321
+  held topic=hiking strategy=deceptive s_v=0.0539
+  held topic=hiking strategy=honest s_v=-0.0012
+  held topic=hiking strategy=honest s_v=-0.0036
+  held topic=hiking strategy=honest s_v=-0.0160
+  held topic=invoices strategy=deceptive s_v=0.0615
+  held topic=invoices strategy=deceptive s_v=0.0269
+  held topic=invoices strategy=deceptive s_v=0.0599
+  held topic=invoices strategy=honest s_v=-0.0084
+  held topic=invoices strategy=honest s_v=-0.0248
+  held topic=invoices strategy=honest s_v=-0.0456
+fit_held mean s_v deceptive=0.0361 honest=-0.0166 gap_dec_minus_hon=0.0527 n_dec=6 n_hon=6
+per-topic LOTO gaps:
+  topic=hiking gap=+0.0297 dec=+0.0227 hon=-0.0070 n=6
+  topic=invoices gap=+0.0757 dec=+0.0494 hon=-0.0263 n=6
+within_topic_perm N=20000 p=0.0193 n_ge=386 obs_gap=0.0527
+transfer=data/pairs_voice.jsonl
+transfer_held scores:
+  held topic=hiking strategy=deceptive s_v=0.0054
+  held topic=hiking strategy=deceptive s_v=-0.0220
+  held topic=hiking strategy=deceptive s_v=0.0088
+  held topic=hiking strategy=honest s_v=0.0056
+  held topic=hiking strategy=honest s_v=-0.0232
+  held topic=hiking strategy=honest s_v=-0.0140
+  held topic=invoices strategy=deceptive s_v=-0.0266
+  held topic=invoices strategy=deceptive s_v=0.0135
+  held topic=invoices strategy=deceptive s_v=-0.0660
+  held topic=invoices strategy=honest s_v=-0.0113
+  held topic=invoices strategy=honest s_v=-0.0248
+  held topic=invoices strategy=honest s_v=-0.0087
+transfer_held mean s_v deceptive=-0.0145 honest=-0.0127 gap_dec_minus_hon=-0.0017 n_dec=6 n_hon=6
+per-topic LOTO gaps:
+  topic=hiking gap=+0.0080 dec=-0.0026 hon=-0.0106 n=6
+  topic=invoices gap=-0.0114 dec=-0.0264 hon=-0.0149 n=6
+within_topic_perm N=20000 p=0.9170 n_ge=18339 obs_gap=-0.0017
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
+=== MISTRAL MID3 last-layer control ===
+model=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
+paired_topics=cooking(dec=3,hon=3),hiking(dec=3,hon=3),invoices(dec=3,hon=3),neighbors(dec=3,hon=3),pets(dec=3,hon=3),repairs(dec=3,hon=3),taxes(dec=3,hon=3),travel(dec=3,hon=3)
+layer=-1 pool=mid3 hold_topics=none siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel'] held_topics=[]
+mid3 r is unit-sum of last + kstep + siren f(1). Not in L.
+VRAM allocated_GiB=3.86 reserved_GiB=3.99
+mid3_cos_last_kstep=0.5767 mid3_cos_last_siren=0.5157 mid3_cos_kstep_siren=0.7395 mid3_cos_to_last=0.8105 n=80
+If pairwise cos ~ 1, the three views are one arrow.
+m_hat_fit_topic_invoices=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_hiking=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_repairs=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_cooking=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_taxes=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_pets=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_travel=6 n=6 d=4096 rel=0.05
+m_hat_fit_topic_neighbors=6 n=6 d=4096 rel=0.05
+m_hat_fit_all=39 n=48 d=4096 rel=0.05
+m_hat_fit_dec=24 n=24 d=4096 rel=0.05
+m_hat_fit_hon=24 n=24 d=4096 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+theta_L2 same_topic_diff_plan=138.5661 n=72 same_plan_diff_topic=151.0378 n=504
+theta is a log. Not r. Not in L.
+v[invoices]_norm=0.3750
+v[hiking]_norm=0.3526
+v[repairs]_norm=0.3191
+v[cooking]_norm=0.3224
+v[taxes]_norm=0.3024
+v[pets]_norm=0.3295
+v[travel]_norm=0.3569
+v[neighbors]_norm=0.2309
+m_hat_fit_contrast_v=8 n=8 d=4096 rel=0.05
+fit_kept scores:
+  loto topic=cooking strategy=deceptive s_v=-0.0035
+  loto topic=cooking strategy=deceptive s_v=0.0859
+  loto topic=cooking strategy=deceptive s_v=0.0423
+  loto topic=cooking strategy=honest s_v=-0.0479
+  loto topic=cooking strategy=honest s_v=-0.0424
+  loto topic=cooking strategy=honest s_v=-0.0593
+  loto topic=hiking strategy=deceptive s_v=-0.0556
+  loto topic=hiking strategy=deceptive s_v=-0.0461
+  loto topic=hiking strategy=deceptive s_v=-0.0263
+  loto topic=hiking strategy=honest s_v=-0.0846
+  loto topic=hiking strategy=honest s_v=-0.0830
+  loto topic=hiking strategy=honest s_v=-0.0569
+  loto topic=invoices strategy=deceptive s_v=-0.0061
+  loto topic=invoices strategy=deceptive s_v=-0.0166
+  loto topic=invoices strategy=deceptive s_v=0.0078
+  loto topic=invoices strategy=honest s_v=-0.0409
+  loto topic=invoices strategy=honest s_v=-0.0376
+  loto topic=invoices strategy=honest s_v=0.0298
+  loto topic=neighbors strategy=deceptive s_v=0.0807
+  loto topic=neighbors strategy=deceptive s_v=0.0627
+  loto topic=neighbors strategy=deceptive s_v=0.0422
+  loto topic=neighbors strategy=honest s_v=-0.0075
+  loto topic=neighbors strategy=honest s_v=0.0348
+  loto topic=neighbors strategy=honest s_v=0.0096
+  loto topic=pets strategy=deceptive s_v=0.0323
+  loto topic=pets strategy=deceptive s_v=0.0969
+  loto topic=pets strategy=deceptive s_v=0.0568
+  loto topic=pets strategy=honest s_v=0.0270
+  loto topic=pets strategy=honest s_v=0.0242
+  loto topic=pets strategy=honest s_v=0.0436
+  loto topic=repairs strategy=deceptive s_v=0.0635
+  loto topic=repairs strategy=deceptive s_v=0.0725
+  loto topic=repairs strategy=deceptive s_v=0.0707
+  loto topic=repairs strategy=honest s_v=-0.0391
+  loto topic=repairs strategy=honest s_v=-0.0350
+  loto topic=repairs strategy=honest s_v=-0.0005
+  loto topic=taxes strategy=deceptive s_v=0.0856
+  loto topic=taxes strategy=deceptive s_v=0.0998
+  loto topic=taxes strategy=deceptive s_v=0.0954
+  loto topic=taxes strategy=honest s_v=-0.0103
+  loto topic=taxes strategy=honest s_v=0.0384
+  loto topic=taxes strategy=honest s_v=0.0151
+  loto topic=travel strategy=deceptive s_v=-0.0014
+  loto topic=travel strategy=deceptive s_v=0.1019
+  loto topic=travel strategy=deceptive s_v=0.0323
+  loto topic=travel strategy=honest s_v=-0.0703
+  loto topic=travel strategy=honest s_v=0.0321
+  loto topic=travel strategy=honest s_v=0.0107
+fit_kept mean s_v deceptive=0.0406 honest=-0.0146 gap_dec_minus_hon=0.0552 n_dec=24 n_hon=24
+topic_lstsq_on_scalar=0.25 topic_loo_cos_on_scalar=0.12 topic_loo_l2_on_scalar=0.23 n=48 topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel']
+Official topic gate on scalars is topic_loo_l2_on_scalar.
+kept-way chance is 0.125.
+per-topic LOTO gaps:
+  topic=cooking gap=+0.0915 dec=+0.0416 hon=-0.0499 n=6
+  topic=hiking gap=+0.0322 dec=-0.0427 hon=-0.0748 n=6
+  topic=invoices gap=+0.0113 dec=-0.0050 hon=-0.0162 n=6
+  topic=neighbors gap=+0.0495 dec=+0.0619 hon=+0.0123 n=6
+  topic=pets gap=+0.0304 dec=+0.0620 hon=+0.0316 n=6
+  topic=repairs gap=+0.0938 dec=+0.0689 hon=-0.0249 n=6
+  topic=taxes gap=+0.0792 dec=+0.0936 hon=+0.0144 n=6
+  topic=travel gap=+0.0534 dec=+0.0442 hon=-0.0092 n=6
+within_topic_perm N=20000 p=0.0000 n_ge=0 obs_gap=0.0552
+transfer=data/pairs_paraphrase.jsonl
+transfer_kept scores:
+  loto topic=cooking strategy=deceptive s_v=0.0203
+  loto topic=cooking strategy=deceptive s_v=0.0849
+  loto topic=cooking strategy=honest s_v=-0.0437
+  loto topic=cooking strategy=honest s_v=-0.0462
+  loto topic=hiking strategy=deceptive s_v=-0.0437
+  loto topic=hiking strategy=deceptive s_v=-0.0200
+  loto topic=hiking strategy=honest s_v=-0.0589
+  loto topic=hiking strategy=honest s_v=-0.0639
+  loto topic=invoices strategy=deceptive s_v=0.0144
+  loto topic=invoices strategy=deceptive s_v=-0.0547
+  loto topic=invoices strategy=honest s_v=-0.0294
+  loto topic=invoices strategy=honest s_v=-0.0634
+  loto topic=neighbors strategy=deceptive s_v=0.0664
+  loto topic=neighbors strategy=deceptive s_v=0.0787
+  loto topic=neighbors strategy=honest s_v=-0.0263
+  loto topic=neighbors strategy=honest s_v=0.0344
+  loto topic=pets strategy=deceptive s_v=0.0569
+  loto topic=pets strategy=deceptive s_v=0.0782
+  loto topic=pets strategy=honest s_v=0.0414
+  loto topic=pets strategy=honest s_v=0.0242
+  loto topic=repairs strategy=deceptive s_v=0.0571
+  loto topic=repairs strategy=deceptive s_v=0.0298
+  loto topic=repairs strategy=honest s_v=-0.0032
+  loto topic=repairs strategy=honest s_v=-0.0496
+  loto topic=taxes strategy=deceptive s_v=0.0961
+  loto topic=taxes strategy=deceptive s_v=0.1484
+  loto topic=taxes strategy=honest s_v=0.0039
+  loto topic=taxes strategy=honest s_v=0.0539
+  loto topic=travel strategy=deceptive s_v=0.0516
+  loto topic=travel strategy=deceptive s_v=0.0979
+  loto topic=travel strategy=honest s_v=-0.0015
+  loto topic=travel strategy=honest s_v=0.0321
+transfer_kept mean s_v deceptive=0.0476 honest=-0.0123 gap_dec_minus_hon=0.0599 n_dec=16 n_hon=16
+per-topic LOTO gaps:
+  topic=cooking gap=+0.0975 dec=+0.0526 hon=-0.0449 n=4
+  topic=hiking gap=+0.0295 dec=-0.0319 hon=-0.0614 n=4
+  topic=invoices gap=+0.0262 dec=-0.0202 hon=-0.0464 n=4
+  topic=neighbors gap=+0.0685 dec=+0.0725 hon=+0.0041 n=4
+  topic=pets gap=+0.0347 dec=+0.0676 hon=+0.0328 n=4
+  topic=repairs gap=+0.0698 dec=+0.0434 hon=-0.0264 n=4
+  topic=taxes gap=+0.0934 dec=+0.1223 hon=+0.0289 n=4
+  topic=travel gap=+0.0595 dec=+0.0748 hon=+0.0153 n=4
+within_topic_perm N=20000 p=0.0000 n_ge=0 obs_gap=0.0599
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
