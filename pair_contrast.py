@@ -2,13 +2,12 @@
 """Same-topic contrast camera.
 
 v_T = normalize(h_dec - h_hon) on topic T.
-Score the other topic with mean v of the other topics (LOTO).
-Official topic gate on the scalar s=h·v is LOO L2, not cosine.
-Tags build r only. Not z in a loss. Not a hinge. Not Amp.
+Official topic gate is LOO L2 on the scalar.
+Tags build r only. Not z in a loss. Not a hinge.
 
---pool last|mean|siren
-  siren fits a TinySiren on the layer path and uses f(--siren-t).
-  Default t=1 is the path end. theta is a log, not r.
+--pool last|mean|siren|kstep
+  siren: fit TinySiren, query f(--siren-t). theta is a log.
+  kstep: mean of last --kstep-k tokens. Settle, then look.
 """
 
 import argparse
@@ -22,6 +21,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+from kstep_path import kstep_query
 from siren_path import fit_and_query
 from source_count import report_mhat
 from topic_metrics import loo_centroid_acc, loo_l2_acc, topic_acc
@@ -201,17 +201,18 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--model", default="Qwen/Qwen2.5-7B-Instruct")
     p.add_argument("--data", default="data/pairs.jsonl")
-    p.add_argument("--transfer", default="", help="score this jsonl with v from --data")
+    p.add_argument("--transfer", default="")
     p.add_argument("--max-length", type=int, default=256)
-    p.add_argument("--layer", type=int, default=-1, help="hidden_states index; -1 last")
-    p.add_argument("--pool", choices=("last", "mean", "siren"), default="last")
-    p.add_argument("--permute", type=int, default=0, help="within-topic label shuffles")
+    p.add_argument("--layer", type=int, default=-1)
+    p.add_argument("--pool", choices=("last", "mean", "siren", "kstep"), default="last")
+    p.add_argument("--permute", type=int, default=0)
     p.add_argument("--mhat-rel", type=float, default=0.05)
-    p.add_argument("--hold-topics", default="", help="comma topics excluded from v")
-    p.add_argument("--siren-t", type=float, default=1.0, help="query time in [0,1]")
+    p.add_argument("--hold-topics", default="")
+    p.add_argument("--siren-t", type=float, default=1.0)
     p.add_argument("--siren-steps", type=int, default=80)
     p.add_argument("--siren-hidden", type=int, default=16)
     p.add_argument("--siren-lr", type=float, default=1e-2)
+    p.add_argument("--kstep-k", type=int, default=8, help="settle window in tokens")
     args = p.parse_args()
     if not torch.cuda.is_available():
         print("ERROR: CUDA required", file=sys.stderr)
@@ -224,6 +225,7 @@ def main():
     if len(kept) < 2:
         print("ERROR: need >=2 kept topics with both strategies", file=sys.stderr)
         sys.exit(1)
+    print(f"model={args.model}")
     print(
         "paired_topics="
         + ",".join(
@@ -233,11 +235,13 @@ def main():
     )
     print(
         f"layer={args.layer} pool={args.pool} hold_topics={sorted(hold) or 'none'} "
-        f"siren_t={args.siren_t} siren_steps={args.siren_steps}"
+        f"siren_t={args.siren_t} siren_steps={args.siren_steps} kstep_k={args.kstep_k}"
     )
     print(f"kept_topics={sorted(kept)} held_topics={sorted(held)}")
     if args.pool == "siren":
         print("SIREN r is f(t). theta not in L. Do not fill D from theta.")
+    if args.pool == "kstep":
+        print("K-step r is mean of last K tokens. Not theta. Not in L.")
     bnb = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.bfloat16,
@@ -267,6 +271,7 @@ def main():
     hid = {}
     theta = {}
     mses, coss = [], []
+    kcos = []
     with torch.no_grad():
         paths = {
             id(r): hidden_path(
@@ -288,6 +293,10 @@ def main():
             theta[id(r)] = th
             mses.append(mse)
             coss.append(cos_last)
+        elif args.pool == "kstep":
+            vec, cos_last, kk = kstep_query(path, k=args.kstep_k)
+            hid[id(r)] = vec
+            kcos.append(cos_last)
         else:
             hid[id(r)] = pooled_from_path(path, args.pool)
     if args.pool == "siren" and mses:
@@ -296,6 +305,11 @@ def main():
             f"siren_cos_to_last_mean={sum(coss)/len(coss):.4f} n={len(mses)}"
         )
         print("If cos_to_last ~ 1, f(1) is last-token in a wig. queryEnd_is_the_end.")
+    if args.pool == "kstep" and kcos:
+        print(
+            f"kstep_k={args.kstep_k} kstep_cos_to_last_mean={sum(kcos)/len(kcos):.4f} n={len(kcos)}"
+        )
+        print("If cos_to_last ~ 1, K-step is last-token in a wig.")
 
     def mean_h(items):
         return torch.stack([hid[id(r)] for r in items]).mean(0)
