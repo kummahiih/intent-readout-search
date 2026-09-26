@@ -2,20 +2,18 @@
 
 Do not collapse attempts.
 
-## P0j — in-room $v_T$ — 2026-09-27 00:28 EEST
+## P0k — hiking voice rewrite — 2026-09-27 00:36 EEST
 
-Score $T$ with $v_T$ from $T$. Not LOTO. `fit_kept` is circular. Read `transfer_kept`.
-n=2 or 3; permutation $p$ is coarse.
+Deceptive no longer confesses the rain-check. In-room transfer:
 
-| room | Qwen para | Qwen voice | Mistral para | Mistral voice |
-| --- | --- | --- | --- | --- |
-| hiking | 0.090 | **0.003** | 0.261 | **-0.008** |
-| invoices | 0.310 | 0.102 | 0.598 | 0.205 |
-| travel | 0.276 | — | 0.352 | — |
-| neighbors | 0.388 | — | 0.512 | — |
+| room | Qwen voice | Mistral voice |
+| --- | --- | --- |
+| hiking before | 0.003 | -0.008 |
+| hiking after | **0.045** $p=0.20$ | **0.121** $p=0.20$ |
+| invoices | 0.102 | 0.205 |
 
-Hiking voice dies on its *own* axis. That rewrite is not a strategy pair. Invoices own-$v$ paraphrase is loud; LOTO death was axis mismatch, not an empty room.
+Hiking moved and is still weak. Do not treat hiking-voice as a passing room. Invoices own-$v$ still the stronger thin pair.
 
-## P0i mid3 / P0h kstep / P0g Mistral / P0c Qwen last
+## P0j in-room paraphrase
 
-One mid-layer hint, two families. Voice hiking/invoices dead under LOTO. $\hat m$ capped at 6.
+hiking Qwen 0.090 / Mistral 0.261. invoices 0.310 / 0.598. travel 0.276 / 0.352. neighbors 0.388 / 0.512.
