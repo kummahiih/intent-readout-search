@@ -6,10 +6,9 @@ Score the other topic with mean v of the other topics (LOTO).
 Official topic gate on the scalar s=h·v is LOO L2, not cosine.
 Tags build r only. Not z in a loss. Not a hinge. Not Amp.
 
---hold-topics travel,neighbors
-  v is built only from the kept topics.
-  Kept topics use LOTO among kept.
-  Held topics are scored with mean v of all kept (OOD rooms).
+--pool last|mean|siren
+  siren fits a TinySiren on the layer path and uses f(--siren-t).
+  Default t=1 is the path end. theta is a log, not r.
 """
 
 import argparse
@@ -23,6 +22,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+from siren_path import fit_and_query
 from source_count import report_mhat
 from topic_metrics import loo_centroid_acc, loo_l2_acc, topic_acc
 
@@ -31,20 +31,21 @@ def load_rows(path):
     return [json.loads(l) for l in Path(path).read_text().splitlines() if l.strip()]
 
 
-def pooled_hidden(model, tokenizer, text, max_length, device, layer, pool):
+def hidden_path(model, tokenizer, text, max_length, device, layer):
     toks = tokenizer(
         text, return_tensors="pt", truncation=True, max_length=max_length
     )
     toks = {k: v.to(device) for k, v in toks.items()}
     out = model(**toks, output_hidden_states=True)
-    hs = out.hidden_states[layer][0].float()
+    return out.hidden_states[layer][0].float().cpu()
+
+
+def pooled_from_path(path, pool):
     if pool == "last":
-        h = hs[-1]
-    elif pool == "mean":
-        h = hs.mean(0)
-    else:
-        raise ValueError(pool)
-    return h.cpu()
+        return path[-1]
+    if pool == "mean":
+        return path.mean(0)
+    raise ValueError(pool)
 
 
 def cosine(a, b):
@@ -141,6 +142,30 @@ def log_mhat(prefix, paired, hid, rel):
     print(f"m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.")
 
 
+def log_theta(paired, theta):
+    same_topic = []
+    same_plan = []
+    topics = list(paired)
+    for t, g in paired.items():
+        for rd in g["deceptive"]:
+            for rh in g["honest"]:
+                if id(rd) in theta and id(rh) in theta:
+                    same_topic.append(float((theta[id(rd)] - theta[id(rh)]).norm()))
+    for i, t1 in enumerate(topics):
+        for t2 in topics[i + 1 :]:
+            for strat in ("deceptive", "honest"):
+                for a in paired[t1][strat]:
+                    for b in paired[t2][strat]:
+                        if id(a) in theta and id(b) in theta:
+                            same_plan.append(float((theta[id(a)] - theta[id(b)]).norm()))
+    if same_topic and same_plan:
+        print(
+            f"theta_L2 same_topic_diff_plan={sum(same_topic)/len(same_topic):.4f} n={len(same_topic)} "
+            f"same_plan_diff_topic={sum(same_plan)/len(same_plan):.4f} n={len(same_plan)}"
+        )
+        print("theta is a log. Not r. Not in L.")
+
+
 def score_group(paired_src, v_of, hid, title, loto_from):
     scalars, r_topics, scores = [], [], []
     topic_scores = defaultdict(list)
@@ -179,14 +204,14 @@ def main():
     p.add_argument("--transfer", default="", help="score this jsonl with v from --data")
     p.add_argument("--max-length", type=int, default=256)
     p.add_argument("--layer", type=int, default=-1, help="hidden_states index; -1 last")
-    p.add_argument("--pool", choices=("last", "mean"), default="last")
+    p.add_argument("--pool", choices=("last", "mean", "siren"), default="last")
     p.add_argument("--permute", type=int, default=0, help="within-topic label shuffles")
     p.add_argument("--mhat-rel", type=float, default=0.05)
-    p.add_argument(
-        "--hold-topics",
-        default="",
-        help="comma topics excluded from v; scored as OOD",
-    )
+    p.add_argument("--hold-topics", default="", help="comma topics excluded from v")
+    p.add_argument("--siren-t", type=float, default=1.0, help="query time in [0,1]")
+    p.add_argument("--siren-steps", type=int, default=80)
+    p.add_argument("--siren-hidden", type=int, default=16)
+    p.add_argument("--siren-lr", type=float, default=1e-2)
     args = p.parse_args()
     if not torch.cuda.is_available():
         print("ERROR: CUDA required", file=sys.stderr)
@@ -206,8 +231,13 @@ def main():
             for t, g in sorted(paired.items())
         )
     )
-    print(f"layer={args.layer} pool={args.pool} hold_topics={sorted(hold) or 'none'}")
+    print(
+        f"layer={args.layer} pool={args.pool} hold_topics={sorted(hold) or 'none'} "
+        f"siren_t={args.siren_t} siren_steps={args.siren_steps}"
+    )
     print(f"kept_topics={sorted(kept)} held_topics={sorted(held)}")
+    if args.pool == "siren":
+        print("SIREN r is f(t). theta not in L. Do not fill D from theta.")
     bnb = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.bfloat16,
@@ -234,18 +264,45 @@ def main():
     extra = []
     for g in transfer_paired.values():
         extra.extend(g["deceptive"] + g["honest"])
+    hid = {}
+    theta = {}
+    mses, coss = [], []
     with torch.no_grad():
-        hid = {
-            id(r): pooled_hidden(
-                model, tok, r["text"], args.max_length, device, args.layer, args.pool
+        paths = {
+            id(r): hidden_path(
+                model, tok, r["text"], args.max_length, device, args.layer
             )
             for r in needed + extra
         }
+    for r in needed + extra:
+        path = paths[id(r)]
+        if args.pool == "siren":
+            vec, th, mse, cos_last = fit_and_query(
+                path,
+                query_t=args.siren_t,
+                steps=args.siren_steps,
+                hidden=args.siren_hidden,
+                lr=args.siren_lr,
+            )
+            hid[id(r)] = vec
+            theta[id(r)] = th
+            mses.append(mse)
+            coss.append(cos_last)
+        else:
+            hid[id(r)] = pooled_from_path(path, args.pool)
+    if args.pool == "siren" and mses:
+        print(
+            f"siren_mse_mean={sum(mses)/len(mses):.6f} "
+            f"siren_cos_to_last_mean={sum(coss)/len(coss):.4f} n={len(mses)}"
+        )
+        print("If cos_to_last ~ 1, f(1) is last-token in a wig. queryEnd_is_the_end.")
 
     def mean_h(items):
         return torch.stack([hid[id(r)] for r in items]).mean(0)
 
     log_mhat("fit_", kept, hid, args.mhat_rel)
+    if theta:
+        log_theta(kept, theta)
 
     v_of = {}
     for t, g in kept.items():
