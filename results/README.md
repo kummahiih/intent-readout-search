@@ -2,6 +2,38 @@
 
 Do not collapse attempts.
 
+## T3 same-gate scoreboard — 2026-09-26 22:56 EEST
+
+Official columns: plan LOTO gap, topic LOO L2 on that same score, paraphrase gap / $p$, hiking sign. $z$ not in $L$. Do not fill $D$.
+SAE latents are out of family until a public Qwen2.5-7B pack exists. Do not put SAE in Adam.
+
+| camera | n topics | plan gap | topic L2 | transfer gap | transfer $p$ | hiking |
+| --- | --- | --- | --- | --- | --- | --- |
+| last-token layer -1 (6-topic) | 6 | 0.026 | 0.31 | — | 0.32 last-layer perm | mixed |
+| last-token layer 8 (6-topic) | 6 | 0.066 | **0.17** | 0.027 | 0.10 | ~0 |
+| last-token layer 8 (8-topic) | 8 | 0.105 | **missing** | **0.108** | **0** | +0.011 |
+| last-token layer 16 | 6 | 0.071 | 0.22 | — | — | same 3 rooms |
+| mean-pool layer -1 | 6 | 0.030 | 0.22 | — | — | — |
+| mean-pool layer 16 | 6 | 0.002 | 1.00 | — | — | wallpaper |
+| $m_{\mathrm{hat}}$ transfer cloud | 8 | — | — | — | — | rank 25/32 |
+| last-token layer -1 (8-topic) | 8 | **run** | **run** | **run** | **run** | **run** |
+| fold-fit topic wipe `leace_residual.py` | 8 | **run** | **run** | n/a | n/a | n/a |
+| loud heads layer 8 `head_write_probe.py` | 8 | **run** | **run** | n/a | n/a | n/a |
+| quiet heads layer 8 `--quiet` | 8 | **run** | **run** | n/a | n/a | n/a |
+| public SAE latents | — | skip | skip | skip | skip | no pack |
+
+Layer 8 last-token is the only row that has cleared topic chance *and* paraphrase $p=0$ on the 8-topic file. Hiking and invoices still fail uniformity. Topic L2 on that 8-topic fit is still not in git.
+
+4070 next (same venv, pull first):
+
+```bash
+python pair_contrast.py --data data/pairs_wide.jsonl --layer -1 --pool last \
+  --permute 20000 --transfer data/pairs_paraphrase.jsonl
+python leace_residual.py --data data/pairs_wide.jsonl
+python head_write_probe.py --data data/pairs_wide.jsonl --layer 8 --k 4
+python head_write_probe.py --data data/pairs_wide.jsonl --layer 8 --k 4 --quiet
+```
+
 ## Talker-count $m_{\mathrm{hat}}$ — 2026-09-26 22:53 EEST
 
 Layer 8 last-token, `rel=0.05`, `d=3584`. Log only. Not in $L$. Not $r$.
@@ -14,65 +46,27 @@ m_hat_transfer_dec=16 n=16
 m_hat_transfer_hon=16 n=16
 ```
 
-Per room, rank saturates the sample: four notes, four loud singular values. Dec and hon each saturate too (16/16). The 32-note cloud keeps 25 directions above 5% of $s_{\max}$.
-
-That is not the dummy 1-source vs 2-source cartoon. Qwen layer-8 last tokens are a crowded residual, not two planted axes plus 0.02 noise. High $\hat m$ is the default when $n \ll d$. It does not name plan. It does not fill $D$.
-
-Still want from scrollback: `m_hat_fit_all`, `m_hat_fit_contrast_v`, `topic_loo_l2_on_scalar`.
+Per room, rank saturates the sample. High $\hat m$ is the default when $n \ll d$. It does not name plan.
 
 ## P0b — 8-topic layer-8 + full paraphrase — 2026-09-26 22:47 EEST
 
-Same command on the widened files. Topic L2 line was off the photo. Eight-way chance is 0.125.
-Do not fill D.
-
-### Fit on `pairs_wide.jsonl` (n=48, 8 topics)
-
 ```
-fit gap_dec_minus_hon=0.1045
-within_topic_perm N=20000 p=0.0000 n_ge=0
-per-topic LOTO gaps:
-  cooking    +0.1205
-  hiking     +0.0113
-  invoices   +0.0428
-  neighbors  +0.1673
-  pets       +0.1009
-  repairs    +0.1222
-  taxes      +0.1076
-  travel     +0.1633
-```
-
-### Transfer on 8-topic `pairs_paraphrase.jsonl` (n=32, 2+2 each, no mush)
-
-```
-transfer gap_dec_minus_hon=0.1084  dec=0.1021  hon=-0.0063  n_dec=16 n_hon=16
-within_topic_perm N=20000 p=0.0000 n_ge=0
-per-topic LOTO gaps:
-  cooking    +0.1293
-  hiking     +0.0402
-  invoices   -0.0012
-  neighbors  +0.1714
-  pets       +0.1238
-  repairs    +0.0925
-  taxes      +0.1197
-  travel     +0.1920
+fit gap_dec_minus_hon=0.1045  p=0.0000
+transfer gap_dec_minus_hon=0.1084  p=0.0000
+hiking fit +0.0113  invoices transfer -0.0012
 ```
 
 Keep as a stronger hint. Do not freeze r. Do not fill D.
 
-## P0 — kill or keep the layer-8 hint — 2026-09-26 22:39 EEST
-
-4070 run on the *old* 6-topic files (3-topic paraphrase + mush hiking row).
+## P0 — 6-topic layer-8 — 2026-09-26 22:39 EEST
 
 ```
-fit gap_dec_minus_hon=0.0657  topic_loo_l2_on_scalar=0.17  p=0.0000
-transfer gap=0.0268 p=0.1006
+fit gap=0.0657  topic_loo_l2_on_scalar=0.17  p=0.0000
+transfer gap=0.0268 p=0.1006   # old 3-topic + mush file
+last-layer control p=0.324
 ```
-
-Last-layer control (overnight 2026-09-20): gap 0.0259 within-topic $p=0.324$.
 
 ## Contrast layer sweep — 2026-09-23 night
-
-Last-token LOTO `v`, n=36, 6 topics. Official topic gate = L2 on the scalar.
 
 | layer / pool | plan gap | topic L2 |
 | --- | --- | --- |
@@ -100,6 +94,6 @@ None of these is a camera. Do not fill D.
 
 ## Metric repairs — 2026-09-22
 
-- OLS wipe: global leftover + cosine LOO 0.00 retired. Fold-fit still unrun on GPU.
+- OLS wipe retired. Fold-fit script is `leace_residual.py` (T3, unrun on 8-topic).
 - Generated fact-grade: agree_assigned_strategy is not judge accuracy.
 - Chat oracle: plan 0.50 always-deceptive; LOTO 0.79 tentative n_hold=4.
