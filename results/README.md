@@ -2,26 +2,27 @@
 
 Do not collapse attempts.
 
-## P0f — SIREN f(1) — 2026-09-26 23:32 EEST
+## P0g — Mistral-7B-Instruct-v0.3 layer 9 — 2026-09-26 23:54 EEST
 
-Source: `results/tests-2026-09-26-6.log`. Query $f(1)$. $\theta$ not in $L$.
+Source: `results/tests-mistral-2026-09-26.log`.
+`tests-qwen-kstep-2026-09-26.log` is **Mistral layer 8 kstep** (`MODEL` was still set). Qwen K-step is not in.
 
-```
-layer 8 siren_mse=2599  cos_to_last=0.35   # not last-token in a wig
-8-topic     gap=0.140  topic L2=0.08  transfer=0.141 p=0
-hold T/N    kept=0.100 topic L2=0.28  held=0.165 p=0.005  xfer_kept p=0.0008
-hold H/I    kept=0.186 topic L2=0.06  held=0.036 p=0.20   voice=-0.004 p=0.82
-last-layer  gap=0.038  topic L2=0.21  transfer=0.040 p=0.005  cos_to_last=0.57
-theta L2    plan-diff~71  topic-diff~75   # weights store both
-```
+Eight-way chance 0.125. Voice hiking/invoices stay dead on every pool.
 
-$f(1)$ at layer 8 is a bit louder than last-token and still hallway-local. Voice hiking/invoices stay dead. $\theta$ L2 does not split plan from topic. Do not fill $D$ from $\theta$.
+| pool L9 | plan | topic L2 | paraphrase | voice $p$ |
+| --- | --- | --- | --- | --- |
+| last | **0.116** | **0.12** | 0.123 $p=0$ | 0.80 |
+| kstep K=8 | **0.192** | **0.10** | 0.185 $p=0$ | 0.62 |
+| siren $f(1)$ | 0.058 | **0.04** | 0.055 $p=0$ | 0.83 |
+| last layer last | 0.037 | 0.17 | 0.032 | — |
+| last layer kstep | 0.076 | 0.29 | 0.076 | — |
+| last layer siren | 0.049 | 0.17 | 0.060 | — |
 
-## P0e — voice hiking/invoices (last-token)
+kstep $\cos$ to last 0.67. SIREN $\cos$ to last 0.34. $\theta$ L2 plan~9 topic~9.5.
+Hold travel/neighbors last: held 0.146 $p=0.005$. kstep held 0.226 $p=0.005$.
 
-voice transfer $-0.030$ $p=0.31$. Dead rooms.
+Mid-layer hint is **not Qwen-only**. Same two rooms still die under a voice change. Do not fill $D$.
 
-## P0d / P0c last-token layer 8
+## P0f Qwen SIREN / P0c Qwen last-token layer 8
 
-8-topic gap 0.105 topic L2 0.06 paraphrase $p=0$.
-Hold travel/neighbors held 0.149 $p=0.005$.
+Qwen last 0.105 / L2 0.06. Qwen SIREN 0.140 / L2 0.08. Voice dead.
