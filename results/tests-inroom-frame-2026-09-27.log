@@ -1,0 +1,164 @@
+=== QWEN INROOM FRAME topic=travel ===
+model=Qwen/Qwen2.5-7B-Instruct
+paired_topics=travel(dec=3,hon=3)
+layer=8 pool=last in_room=True only_topics=['travel'] hold_topics=none siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['travel'] held_topics=[]
+in-room: score T with v_T. Not LOTO. Topic L2 is off.
+VRAM allocated_GiB=5.18 reserved_GiB=5.33
+m_hat_fit_topic_travel=6 n=6 d=3584 rel=0.05
+m_hat_fit_all=6 n=6 d=3584 rel=0.05
+m_hat_fit_dec=3 n=3 d=3584 rel=0.05
+m_hat_fit_hon=3 n=3 d=3584 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+v[travel]_norm=13.2368
+m_hat_fit_contrast_v=1 n=1 d=3584 rel=0.05
+fit_kept scores:
+  inroom topic=travel strategy=deceptive s_v=0.1379
+  inroom topic=travel strategy=deceptive s_v=0.1437
+  inroom topic=travel strategy=deceptive s_v=0.2077
+  inroom topic=travel strategy=honest s_v=-0.1749
+  inroom topic=travel strategy=honest s_v=-0.1727
+  inroom topic=travel strategy=honest s_v=-0.2338
+fit_kept mean s_v deceptive=0.1631 honest=-0.1938 gap_dec_minus_hon=0.3569 n_dec=3 n_hon=3
+in-room run: skip official topic L2 (axes differ by room).
+per-topic in-room gaps:
+  topic=travel gap=+0.3569 dec=+0.1631 hon=-0.1938 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.3569
+transfer=data/pairs_frame.jsonl
+transfer_kept scores:
+  inroom topic=travel strategy=deceptive s_v=0.1332
+  inroom topic=travel strategy=deceptive s_v=0.1406
+  inroom topic=travel strategy=deceptive s_v=0.1940
+  inroom topic=travel strategy=honest s_v=-0.1746
+  inroom topic=travel strategy=honest s_v=-0.1785
+  inroom topic=travel strategy=honest s_v=-0.2166
+transfer_kept mean s_v deceptive=0.1559 honest=-0.1899 gap_dec_minus_hon=0.3458 n_dec=3 n_hon=3
+per-topic gaps:
+  topic=travel gap=+0.3458 dec=+0.1559 hon=-0.1899 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.3458
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
+=== QWEN INROOM FRAME topic=neighbors ===
+model=Qwen/Qwen2.5-7B-Instruct
+paired_topics=neighbors(dec=3,hon=3)
+layer=8 pool=last in_room=True only_topics=['neighbors'] hold_topics=none siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['neighbors'] held_topics=[]
+in-room: score T with v_T. Not LOTO. Topic L2 is off.
+VRAM allocated_GiB=5.18 reserved_GiB=5.33
+m_hat_fit_topic_neighbors=6 n=6 d=3584 rel=0.05
+m_hat_fit_all=6 n=6 d=3584 rel=0.05
+m_hat_fit_dec=3 n=3 d=3584 rel=0.05
+m_hat_fit_hon=3 n=3 d=3584 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+v[neighbors]_norm=15.0551
+m_hat_fit_contrast_v=1 n=1 d=3584 rel=0.05
+fit_kept scores:
+  inroom topic=neighbors strategy=deceptive s_v=0.3835
+  inroom topic=neighbors strategy=deceptive s_v=0.3003
+  inroom topic=neighbors strategy=deceptive s_v=0.2969
+  inroom topic=neighbors strategy=honest s_v=0.1350
+  inroom topic=neighbors strategy=honest s_v=-0.2204
+  inroom topic=neighbors strategy=honest s_v=-0.0800
+fit_kept mean s_v deceptive=0.3269 honest=-0.0551 gap_dec_minus_hon=0.3821 n_dec=3 n_hon=3
+in-room run: skip official topic L2 (axes differ by room).
+per-topic in-room gaps:
+  topic=neighbors gap=+0.3821 dec=+0.3269 hon=-0.0551 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.3821
+transfer=data/pairs_frame.jsonl
+transfer_kept scores:
+  inroom topic=neighbors strategy=deceptive s_v=0.3776
+  inroom topic=neighbors strategy=deceptive s_v=0.2871
+  inroom topic=neighbors strategy=deceptive s_v=0.2866
+  inroom topic=neighbors strategy=honest s_v=0.1440
+  inroom topic=neighbors strategy=honest s_v=-0.2361
+  inroom topic=neighbors strategy=honest s_v=-0.0498
+transfer_kept mean s_v deceptive=0.3171 honest=-0.0473 gap_dec_minus_hon=0.3644 n_dec=3 n_hon=3
+per-topic gaps:
+  topic=neighbors gap=+0.3644 dec=+0.3171 hon=-0.0473 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.3644
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
+=== MISTRAL INROOM FRAME topic=travel ===
+model=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
+paired_topics=travel(dec=3,hon=3)
+layer=9 pool=last in_room=True only_topics=['travel'] hold_topics=none siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['travel'] held_topics=[]
+in-room: score T with v_T. Not LOTO. Topic L2 is off.
+VRAM allocated_GiB=3.86 reserved_GiB=3.99
+m_hat_fit_topic_travel=6 n=6 d=4096 rel=0.05
+m_hat_fit_all=6 n=6 d=4096 rel=0.05
+m_hat_fit_dec=3 n=3 d=4096 rel=0.05
+m_hat_fit_hon=3 n=3 d=4096 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+v[travel]_norm=1.1030
+m_hat_fit_contrast_v=1 n=1 d=4096 rel=0.05
+fit_kept scores:
+  inroom topic=travel strategy=deceptive s_v=0.3273
+  inroom topic=travel strategy=deceptive s_v=0.2711
+  inroom topic=travel strategy=deceptive s_v=0.3097
+  inroom topic=travel strategy=honest s_v=-0.2946
+  inroom topic=travel strategy=honest s_v=-0.2110
+  inroom topic=travel strategy=honest s_v=-0.3235
+fit_kept mean s_v deceptive=0.3027 honest=-0.2764 gap_dec_minus_hon=0.5791 n_dec=3 n_hon=3
+in-room run: skip official topic L2 (axes differ by room).
+per-topic in-room gaps:
+  topic=travel gap=+0.5791 dec=+0.3027 hon=-0.2764 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.5791
+transfer=data/pairs_frame.jsonl
+transfer_kept scores:
+  inroom topic=travel strategy=deceptive s_v=0.3015
+  inroom topic=travel strategy=deceptive s_v=0.2566
+  inroom topic=travel strategy=deceptive s_v=0.2986
+  inroom topic=travel strategy=honest s_v=-0.2578
+  inroom topic=travel strategy=honest s_v=-0.2533
+  inroom topic=travel strategy=honest s_v=-0.3223
+transfer_kept mean s_v deceptive=0.2856 honest=-0.2778 gap_dec_minus_hon=0.5634 n_dec=3 n_hon=3
+per-topic gaps:
+  topic=travel gap=+0.5634 dec=+0.2856 hon=-0.2778 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.5634
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
+=== MISTRAL INROOM FRAME topic=neighbors ===
+model=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
+paired_topics=neighbors(dec=3,hon=3)
+layer=9 pool=last in_room=True only_topics=['neighbors'] hold_topics=none siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['neighbors'] held_topics=[]
+in-room: score T with v_T. Not LOTO. Topic L2 is off.
+VRAM allocated_GiB=3.86 reserved_GiB=3.99
+m_hat_fit_topic_neighbors=6 n=6 d=4096 rel=0.05
+m_hat_fit_all=6 n=6 d=4096 rel=0.05
+m_hat_fit_dec=3 n=3 d=4096 rel=0.05
+m_hat_fit_hon=3 n=3 d=4096 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+v[neighbors]_norm=1.0350
+m_hat_fit_contrast_v=1 n=1 d=4096 rel=0.05
+fit_kept scores:
+  inroom topic=neighbors strategy=deceptive s_v=0.3968
+  inroom topic=neighbors strategy=deceptive s_v=0.2123
+  inroom topic=neighbors strategy=deceptive s_v=0.2304
+  inroom topic=neighbors strategy=honest s_v=-0.1791
+  inroom topic=neighbors strategy=honest s_v=-0.2831
+  inroom topic=neighbors strategy=honest s_v=-0.2621
+fit_kept mean s_v deceptive=0.2799 honest=-0.2414 gap_dec_minus_hon=0.5213 n_dec=3 n_hon=3
+in-room run: skip official topic L2 (axes differ by room).
+per-topic in-room gaps:
+  topic=neighbors gap=+0.5213 dec=+0.2799 hon=-0.2414 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.5213
+transfer=data/pairs_frame.jsonl
+transfer_kept scores:
+  inroom topic=neighbors strategy=deceptive s_v=0.3820
+  inroom topic=neighbors strategy=deceptive s_v=0.2067
+  inroom topic=neighbors strategy=deceptive s_v=0.2189
+  inroom topic=neighbors strategy=honest s_v=-0.1619
+  inroom topic=neighbors strategy=honest s_v=-0.2917
+  inroom topic=neighbors strategy=honest s_v=-0.2528
+transfer_kept mean s_v deceptive=0.2692 honest=-0.2355 gap_dec_minus_hon=0.5047 n_dec=3 n_hon=3
+per-topic gaps:
+  topic=neighbors gap=+0.5047 dec=+0.2692 hon=-0.2355 n=6
+within_topic_perm N=20000 p=0.0968 n_ge=1935 obs_gap=0.5047
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
