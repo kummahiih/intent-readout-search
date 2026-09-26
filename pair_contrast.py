@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 """Same-topic contrast camera.
 
-v_T = normalize(h_dec - h_hon) on topic T.
-Official topic gate is LOO L2 on the scalar.
-Tags build r only. Not z in a loss. Not a hinge.
-
---pool last|mean|siren|kstep
-  siren: fit TinySiren, query f(--siren-t). theta is a log.
-  kstep: mean of last --kstep-k tokens. Settle, then look.
+--pool last|mean|siren|kstep|mid3
+  mid3 = unit-sum of last-token, kstep, siren f(1). Not in L.
 """
 
 import argparse
@@ -22,6 +17,7 @@ import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 from kstep_path import kstep_query
+from mid3_path import mid3_query
 from siren_path import fit_and_query
 from source_count import report_mhat
 from topic_metrics import loo_centroid_acc, loo_l2_acc, topic_acc
@@ -61,11 +57,7 @@ def paired_topics(rows):
     for r in rows:
         if r["strategy"] in ("deceptive", "honest"):
             by_topic[r["topic"]][r["strategy"]].append(r)
-    return {
-        t: g
-        for t, g in by_topic.items()
-        if g["deceptive"] and g["honest"]
-    }
+    return {t: g for t, g in by_topic.items() if g["deceptive"] and g["honest"]}
 
 
 def report_gap(scores, title):
@@ -131,20 +123,16 @@ def log_mhat(prefix, paired, hid, rel):
                 h = hid[id(r)]
                 all_h.append(h)
                 th.append(h)
-                if strat == "deceptive":
-                    dec_h.append(h)
-                else:
-                    hon_h.append(h)
+                (dec_h if strat == "deceptive" else hon_h).append(h)
         report_mhat(f"{prefix}topic_{t}", th, rel)
     report_mhat(f"{prefix}all", all_h, rel)
     report_mhat(f"{prefix}dec", dec_h, rel)
     report_mhat(f"{prefix}hon", hon_h, rel)
-    print(f"m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.")
+    print("m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.")
 
 
 def log_theta(paired, theta):
-    same_topic = []
-    same_plan = []
+    same_topic, same_plan = [], []
     topics = list(paired)
     for t, g in paired.items():
         for rd in g["deceptive"]:
@@ -197,6 +185,11 @@ def score_group(paired_src, v_of, hid, title, loto_from):
     return scores, topic_scores, (scalars, r_topics)
 
 
+def mean_meta(rows, key):
+    xs = [m[key] for m in rows if key in m]
+    return sum(xs) / len(xs) if xs else float("nan")
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--model", default="Qwen/Qwen2.5-7B-Instruct")
@@ -204,7 +197,9 @@ def main():
     p.add_argument("--transfer", default="")
     p.add_argument("--max-length", type=int, default=256)
     p.add_argument("--layer", type=int, default=-1)
-    p.add_argument("--pool", choices=("last", "mean", "siren", "kstep"), default="last")
+    p.add_argument(
+        "--pool", choices=("last", "mean", "siren", "kstep", "mid3"), default="last"
+    )
     p.add_argument("--permute", type=int, default=0)
     p.add_argument("--mhat-rel", type=float, default=0.05)
     p.add_argument("--hold-topics", default="")
@@ -212,7 +207,7 @@ def main():
     p.add_argument("--siren-steps", type=int, default=80)
     p.add_argument("--siren-hidden", type=int, default=16)
     p.add_argument("--siren-lr", type=float, default=1e-2)
-    p.add_argument("--kstep-k", type=int, default=8, help="settle window in tokens")
+    p.add_argument("--kstep-k", type=int, default=8)
     args = p.parse_args()
     if not torch.cuda.is_available():
         print("ERROR: CUDA required", file=sys.stderr)
@@ -242,6 +237,8 @@ def main():
         print("SIREN r is f(t). theta not in L. Do not fill D from theta.")
     if args.pool == "kstep":
         print("K-step r is mean of last K tokens. Not theta. Not in L.")
+    if args.pool == "mid3":
+        print("mid3 r is unit-sum of last + kstep + siren f(1). Not in L.")
     bnb = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.bfloat16,
@@ -268,10 +265,7 @@ def main():
     extra = []
     for g in transfer_paired.values():
         extra.extend(g["deceptive"] + g["honest"])
-    hid = {}
-    theta = {}
-    mses, coss = [], []
-    kcos = []
+    hid, theta, mses, coss, kcos, metas = {}, {}, [], [], [], []
     with torch.no_grad():
         paths = {
             id(r): hidden_path(
@@ -294,9 +288,21 @@ def main():
             mses.append(mse)
             coss.append(cos_last)
         elif args.pool == "kstep":
-            vec, cos_last, kk = kstep_query(path, k=args.kstep_k)
+            vec, cos_last, _kk = kstep_query(path, k=args.kstep_k)
             hid[id(r)] = vec
             kcos.append(cos_last)
+        elif args.pool == "mid3":
+            vec, meta = mid3_query(
+                path,
+                k=args.kstep_k,
+                siren_t=args.siren_t,
+                siren_steps=args.siren_steps,
+                siren_hidden=args.siren_hidden,
+                siren_lr=args.siren_lr,
+            )
+            hid[id(r)] = vec
+            theta[id(r)] = meta["theta"]
+            metas.append(meta)
         else:
             hid[id(r)] = pooled_from_path(path, args.pool)
     if args.pool == "siren" and mses:
@@ -304,12 +310,18 @@ def main():
             f"siren_mse_mean={sum(mses)/len(mses):.6f} "
             f"siren_cos_to_last_mean={sum(coss)/len(coss):.4f} n={len(mses)}"
         )
-        print("If cos_to_last ~ 1, f(1) is last-token in a wig. queryEnd_is_the_end.")
     if args.pool == "kstep" and kcos:
         print(
             f"kstep_k={args.kstep_k} kstep_cos_to_last_mean={sum(kcos)/len(kcos):.4f} n={len(kcos)}"
         )
-        print("If cos_to_last ~ 1, K-step is last-token in a wig.")
+    if args.pool == "mid3" and metas:
+        print(
+            f"mid3_cos_last_kstep={mean_meta(metas,'cos_last_kstep'):.4f} "
+            f"mid3_cos_last_siren={mean_meta(metas,'cos_last_siren'):.4f} "
+            f"mid3_cos_kstep_siren={mean_meta(metas,'cos_kstep_siren'):.4f} "
+            f"mid3_cos_to_last={mean_meta(metas,'cos_mid3_last'):.4f} n={len(metas)}"
+        )
+        print("If pairwise cos ~ 1, the three views are one arrow.")
 
     def mean_h(items):
         return torch.stack([hid[id(r)] for r in items]).mean(0)
@@ -332,12 +344,10 @@ def main():
         sys.exit(1)
     scalars, r_topics = pack
     acc_lstsq, tnames = topic_acc(scalars, r_topics)
-    acc_loo_cos = loo_centroid_acc(scalars, r_topics)
-    acc_loo_l2 = loo_l2_acc(scalars, r_topics)
     print(
         f"topic_lstsq_on_scalar={acc_lstsq:.2f} "
-        f"topic_loo_cos_on_scalar={acc_loo_cos:.2f} "
-        f"topic_loo_l2_on_scalar={acc_loo_l2:.2f} "
+        f"topic_loo_cos_on_scalar={loo_centroid_acc(scalars, r_topics):.2f} "
+        f"topic_loo_l2_on_scalar={loo_l2_acc(scalars, r_topics):.2f} "
         f"n={len(scalars)} topics={tnames}"
     )
     print("Official topic gate on scalars is topic_loo_l2_on_scalar.")
@@ -345,14 +355,12 @@ def main():
     per_topic_gaps(topic_scores)
     if args.permute > 0:
         permute_p(topic_scores, gap, args.permute)
-
     if held:
         h_scores, h_topic_scores, _ = score_group(held, v_of, hid, "fit_held", kept)
         hgap = report_gap(h_scores, "fit_held")
         per_topic_gaps(h_topic_scores)
         if hgap is not None and args.permute > 0:
             permute_p(h_topic_scores, hgap, args.permute)
-
     if transfer_paired:
         print(f"transfer={args.transfer}")
         t_kept = {t: g for t, g in transfer_paired.items() if t not in hold}
@@ -369,7 +377,6 @@ def main():
             per_topic_gaps(hts)
             if htg is not None and args.permute > 0:
                 permute_p(hts, htg, args.permute)
-
     print("v built from pair tags. Tags are not a loss input.")
     print("Not a deception result. Do not train the hinge on this r yet.")
     print("Do not fill D from this run.")
