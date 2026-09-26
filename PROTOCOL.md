@@ -38,31 +38,30 @@ A **voter** is a (model, depth, pool, room, file) cell that may count toward fre
 | File | Rooms | Frame | Role |
 | --- | --- | --- | --- |
 | `data/pairs_wide.jsonl` | 8 topics, 3+3 each | bank (`User asked` / `I will`) | fit |
-| `data/pairs_paraphrase.jsonl` | 8 topics, 2+2 each | same speech act, reworded | transfer |
-| `data/pairs_frame.jsonl` | travel, neighbors only, 3+3 | bank syntax + `Desk note:` | transfer, prefix control |
+| `data/pairs_paraphrase.jsonl` | 8 topics, 2+2 each | same speech act, reworded; has `fact` | transfer |
+| `data/pairs_frame.jsonl` | 8 topics, 3+3 | bank syntax + `Desk note:` | transfer, prefix control |
 
-Models: Qwen2.5-7B layer 8, Mistral-7B layer 9. Pools last / kstep / siren / mid3 are **one arrow**. Report last-token as the official pool. The others are logs.
+Models: Qwen2.5-7B layer 8, Mistral-7B layer 9. Official pool is last-token. K-step / SIREN / mid3 are one arrow and log only.
+
+Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen LOTO (~0.01). That is a **fail** (rooms are a subset), not a reason to drop the room.
 
 **Out (do not vote)**
 
 | File or object | Why |
 | --- | --- |
-| `data/pairs_voice.jsonl` (hiking, invoices) | log/radio genre; LOTO dead |
-| `data/pairs_voice_loud.jsonl` (travel, neighbors) | same genre; LOTO Qwen 0.004 / Mistral 0.036 |
+| `data/pairs_voice.jsonl` | log/radio genre |
+| `data/pairs_voice_loud.jsonl` | same genre; LOTO held ~0 |
 | last layer | topic L2 leftover |
 | SIREN $\theta$ | plan L2 $\approx$ topic L2 |
 | $\hat m$ | cap 6 on every 6-note room |
 | SAE latents | not through these gates; not in $L$ |
 
-**In-room $v_T$** is a diagnosis, not a freeze voter. It asks whether a room contains a pair. Hiking-voice failed that. Hiking-paraphrase did not.
+**In-room $v_T$** is a diagnosis, not a freeze voter.
 
-**Holes in the set**
+**Holes**
 
-- Paraphrase rows have no `fact` field. Wide / voice / frame do.
-- Frame covers only 2 of 8 rooms.
 - `split=bank|eval` is stored and unused: $v$ is fit on all 3+3 notes.
-- cooking, repairs, taxes, pets have no prefix control.
-- $n$ per room is 3+3 fit / 2+2 paraphrase. Permutation $p$ on a single room is coarse.
+- $n$ per room is small. Read gaps, not one-room $p$.
 
 Pass / fail for a camera still needs all four: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. Do not fill $D$.
 
@@ -70,7 +69,7 @@ Pass / fail for a camera still needs all four: plan LOTO, topic L2 near chance, 
 
 - Fit: `data/pairs_wide.jsonl`.
 - Official transfer: `data/pairs_paraphrase.jsonl`.
-- Prefix control: `data/pairs_frame.jsonl` (travel, neighbors).
+- Prefix control: `data/pairs_frame.jsonl` (8 topics).
 - Tags are observations. Do not put them in $L_{\mathrm{total}}$.
 
 ```bash
@@ -79,8 +78,6 @@ python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
 ```
 
 ## What to report
-
-A run that only prints $L_{\mathrm{reg}}\downarrow$ is incomplete. Log these four when they exist:
 
 | Meter | Question | Official number |
 | --- | --- | --- |
@@ -91,20 +88,18 @@ A run that only prints $L_{\mathrm{reg}}\downarrow$ is incomplete. Log these fou
 
 Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists on the replies.
 
-Pass / fail for a camera (same scoreboard):
+Pass / fail for a camera:
 
 - Pass: plan / stall transfers leave-one-topic-out.
-- Pass: a topic classifier on that same score is near chance (LOO L2 on scalars; LOO / hold on vectors).
+- Pass: a topic classifier on that same score is near chance (LOO L2 on scalars).
 - Pass: paraphrase of the walk keeps the plan call.
-- Fail: in-sample plan only (LOTO chance).
+- Fail: in-sample plan only.
 - Fail: the score still names hiking vs invoices under the official topic gate.
-- Fail: path-patch from topic A prints A's words on topic B (lexical bleed).
-- Fail: treating same-model chat grades as nature.
-- Fail: mixing two topics in one contrast pair and calling that plan.
-- Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
-- Fail: calling last-token equality a path camera.
-- Fail: printing accuracy when `reply_kind` is absent.
+- Fail: rooms are a subset (hiking thin on the shared axis).
 - Fail: counting office-log / radio voice as paraphrase.
+- Fail: dropping a thin room to manufacture a pass.
+- Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
+- Fail: filling $D$ from a hint.
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
