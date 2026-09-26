@@ -2,7 +2,8 @@
 """Same-topic contrast camera.
 
 --pool last|mean|siren|kstep|mid3
-  mid3 = unit-sum of last-token, kstep, siren f(1). Not in L.
+--in-room: score topic T with v_T from T. Not LOTO.
+--only-topics: keep these rooms only.
 """
 
 import argparse
@@ -75,8 +76,8 @@ def report_gap(scores, title):
     return gap
 
 
-def per_topic_gaps(topic_scores):
-    print("per-topic LOTO gaps:")
+def per_topic_gaps(topic_scores, label="per-topic gaps"):
+    print(f"{label}:")
     for t in sorted(topic_scores):
         dec = [s for strat, s in topic_scores[t] if strat == "deceptive"]
         hon = [s for strat, s in topic_scores[t] if strat == "honest"]
@@ -154,17 +155,22 @@ def log_theta(paired, theta):
         print("theta is a log. Not r. Not in L.")
 
 
-def score_group(paired_src, v_of, hid, title, loto_from):
+def score_group(paired_src, v_of, hid, title, loto_from, in_room=False):
     scalars, r_topics, scores = [], [], []
     topic_scores = defaultdict(list)
     print(f"{title} scores:")
     kept_vs = [v_of[u] for u in loto_from if float(v_of[u].norm()) > 0]
-    if not kept_vs:
-        print(f"ERROR: no v in {title}", file=sys.stderr)
-        return None, None, None
-    v_all = F.normalize(torch.stack(kept_vs).mean(0), dim=0)
+    v_all = None
+    if kept_vs:
+        v_all = F.normalize(torch.stack(kept_vs).mean(0), dim=0)
     for t, g in sorted(paired_src.items()):
-        if t in loto_from:
+        if in_room:
+            if t not in v_of or float(v_of[t].norm()) <= 0:
+                print(f"  skip {t}: no in-room v")
+                continue
+            v = v_of[t]
+            kind = "inroom"
+        elif t in loto_from:
             others = [v_of[u] for u in loto_from if u != t and float(v_of[u].norm()) > 0]
             if not others:
                 print(f"  skip {t}: no other v")
@@ -172,6 +178,9 @@ def score_group(paired_src, v_of, hid, title, loto_from):
             v = F.normalize(torch.stack(others).mean(0), dim=0)
             kind = "loto"
         else:
+            if v_all is None:
+                print(f"  skip {t}: no v")
+                continue
             v = v_all
             kind = "held"
         for strat in ("deceptive", "honest"):
@@ -182,6 +191,9 @@ def score_group(paired_src, v_of, hid, title, loto_from):
                 r_topics.append(t)
                 scores.append((strat, s))
                 topic_scores[t].append((strat, s))
+    if not scores:
+        print(f"ERROR: no v in {title}", file=sys.stderr)
+        return None, None, None
     return scores, topic_scores, (scalars, r_topics)
 
 
@@ -203,6 +215,8 @@ def main():
     p.add_argument("--permute", type=int, default=0)
     p.add_argument("--mhat-rel", type=float, default=0.05)
     p.add_argument("--hold-topics", default="")
+    p.add_argument("--only-topics", default="", help="comma topics to keep")
+    p.add_argument("--in-room", action="store_true", help="score T with v_T, not LOTO")
     p.add_argument("--siren-t", type=float, default=1.0)
     p.add_argument("--siren-steps", type=int, default=80)
     p.add_argument("--siren-hidden", type=int, default=16)
@@ -214,11 +228,15 @@ def main():
         sys.exit(1)
     rows = load_rows(args.data)
     paired = paired_topics(rows)
+    only = {t.strip() for t in args.only_topics.split(",") if t.strip()}
+    if only:
+        paired = {t: g for t, g in paired.items() if t in only}
     hold = {t.strip() for t in args.hold_topics.split(",") if t.strip()}
     kept = {t: g for t, g in paired.items() if t not in hold}
     held = {t: g for t, g in paired.items() if t in hold}
-    if len(kept) < 2:
-        print("ERROR: need >=2 kept topics with both strategies", file=sys.stderr)
+    need_kept = 1 if args.in_room else 2
+    if len(kept) < need_kept:
+        print(f"ERROR: need >={need_kept} kept topics with both strategies", file=sys.stderr)
         sys.exit(1)
     print(f"model={args.model}")
     print(
@@ -229,10 +247,13 @@ def main():
         )
     )
     print(
-        f"layer={args.layer} pool={args.pool} hold_topics={sorted(hold) or 'none'} "
+        f"layer={args.layer} pool={args.pool} in_room={args.in_room} "
+        f"only_topics={sorted(only) or 'all'} hold_topics={sorted(hold) or 'none'} "
         f"siren_t={args.siren_t} siren_steps={args.siren_steps} kstep_k={args.kstep_k}"
     )
     print(f"kept_topics={sorted(kept)} held_topics={sorted(held)}")
+    if args.in_room:
+        print("in-room: score T with v_T. Not LOTO. Topic L2 is off.")
     if args.pool == "siren":
         print("SIREN r is f(t). theta not in L. Do not fill D from theta.")
     if args.pool == "kstep":
@@ -262,6 +283,8 @@ def main():
         needed.extend(g["deceptive"] + g["honest"])
     transfer_rows = load_rows(args.transfer) if args.transfer else []
     transfer_paired = paired_topics(transfer_rows) if transfer_rows else {}
+    if only:
+        transfer_paired = {t: g for t, g in transfer_paired.items() if t in only}
     extra = []
     for g in transfer_paired.values():
         extra.extend(g["deceptive"] + g["honest"])
@@ -321,7 +344,6 @@ def main():
             f"mid3_cos_kstep_siren={mean_meta(metas,'cos_kstep_siren'):.4f} "
             f"mid3_cos_to_last={mean_meta(metas,'cos_mid3_last'):.4f} n={len(metas)}"
         )
-        print("If pairwise cos ~ 1, the three views are one arrow.")
 
     def mean_h(items):
         return torch.stack([hid[id(r)] for r in items]).mean(0)
@@ -336,27 +358,35 @@ def main():
         nrm = float(v.norm())
         v_of[t] = F.normalize(v, dim=0) if nrm > 0 else v
         print(f"v[{t}]_norm={nrm:.4f}")
-    report_mhat("fit_contrast_v", list(v_of.values()), args.mhat_rel)
+    if v_of:
+        report_mhat("fit_contrast_v", list(v_of.values()), args.mhat_rel)
 
-    scores, topic_scores, pack = score_group(kept, v_of, hid, "fit_kept", kept)
+    scores, topic_scores, pack = score_group(
+        kept, v_of, hid, "fit_kept", kept, in_room=args.in_room
+    )
     gap = report_gap(scores, "fit_kept")
     if gap is None:
         sys.exit(1)
     scalars, r_topics = pack
-    acc_lstsq, tnames = topic_acc(scalars, r_topics)
-    print(
-        f"topic_lstsq_on_scalar={acc_lstsq:.2f} "
-        f"topic_loo_cos_on_scalar={loo_centroid_acc(scalars, r_topics):.2f} "
-        f"topic_loo_l2_on_scalar={loo_l2_acc(scalars, r_topics):.2f} "
-        f"n={len(scalars)} topics={tnames}"
-    )
-    print("Official topic gate on scalars is topic_loo_l2_on_scalar.")
-    print(f"kept-way chance is {1.0 / max(len(tnames), 1):.3f}.")
-    per_topic_gaps(topic_scores)
+    if not args.in_room:
+        acc_lstsq, tnames = topic_acc(scalars, r_topics)
+        print(
+            f"topic_lstsq_on_scalar={acc_lstsq:.2f} "
+            f"topic_loo_cos_on_scalar={loo_centroid_acc(scalars, r_topics):.2f} "
+            f"topic_loo_l2_on_scalar={loo_l2_acc(scalars, r_topics):.2f} "
+            f"n={len(scalars)} topics={tnames}"
+        )
+        print("Official topic gate on scalars is topic_loo_l2_on_scalar.")
+        print(f"kept-way chance is {1.0 / max(len(tnames), 1):.3f}.")
+    else:
+        print("in-room run: skip official topic L2 (axes differ by room).")
+    per_topic_gaps(topic_scores, "per-topic in-room gaps" if args.in_room else "per-topic LOTO gaps")
     if args.permute > 0:
         permute_p(topic_scores, gap, args.permute)
     if held:
-        h_scores, h_topic_scores, _ = score_group(held, v_of, hid, "fit_held", kept)
+        h_scores, h_topic_scores, _ = score_group(
+            held, v_of, hid, "fit_held", kept, in_room=args.in_room
+        )
         hgap = report_gap(h_scores, "fit_held")
         per_topic_gaps(h_topic_scores)
         if hgap is not None and args.permute > 0:
@@ -366,13 +396,17 @@ def main():
         t_kept = {t: g for t, g in transfer_paired.items() if t not in hold}
         t_held = {t: g for t, g in transfer_paired.items() if t in hold}
         if t_kept:
-            ts, tts, _ = score_group(t_kept, v_of, hid, "transfer_kept", kept)
+            ts, tts, _ = score_group(
+                t_kept, v_of, hid, "transfer_kept", kept, in_room=args.in_room
+            )
             tgap = report_gap(ts, "transfer_kept")
             per_topic_gaps(tts)
             if tgap is not None and args.permute > 0:
                 permute_p(tts, tgap, args.permute)
         if t_held:
-            hs, hts, _ = score_group(t_held, v_of, hid, "transfer_held", kept)
+            hs, hts, _ = score_group(
+                t_held, v_of, hid, "transfer_held", kept, in_room=args.in_room
+            )
             htg = report_gap(hs, "transfer_held")
             per_topic_gaps(hts)
             if htg is not None and args.permute > 0:
