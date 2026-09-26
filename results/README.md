@@ -2,16 +2,51 @@
 
 Do not collapse attempts.
 
-## P0 — kill or keep the layer-8 hint — 2026-09-26
+## P0 — kill or keep the layer-8 hint — 2026-09-26 22:39 EEST
 
-Command for the 4070 (not run in the no-GPU sandbox):
+4070 run (`rh-venv`, `pair_contrast.py --layer 8 --pool last --permute 20000 --transfer data/pairs_paraphrase.jsonl`).
+Do not fill D.
 
-```bash
-python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
-  --permute 20000 --transfer data/pairs_paraphrase.jsonl
+### Fit on `pairs_wide.jsonl` (n=36, 6 topics)
+
+```
+fit gap_dec_minus_hon=0.0657  dec=0.0421  hon=-0.0236  n_dec=18 n_hon=18
+topic_lstsq_on_scalar=0.28  topic_loo_cos_on_scalar=0.17  topic_loo_l2_on_scalar=0.17
+within_topic_perm N=20000 p=0.0000 n_ge=0
+per-topic LOTO gaps:
+  cooking  +0.0907
+  hiking   +0.0017
+  invoices +0.0181
+  pets     +0.0855
+  repairs  +0.1034
+  taxes    +0.0949
 ```
 
-Do not fill D.
+Official topic gate at six-way chance. In-sample plan gap is not a within-topic shuffle accident. Hiking is still ~0. Repairs / taxes / cooking / pets carry it.
+
+### Transfer on `pairs_paraphrase.jsonl` (v from wide, 3 topics + one mush hiking line)
+
+```
+transfer gap_dec_minus_hon=0.0268  dec=0.0254  hon=-0.0015  n_dec=7 n_hon=6
+within_topic_perm N=20000 p=0.1006 n_ge=2012
+per-topic LOTO gaps:
+  hiking   +0.0322 n=5
+  invoices +0.0017 n=4
+  repairs  +0.0533 n=4
+```
+
+Gap halves. Invoices dies. Repairs still carries. p=0.10 fails the paraphrase gate.
+
+### Verdict
+
+Keep as a **hint**. Kill as a **camera**.
+
+- Pass: topic L2 chance on the fit scalar.
+- Pass: in-sample permutation (p < 1/20000).
+- Fail: paraphrase hold.
+- Fail: uniform plan residue (hiking ~0).
+
+Do not freeze r. Do not fill D. Do not train the hinge on this v.
 
 ### Last-layer control on published LOTO scalars (overnight 2026-09-20)
 
@@ -30,17 +65,7 @@ per-topic LOTO gaps:
   taxes    +0.0720
 ```
 
-Last-layer gap 0.026 is noise. Pets has the wrong sign. This kills the last-layer contrast as a camera. It does **not** kill layer 8: raw layer-8 scalars were never logged, so the published 0.0657 / topic L2 0.17 row still has no p-value and no paraphrase transfer.
-
-### Layer 8 — still open
-
-Published 2026-09-23: plan gap 0.066, topic L2 0.17, lstsq 0.28. Ledger said repairs/cooking/pets carry it; hiking ~0. No itemized s_v in git. Paraphrase file exists (3 topics + one mush hiking line) and was not scored.
-
-Until the command above is run on GPU:
-
-- do not treat layer 8 as confirmed
-- do not treat layer 8 as killed
-- do not freeze r or fill D
+Last-layer gap 0.026 is noise. Pets has the wrong sign.
 
 ## Contrast layer sweep — 2026-09-23 night
 
