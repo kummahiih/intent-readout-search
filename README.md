@@ -6,14 +6,17 @@ The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuris
 
 ## Conclusions (2026-09-26)
 
-Layer-8 last-token LOTO contrast is a **hint**, not $r_{\mathrm{strat}}$. SIREN $f(1)$ on the same layer is the same hint, not a new camera.
+Mid-layer last-token contrast is a **hint** on two families, not $r_{\mathrm{strat}}$.
 
-- Last-token 8-topic: gap 0.105, topic L2 **0.06**, paraphrase $p=0$.
-- SIREN $f(1)$ 8-topic: gap 0.140, topic L2 **0.08**, paraphrase $p=0$. $\cos(f(1),h_T)=0.35$ (not last-token). $\theta$ L2 plan~71 topic~75.
-- Hold travel/neighbors: both sensors still separate those rooms.
-- Rewritten hiking/invoices: last-token $p=0.31$, SIREN $p=0.82$. Dead.
-- Last-layer SIREN: gap 0.038, topic L2 0.21. Fail.
+- Qwen2.5-7B layer 8 last-token: gap 0.105, topic L2 0.06, paraphrase $p=0$.
+- Mistral-7B layer 9 last-token: gap 0.116, topic L2 0.12, paraphrase $p=0$.
+- Mistral layer 9 K-step: gap 0.192, topic L2 0.10, paraphrase $p=0$. $\cos$ to last 0.67.
+- SIREN $f(1)$ follows the same rooms, weaker gap on Mistral.
+- Last layer fails the topic gate on both models.
+- Rewritten hiking/invoices: voice $p\ge 0.6$ on every Mistral pool. Dead rooms travel too.
 
-Do not put $\theta$ in $L$. Do not fill $D$. Not reduced deception.
+Qwen K-step has not been run (the log named qwen-kstep loaded Mistral because `MODEL` was set).
+
+Do not freeze $r$. Do not fill $D$. Not reduced deception.
 
 Numbers: [results/README.md](results/README.md). Rules: [PROTOCOL.md](PROTOCOL.md).
