@@ -6,13 +6,14 @@ The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuris
 
 ## Conclusions (2026-09-26)
 
-Layer-8 last-token LOTO contrast is a **hint**, not $r_{\mathrm{strat}}$.
+Layer-8 last-token LOTO contrast is a **hint**, not $r_{\mathrm{strat}}$. SIREN $f(1)$ on the same layer is the same hint, not a new camera.
 
-- 8-topic: gap 0.105, topic L2 **0.06**, paraphrase $p=0$.
-- Hold travel/neighbors out of $v$: those rooms still separate (held 0.149, $p=0.005$).
-- Hold hiking/invoices out of $v$: original held gap 0.034 $p=0.10$. Rewritten voice file gap **-0.030** $p=0.31$.
-- Last layer on the same 8-topic files fails paraphrase ($p=0.25$).
+- Last-token 8-topic: gap 0.105, topic L2 **0.06**, paraphrase $p=0$.
+- SIREN $f(1)$ 8-topic: gap 0.140, topic L2 **0.08**, paraphrase $p=0$. $\cos(f(1),h_T)=0.35$ (not last-token). $\theta$ L2 plan~71 topic~75.
+- Hold travel/neighbors: both sensors still separate those rooms.
+- Rewritten hiking/invoices: last-token $p=0.31$, SIREN $p=0.82$. Dead.
+- Last-layer SIREN: gap 0.038, topic L2 0.21. Fail.
 
-Hiking and invoices are dead rooms, not a wording glitch. The hint lives in a subset of hallways that share a note family. Not a frozen $r$. Not reduced deception.
+Do not put $\theta$ in $L$. Do not fill $D$. Not reduced deception.
 
 Numbers: [results/README.md](results/README.md). Rules: [PROTOCOL.md](PROTOCOL.md).
