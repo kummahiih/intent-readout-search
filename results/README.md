@@ -2,24 +2,20 @@
 
 Do not collapse attempts.
 
-## P0i — mid3 unit-sum — 2026-09-27 00:13 EEST
+## P0j — in-room $v_T$ — 2026-09-27 00:28 EEST
 
-`r = normalize(hat last + hat kstep + hat f(1))`.
-Qwen log `tests-qwen-mid3-2026-09-27.log`. Mistral `tests-mistral-mid3-2026-09-27.log`.
+Score $T$ with $v_T$ from $T$. Not LOTO. `fit_kept` is circular. Read `transfer_kept`.
+n=2 or 3; permutation $p$ is coarse.
 
-| model | plan | topic L2 | para | voice $p$ | mid3$\cdot$last |
-| --- | --- | --- | --- | --- | --- |
-| Qwen L8 | 0.164 | 0.15 | 0.160 $p=0$ | **0.66** | 0.85 |
-| Mistral L9 | 0.140 | **0.00** | 0.140 $p=0$ | **0.92** | 0.83 |
-| Qwen last layer | 0.049 | 0.27 | 0.048 | — | 0.84 |
-| Mistral last layer | 0.055 | 0.23 | 0.060 | — | 0.81 |
+| room | Qwen para | Qwen voice | Mistral para | Mistral voice |
+| --- | --- | --- | --- | --- |
+| hiking | 0.090 | **0.003** | 0.261 | **-0.008** |
+| invoices | 0.310 | 0.102 | 0.598 | 0.205 |
+| travel | 0.276 | — | 0.352 | — |
+| neighbors | 0.388 | — | 0.512 | — |
 
-Pairwise: last–kstep ~0.70, last–siren ~0.34. Same dead rooms. Not a fourth axis.
+Hiking voice dies on its *own* axis. That rewrite is not a strategy pair. Invoices own-$v$ paraphrase is loud; LOTO death was axis mismatch, not an empty room.
 
-## P0h Qwen K-step L8
+## P0i mid3 / P0h kstep / P0g Mistral / P0c Qwen last
 
-0.195 / L2 0.15 / para $p=0$ / voice $p=0.65$.
-
-## P0g Mistral L9 last/kstep/siren
-
-last 0.116 / L2 0.12. kstep 0.192 / L2 0.10. siren 0.058 / L2 0.04. Voice dead.
+One mid-layer hint, two families. Voice hiking/invoices dead under LOTO. $\hat m$ capped at 6.
