@@ -1,10 +1,10 @@
 #!/bin/bash
-# Qwen2.5-7B layer 8: K-step settle. Same files as last-token / SIREN.
+# Qwen2.5-7B layer 8: K-step settle. Ignores leftover MODEL= from Mistral.
 # Do not fill D.
 set -euo pipefail
 cd "$(dirname "$0")"
 
-MODEL="${MODEL:-Qwen/Qwen2.5-7B-Instruct}"
+MODEL="Qwen/Qwen2.5-7B-Instruct"
 LAYER="${LAYER:-8}"
 K="${KSTEP_K:-8}"
 
