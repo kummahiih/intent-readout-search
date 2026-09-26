@@ -1,0 +1,244 @@
+paired_topics=cooking(dec=3,hon=3),hiking(dec=3,hon=3),invoices(dec=3,hon=3),neighbors(dec=3,hon=3),pets(dec=3,hon=3),repairs(dec=3,hon=3),taxes(dec=3,hon=3),travel(dec=3,hon=3)
+layer=-1 pool=last
+bank_deceptive_only=8 (no honest bank; v from matched pairs, leave-one-topic-out)
+VRAM allocated_GiB=5.18 reserved_GiB=5.33
+m_hat_fit_topic_invoices=6 n=6 d=3584 rel=0.05
+m_hat_fit_topic_hiking=6 n=6 d=3584 rel=0.05
+m_hat_fit_topic_repairs=6 n=6 d=3584 rel=0.05
+m_hat_fit_topic_cooking=6 n=6 d=3584 rel=0.05
+m_hat_fit_topic_taxes=6 n=6 d=3584 rel=0.05
+m_hat_fit_topic_pets=6 n=6 d=3584 rel=0.05
+m_hat_fit_topic_travel=6 n=6 d=3584 rel=0.05
+m_hat_fit_topic_neighbors=6 n=6 d=3584 rel=0.05
+m_hat_fit_all=15 n=48 d=3584 rel=0.05
+m_hat_fit_dec=17 n=24 d=3584 rel=0.05
+m_hat_fit_hon=15 n=24 d=3584 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+v[invoices]_norm=74.2589
+v[hiking]_norm=65.7389
+v[repairs]_norm=88.0340
+v[cooking]_norm=74.4728
+v[taxes]_norm=60.5892
+v[pets]_norm=85.2290
+v[travel]_norm=55.7834
+v[neighbors]_norm=52.6169
+m_hat_fit_contrast_v=8 n=8 d=3584 rel=0.05
+leave-one-topic-out scores (v from other topics):
+  topic=cooking strategy=deceptive s_v=-0.1378
+  topic=cooking strategy=deceptive s_v=-0.0982
+  topic=cooking strategy=deceptive s_v=-0.1446
+  topic=cooking strategy=honest s_v=-0.0923
+  topic=cooking strategy=honest s_v=-0.0888
+  topic=cooking strategy=honest s_v=-0.1663
+  topic=hiking strategy=deceptive s_v=-0.1093
+  topic=hiking strategy=deceptive s_v=-0.0748
+  topic=hiking strategy=deceptive s_v=-0.1055
+  topic=hiking strategy=honest s_v=-0.1782
+  topic=hiking strategy=honest s_v=-0.1483
+  topic=hiking strategy=honest s_v=-0.0712
+  topic=invoices strategy=deceptive s_v=-0.0790
+  topic=invoices strategy=deceptive s_v=-0.0438
+  topic=invoices strategy=deceptive s_v=-0.0195
+  topic=invoices strategy=honest s_v=-0.1141
+  topic=invoices strategy=honest s_v=-0.0621
+  topic=invoices strategy=honest s_v=-0.0637
+  topic=neighbors strategy=deceptive s_v=-0.0282
+  topic=neighbors strategy=deceptive s_v=-0.0707
+  topic=neighbors strategy=deceptive s_v=-0.0019
+  topic=neighbors strategy=honest s_v=-0.0893
+  topic=neighbors strategy=honest s_v=-0.0853
+  topic=neighbors strategy=honest s_v=0.0113
+  topic=pets strategy=deceptive s_v=-0.0274
+  topic=pets strategy=deceptive s_v=0.0216
+  topic=pets strategy=deceptive s_v=0.1130
+  topic=pets strategy=honest s_v=0.0495
+  topic=pets strategy=honest s_v=0.0084
+  topic=pets strategy=honest s_v=0.0815
+  topic=repairs strategy=deceptive s_v=-0.0648
+  topic=repairs strategy=deceptive s_v=-0.1060
+  topic=repairs strategy=deceptive s_v=-0.0892
+  topic=repairs strategy=honest s_v=-0.2079
+  topic=repairs strategy=honest s_v=-0.1064
+  topic=repairs strategy=honest s_v=-0.1121
+  topic=taxes strategy=deceptive s_v=-0.0354
+  topic=taxes strategy=deceptive s_v=-0.0164
+  topic=taxes strategy=deceptive s_v=-0.0921
+  topic=taxes strategy=honest s_v=-0.0521
+  topic=taxes strategy=honest s_v=-0.1026
+  topic=taxes strategy=honest s_v=-0.1818
+  topic=travel strategy=deceptive s_v=-0.0399
+  topic=travel strategy=deceptive s_v=0.0406
+  topic=travel strategy=deceptive s_v=-0.1092
+  topic=travel strategy=honest s_v=-0.1133
+  topic=travel strategy=honest s_v=-0.0311
+  topic=travel strategy=honest s_v=-0.1001
+fit mean s_v deceptive=-0.0549 honest=-0.0840 gap_dec_minus_hon=0.0291 n_dec=24 n_hon=24
+topic_lstsq_on_scalar=0.23 topic_loo_cos_on_scalar=0.23 topic_loo_l2_on_scalar=0.23 n=48 topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel']
+Official topic gate on scalars is topic_loo_l2_on_scalar.
+topic_loo_cos_on_scalar is sign-only in 1-d. Eight-way chance is 0.125.
+per-topic LOTO gaps:
+  topic=cooking gap=-0.0111 dec=-0.1269 hon=-0.1158 n=6
+  topic=hiking gap=+0.0360 dec=-0.0965 hon=-0.1326 n=6
+  topic=invoices gap=+0.0325 dec=-0.0474 hon=-0.0800 n=6
+  topic=neighbors gap=+0.0208 dec=-0.0336 hon=-0.0544 n=6
+  topic=pets gap=-0.0107 dec=+0.0357 hon=+0.0465 n=6
+  topic=repairs gap=+0.0555 dec=-0.0867 hon=-0.1421 n=6
+  topic=taxes gap=+0.0643 dec=-0.0479 hon=-0.1122 n=6
+  topic=travel gap=+0.0454 dec=-0.0362 hon=-0.0815 n=6
+within_topic_perm N=20000 p=0.0300 n_ge=600 obs_gap=0.0291
+transfer=data/pairs_paraphrase.jsonl
+m_hat_transfer_topic_invoices=4 n=4 d=3584 rel=0.05
+m_hat_transfer_topic_hiking=4 n=4 d=3584 rel=0.05
+m_hat_transfer_topic_repairs=4 n=4 d=3584 rel=0.05
+m_hat_transfer_topic_cooking=4 n=4 d=3584 rel=0.05
+m_hat_transfer_topic_taxes=4 n=4 d=3584 rel=0.05
+m_hat_transfer_topic_pets=4 n=4 d=3584 rel=0.05
+m_hat_transfer_topic_travel=4 n=4 d=3584 rel=0.05
+m_hat_transfer_topic_neighbors=4 n=4 d=3584 rel=0.05
+m_hat_transfer_all=15 n=32 d=3584 rel=0.05
+m_hat_transfer_dec=16 n=16 d=3584 rel=0.05
+m_hat_transfer_hon=14 n=16 d=3584 rel=0.05
+m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.
+  transfer topic=cooking strategy=deceptive s_v=-0.1117
+  transfer topic=cooking strategy=deceptive s_v=-0.0909
+  transfer topic=cooking strategy=honest s_v=-0.0299
+  transfer topic=cooking strategy=honest s_v=-0.0045
+  transfer topic=hiking strategy=deceptive s_v=-0.1653
+  transfer topic=hiking strategy=deceptive s_v=-0.0850
+  transfer topic=hiking strategy=honest s_v=-0.1300
+  transfer topic=hiking strategy=honest s_v=-0.0739
+  transfer topic=invoices strategy=deceptive s_v=-0.0481
+  transfer topic=invoices strategy=deceptive s_v=-0.0379
+  transfer topic=invoices strategy=honest s_v=-0.1031
+  transfer topic=invoices strategy=honest s_v=-0.1304
+  transfer topic=neighbors strategy=deceptive s_v=0.0027
+  transfer topic=neighbors strategy=deceptive s_v=-0.0868
+  transfer topic=neighbors strategy=honest s_v=-0.0660
+  transfer topic=neighbors strategy=honest s_v=-0.0980
+  transfer topic=pets strategy=deceptive s_v=-0.0352
+  transfer topic=pets strategy=deceptive s_v=-0.0273
+  transfer topic=pets strategy=honest s_v=-0.0044
+  transfer topic=pets strategy=honest s_v=0.0084
+  transfer topic=repairs strategy=deceptive s_v=-0.0134
+  transfer topic=repairs strategy=deceptive s_v=-0.0697
+  transfer topic=repairs strategy=honest s_v=-0.0985
+  transfer topic=repairs strategy=honest s_v=-0.1185
+  transfer topic=taxes strategy=deceptive s_v=-0.1023
+  transfer topic=taxes strategy=deceptive s_v=0.0051
+  transfer topic=taxes strategy=honest s_v=-0.0569
+  transfer topic=taxes strategy=honest s_v=-0.0928
+  transfer topic=travel strategy=deceptive s_v=-0.0048
+  transfer topic=travel strategy=deceptive s_v=0.0731
+  transfer topic=travel strategy=honest s_v=-0.0643
+  transfer topic=travel strategy=honest s_v=-0.0311
+transfer mean s_v deceptive=-0.0499 honest=-0.0684 gap_dec_minus_hon=0.0185 n_dec=16 n_hon=16
+per-topic LOTO gaps:
+  topic=cooking gap=-0.0841 dec=-0.1013 hon=-0.0172 n=4
+  topic=hiking gap=-0.0232 dec=-0.1251 hon=-0.1019 n=4
+  topic=invoices gap=+0.0737 dec=-0.0430 hon=-0.1168 n=4
+  topic=neighbors gap=+0.0399 dec=-0.0421 hon=-0.0820 n=4
+  topic=pets gap=-0.0333 dec=-0.0313 hon=+0.0020 n=4
+  topic=repairs gap=+0.0669 dec=-0.0416 hon=-0.1085 n=4
+  topic=taxes gap=+0.0262 dec=-0.0486 hon=-0.0749 n=4
+  topic=travel gap=+0.0818 dec=+0.0341 hon=-0.0477 n=4
+within_topic_perm N=20000 p=0.2475 n_ge=4951 obs_gap=0.0185
+v built from pair tags. Tags are not a loss input.
+Not a deception result. Do not train the hinge on this r yet.
+Do not fill D from this run.
+VRAM allocated_GiB=5.18 reserved_GiB=5.33
+n=48 topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel']
+topic_lstsq_h=1.00 topic_loo_cos_h=0.79 topic_loo_l2_h=0.79
+LOO topic after fold-fit span wipe (means from n-1, L2 on leftover):
+topic_loo_l2_leftover_foldfit=0.08
+Old global leftover + cosine LOO is retired (forces -1 to own topic).
+leave-one-topic-out plan; wipe fitted on other topics only:
+  hold=cooking train_acc=0.90 hold_acc=0.50 t=4.278 n_hold=6
+  hold=hiking train_acc=0.95 hold_acc=0.50 t=1.590 n_hold=6
+  hold=invoices train_acc=0.86 hold_acc=0.50 t=-1.161 n_hold=6
+  hold=neighbors train_acc=0.83 hold_acc=0.83 t=0.589 n_hold=6
+  hold=pets train_acc=0.95 hold_acc=0.33 t=1.224 n_hold=6
+  hold=repairs train_acc=0.86 hold_acc=0.83 t=-0.209 n_hold=6
+  hold=taxes train_acc=0.90 hold_acc=0.50 t=8.055 n_hold=6
+  hold=travel train_acc=0.90 hold_acc=0.67 t=2.389 n_hold=6
+mean_loto_plan_leftover_foldfit=0.58
+Fold-fit wipe is still not LEACE. Do not fill D.
+VRAM allocated_GiB=5.18 reserved_GiB=5.33
+n_layers=28 layer=8 k=4 mode=loud
+picked_heads=10,12,15,19 write_norm=3.5045,3.8653,3.3434,4.3533
+pair cosine of r to bank-deceptive head-writes:
+  topic=invoices strategy=deceptive s*_D=0.5907
+  topic=invoices strategy=honest s*_D=0.4356
+  topic=hiking strategy=deceptive s*_D=0.6168
+  topic=hiking strategy=honest s*_D=0.5107
+  topic=repairs strategy=deceptive s*_D=0.7891
+  topic=repairs strategy=honest s*_D=0.7265
+  topic=cooking strategy=deceptive s*_D=0.5745
+  topic=cooking strategy=honest s*_D=0.7417
+  topic=taxes strategy=deceptive s*_D=0.6766
+  topic=taxes strategy=honest s*_D=0.6927
+  topic=pets strategy=deceptive s*_D=0.7711
+  topic=pets strategy=honest s*_D=0.4063
+  topic=invoices strategy=deceptive s*_D=0.4307
+  topic=invoices strategy=honest s*_D=0.2931
+  topic=hiking strategy=deceptive s*_D=0.4900
+  topic=hiking strategy=honest s*_D=0.4458
+  topic=repairs strategy=deceptive s*_D=0.4582
+  topic=repairs strategy=honest s*_D=0.6468
+  topic=cooking strategy=deceptive s*_D=0.6603
+  topic=cooking strategy=honest s*_D=0.6201
+  topic=taxes strategy=deceptive s*_D=0.5962
+  topic=taxes strategy=honest s*_D=0.5797
+  topic=pets strategy=deceptive s*_D=0.6638
+  topic=pets strategy=honest s*_D=0.6872
+  topic=travel strategy=deceptive s*_D=0.7604
+  topic=travel strategy=honest s*_D=0.7197
+  topic=travel strategy=deceptive s*_D=0.6713
+  topic=travel strategy=honest s*_D=0.4023
+  topic=neighbors strategy=deceptive s*_D=0.7482
+  topic=neighbors strategy=honest s*_D=0.3958
+  topic=neighbors strategy=deceptive s*_D=0.5056
+  topic=neighbors strategy=honest s*_D=0.5126
+mean s*_D deceptive=0.6252 honest=0.5510 gap_hon_minus_dec=-0.0742
+topic_lstsq_head_r=1.00 topic_lstsq_layer_h=1.00 topic_loo_head_r=0.69 topic_loo_layer_h=0.62 n=32 topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel']
+Official topic gate is topic_loo_*. topic_lstsq_* can memorize.
+Heads picked on bank write-norm only. Not a deception result.
+VRAM allocated_GiB=5.18 reserved_GiB=5.33
+n_layers=28 layer=8 k=4 mode=quiet
+picked_heads=23,24,26,27 write_norm=0.7910,0.7237,0.6858,0.8001
+pair cosine of r to bank-deceptive head-writes:
+  topic=invoices strategy=deceptive s*_D=0.9806
+  topic=invoices strategy=honest s*_D=0.9712
+  topic=hiking strategy=deceptive s*_D=0.9378
+  topic=hiking strategy=honest s*_D=0.9352
+  topic=repairs strategy=deceptive s*_D=0.9720
+  topic=repairs strategy=honest s*_D=0.9754
+  topic=cooking strategy=deceptive s*_D=0.9681
+  topic=cooking strategy=honest s*_D=0.9776
+  topic=taxes strategy=deceptive s*_D=0.9719
+  topic=taxes strategy=honest s*_D=0.9642
+  topic=pets strategy=deceptive s*_D=0.9734
+  topic=pets strategy=honest s*_D=0.9618
+  topic=invoices strategy=deceptive s*_D=0.9481
+  topic=invoices strategy=honest s*_D=0.9559
+  topic=hiking strategy=deceptive s*_D=0.9394
+  topic=hiking strategy=honest s*_D=0.9676
+  topic=repairs strategy=deceptive s*_D=0.9406
+  topic=repairs strategy=honest s*_D=0.9671
+  topic=cooking strategy=deceptive s*_D=0.9675
+  topic=cooking strategy=honest s*_D=0.9502
+  topic=taxes strategy=deceptive s*_D=0.9706
+  topic=taxes strategy=honest s*_D=0.9690
+  topic=pets strategy=deceptive s*_D=0.9718
+  topic=pets strategy=honest s*_D=0.9624
+  topic=travel strategy=deceptive s*_D=0.9749
+  topic=travel strategy=honest s*_D=0.9748
+  topic=travel strategy=deceptive s*_D=0.9650
+  topic=travel strategy=honest s*_D=0.9606
+  topic=neighbors strategy=deceptive s*_D=0.9739
+  topic=neighbors strategy=honest s*_D=0.9491
+  topic=neighbors strategy=deceptive s*_D=0.9696
+  topic=neighbors strategy=honest s*_D=0.9606
+mean s*_D deceptive=0.9641 honest=0.9627 gap_hon_minus_dec=-0.0014
+topic_lstsq_head_r=1.00 topic_lstsq_layer_h=1.00 topic_loo_head_r=0.12 topic_loo_layer_h=0.62 n=32 topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel']
+Official topic gate is topic_loo_*. topic_lstsq_* can memorize.
+Heads picked on bank write-norm only. Not a deception result.
