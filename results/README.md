@@ -2,6 +2,21 @@
 
 Do not collapse attempts.
 
+## Talker-count $m_{\mathrm{hat}}$ — wired 2026-09-26 22:52 EEST
+
+Same SVD energy rank as `regret-heuristic/simulation_source_count.py`.
+Now logged by `pair_contrast.py` (`source_count.py`, `--mhat-rel 0.05`).
+Not in $L$. Not $r$. Crowded hallway is not the slap.
+
+No Qwen $m_{\mathrm{hat}}$ yet. Rerun layer 8 to fill:
+
+```bash
+python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
+  --permute 20000 --transfer data/pairs_paraphrase.jsonl
+```
+
+Want from that run: `m_hat_fit_all`, `m_hat_fit_dec`, `m_hat_fit_hon`, `m_hat_fit_contrast_v`, per-topic `m_hat_fit_topic_*`, and the transfer twins. Also still need `topic_loo_l2_on_scalar` from P0b scrollback.
+
 ## P0b — 8-topic layer-8 + full paraphrase — 2026-09-26 22:47 EEST
 
 Same command on the widened files. Topic L2 line was off the photo; paste it if you still have scrollback. Eight-way chance is 0.125.
