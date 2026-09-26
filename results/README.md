@@ -2,18 +2,20 @@
 
 Do not collapse attempts.
 
-## P0k — hiking voice rewrite — 2026-09-27 00:36 EEST
+## P0l — travel/neighbors voice — 2026-09-27 00:44 EEST
 
-Deceptive no longer confesses the rain-check. In-room transfer:
+Same register as hiking/invoices. In-room transfer vs LOTO transfer_held:
 
-| room | Qwen voice | Mistral voice |
+| | Qwen | Mistral |
 | --- | --- | --- |
-| hiking before | 0.003 | -0.008 |
-| hiking after | **0.045** $p=0.20$ | **0.121** $p=0.20$ |
-| invoices | 0.102 | 0.205 |
+| in-room travel voice | 0.109 $p=0.30$ | 0.160 $p=0.20$ |
+| in-room neighbors voice | 0.096 $p=0.50$ | 0.148 $p=0.29$ |
+| LOTO voice held | **0.004** $p=0.87$ | **0.036** $p=0.13$ |
+| in-room travel paraphrase (earlier) | 0.276 | 0.352 |
+| in-room neighbors paraphrase | 0.388 | 0.512 |
 
-Hiking moved and is still weak. Do not treat hiking-voice as a passing room. Invoices own-$v$ still the stronger thin pair.
+Voice style cuts own-$v$ by ~3x and kills the shared LOTO axis even in loud rooms. Hiking was not a special hole. This register is the hole.
 
-## P0j in-room paraphrase
+## P0k hiking voice rewrite
 
-hiking Qwen 0.090 / Mistral 0.261. invoices 0.310 / 0.598. travel 0.276 / 0.352. neighbors 0.388 / 0.512.
+Qwen 0.045 / Mistral 0.121. Still weak.
