@@ -34,10 +34,14 @@ def fit_path(
     hidden: int = 16,
     lr: float = 1e-2,
     omega: float = 30.0,
+    seed: int = 0,
 ) -> TinySiren:
     if path.ndim != 2:
         raise ValueError(f"path must be T x d, got {tuple(path.shape)}")
     T, d = path.shape
+    g = torch.Generator()
+    g.manual_seed(int(seed) & 0x7FFFFFFF)
+    torch.manual_seed(int(seed) & 0x7FFFFFFF)
     net = TinySiren(d, hidden=hidden, omega=omega)
     opt = torch.optim.Adam(net.parameters(), lr=lr)
     t = torch.linspace(0, 1, T).unsqueeze(-1)
@@ -66,9 +70,9 @@ def fit_and_query(
     steps: int = 80,
     hidden: int = 16,
     lr: float = 1e-2,
+    seed: int = 0,
 ) -> tuple[torch.Tensor, torch.Tensor, float, float]:
-    """Return (f(query_t), theta, mse, cos_to_last)."""
-    net = fit_path(path, steps=steps, hidden=hidden, lr=lr)
+    net = fit_path(path, steps=steps, hidden=hidden, lr=lr, seed=seed)
     r = query_end(net, query_t)
     th = theta_vec(net)
     T = path.shape[0]
@@ -78,7 +82,9 @@ def fit_and_query(
         mse = float(F.mse_loss(pred, path.float()))
         last = path[-1].float()
         cos = float(
-            F.normalize(r.unsqueeze(0), dim=-1)
-            @ F.normalize(last.unsqueeze(0), dim=-1).T
+            (
+                F.normalize(r.unsqueeze(0), dim=-1)
+                @ F.normalize(last.unsqueeze(0), dim=-1).T
+            ).clamp(-1, 1)
         )
     return r.cpu(), th.cpu(), mse, cos
