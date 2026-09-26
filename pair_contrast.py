@@ -3,18 +3,13 @@
 
 v_T = normalize(h_dec - h_hon) on topic T.
 Score the other topic with mean v of the other topics (LOTO).
-Official topic gate on the scalar s=h·v is LOO L2, not cosine
-(1-d cosine keeps only the sign).
+Official topic gate on the scalar s=h·v is LOO L2, not cosine.
 Tags build r only. Not z in a loss. Not a hinge. Not Amp.
 
---pool last is the 2026-09-23 run (gap 0.026).
---pool mean averages token states at --layer. Still not a path encoder s_K.
-
-P0 extras:
-  --permute N     within-topic strategy shuffle on the LOTO scalars
-  --transfer FILE score FILE with v from --data (paraphrase hold)
-
-m_hat is SVD energy rank of stacked h. Crowded hallway log. Not the slap.
+--hold-topics travel,neighbors
+  v is built only from the kept topics.
+  Kept topics use LOTO among kept.
+  Held topics are scored with mean v of all kept (OOD rooms).
 """
 
 import argparse
@@ -146,6 +141,37 @@ def log_mhat(prefix, paired, hid, rel):
     print(f"m_hat is a log. Not in L. Not r. Crowded hallway is not the slap.")
 
 
+def score_group(paired_src, v_of, hid, title, loto_from):
+    scalars, r_topics, scores = [], [], []
+    topic_scores = defaultdict(list)
+    print(f"{title} scores:")
+    kept_vs = [v_of[u] for u in loto_from if float(v_of[u].norm()) > 0]
+    if not kept_vs:
+        print(f"ERROR: no v in {title}", file=sys.stderr)
+        return None, None, None
+    v_all = F.normalize(torch.stack(kept_vs).mean(0), dim=0)
+    for t, g in sorted(paired_src.items()):
+        if t in loto_from:
+            others = [v_of[u] for u in loto_from if u != t and float(v_of[u].norm()) > 0]
+            if not others:
+                print(f"  skip {t}: no other v")
+                continue
+            v = F.normalize(torch.stack(others).mean(0), dim=0)
+            kind = "loto"
+        else:
+            v = v_all
+            kind = "held"
+        for strat in ("deceptive", "honest"):
+            for r in g[strat]:
+                s = cosine(hid[id(r)], v)
+                print(f"  {kind} topic={t} strategy={strat} s_v={s:.4f}")
+                scalars.append(torch.tensor([s]))
+                r_topics.append(t)
+                scores.append((strat, s))
+                topic_scores[t].append((strat, s))
+    return scores, topic_scores, (scalars, r_topics)
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--model", default="Qwen/Qwen2.5-7B-Instruct")
@@ -155,8 +181,11 @@ def main():
     p.add_argument("--layer", type=int, default=-1, help="hidden_states index; -1 last")
     p.add_argument("--pool", choices=("last", "mean"), default="last")
     p.add_argument("--permute", type=int, default=0, help="within-topic label shuffles")
+    p.add_argument("--mhat-rel", type=float, default=0.05)
     p.add_argument(
-        "--mhat-rel", type=float, default=0.05, help="SVD energy floor vs s_max"
+        "--hold-topics",
+        default="",
+        help="comma topics excluded from v; scored as OOD",
     )
     args = p.parse_args()
     if not torch.cuda.is_available():
@@ -164,8 +193,11 @@ def main():
         sys.exit(1)
     rows = load_rows(args.data)
     paired = paired_topics(rows)
-    if len(paired) < 2:
-        print("ERROR: need >=2 topics with both strategies", file=sys.stderr)
+    hold = {t.strip() for t in args.hold_topics.split(",") if t.strip()}
+    kept = {t: g for t, g in paired.items() if t not in hold}
+    held = {t: g for t, g in paired.items() if t in hold}
+    if len(kept) < 2:
+        print("ERROR: need >=2 kept topics with both strategies", file=sys.stderr)
         sys.exit(1)
     print(
         "paired_topics="
@@ -174,14 +206,8 @@ def main():
             for t, g in sorted(paired.items())
         )
     )
-    print(f"layer={args.layer} pool={args.pool}")
-    bank_only_dec = [
-        r for r in rows if r.get("split") == "bank" and r["strategy"] == "deceptive"
-    ]
-    print(
-        f"bank_deceptive_only={len(bank_only_dec)} "
-        "(no honest bank; v from matched pairs, leave-one-topic-out)"
-    )
+    print(f"layer={args.layer} pool={args.pool} hold_topics={sorted(hold) or 'none'}")
+    print(f"kept_topics={sorted(kept)} held_topics={sorted(held)}")
     bnb = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.bfloat16,
@@ -219,37 +245,21 @@ def main():
     def mean_h(items):
         return torch.stack([hid[id(r)] for r in items]).mean(0)
 
-    log_mhat("fit_", paired, hid, args.mhat_rel)
+    log_mhat("fit_", kept, hid, args.mhat_rel)
 
     v_of = {}
-    for t, g in paired.items():
+    for t, g in kept.items():
         v = mean_h(g["deceptive"]) - mean_h(g["honest"])
         nrm = float(v.norm())
         v_of[t] = F.normalize(v, dim=0) if nrm > 0 else v
         print(f"v[{t}]_norm={nrm:.4f}")
     report_mhat("fit_contrast_v", list(v_of.values()), args.mhat_rel)
 
-    scalars, r_topics, scores = [], [], []
-    topic_scores = defaultdict(list)
-    print("leave-one-topic-out scores (v from other topics):")
-    for t, g in sorted(paired.items()):
-        others = [v_of[u] for u in paired if u != t and float(v_of[u].norm()) > 0]
-        if not others:
-            print(f"  skip {t}: no other v")
-            continue
-        v = F.normalize(torch.stack(others).mean(0), dim=0)
-        for strat in ("deceptive", "honest"):
-            for r in g[strat]:
-                h = hid[id(r)]
-                s = cosine(h, v)
-                print(f"  topic={t} strategy={strat} s_v={s:.4f}")
-                scalars.append(torch.tensor([s]))
-                r_topics.append(t)
-                scores.append((strat, s))
-                topic_scores[t].append((strat, s))
-    gap = report_gap(scores, "fit")
+    scores, topic_scores, pack = score_group(kept, v_of, hid, "fit_kept", kept)
+    gap = report_gap(scores, "fit_kept")
     if gap is None:
         sys.exit(1)
+    scalars, r_topics = pack
     acc_lstsq, tnames = topic_acc(scalars, r_topics)
     acc_loo_cos = loo_centroid_acc(scalars, r_topics)
     acc_loo_l2 = loo_l2_acc(scalars, r_topics)
@@ -260,35 +270,34 @@ def main():
         f"n={len(scalars)} topics={tnames}"
     )
     print("Official topic gate on scalars is topic_loo_l2_on_scalar.")
-    print(
-        f"topic_loo_cos_on_scalar is sign-only in 1-d. "
-        f"Eight-way chance is {1.0 / max(len(tnames), 1):.3f}."
-    )
+    print(f"kept-way chance is {1.0 / max(len(tnames), 1):.3f}.")
     per_topic_gaps(topic_scores)
     if args.permute > 0:
         permute_p(topic_scores, gap, args.permute)
 
+    if held:
+        h_scores, h_topic_scores, _ = score_group(held, v_of, hid, "fit_held", kept)
+        hgap = report_gap(h_scores, "fit_held")
+        per_topic_gaps(h_topic_scores)
+        if hgap is not None and args.permute > 0:
+            permute_p(h_topic_scores, hgap, args.permute)
+
     if transfer_paired:
         print(f"transfer={args.transfer}")
-        log_mhat("transfer_", transfer_paired, hid, args.mhat_rel)
-        t_scores = []
-        t_topic_scores = defaultdict(list)
-        for t, g in sorted(transfer_paired.items()):
-            others = [v_of[u] for u in paired if u != t and float(v_of[u].norm()) > 0]
-            if not others:
-                print(f"  transfer skip {t}: no fit v")
-                continue
-            v = F.normalize(torch.stack(others).mean(0), dim=0)
-            for strat in ("deceptive", "honest"):
-                for r in g[strat]:
-                    s = cosine(hid[id(r)], v)
-                    print(f"  transfer topic={t} strategy={strat} s_v={s:.4f}")
-                    t_scores.append((strat, s))
-                    t_topic_scores[t].append((strat, s))
-        tgap = report_gap(t_scores, "transfer")
-        per_topic_gaps(t_topic_scores)
-        if tgap is not None and args.permute > 0:
-            permute_p(t_topic_scores, tgap, args.permute)
+        t_kept = {t: g for t, g in transfer_paired.items() if t not in hold}
+        t_held = {t: g for t, g in transfer_paired.items() if t in hold}
+        if t_kept:
+            ts, tts, _ = score_group(t_kept, v_of, hid, "transfer_kept", kept)
+            tgap = report_gap(ts, "transfer_kept")
+            per_topic_gaps(tts)
+            if tgap is not None and args.permute > 0:
+                permute_p(tts, tgap, args.permute)
+        if t_held:
+            hs, hts, _ = score_group(t_held, v_of, hid, "transfer_held", kept)
+            htg = report_gap(hs, "transfer_held")
+            per_topic_gaps(hts)
+            if htg is not None and args.permute > 0:
+                permute_p(hts, htg, args.permute)
 
     print("v built from pair tags. Tags are not a loss input.")
     print("Not a deception result. Do not train the hinge on this r yet.")
