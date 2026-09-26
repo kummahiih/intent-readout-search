@@ -2,20 +2,18 @@
 
 Do not collapse attempts.
 
-## P0n — 8-topic Desk-note frame — 2026-09-27 00:59 EEST
+## P0o — hiking lexical rewrite — 2026-09-27 01:09 EEST
 
-Log at repo root: `tests-loto-frame8-2026-09-27.log`. Move it under `results/` next commit.
+Log: `tests-hiking-rewrite-2026-09-27.log` (repo root).
+Facts kept. Shared ridge/washout nouns pulled off one side.
 
-| | plan fit | topic L2 | transfer |
+| | hiking LOTO fit | hiking paraphrase | hiking frame |
 | --- | --- | --- | --- |
-| Qwen L8 frame8 | 0.105 | **0.06** | **0.102** $p=0$ |
-| Mistral L9 frame8 | 0.116 | 0.12 | **0.125** $p=0$ |
-| Qwen 8-topic paraphrase | 0.105 | 0.06 | 0.108 |
-| Mistral 8-topic last | 0.116 | 0.12 | 0.123 |
+| Qwen L8 | **0.013** | **0.009** | **0.016** |
+| Mistral L9 | 0.069 | 0.052 | 0.070 |
 
-Prefix on all eight rooms copies the paraphrase hint. Two-room frame was not lucky.
-Hiking LOTO stays thin (Qwen 0.01, Mistral 0.03). Quiet room, not genre.
+Before rewrite: Qwen ~0.01, Mistral ~0.03.
+Qwen did not move. Mistral doubled and is still half of travel (~0.16).
+8-way hint still there (Qwen transfer 0.103 L2 0.10; Mistral 0.130 L2 0.08).
 
-## P0m / P0l
-
-Bank-frame prefix holds. Office-log genre is out of the voter set.
+Write the fail: this axis is not outdoor-route general on Qwen. Do not drop hiking to manufacture a camera. Do not fill $D$.
