@@ -2,20 +2,20 @@
 
 Do not collapse attempts.
 
-## P0m — Desk-note bank frame — 2026-09-27 00:52 EEST
+## P0n — 8-topic Desk-note frame — 2026-09-27 00:59 EEST
 
-Same sentences as the bank plus prefix `Desk note:`.
+Log at repo root: `tests-loto-frame8-2026-09-27.log`. Move it under `results/` next commit.
 
-| | Qwen | Mistral |
-| --- | --- | --- |
-| in-room travel frame | 0.346 | 0.563 |
-| in-room neighbors frame | 0.364 | 0.505 |
-| LOTO transfer_held frame | **0.145** $p=0.005$ | **0.151** $p=0.005$ |
-| LOTO transfer_held voice-loud | 0.004 $p=0.87$ | 0.036 $p=0.13$ |
-| LOTO fit_held bank | 0.149 | 0.146 |
+| | plan fit | topic L2 | transfer |
+| --- | --- | --- | --- |
+| Qwen L8 frame8 | 0.105 | **0.06** | **0.102** $p=0$ |
+| Mistral L9 frame8 | 0.116 | 0.12 | **0.125** $p=0$ |
+| Qwen 8-topic paraphrase | 0.105 | 0.06 | 0.108 |
+| Mistral 8-topic last | 0.116 | 0.12 | 0.123 |
 
-A prefix keeps the shared axis. Office-log / radio genre kills it. Genre was the hole.
+Prefix on all eight rooms copies the paraphrase hint. Two-room frame was not lucky.
+Hiking LOTO stays thin (Qwen 0.01, Mistral 0.03). Quiet room, not genre.
 
-## P0l voice-loud / P0k hiking voice
+## P0m / P0l
 
-Register out of the freeze gate. Paraphrase and bank-frame stay.
+Bank-frame prefix holds. Office-log genre is out of the voter set.
