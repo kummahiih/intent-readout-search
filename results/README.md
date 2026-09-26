@@ -2,6 +2,15 @@
 
 Do not collapse attempts. Put new logs in this folder.
 
+## P1 — fact-held paraphrase — 2026-09-27 02:12 EEST
+
+Log: `results/tests-para-hold-2026-09-27.log` (hooked run). Fit $v_T$ on wide rows whose fact is not the transfer fact.
+
+Qwen paraphrase: para_held_inroom hiking **0.160** / travel 0.179; para_held_loto hiking **0.009** / travel 0.189.
+Mistral paraphrase: inroom hiking **0.179** / travel 0.175; loto hiking 0.052 / travel 0.168.
+
+The hiking pair is not the original wording. It still does not join the shared axis.
+
 ## P0p — within-topic hold — 2026-09-27 01:55 EEST
 
 Log: `results/tests-held-in-topic-2026-09-27.log`.
