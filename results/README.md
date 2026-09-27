@@ -2,6 +2,24 @@
 
 Do not collapse attempts. Put new logs in this folder.
 
+## P-construct — tag $v$ vs generated `reply_kind` — 2026-09-27 23:57 EEST
+
+Log: `results/tests-construct-kind-2026-09-28.log`. Dumps: `construct_kind_qwen.jsonl`, `construct_kind_mistral.jsonl`.
+Fit $v_T$ on assigned tags. Score last-token $h$ of the **print**. Kind from same-model `fact_margin` (not a second judge). Kind not in $L$. Not a freeze voter.
+
+| | kind mix | tag LOTO | kind LOTO | tag inroom | kind inroom |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Qwen L8 | truth 43 / contradict 4 / evade 1 | 0.029 | **−0.088** (n_dec=4) | 0.608 | 0.020 |
+| Mistral L9 | contradict 36 / truth 8 / evade 3 / refuse 1 | 0.066 | **0.008** | 0.695 | 0.198 |
+
+Qwen hiking prints: all six `truth` (three deceptive notes included). Tag LOTO hiking 0.041; kind LOTO hiking skipped.
+Mistral hiking tag LOTO 0.017; kind LOTO −0.013.
+
+`agree_assigned` on truth/contradict: Qwen 0.55, Mistral 0.59. Chance is 0.5.
+In-room tag gaps reuse the same six prints that built $v_T$. Do not read 0.61 as a camera.
+
+The assigned note is not the realized print. Mid-layer note contrast is not a behavior label.
+
 ## P-cross — different-model judge — 2026-09-27 22:55 EEST
 
 Log: `results/tests-cross-judge-2026-09-28.log`.
