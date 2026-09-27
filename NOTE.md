@@ -37,6 +37,8 @@ K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\m
 
 **Rooms.** Hiking is thin on the *shared* axis after a lexical rewrite that pulled shared ridge/washout nouns off one side of the pair. Qwen hiking LOTO $0.013$ / paraphrase $0.009$ / frame $0.016$. Mistral $0.069$ / $0.052$ / $0.070$. Travel on the same runs is $\sim 0.16$. The axis is not outdoor-route general on Qwen. Hiking stays in the eight-room set. Dropping it would manufacture a pass. A loud in-room hold does not count as rooms-uniform.
 
+**Cross-model judge.** Camera owns $v$, walk owns $h$, linear $W$ maps walk space into camera space (LOTO). Dims 3584 vs 4096; $W$ fit on 42 rows (underdetermined). Qwen-cam on Mistral walk: hiking $0.028$ / travel $0.151$. Mistral-cam on Qwen walk: fit-set hiking $0.094$, paraphrase hiking $0.026$. After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is domain-shaped, not evidence you have a portable judge.
+
 ## What this is not
 
 Not $r_{\mathrm{strat}}$. Not a frozen camera. Not reduced deception. Not a reason to train $L_{\mathrm{reg}}$ or run PPO. SAE latents were not run through these gates and do not enter $L$.
