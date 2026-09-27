@@ -15,6 +15,8 @@ Dims: Qwen 3584, Mistral 4096. Map fit on 42 rows. **Underdetermined.** Not a fr
 
 p=0 on fit-set cross_loto (N=20000). Same-model Qwen hiking LOTO is 0.013.
 
+After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is domain-shaped, not evidence you have a portable judge.
+
 ## P1 — fact-held paraphrase — 2026-09-27 02:12 EEST
 
 Log: `results/tests-para-hold-2026-09-27.log` (hooked run). Fit $v_T$ on wide rows whose fact is not the transfer fact.
