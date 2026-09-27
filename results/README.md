@@ -2,6 +2,22 @@
 
 Do not collapse attempts. Put new logs in this folder.
 
+## P-multi — 3 probes, adversary + corr² — 2026-09-28 00:30 EEST
+
+Log: `results/tests-multi-r-2026-09-28.log`.
+Frozen last-token $h$. Three 1-d probes. LOTO: hit label, fool topic head, penalize score corr². Not $r_{\mathrm{strat}}$. Not a freeze voter.
+
+| Run | ensemble LOTO | hiking | travel | corr² |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen notes/tags | 0.051 | **0.015** | 0.084 | 0.30 |
+| Qwen exec/kind | 0.010 | skip (no contradict) | 0.003 | 0.41 |
+| Mistral notes/tags | 0.069 | **0.022** | 0.104 | 0.21 |
+| Mistral exec/kind | 0.033 | 0.019 | skip | 0.26 |
+
+Heads 0/1/2 on Qwen tags: 0.061 / 0.040 / 0.054, hiking 0.015 / 0.013 / 0.017. Same room ranking.
+Plain contrast LOTO on notes was ~0.10. The ensemble is weaker, not complementary.
+corr² 0.21–0.41 is not collapse to 1, and not diversity that helps hiking.
+
 ## P-construct-exec — follow the plan, sample prints — 2026-09-28 00:19 EEST
 
 Log: `results/tests-construct-exec-2026-09-28.log`. Dumps: `construct_kind_exec_qwen.jsonl`, `construct_kind_exec_mistral.jsonl`.
