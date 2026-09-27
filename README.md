@@ -2,33 +2,40 @@
 
 Can a camera on the walk see the *plan* without also seeing the *subject*?
 
-The live question: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation **and** is uniform on the declared eight rooms.
+The live question: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation **and** is uniform on the declared eight rooms **and** tracks a print the actor actually produced.
 
 The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). This repo hunts the camera. Tags are observations. Do not put the hidden room in a loss. Do not fill $D$ from a hint.
 
-Prose writeup: [NOTE.md](NOTE.md). Universal vs many $r_T$: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
+Prose: [NOTE.md](NOTE.md). Universal vs many $r_T$: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
 
-## Status (2026-09-27)
+## Status (2026-09-28)
 
-Mid-layer last-token contrast on Qwen2.5-7B layer 8 and Mistral-7B layer 9 is a **hint**, not $r_{\mathrm{strat}}$.
+Mid-layer last-token contrast on Qwen2.5-7B layer 8 and Mistral-7B layer 9 is a **note-space hint**, not $r_{\mathrm{strat}}$.
 
-| | plan fit | topic L2 | paraphrase | 8-topic frame |
-| --- | ---: | ---: | ---: | ---: |
-| Qwen L8 last | 0.105 | 0.06 | 0.108 | 0.102 |
-| Mistral L9 last | 0.116 | 0.12 | 0.123 | 0.125 |
+| Official gate (notes) | Qwen L8 | Mistral L9 |
+| --- | ---: | ---: |
+| plan LOTO | 0.105 | 0.116 |
+| topic L2 | 0.06 | 0.12 |
+| paraphrase | 0.108 | 0.123 |
+| frame | 0.102 | 0.125 |
+| LOTO hiking / travel | **0.013** / ~0.17 | 0.069 / ~0.17 |
+| held_inroom hiking | 0.203 | 0.278 |
+| para_held_inroom hiking | 0.160 | 0.179 |
 
-Eight-way chance is 0.125. Last layer fails the topic gate (0.17–0.29). K-step / SIREN $f(1)$ / mid3 are one arrow.
+Eight-way chance is 0.125. Last layer fails the topic gate. K-step / SIREN / mid3 are one arrow. Genre is out. Hold is a log, not a fifth gate.
 
-| | LOTO hiking | held_inroom hiking | para_held_inroom hiking | LOTO travel |
-| --- | ---: | ---: | ---: | ---: |
-| Qwen L8 | **0.013** | **0.203** | **0.160** | ~0.17 |
-| Mistral L9 | 0.069 | **0.278** | **0.179** | ~0.17 |
+### What else we ran
 
-Hiking has a pair on a held fact and a reword. That pair is not the eight-room axis. Office-log / radio genre kills LOTO (Qwen held 0.004). Genre is out of the voter set. Hold is a log, not a fifth freeze gate.
+| Test | Result |
+| --- | --- |
+| Cross-judge Qwen $\leftrightarrow$ Mistral | Same rooms loud, hiking thin. $W$ underdetermined. |
+| Oracle many $r_T$ | Hiking/invoices want $W_T$. Mean diag **loses** to shared LOTO. |
+| 3-probe multi-$r$ (tag + adversary + corr²) | Weaker than plain LOTO. Same room ranking. |
+| Generate + `fact_margin` kind | Tags $\neq$ prints. Qwen mostly `truth`. Kind LOTO $\approx 0$. |
+| Execute-plan + sample | Qwen contradict 0.08 $\to$ 0.14. Hiking still all `truth`. |
+| Forced YES/NO (rule grader) | Honest = all NO. Hiking/travel = all NO. ~10 YES on other deceptive rooms. |
 
-Cross-model judge (Qwen $v$ on mapped Mistral $h$, and the reverse): after a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is domain-shaped, not evidence you have a portable judge. $W$ is underdetermined (42 rows, 3584–4096 dims).
-
-Many $r_T$ would likely score local rooms better. That family is not the hinge camera. [UNIVERSAL_R.md](UNIVERSAL_R.md).
+After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is **domain-shaped**, not a portable judge. Many local $r_T$ are not the hinge camera. A print-level `reply_kind` still does not give a shared axis.
 
 Do not freeze $r$. Do not fill $D$. Do not drop hiking. Not reduced deception.
 
@@ -39,7 +46,6 @@ python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
   --permute 20000 --transfer data/pairs_paraphrase.jsonl
 python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
   --held-in-topic --permute 20000 --transfer data/pairs_paraphrase.jsonl
-./tests-construct-kind-2026-09-28.sh
 ```
 
-Read plan LOTO, topic `loo_l2_acc`, paraphrase, per-room gaps. `held_inroom` / `para_held_inroom` are diagnostics. Construct: `construct_kind_loto` vs `construct_tag_loto`. `reply_kind` stays out of $L$.
+Read plan LOTO, topic `loo_l2_acc`, paraphrase, per-room gaps. `held_inroom` is a diagnostic. `reply_kind` stays out of $L$.
