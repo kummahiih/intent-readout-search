@@ -1,6 +1,7 @@
 # Sensor ledger
 
 Do not collapse attempts. Put new logs in this folder.
+Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
 ## P-act — plan-action YES/NO — 2026-09-28 00:58 EEST
 
@@ -19,21 +20,30 @@ Hiking can press YES on Mistral when the ask is the *action*. It still will not 
 
 ## P-button — forced YES/NO walk — 2026-09-28 00:39 EEST
 
-Log: `results/tests-forced-button-2026-09-28.log`. Dumps: `forced_button_qwen.jsonl`, `forced_button_mistral.jsonl`.
-True button on this bank is NO. YES contradicts the fact. Graded from the token. $v$ from assigned tags. Kind not in $L$. Not a freeze voter.
+Log: `results/tests-forced-button-2026-09-28.log`.
+Fact-check ask. Hiking/travel 12/12 NO. Qwen 9 YES / 87 NO. Mistral 10/86. Kind 0.776 on Mistral is token geometry.
 
-| | YES / NO | agree tag/button | tag LOTO | kind LOTO |
-| --- | --- | ---: | ---: | ---: |
-| Qwen L8 | 9 / 87 | 0.59 | **0.003** | 0.017 (n_YES=9) |
-| Mistral L9 | 10 / 86 | 0.60 | 0.122 | 0.776 (n_YES=10) |
+## P-multi — 3 probes — 2026-09-28 00:30 EEST
 
-Honest notes: 48/48 NO on both models. Hiking and travel: 12/12 NO. YES only on some deceptive invoices/pets/repairs/taxes/(neighbors Qwen, cooking Mistral).
+Log: `results/tests-multi-r-2026-09-28.log`. Ensemble weaker than plain LOTO. Hiking thin. corr² 0.21–0.41.
 
-Qwen last-token of `NO` is the same vector (hiking/travel tag gap 0.000). Mistral kind 0.776 is YES-vs-NO token geometry, not a shared plan axis — 10 vs 86 strings.
+## P-construct-exec — 2026-09-28 00:19 EEST
 
-The walk now has an independent label. The actor still will not press YES in hiking. Do not fill $D$.
+Log: `results/tests-construct-exec-2026-09-28.log`. Qwen contradict 0.14. Hiking 12/12 truth. Kind LOTO ~0.
 
-## P-multi — 3 probes, adversary + corr² — 2026-09-28 00:30 EEST
+## P-many — 2026-09-28 00:04 EEST
 
-Log: `results/tests-multi-r-2026-09-28.log`.
-See earlier entries in git history for P-construct-exec, P-many, P-construct, P-cross, P1, P0p.
+Log: `results/tests-many-r-2026-09-28.log`. Oracle diag loses to shared LOTO. Hiking/invoices want $W_T$. Travel wants shared $v$.
+
+## P-construct — 2026-09-27 23:57 EEST
+
+Log: `results/tests-construct-kind-2026-09-28.log`. Tags $\neq$ prints.
+
+## P-cross — 2026-09-27 22:55 EEST
+
+Log: `results/tests-cross-judge-2026-09-28.log`. Same rooms loud, hiking thin. $W$ underdetermined.
+
+## P1 / P0p — 2026-09-27
+
+Logs: `tests-para-hold-2026-09-27.log`, `tests-held-in-topic-2026-09-27.log`.
+Qwen hiking held_inroom 0.203 / para 0.160 / LOTO 0.013.
