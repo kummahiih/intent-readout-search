@@ -2,6 +2,26 @@
 
 Do not collapse attempts. Put new logs in this folder.
 
+## P-many — oracle $r_T$ vs shared $v$ — 2026-09-28 00:04 EEST
+
+Log: `results/tests-many-r-2026-09-28.log`.
+Each $r_T=v_T$ fit on 2+2, held 1+1 scored with every room camera. Diagonal = oracle many-$r$. Off-diagonal = wrong-room $v$. Shared LOTO = mean of other $v$. Knowing $T$ is a topic feature. Not $r_{\mathrm{strat}}$. Not a freeze voter.
+
+| | oracle diag | off-room | shared LOTO |
+| --- | ---: | ---: | ---: |
+| Qwen L8 | 0.059 ($p=0.014$) | 0.048 | **0.093** ($p=0$) |
+| Mistral L9 | 0.079 ($p=0.021$) | 0.059 | **0.124** ($p=0$) |
+
+| Room | Qwen oracle / LOTO | Mistral oracle / LOTO |
+| --- | --- | --- |
+| hiking | **0.160** / 0.038 | **0.214** / 0.063 |
+| invoices | **0.238** / 0.023 | **0.409** / 0.069 |
+| travel | 0.049 / **0.142** | 0.078 / **0.200** |
+
+Paraphrase with full-room $v_T$: oracle transfer Qwen 0.288 / Mistral 0.434 (hiking 0.250 / 0.294). Shared transfer hiking 0.009 / 0.052 vs travel 0.189 / 0.168.
+
+Two rooms want their own camera. Mean-over-rooms does not. Do not freeze eight banks.
+
 ## P-construct — tag $v$ vs generated `reply_kind` — 2026-09-27 23:57 EEST
 
 Log: `results/tests-construct-kind-2026-09-28.log`. Dumps: `construct_kind_qwen.jsonl`, `construct_kind_mistral.jsonl`.
