@@ -26,6 +26,8 @@ Eight-way chance is 0.125. Last layer fails the topic gate (0.17–0.29). K-step
 
 Hiking has a pair on a held fact and a reword. That pair is not the eight-room axis. Office-log / radio genre kills LOTO (Qwen held 0.004). Genre is out of the voter set. Hold is a log, not a fifth freeze gate.
 
+Cross-model judge (Qwen $v$ on mapped Mistral $h$, and the reverse): after a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is domain-shaped, not evidence you have a portable judge. $W$ is underdetermined (42 rows, 3584–4096 dims).
+
 Do not freeze $r$. Do not fill $D$. Do not drop hiking. Not reduced deception.
 
 ## How to run the official meters
