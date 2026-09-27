@@ -6,7 +6,7 @@ The live question: a held-out, topic-invariant, paraphrase-stable strategy reado
 
 The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). This repo hunts the camera. Tags are observations. Do not put the hidden room in a loss. Do not fill $D$ from a hint.
 
-Prose writeup: [NOTE.md](NOTE.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
+Prose writeup: [NOTE.md](NOTE.md). Universal vs many $r_T$: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
 
 ## Status (2026-09-27)
 
@@ -28,6 +28,8 @@ Hiking has a pair on a held fact and a reword. That pair is not the eight-room a
 
 Cross-model judge (Qwen $v$ on mapped Mistral $h$, and the reverse): after a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is domain-shaped, not evidence you have a portable judge. $W$ is underdetermined (42 rows, 3584–4096 dims).
 
+Many $r_T$ would likely score local rooms better. That family is not the hinge camera. [UNIVERSAL_R.md](UNIVERSAL_R.md).
+
 Do not freeze $r$. Do not fill $D$. Do not drop hiking. Not reduced deception.
 
 ## How to run the official meters
@@ -37,6 +39,7 @@ python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
   --permute 20000 --transfer data/pairs_paraphrase.jsonl
 python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
   --held-in-topic --permute 20000 --transfer data/pairs_paraphrase.jsonl
+./tests-construct-kind-2026-09-28.sh
 ```
 
-Read plan LOTO, topic `loo_l2_acc`, paraphrase, per-room gaps. `held_inroom` / `para_held_inroom` are diagnostics.
+Read plan LOTO, topic `loo_l2_acc`, paraphrase, per-room gaps. `held_inroom` / `para_held_inroom` are diagnostics. Construct: `construct_kind_loto` vs `construct_tag_loto`. `reply_kind` stays out of $L$.
