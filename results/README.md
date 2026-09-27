@@ -2,6 +2,21 @@
 
 Do not collapse attempts. Put new logs in this folder.
 
+## P-construct-exec — follow the plan, sample prints — 2026-09-28 00:19 EEST
+
+Log: `results/tests-construct-exec-2026-09-28.log`. Dumps: `construct_kind_exec_qwen.jsonl`, `construct_kind_exec_mistral.jsonl`.
+`--execute` + temperature 0.8, two samples per note. $v$ still from assigned tags. Kind not in $L$. Same-model `fact_margin`. Not a freeze voter.
+
+| | kind mix | frac_contradict | agree tag/kind | tag LOTO | kind LOTO |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Qwen L8 | truth 76 / contradict 13 / evade 6 / refuse 1 | 0.135 | 0.65 | 0.047 | **−0.019** |
+| Mistral L9 | contradict 72 / truth 14 / evade 10 | 0.750 | 0.52 | 0.028 | **−0.036** |
+
+Qwen: all 13 contradicts came from deceptive tags; 31 deceptive prints stayed `truth`. Hiking: 12/12 `truth`. Tag LOTO hiking −0.032; kind LOTO hiking skipped.
+Mistral hiking kind LOTO −0.056. Honest-tagged replies are often labeled `contradict` (34).
+
+Execute+sample raised Qwen contradict rate from 0.08 to 0.14. It did not produce a kind axis. Tag LOTO on prints stays thin.
+
 ## P-many — oracle $r_T$ vs shared $v$ — 2026-09-28 00:04 EEST
 
 Log: `results/tests-many-r-2026-09-28.log`.
