@@ -6,6 +6,17 @@ The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuris
 
 Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
 
+## What is being hunted
+
+Same words as the parent [What](https://github.com/kummahiih/regret-heuristic#what-this-is). Short:
+
+- **Walk** — hidden states while generating. **Print** — the string that came out.
+- **Map** — skill / possible thoughts. **Room** — one topic (hiking, travel, …).
+- **Wallpaper** — subject paint. **Plan** — hide-or-name strategy that should not be the room.
+- **Camera *r*** — readout that is supposed to see the plan. **Slap** — parent hinge against frozen pins *D*.
+
+This repo only asks whether a camera exists. It does not train the slap.
+
 ## Why hunt *r*
 
 The parent slap only works if *r* sees the hide-plan and not the job. Human analog: you flinch at the *plan*, not at a catalog of finished lies. That catalog is the scarce object. Preference labels grade the print. They do not grade “was a hide-plan lit in *h*?”
