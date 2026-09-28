@@ -2,11 +2,19 @@
 
 Can a camera on the walk see the *plan* without also seeing the *subject*?
 
-The live question: a held-out, topic-invariant, paraphrase-stable strategy readout that survives within-topic cross-validation **and** is uniform on the declared eight rooms **and** tracks a print the actor actually produced.
-
 The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). This repo hunts the camera. Tags are observations. Do not put the hidden room in a loss. Do not fill *D* from a hint.
 
 Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
+
+## How the question narrowed
+
+First ask: do honest-tagged and deceptive-tagged notes differ in *h* at all? Last-layer last-token said yes, and also classified the topic. That is not a camera the hinge can slap — it would slap the subject.
+
+Second ask: is there a mid-layer direction that still separates the tags when the topic is left out, and that does not beat chance at naming the topic? On Qwen L8 and Mistral L9 the *aggregate* gap is positive (~0.11) and the tested paraphrase and prefix keep that mean. So “any plan-related contrast?” is no longer the open item.
+
+Third ask, forced by hiking: is that contrast one shared axis, or a pile of room-local pairs? Shared LOTO on hiking is ~0.01 / 0.07; a *v* fitted inside hiking on a held pair is ~0.20 / 0.28. Extra readouts copied the same room ranking. Generated buttons often ignored the note.
+
+The live question is therefore the handover test: held-out, topic-invariant, paraphrase-stable, **uniform on the declared eight rooms**, and tied to a print the actor actually produced. Status is the score on that test.
 
 ## Status (2026-09-28)
 
