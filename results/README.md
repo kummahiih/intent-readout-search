@@ -33,7 +33,7 @@ Log: `results/tests-construct-exec-2026-09-28.log`. Qwen contradict 0.14. Hiking
 
 ## P-many — 2026-09-28 00:04 EEST
 
-Log: `results/tests-many-r-2026-09-28.log`. Oracle diag loses to shared LOTO. Hiking/invoices want $W_T$. Travel wants shared $v$.
+Log: `results/tests-many-r-2026-09-28.log`. Oracle diag loses to shared LOTO. Hiking/invoices want $W_{T}$. Travel wants shared $v$.
 
 ## P-construct — 2026-09-27 23:57 EEST
 
