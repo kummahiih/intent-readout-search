@@ -6,6 +6,12 @@ The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuris
 
 Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
 
+## Why hunt *r*
+
+The parent slap only works if *r* sees the hide-plan and not the job. Human analog: you flinch at the *plan*, not at a catalog of finished lies. That catalog is the scarce object. Preference labels grade the print. They do not grade “was a hide-plan lit in *h*?”
+
+**Dictator’s trap:** punish only what was said and you train secrecy, not honesty. An output-only judge is that ruler. This repo is the search for a sensor that would let the hinge slap the plan instead. Full rationale: [regret-heuristic README](https://github.com/kummahiih/regret-heuristic#why-this-hinge).
+
 ## How the question narrowed
 
 First ask: do honest-tagged and deceptive-tagged notes differ in *h* at all? Last-layer last-token said yes, and also classified the topic. That is not a camera the hinge can slap — it would slap the subject.
