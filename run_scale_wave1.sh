@@ -6,6 +6,11 @@
 # Do not fill D.
 set -euo pipefail
 cd "$(dirname "$0")"
+python -c "import sentencepiece" 2>/dev/null || {
+  echo "ERROR: sentencepiece missing (Aya/Gemma tokenizer). Not a camera miss." >&2
+  echo "fix: pip install sentencepiece" >&2
+  exit 2
+}
 mkdir -p results
 LOG="results/tests-scale-wave1-$(date +%Y-%m-%d).log"
 # append; do not wipe a finished Gemma block

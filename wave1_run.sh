@@ -35,6 +35,11 @@ if [[ ! -d $MODEL ]]; then
   exit 1
 fi
 
+python -c "import sentencepiece" 2>/dev/null || {
+  echo "ERROR: sentencepiece missing (Aya/Gemma tokenizer). Not a camera miss." >&2
+  echo "fix: pip install sentencepiece" >&2
+  exit 2
+}
 python wave1_layers.py
 LOG=results/tests-wave1-${TAG}-L${LAYER}-${DATE}.log
 DUMP=results/forced_act_${TAG}.jsonl

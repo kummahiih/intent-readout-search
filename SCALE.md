@@ -33,6 +33,14 @@ On load print `n_layers` from the *text* config. Gemma-3-4B-it is `Gemma3ForCond
 
 `python wave1_layers.py` reads local `models/*/config.json` with no CUDA.
 
+Aya (and Gemma) tokenizers need **sentencepiece**. A missing package is not a camera miss:
+
+```bash
+pip install sentencepiece
+```
+
+`walk_load.py` tries fast then slow and exits 2 with that line instead of a traceback.
+
 ## Wave 1 — same eight rooms, three new walks
 
 Keep `data/pairs_wide.jsonl`. Hiking stays in the eight. Kind not in $L$.
