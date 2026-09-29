@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-# Wave 1: same pairs_wide, four local walks.
-# pair_contrast default data is pairs.jsonl (three rooms). Force wide.
+# Wave 1: same pairs_wide, local walks that load on this venv.
+# Phi-4-mini remote modeling_phi3.py wants LossKwargs; skip until stack matches.
+# Gemma-3 needs a gated accept + sentencepiece.
 # Look for tag LOTO, hiking held_inroom, hiking_mixed, button_pre_act_loto.
 # Do not fill D.
 set -euo pipefail
 cd "$(dirname "$0")"
 mkdir -p results
 LOG="results/tests-scale-wave1-$(date +%Y-%m-%d).log"
-: >"$LOG"
+# append; do not wipe a finished Gemma block
+touch "$LOG"
 
 run() {
   echo "===== $* =====" | tee -a "$LOG"
@@ -16,7 +18,6 @@ run() {
 
 MODELS=(
   "gemma3:models/gemma-3-4b-it:8"
-  "phi4mini:models/Phi-4-mini-instruct:10"
   "falcon3:models/Falcon3-7B-Instruct:8"
   "aya8:models/aya-expanse-8b:10"
 )
