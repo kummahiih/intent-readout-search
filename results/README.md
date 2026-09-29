@@ -3,6 +3,18 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
+## P-prehhold — in-room hold on pre-button $h$ — 2026-09-29 20:33 EEST
+
+Log: `results/tests-pre-hold-2026-09-29.log`.
+Same act dumps. Unique notes ($n=48$). `--h-site pre --held-in-topic`. Diagnostic, not a freeze gate.
+
+| | pre tag LOTO | pre `held_inroom` | hiking pre hold | note-text hiking hold |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen L8 | 0.011 | **0.005** | 0.001 | 0.203 |
+| Mistral L9 | 0.011 | **0.009** | 0.013 | 0.278 |
+
+The loud hiking pair on the *note* last token does not sit on the last token of plan+question. Local $r_T$ at the decision point is also dead. Do not fill $D$.
+
 ## P-pre — pre-button $h$ on the prompt — 2026-09-29 20:20 EEST
 
 Log: `results/tests-pre-button-2026-09-29.log`.
