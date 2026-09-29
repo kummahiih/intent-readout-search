@@ -41,10 +41,12 @@ K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\m
 
 **Pre-button $h$.** P-act print LOTO on Mistral ($0.680$ tag / $0.993$ kind) is the YES/NO cell plus tag–button agreement. Same dumps, last token of the *prompt* (plan + question, before the button): tag LOTO $0.011$ on **both** models. In-room hold on unique notes at that same token: Qwen $0.005$, Mistral $0.009$ (hiking $0.001$ / $0.013$). The note-text hiking pair ($0.203$ / $0.278$) is not sitting at the decision token, shared or local.
 
+**Atlas print kind.** Note last-token $h$, label = free-text `reply_kind` on the exec dumps. Tag-fit reproduces the candidate (Qwen LOTO $0.105$, Mistral $0.126$). Kind-fit does not: Qwen $0.057$ on five rooms with $n_{\mathrm{dec}}=5$; hiking/cooking/invoices have no contradict side (hiking 6/6 truth). Mistral kind LOTO skipped — only taxes is two-sided. The assigned tag is still the only label that yields the hint. The print is not that label.
+
 ## What this is not
 
 Not $r_{\mathrm{strat}}$. Not a frozen camera. Not reduced deception. Not a reason to train $L_{\mathrm{reg}}$ or run PPO. SAE latents were not run through these gates and do not enter $L$.
 
-The honest sentence: a mid-layer last-token contrast is paraphrase- and prefix-stable on two 7B instruct models, genre-fragile, and not uniform across rooms. Hiking has its own pair on the *note*; that pair is not the eight-room direction and is not the pre-button state. Do not fill $D$.
+The honest sentence: a mid-layer last-token contrast is paraphrase- and prefix-stable on two 7B instruct models, genre-fragile, and not uniform across rooms. Hiking has its own pair on the *note*; that pair is not the eight-room direction, not the pre-button state, and not the free-text print. Do not fill $D$.
 
 Numbers: [results/README.md](results/README.md). Rules: [PROTOCOL.md](PROTOCOL.md).
