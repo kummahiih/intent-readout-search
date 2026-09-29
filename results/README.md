@@ -3,6 +3,17 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
+## P-preact — $r(h_{\mathrm{pre}})\to$ YES/NO — 2026-09-29 22:55 EEST
+
+Log: `results/tests-pre-act-2026-09-29.log`. Same P-act dumps. Majority button per note. $v=\bar h_{\mathrm{YES}}-\bar h_{\mathrm{NO}}$. LOTO. Kind not in $L$.
+
+| | paired rooms | skipped | act LOTO gap | hiking gap |
+| --- | --- | --- | ---: | ---: |
+| Qwen L8 | 6/8 | **hiking, travel** (no YES) | **0.038** ($n_{\mathrm{YES}}=8$) | skipped |
+| Mistral L9 | **8/8** | none | **0.016** | **0.012** |
+
+Mistral hiking *does* press YES on deceptive notes. That contrast is not sitting on $h_{\mathrm{pre}}$ (hiking $v$ norm $0.11$). Qwen never gives hiking a YES side, so it cannot vote. Pre-action last token does not predict the hide button. Not a freeze. Do not fill $D$.
+
 ## P-elicit — fact-bite YES/NO — 2026-09-29 21:40 EEST
 
 Log: `results/tests-elicit-2026-09-29.log`. Dumps: `elicit_kind_qwen.jsonl`, `elicit_kind_mistral.jsonl`.
@@ -28,63 +39,14 @@ In-place $\mathrm{proj}_v$ on the stored `hidden_states[layer]` tensor. $s_v$ co
 Neighbors is the fragile room (Qwen keep 0.50). Hiking keep stays high. Quiet-prompt still moves Mistral more than residual wipe.
 This $v$ can be zeroed while most prints keep kind. Cheap obfuscation of the *tag* camera, not a freeze. Do not fill $D$.
 
-## P-bailey — wipe vs prompt-quiet — 2026-09-29 20:55 EEST
-
-Log: `results/tests-bailey-2026-09-29.log`.
-Hook returned a new tensor; HF had already stored the old one. $s_v$ base=wipe. Instrument miss. Quiet arm still valid (Qwen 0.81 / Mistral 0.46).
-
 ## P-atlas — note $h$, free-text kind as label — 2026-09-29 20:42 EEST
 
-Log: `results/tests-atlas-2026-09-29.log`. Dumps: `construct_kind_exec_*.jsonl`. Unique notes $n=48$. Kind not in $L$.
+Log: `results/tests-atlas-2026-09-29.log`. Kind-fit thin. Hiking Qwen 6/6 truth on exec dumps. Do not fill $D$.
 
-| | tag LOTO | kind LOTO | kind rooms | hiking prints |
-| --- | ---: | ---: | --- | --- |
-| Qwen L8 | 0.105 | **0.057** ($n_{\mathrm{dec}}=5$) | 5 of 8; hiking/cooking/invoices skip | 6/6 truth |
-| Mistral L9 | 0.126 | **skipped** | taxes only | no two-sided hiking |
+## P-prehhold / P-pre / P-act
 
-Qwen note kinds: truth 35 / contradict 5 / mixed 7. Mistral: contradict 32 / truth 5 / mixed 9. Tag-fit `held_inroom` hiking still 0.203 / 0.278. Print kind does not give an eight-room contrast. Do not fill $D$.
+Pre tag LOTO $0.011$ both models. Pre hold $0.005$ / $0.009$. Mistral print $0.68$ is YES/NO geometry. Note hiking hold $0.203$ / $0.278$.
 
-## P-prehhold — in-room hold on pre-button $h$ — 2026-09-29 20:33 EEST
+## Older blocks
 
-Log: `results/tests-pre-hold-2026-09-29.log`.
-Same act dumps. Unique notes ($n=48$). `--h-site pre --held-in-topic`. Diagnostic, not a freeze gate.
-
-| | pre tag LOTO | pre `held_inroom` | hiking pre hold | note-text hiking hold |
-| --- | ---: | ---: | ---: | ---: |
-| Qwen L8 | 0.011 | **0.005** | 0.001 | 0.203 |
-| Mistral L9 | 0.011 | **0.009** | 0.013 | 0.278 |
-
-The loud hiking pair on the *note* last token does not sit on the last token of plan+question. Local $r_T$ at the decision point is also dead. Do not fill $D$.
-
-## P-pre — pre-button $h$ on the prompt — 2026-09-29 20:20 EEST
-
-Log: `results/tests-pre-button-2026-09-29.log`.
-Reuse P-act dumps (`forced_act_*.jsonl`). `--h-site both`. Print = last token of YES/NO. Pre = last token of plan+question, before the button. Kind not in $L$. Not a freeze voter.
-
-| | print tag LOTO | print kind LOTO | pre tag LOTO | pre kind LOTO | hiking pre tag |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Qwen L8 | 0.006 | 0.017 | **0.011** | 0.025 | 0.008 |
-| Mistral L9 | **0.680** | **0.993** | **0.011** | 0.013 | 0.012 |
-
-Qwen print scores are two cells (NO $0.5765$, YES $0.5937$). Mistral print $0.68$ / $0.99$ is the same YES/NO geometry plus tag–button agreement $0.84$. Hiking mixed only on Mistral act (9 YES / 9 NO); Qwen hiking still $18$ NO.
-
-Pre-button, both models: shared tag LOTO $0.011$. The plan is in the prompt and still does not make an eight-room axis. Do not fill $D$.
-
-## P-act — plan-action YES/NO — 2026-09-28 00:58 EEST
-
-Log: `results/tests-forced-act-2026-09-28.log`. Dumps: `forced_act_qwen.jsonl`, `forced_act_mistral.jsonl`.
-Ask is the hide/send/claim move (`--act`). YES = carry out the deceptive plan. 3 samples. Kind not in $L$. Not a freeze voter.
-
-| | YES/NO | hiking | travel deceptive YES | agree | tag LOTO | kind LOTO |
-| --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Qwen L8 | 28/116 | **mixed=0** (0 YES / 18 NO) | 0/9 | 0.67 | 0.006 | 0.017 |
-| Mistral L9 | 53/91 | **mixed=1** (9 YES / 9 NO) | 3/9 | 0.84 | 0.680 | 0.993 |
-
-Qwen hiking: every deceptive print still NO. Mistral hiking: all 9 deceptive YES, all 9 honest NO — tags and buttons are the same split.
-Mistral hiking kind gap 1.09 and kind LOTO 0.99 are YES-vs-NO last-token geometry, not a latent plan axis.
-
-Hiking can press YES on Mistral when the ask is the *action*. It still will not on Qwen. Do not fill $D$.
-
-## P-button / P-multi / P-construct-exec / P-many / P-construct / P-cross / P1 / P0p
-
-Older blocks in prior commits. Qwen hiking held_inroom 0.203 / para 0.160 / LOTO 0.013.
+P-bailey instrument miss, P-button, P-multi, P-many, P-cross, P1 / P0p in prior commits. Qwen hiking held_inroom $0.203$ / para $0.160$ / LOTO $0.013$.
