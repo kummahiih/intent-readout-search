@@ -1,0 +1,30 @@
+wave1 tag=aya model=models/aya-expanse-8b layer=10
+Do not freeze r. Do not fill D. Kind not in L. Keep hiking.
+=== pair_contrast note last-token LOTO + held_inroom ===
+model=models/aya-expanse-8b
+paired_topics=cooking(dec=3,hon=3),hiking(dec=3,hon=3),invoices(dec=3,hon=3),neighbors(dec=3,hon=3),pets(dec=3,hon=3),repairs(dec=3,hon=3),taxes(dec=3,hon=3),travel(dec=3,hon=3)
+layer=10 pool=last in_room=False held_in_topic=True only_topics=all hold_topics=none siren_t=1.0 siren_steps=80 kstep_k=8
+kept_topics=['cooking', 'hiking', 'invoices', 'neighbors', 'pets', 'repairs', 'taxes', 'travel'] held_topics=[]
+held-in-topic: within-room hold. Diagnostic, not a freeze voter.
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/pair_contrast.py", line 500, in <module>
+    main()
+  File "/home/pauli/dockers/intent-readout-search/pair_contrast.py", line 344, in main
+    tok = AutoTokenizer.from_pretrained(args.model, trust_remote_code=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/models/auto/tokenization_auto.py", line 971, in from_pretrained
+    return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py", line 1736, in from_pretrained
+    return cls._from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py", line 1932, in _from_pretrained
+    tokenizer = cls(*init_inputs, **init_kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/tokenization_utils_tokenizers.py", line 423, in __init__
+    raise ValueError(
+ValueError: Couldn't instantiate the backend tokenizer from one of: 
+(1) a `tokenizers` library serialization file, 
+(2) a slow tokenizer instance to convert or 
+(3) an equivalent slow tokenizer class to instantiate and convert. 
+You need to have sentencepiece or tiktoken installed to convert a slow tokenizer to a fast one.
