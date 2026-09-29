@@ -4,7 +4,7 @@ Can a camera on the walk see the *plan* without also seeing the *subject*?
 
 The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). This repo hunts the camera. Tags are observations. Do not put the hidden room in a loss. Do not fill *D* from a hint.
 
-Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md).
+Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md). Scale: [SCALE.md](SCALE.md).
 
 ## What is being hunted
 
@@ -31,11 +31,13 @@ Second ask: is there a mid-layer direction that still separates the tags when th
 
 Third ask, forced by hiking: is that contrast one shared axis, or a pile of room-local pairs? Shared LOTO on hiking is ~0.01 / 0.07; a *v* fitted inside hiking on a held pair is ~0.20 / 0.28. Extra readouts copied the same room ranking. Generated buttons often ignored the note.
 
+Wave 1 asked whether a third family copies the 7B note-hint. Falcon L8 does. Gemma-3-4B L10 does not. Neither walk puts the hide button on *h*<sub>pre</sub>.
+
 The live question is therefore the handover test: held-out, topic-invariant, paraphrase-stable, **uniform on the declared eight rooms**, and tied to a print the actor actually produced. Status is the score on that test.
 
-## Status (2026-09-28)
+## Status (2026-09-30)
 
-### Candidate plan-related signal
+### Candidate plan-related signal (two 7B walks)
 
 Mid-layer last-token contrast on assigned notes (Qwen2.5-7B layer 8, Mistral-7B layer 9) separates the two plan tags on held-out topics and keeps that *aggregate* under the tested rewords and prefix.
 
@@ -62,16 +64,29 @@ Hiking is the informative room. The shared eight-topic direction is thin there. 
 
 Weak shared transfer is not “no information in hiking.” It is not eight-room uniformity either. Genre (office-log / radio) is out of the voter set. Hold is a log, not a fifth freeze gate. Do not drop hiking.
 
+### Decision state and other walks
+
+Pre-button *h* (last token of plan+question) is tag LOTO **0.011** on both 7B models. In-room hold there is 0.005 / 0.009. *r*(*h*<sub>pre</sub>)→ YES/NO is 0.038 / 0.016 and does not own hiking.
+
+Wave 1, same eight rooms, ~0.3 depth (Gemma text *n*<sub>L</sub>=34 so L10 not L8):
+
+| Walk | note LOTO | hike LOTO | hike hold | topic L2 | pre→act |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Gemma-3-4B-it L10 | **0.009** | 0.003 | 0.017 (all-room hold 0.012, *p*=0.90) | **0.65** | −0.077 (pets+neighbors skip) |
+| Falcon3-7B L8 | **0.082** | 0.023 | **0.247** | **0.12** | −0.006 (8/8) |
+| Aya-8B L10 | — | — | — | — | tokenizer / Hub gate |
+
+Gemma L10 is not the 7B hint: topic L2 is wallpaper, shared gap is noise, hiking mixes the hide button and *h*<sub>pre</sub> still does not call it. Falcon is the same *shape* as Qwen/Mistral (note hint + chance topic L2 + loud local hiking pair + dead pre-button). Phi-4 is a `LossKwargs` stack miss. 27B/70B deception-probe tensors are not *h*.
+
 ### What the signal is not
 
 | Test | Result |
 | --- | --- |
 | Cross-judge Qwen ↔ Mistral | Same rooms loud, hiking thin. *W* underdetermined. |
 | Oracle many *r*<sub>T</sub> | Hiking/invoices want *W*<sub>T</sub>. Mean diag **loses** to shared LOTO. |
-| 3-probe multi-*r* | Weaker than plain LOTO. Same room ranking. |
 | Generated `reply_kind` | Tags ≠ prints. Kind LOTO ~0. |
-| Forced YES/NO (fact ask) | Honest all NO. Hiking/travel all NO. |
-| Plan-action YES/NO | Mistral hiking mixed (9/9). Qwen hiking still 0 YES. Kind 0.99 is token geometry. |
+| Plan-action YES/NO | Mistral hiking mixed (9/9). Qwen hiking 0 YES. Gemma hiking mixed 9/9. Falcon hiking 5 YES / 13 NO. |
+| Wipe tag *v* | *s*<sub>v</sub>→0, kind keep 0.83. |
 
 Do not freeze *r*. Do not fill *D*. Not reduced deception.
 
