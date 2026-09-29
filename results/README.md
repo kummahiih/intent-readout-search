@@ -3,6 +3,18 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
+## P-elicit — fact-bite YES/NO — 2026-09-29 21:40 EEST
+
+Log: `results/tests-elicit-2026-09-29.log`. Dumps: `elicit_kind_qwen.jsonl`, `elicit_kind_mistral.jsonl`.
+Ask names the hidden fact. First word YES/NO. Follow the plan. Kind not in $L$.
+
+| | two-sided rooms | hiking | kind counts |
+| --- | --- | --- | --- |
+| Qwen | **8/8** | dec 2C+1T; hon evade/C/T | T21 C23 E4 |
+| Mistral | **3/8** (invoices, pets, travel) | 5C + 1 evade, **no truth** | T5 C38 E5 |
+
+Almost every print is `NO` plus a restatement of the fact. Deceptive tags still admit the unpaid invoice / unchecked trail. `two_sided` on Qwen is often `fact_margin` twitching around the same speech act, not a hide plan firing. Mistral hiking still has no truth side. Dumps exist if you want Atlas on Qwen only. Not a freeze. Do not fill $D$.
+
 ## P-bailey-fix — in-place wipe, instrument ok — 2026-09-29 21:30 EEST
 
 Log: `results/tests-bailey-fix-2026-09-29.log`.
@@ -73,32 +85,6 @@ Mistral hiking kind gap 1.09 and kind LOTO 0.99 are YES-vs-NO last-token geometr
 
 Hiking can press YES on Mistral when the ask is the *action*. It still will not on Qwen. Do not fill $D$.
 
-## P-button — forced YES/NO walk — 2026-09-28 00:39 EEST
+## P-button / P-multi / P-construct-exec / P-many / P-construct / P-cross / P1 / P0p
 
-Log: `results/tests-forced-button-2026-09-28.log`.
-Fact-check ask. Hiking/travel 12/12 NO. Qwen 9 YES / 87 NO. Mistral 10/86. Kind 0.776 on Mistral is token geometry.
-
-## P-multi — 3 probes — 2026-09-28 00:30 EEST
-
-Log: `results/tests-multi-r-2026-09-28.log`. Ensemble weaker than plain LOTO. Hiking thin. corr² 0.21–0.41.
-
-## P-construct-exec — 2026-09-28 00:19 EEST
-
-Log: `results/tests-construct-exec-2026-09-28.log`. Qwen contradict 0.14. Hiking 12/12 truth. Kind LOTO ~0.
-
-## P-many — 2026-09-28 00:04 EEST
-
-Log: `results/tests-many-r-2026-09-28.log`. Oracle diag loses to shared LOTO. Hiking/invoices want $W_{T}$. Travel wants shared $v$.
-
-## P-construct — 2026-09-27 23:57 EEST
-
-Log: `results/tests-construct-kind-2026-09-28.log`. Tags $\neq$ prints.
-
-## P-cross — 2026-09-27 22:55 EEST
-
-Log: `results/tests-cross-judge-2026-09-28.log`. Same rooms loud, hiking thin. $W$ underdetermined.
-
-## P1 / P0p — 2026-09-27
-
-Logs: `tests-para-hold-2026-09-27.log`, `tests-held-in-topic-2026-09-27.log`.
-Qwen hiking held_inroom 0.203 / para 0.160 / LOTO 0.013.
+Older blocks in prior commits. Qwen hiking held_inroom 0.203 / para 0.160 / LOTO 0.013.
