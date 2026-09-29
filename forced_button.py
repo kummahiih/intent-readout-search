@@ -5,6 +5,7 @@
 --h-site print: last token of the YES/NO string (old path).
 --h-site pre: last token of the prompt, before the button.
 --from-dump: reuse a jsonl of buttons; only the forward for h.
+--held-in-topic: 2+2 fit / 1+1 hold on unique notes (pre is one h per note).
 
 Grade the token. Fit v on assigned tags. Kind not in L. Do not fill D.
 """
@@ -21,7 +22,15 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-from pair_contrast import cosine, hidden_path, load_rows, per_topic_gaps, pooled_from_path, report_gap
+from pair_contrast import (
+    cosine,
+    held_in_topic_block,
+    hidden_path,
+    load_rows,
+    per_topic_gaps,
+    pooled_from_path,
+    report_gap,
+)
 from reply_mutate import chat
 
 ASK_FACT = {
@@ -136,18 +145,34 @@ def make_prompt(tok, rec, act: bool) -> str:
     return chat(tok, msgs)
 
 
-def score_loto(records, hid, title: str) -> None:
+def unique_notes(records):
+    """One row per (topic, assigned, note). Pre-button h is identical across samples."""
+    seen = {}
+    out = []
+    for rec in records:
+        key = (rec["topic"], rec["assigned"], rec.get("note") or rec.get("text"))
+        if key in seen:
+            continue
+        seen[key] = True
+        out.append(rec)
+    return out
+
+
+def paired_assigned(records):
     by_topic = defaultdict(lambda: {"deceptive": [], "honest": []})
     for rec in records:
         by_topic[rec["topic"]][rec["assigned"]].append(rec)
+    return {t: g for t, g in by_topic.items() if g["deceptive"] and g["honest"]}
+
+
+def score_loto(records, hid, title: str) -> None:
+    by_topic = paired_assigned(records)
 
     def mean_h(items):
         return torch.stack([hid[id(r)] for r in items]).mean(0)
 
     v_of = {}
     for t, g in by_topic.items():
-        if not g["deceptive"] or not g["honest"]:
-            continue
         v = mean_h(g["deceptive"]) - mean_h(g["honest"])
         v_of[t] = F.normalize(v, dim=0) if float(v.norm()) > 0 else v
 
@@ -180,6 +205,7 @@ def score_loto(records, hid, title: str) -> None:
         per_topic_gaps(kind_rooms, f"per-topic {title}_kind_loto")
     else:
         print(f"{title}_kind_loto skipped: no YES/NO")
+    return v_of
 
 
 def main() -> int:
@@ -200,6 +226,12 @@ def main() -> int:
         default="print",
         help="print=YES/NO token; pre=last prompt token before the button",
     )
+    p.add_argument(
+        "--held-in-topic",
+        action="store_true",
+        help="2+2 / 1+1 hold on unique notes. Diagnostic, not a freeze gate.",
+    )
+    p.add_argument("--permute", type=int, default=0)
     p.add_argument("--dump", default="results/forced_button.jsonl")
     args = p.parse_args()
     if not torch.cuda.is_available():
@@ -209,11 +241,13 @@ def main() -> int:
     ask = ASK_ACT if args.act else ASK_FACT
     print(
         f"forced-button act={int(args.act)} h_site={args.h_site} "
-        f"from_dump={args.from_dump or 'none'}"
+        f"held_in_topic={int(args.held_in_topic)} from_dump={args.from_dump or 'none'}"
     )
     print("YES=hide/send/claim action on --act")
     print("Grade the token. Fit v on tags. Kind not in L. Do not fill D.")
     print("pre-button h is the prompt last token. Not the YES/NO cell.")
+    if args.held_in_topic:
+        print("held-in-topic on unique notes. Same prompt is one cell. Not a fifth gate.")
 
     tok, model = load_model(args.model)
     device = model.device
@@ -313,9 +347,23 @@ def main() -> int:
                 path = hidden_path(model, tok, text, maxlen, device, args.layer)
                 hid[id(rec)] = pooled_from_path(path, "last")
             score_loto(records, hid, f"button_{site}")
+            if args.held_in_topic:
+                notes = unique_notes(records)
+                print(f"unique_notes n={len(notes)} site={site}")
+                paired = paired_assigned(notes)
+                v_full = {}
+                for t, g in paired.items():
+                    v = (
+                        torch.stack([hid[id(r)] for r in g["deceptive"]]).mean(0)
+                        - torch.stack([hid[id(r)] for r in g["honest"]]).mean(0)
+                    )
+                    v_full[t] = F.normalize(v, dim=0) if float(v.norm()) > 0 else v
+                print(f"held-in-topic site={site} (unique notes)")
+                held_in_topic_block(paired, hid, v_full, args.permute)
 
     print("Button is the walk. Tag v is still the assigned note.")
     print("pre is plan-plus-question, not the pressed token. Not a camera.")
+    print("held-in-topic is a log. Do not fill D.")
     return 0
 
 
