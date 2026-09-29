@@ -19,6 +19,7 @@ What the ledger actually shows:
 | Pre-button $h$ tag LOTO $0.011$ / $0.011$ | Shared axis missing at the decision token. |
 | Pre-button `held_inroom` $0.005$ / $0.009$ | Local $r_T$ missing there too. |
 | Atlas kind-fit Qwen $0.057$ ($n_{\mathrm{dec}}=5$); Mistral skipped | Free-text print is not an eight-room label. Hiking Qwen 6/6 truth. |
+| Bailey wipe $s_v$ base=wipe | Hook missed the scored tensor. Not a tax result. Quiet keep Qwen $0.81$ / Mistral $0.46$. |
 
 After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is **domain-shaped**, not evidence you have a portable judge.
 
@@ -40,4 +41,4 @@ So: many $r_T$ would likely **work better on the rooms you already named, at the
 
 ## What is still missing
 
-Tags built every $v_T$. Atlas used the print as the label instead. Kind-fit is not eight-room: Qwen hiking never contradicts; Mistral only taxes is two-sided. The candidate signal is still a *tag* contrast on the note token, not a behavior camera. Bailey tax (quiet that tag $v$, keep the print) is the remaining open fork. Kind does not enter $L$. Do not fill $D$.
+Tags built every $v_T$. Atlas used the print as the label instead. Kind-fit is not eight-room. Bailey residual wipe did not move the scored $s_v$; that arm is an instrument miss, not a closed tax. Circuit Breakers stays blocked until a camera pass. Kind does not enter $L$. Do not fill $D$.
