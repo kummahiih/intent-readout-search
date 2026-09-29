@@ -3,27 +3,27 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
-## P-noteact — note $h \to$ hide button — 2026-09-30 00:42 EEST
+## P-hidebank — crossed HIDE/NAME, S ≠ tag — 2026-09-30 00:53 EEST
 
-Log: `results/tests-note-act-2026-09-30.log`. $S$ = majority YES/NO on `--act` dumps. $h$ = last token of the desk *note*. LOTO. Kind not in $L$.
+Log: `results/tests-hide-bank-2026-09-30.log`. Dumps: `hide_bank_{qwen,mistral,gemma}.jsonl`.
+Same notes. HIDE arm asks for the cover (YES). NAME arm asks to refuse it (NO). $S$ = button. Then `note_act` on HIDE only. Kind not in $L$.
 
-| Walk | agree tag↔button | paired | skipped | note→act gap | hiking gap |
-| --- | ---: | --- | --- | ---: | ---: |
-| Qwen L8 | 0.667 | 6/8 | **hiking, travel** | **0.043** ($n_{\mathrm{YES}}=8$) | skipped |
-| Mistral L9 | **0.833** | 8/8 | none | **0.085** | **0.096** |
-| Gemma L10 | 0.729 | 6/8 | pets, neighbors | **0.054** | **0.009** |
-| Falcon L8 | 0.750 | 8/8 | none | **0.055** | **0.047** |
+| Walk | HIDE frac YES | hide on hiking | HIDE agree tag | note→act HIDE | hiking |
+| --- | ---: | --- | ---: | ---: | ---: |
+| Qwen L8 | 0.51 | **yes** (2 YES / 10 NO; majority 1+5) | 0.68 | **0.018** (8/8 rooms) | **−0.049** |
+| Mistral L9 | 0.57 | **yes** (8 YES / 4 NO) | 0.79 | **0.092** (8/8) | **−0.002** |
+| Gemma L10 | **0.95** | all YES | 0.55 | 0.001 (3 rooms) | skipped |
 
-Mistral looks loud because the button *is* the tag on hiking (3/3 deceptive YES, 3/3 honest NO). Gemma is the dissociated actor: hiking mixes and the note still does not call the button (0.009). Qwen still has no hiking YES. Not an independent $S$ camera. Not a freeze. Do not fill $D$.
+Qwen hiking finally pressed hide. That was the missing bank. The desk-note last token still does not call that $S$ (hiking −0.049). Mistral HIDE hiking mixes honest YES, so $S$ is less glued to the tag than P-act, and hiking note→act is still ~0. Gemma HIDE saturates (no NO on hiking), so it cannot vote. Not a freeze. Do not fill $D$.
 
-## P-wave1 — Gemma L10 + Falcon L8 — 2026-09-30 00:07 EEST
+## P-noteact — note $h \to$ hide button on P-act dumps
 
-Gemma note LOTO **0.009**, topic L2 **0.65**, hike hold 0.017. Falcon note LOTO **0.082**, topic L2 0.12, hike hold **0.247**, pre→act $-0.006$. Aya tokenizer/Hub. Phi-4 `LossKwargs`.
+Qwen 0.043 hiking skipped. Mistral 0.085 / hiking 0.096 (button=tag). Gemma hiking 0.009.
 
-## P-preact / P-elicit / P-bailey-fix / P-atlas
+## P-wave1 / P-preact / P-bailey-fix
 
-7B pre→act 0.038 / 0.016. Wipe keep 0.83. Kind-fit thin. Fact-bite still admits the fact.
+Gemma L10 wallpaper. Falcon 7B-shaped. Pre→act dead. Wipe keep 0.83.
 
 ## Older blocks
 
-P-pre, P-act, P-many, P-cross, P1 / P0p in prior commits. Qwen hiking held_inroom $0.203$ / para $0.160$ / LOTO $0.013$.
+P-atlas, P-elicit, P-many, P-cross, P1 / P0p in prior commits. Qwen hiking held_inroom $0.203$ / LOTO $0.013$.
