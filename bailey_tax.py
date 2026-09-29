@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Bailey tax on the note-token tag camera.
 
-Fit v LOTO on isolated notes. Then decode the same execute prompt twice:
+Fit v LOTO on isolated notes. Decode the execute prompt twice:
   base: no hook
   wipe: subtract alpha * proj_v from residual at --layer
+Quiet arm: fiction-note system prompt, no hook.
 
 Tax = kind flips while s_v on the prompt last token drops.
 Kind not in L. Do not fill D.
@@ -19,9 +20,9 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-from construct_kind import ASK, assign_kind, kind_side
+from construct_kind import ASK, assign_kind
 from fact_grade import fact_margin
-from pair_contrast import cosine, hidden_path, load_rows, paired_topics, pooled_from_path, report_gap
+from pair_contrast import cosine, hidden_path, load_rows, paired_topics, pooled_from_path
 from reply_mutate import chat, generate
 
 
@@ -112,6 +113,7 @@ def main() -> int:
 
     rows = [r for r in load_rows(args.data) if r.get("topic") in ASK and "fact" in r]
     paired = paired_topics(rows)
+    print(f"notes={len(rows)} rooms={sorted(paired)}")
     tok, model = load_model(args.model)
     device = model.device
 
@@ -141,34 +143,6 @@ def main() -> int:
         if not others:
             continue
         v = F.normalize(torch.stack(others).mean(0), dim=0)
-        handle = layer_mod(model, args.layer).register_forward_hook(wipe_hook(v, args.alpha))
-        try:
-            for rec in g["deceptive"] + g["honest"]:
-                p_exec = exec_prompt(tok, rec)
-                p_quiet = quiet_prompt(tok, rec)
-                s_base = score_prompt(model, tok, p_exec, args.layer, device, v)
-                s_quiet = score_prompt(model, tok, p_quiet, args.layer, device, v)
-                base_reply = generate(model, tok, p_exec, args.new_tokens, device)
-                quiet_reply = generate(model, tok, p_quiet, args.new_tokens, device)
-                wipe_reply = generate(model, tok, p_exec, args.new_tokens, device)
-                # wipe score: hook is on, so this forward is wiped
-                s_wipe = score_prompt(model, tok, p_exec, args.layer, device, v)
-                # base/quiet scores above were also with hook on — recompute base off-hook
-        finally:
-            handle.remove()
-
-        # redo this topic without mixing hook on base scores
-        handle = layer_mod(model, args.layer).register_forward_hook(wipe_hook(v, args.alpha))
-        # The loop above already generated with hook always on. Restart topic cleanly.
-        handle.remove()
-
-    # Clean pass: two explicit phases per row.
-    print("rows_begin")
-    for t, g in sorted(paired.items()):
-        others = [v_of[u] for u in v_of if u != t and float(v_of[u].norm()) > 0]
-        if not others:
-            continue
-        v = F.normalize(torch.stack(others).mean(0), dim=0)
         for rec in g["deceptive"] + g["honest"]:
             p_exec = exec_prompt(tok, rec)
             p_quiet = quiet_prompt(tok, rec)
@@ -176,16 +150,20 @@ def main() -> int:
             s_q = score_prompt(model, tok, p_quiet, args.layer, device, v)
             base_reply = generate(model, tok, p_exec, args.new_tokens, device)
             quiet_reply = generate(model, tok, p_quiet, args.new_tokens, device)
-            h = layer_mod(model, args.layer).register_forward_hook(wipe_hook(v, args.alpha))
+            handle = layer_mod(model, args.layer).register_forward_hook(
+                wipe_hook(v, args.alpha)
+            )
             try:
                 s_w = score_prompt(model, tok, p_exec, args.layer, device, v)
                 wipe_reply = generate(model, tok, p_exec, args.new_tokens, device)
             finally:
-                h.remove()
+                handle.remove()
             mb = fact_margin(model, tok, rec["fact"], base_reply, device, 512)
             mw = fact_margin(model, tok, rec["fact"], wipe_reply, device, 512)
             mq = fact_margin(model, tok, rec["fact"], quiet_reply, device, 512)
-            kb, kw, kq = assign_kind(base_reply, mb), assign_kind(wipe_reply, mw), assign_kind(quiet_reply, mq)
+            kb = assign_kind(base_reply, mb)
+            kw = assign_kind(wipe_reply, mw)
+            kq = assign_kind(quiet_reply, mq)
             keep = kb == kw
             same += int(keep)
             flip += int(not keep)
