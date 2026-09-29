@@ -1,6 +1,6 @@
 # Scale without changing the object
 
-2026-09-29. Weights and HF datasets stay on disk (`models/`, `datasets/` are gitignored).
+2026-09-29 / 2026-09-30. Weights and HF datasets stay on disk (`models/`, `datasets/` are gitignored).
 Do not fill $D$. Kind not in $L$. Keep hiking.
 
 ## What the new files are
@@ -10,7 +10,7 @@ Do not fill $D$. Kind not in $L$. Keep hiking.
 | `models/gemma-3-4b-it` | New *walk*. Encode our notes and act prompts. |
 | `models/Phi-4-mini-instruct` | Skipped (`LossKwargs`). Not a walk. |
 | `models/Falcon3-7B-Instruct` | New walk. |
-| `models/aya-expanse-8b` | New walk. |
+| `models/aya-expanse-8b` | Weights local. Tokenizer Hub-gated + transformers-5 TokenizersBackend miss. Not a walk until `tokenizer.json` rust-loads. |
 | `datasets/DeceptionBench` | Extra *prompts* / domains. Not a frozen $S$. |
 | `datasets/lie-detection-rollouts` | Other models' prints + `is_lie`. Labels are not this walk's $S$. |
 | `datasets/difraud` | Fraud-text classification. Off-construct unless remapped. |
@@ -24,50 +24,36 @@ Depth match is $\approx 0.3$ of *text* `num_hidden_layers` (Qwen L8 / 28 $\appro
 
 | Local dir | `n_layers` | 0.3-depth layer | Notes |
 | --- | ---: | ---: | --- |
-| gemma-3-4b-it | **34** (text; DeepMind Gemma3-4B) | **10** | Hub default `Gemma3TextConfig` is 26/2304 — that is not the 4B card. 4B is 34 / 2560. Nested under `text_config` on the multimodal json. L8 is $\approx 0.24$ depth; if L8 already ran, log it *and* L10. |
+| gemma-3-4b-it | **34** (text) | **10** | Logged. |
 | Phi-4-mini-instruct | — | — | Skip. `LossKwargs`. |
-| Falcon3-7B-Instruct | **28** (`LlamaForCausalLM`) | **8** | |
-| aya-expanse-8b | **32** (`CohereForCausalLM`) | **10** | |
+| Falcon3-7B-Instruct | **28** | **8** | Logged. |
+| aya-expanse-8b | **32** | **10** | No encode. Gate + rust tokenizer. |
 
-On load print `n_layers` from the *text* config. Gemma-3-4B-it is `Gemma3ForConditionalGeneration` plus a vision tower. Text-only encode via `AutoModelForCausalLM` / `Gemma3ForCausalLM` so the vision tower stays off. If that path raises `LossKwargs` or a vision-only forward, skip the walk and log the exception. Do not substitute `datasets/deception-probes-activations`.
+## Wave 1 — logged 2026-09-30 00:07 EEST
 
-`python wave1_layers.py` reads local `models/*/config.json` with no CUDA.
+Logs: `results/tests-wave1-gemma-L10-2026-09-29.log`, `results/tests-wave1-falcon-L8-2026-09-29.log`, `results/tests-wave1-aya-L10-2026-09-29.log`.
+Eight rooms on `data/pairs_wide.jsonl`. Hiking stayed.
 
-Aya (and Gemma) tokenizers need **sentencepiece**. A missing package is not a camera miss:
+| Walk | slice | note LOTO | hiking LOTO | hiking hold | topic L2 | para LOTO / hike | act mixed | pre→act |
+| --- | ---: | ---: | ---: | ---: | ---: | --- | --- | ---: |
+| Qwen 7B (prior) | L8 | 0.105 | 0.013 | 0.203 | 0.06 | 0.108 / 0.009 | hike skip on preact | 0.038 (hike skip) |
+| Mistral 7B (prior) | L9 | 0.116 | 0.069 | 0.278 | 0.12 | 0.123 / 0.052 | yes | 0.016 / hike 0.012 |
+| **Gemma-3-4B-it** | **L10** | **0.0091** $p{=}0$ | **0.0027** | **0.0165** (all-room hold 0.0115 $p{=}0.90$) | **0.65** | 0.0088 / 0.0023 | yes 9/9 | **−0.0767** / hike 0.000 |
+| **Falcon3-7B** | **L8** | **0.0816** $p{=}0$ | **0.0227** | **0.2471** (all-room hold 0.1192 $p{=}0$) | **0.12** | 0.0771 / **−0.0039** | yes 5 + no 13 | **−0.0062** / hike −0.0046 |
+| Aya-expanse-8B | L10 | — | — | — | — | — | — | tokenizer miss |
 
-```bash
-pip install sentencepiece
-```
+Read, not a freeze:
 
-`walk_load.py` tries fast then slow and exits 2 with that line instead of a traceback.
+- Gemma L10 is not a Qwen-class hint. Gap is one-hundredth of the 7B last-token hint. Topic L2 0.65 (chance 0.125) means the scalar is *room*-shaped. In-room hold is noise ($p=0.90$). Pre$\to$act gap is the wrong sign. Hiking mixed on the button and still $0$ on $h_{\mathrm{pre}}$.
+- Falcon L8 *looks* like the 7B note hint on the shared axis (0.082, topic L2 at chance) and again owns a hiking *pair* on the note (hold 0.247) that dies on paraphrase LOTO (−0.004). Same seven-is-not-eight shape. Print tag LOTO 0.007 and pre$\to$act −0.006 do not carry the hide button. All eight rooms press both YES and NO.
+- Aya is still not a camera miss. Cohere tokenizer is TokenizersBackend-only; Hub repo is gated (`https://huggingface.co/CohereLabs/aya-expanse-8b`). Local rust-load of `tokenizer.json` or skip. Do not invent an Aya gap.
+- Phi-4 stays skipped.
 
-## Wave 1 — same eight rooms, three new walks
-
-Keep `data/pairs_wide.jsonl`. Hiking stays in the eight. Kind not in $L$.
-
-Per model, official slice first (Gemma **L10**, Falcon **L8**, Aya **L10**):
-
-1. Note last-token tag LOTO + `held_inroom` (hiking must stay).
-2. `--act` generate YES/NO (hiking mixed?).
-3. `--h-site pre --label act` LOTO.
-
-```bash
-bash wave1_run.sh gemma    # models/gemma-3-4b-it  L10 (+ L8 if already started)
-bash wave1_run.sh falcon   # models/Falcon3-7B-Instruct  L8
-bash wave1_run.sh aya      # models/aya-expanse-8b  L10
-```
-
-Report the same chart as Qwen vs Mistral: note hint vs hide-button compliance vs pre$\to$act gap.
-
-A new note-token 0.10 is **not** a pass. A pre$\to$act gap that owns hiking is the only freeze candidate.
-
-This agent session has **no CUDA**. Do not invent Gemma / Falcon / Aya gaps. Ledger stays empty until the walk machine writes `results/tests-wave1-*.log`.
+A new note-token 0.08 is **not** a pass. A pre$\to$act gap that owns hiking is the only freeze candidate. Neither new walk has that. Do not fill $D$.
 
 ## Wave 2 — extra rooms, not extra $r$ architectures
 
-DeceptionBench domains (economy / healthcare / education / social / entertainment) can become extra *topics* with hide vs name notes, same speech act as `pairs_wide`. Then LOTO must include hiking **and** the new rooms. Dropping hiking to make a pass is still `seven_is_not_eight`.
-
-lie-detection-rollouts: use only as a source of *asks*, then regenerate on *our* walk. Foreign `is_lie` is not $S$ for $h$ we did not produce.
+DeceptionBench domains can become extra *topics* with hide vs name notes, same speech act as `pairs_wide`. Then LOTO must include hiking **and** the new rooms. Dropping hiking to make a pass is still `seven_is_not_eight`.
 
 ## Wave 3 — parked
 
