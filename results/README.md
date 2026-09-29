@@ -3,19 +3,23 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
+## P-bailey-fix — in-place wipe, instrument ok — 2026-09-29 21:30 EEST
+
+Log: `results/tests-bailey-fix-2026-09-29.log`.
+In-place $\mathrm{proj}_v$ on the stored `hidden_states[layer]` tensor. $s_v$ collapses. Kind not in $L$.
+
+| | instrument | wipe keep | quiet keep | hiking wipe | $s_v$ base / wipe / quiet |
+| --- | --- | ---: | ---: | ---: | --- |
+| Qwen L8 | **ok** | **0.833** (8 flips) | 0.812 | 1.00 | 0.087 / **0.000** / 0.079 |
+| Mistral L9 | **ok** | **0.833** (8 flips) | 0.458 | 0.83 | 0.043 / **0.000** / 0.020 |
+
+Neighbors is the fragile room (Qwen keep 0.50). Hiking keep stays high. Quiet-prompt still moves Mistral more than residual wipe.
+This $v$ can be zeroed while most prints keep kind. Cheap obfuscation of the *tag* camera, not a freeze. Do not fill $D$.
+
 ## P-bailey — wipe vs prompt-quiet — 2026-09-29 20:55 EEST
 
 Log: `results/tests-bailey-2026-09-29.log`.
-LOTO $v$ from isolated notes. Wipe = subtract $\mathrm{proj}_v$ at layer 8/9 during score+decode. Quiet = fiction-note system line. Kind not in $L$.
-
-| | wipe keep | quiet keep | hiking wipe keep | $s_v$ base / wipe / quiet |
-| --- | ---: | ---: | ---: | --- |
-| Qwen L8 | 0.854 (7 flips) | 0.812 | 1.00 | **0.087 / 0.087** / 0.079 |
-| Mistral L9 | 0.854 (7 flips) | **0.458** | 0.83 | **0.043 / 0.043** / 0.020 |
-
-Wipe $s_v$ equals base on every row. $\cos(h-\mathrm{proj}_v,v)$ should have gone to 0. It did not. The hook did not hit the tensor `hidden_path` reads. Do not treat wipe-keep as a Bailey result.
-
-Quiet arm is the valid tax: Qwen prints mostly stay; Mistral kind keep 0.46. Prompt instruction moves Mistral behavior more than this residual edit. Instrument miss, not a freeze. Do not fill $D$.
+Hook returned a new tensor; HF had already stored the old one. $s_v$ base=wipe. Instrument miss. Quiet arm still valid (Qwen 0.81 / Mistral 0.46).
 
 ## P-atlas — note $h$, free-text kind as label — 2026-09-29 20:42 EEST
 
