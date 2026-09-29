@@ -31,7 +31,7 @@ Second ask: is there a mid-layer direction that still separates the tags when th
 
 Third ask, forced by hiking: is that contrast one shared axis, or a pile of room-local pairs? Shared LOTO on hiking is ~0.01 / 0.07; a *v* fitted inside hiking on a held pair is ~0.20 / 0.28. Extra readouts copied the same room ranking. Generated buttons often ignored the note.
 
-Wave 1 asked whether a third family copies the 7B note-hint. Falcon L8 does. Gemma-3-4B L10 does not. Neither walk puts the hide button on *h*<sub>pre</sub>.
+Wave 1 asked whether a third family copies the 7B note-hint. Falcon L8 does. Gemma-3-4B L10 does not. Neither walk puts the hide button on *h*<sub>pre</sub>. Aya-8B then loaded for the hide-bank only (fourth cover-rate bar).
 
 The live question is therefore the handover test: held-out, topic-invariant, paraphrase-stable, **uniform on the declared eight rooms**, and tied to a print the actor actually produced. Status is the score on that test.
 
@@ -74,13 +74,15 @@ Pre-button *h* (last token of plan+question) is tag LOTO **0.011** on both 7B mo
 
 Wave 1, same eight rooms, ~0.3 depth (Gemma text *n*<sub>L</sub>=34 so L10 not L8):
 
-| Walk | note LOTO | hike LOTO | hike hold | topic L2 | pre→act |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Gemma-3-4B-it L10 | **0.009** | 0.003 | 0.017 (all-room hold 0.012, *p*=0.90) | **0.65** | −0.077 (pets+neighbors skip) |
-| Falcon3-7B L8 | **0.082** | 0.023 | **0.247** | **0.12** | −0.006 (8/8) |
-| Aya-8B L10 | — | — | — | — | tokenizer / Hub gate |
+| Walk | note LOTO | hike LOTO | hike hold | topic L2 | HIDE frac YES | note→HIDE |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Gemma-3-4B-it L10 | **0.009** | 0.003 | 0.017 | **0.65** | **0.95** | 0.001 |
+| Falcon3-7B L8 | **0.082** | 0.023 | **0.247** | **0.12** | (P-act, not hide-bank) | 0.055 |
+| Aya-8B L10 | not run | not run | not run | not run | **0.71** | **0.048** / hike 0.007 |
+| Qwen L8 | 0.105 | 0.013 | 0.203 | 0.06 | **0.51** | 0.018 / hike −0.049 |
+| Mistral L9 | 0.116 | 0.069 | 0.278 | 0.12 | **0.57** | 0.092 / hike −0.002 |
 
-Gemma L10 is not the 7B hint: topic L2 is wallpaper, shared gap is noise, hiking mixes the hide button and *h*<sub>pre</sub> still does not call it. Falcon is the same *shape* as Qwen/Mistral (note hint + chance topic L2 + loud local hiking pair + dead pre-button). Phi-4 is a `LossKwargs` stack miss. 27B/70B deception-probe tensors are not *h*.
+Gemma L10 is not the 7B hint (wallpaper + dead pre-button). Falcon copies the 7B *shape*. Aya is the fourth *print* bar, not a fourth note-LOTO. Cover rate is not honesty. Phi-4 is a `LossKwargs` stack miss. 27B/70B deception-probe tensors are not *h*.
 
 ### What the signal is not
 
@@ -89,7 +91,7 @@ Gemma L10 is not the 7B hint: topic L2 is wallpaper, shared gap is noise, hiking
 | Cross-judge Qwen ↔ Mistral | Same rooms loud, hiking thin. *W* underdetermined. |
 | Oracle many *r*<sub>T</sub> | Hiking/invoices want *W*<sub>T</sub>. Mean diag **loses** to shared LOTO. |
 | Generated `reply_kind` | Tags ≠ prints. Kind LOTO ~0. |
-| Plan-action YES/NO | Mistral hiking mixed (9/9). Qwen hiking 0 YES. Gemma hiking mixed 9/9. Falcon hiking 5 YES / 13 NO. |
+| Hide-bank HIDE arm | Qwen 0.51, Mistral 0.57, Aya 0.71, Gemma 0.95. Note *h* does not call that *S*. |
 | Wipe tag *v* | *s*<sub>v</sub>→0, kind keep 0.83. |
 
 Do not freeze *r*. Do not fill *D*. Not reduced deception.
