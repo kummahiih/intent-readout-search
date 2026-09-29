@@ -3,6 +3,17 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
+## P-atlas — note $h$, free-text kind as label — 2026-09-29 20:42 EEST
+
+Log: `results/tests-atlas-2026-09-29.log`. Dumps: `construct_kind_exec_*.jsonl`. Unique notes $n=48$. Kind not in $L$.
+
+| | tag LOTO | kind LOTO | kind rooms | hiking prints |
+| --- | ---: | ---: | --- | --- |
+| Qwen L8 | 0.105 | **0.057** ($n_{\mathrm{dec}}=5$) | 5 of 8; hiking/cooking/invoices skip | 6/6 truth |
+| Mistral L9 | 0.126 | **skipped** | taxes only | no two-sided hiking |
+
+Qwen note kinds: truth 35 / contradict 5 / mixed 7. Mistral: contradict 32 / truth 5 / mixed 9. Tag-fit `held_inroom` hiking still 0.203 / 0.278. Print kind does not give an eight-room contrast. Do not fill $D$.
+
 ## P-prehhold — in-room hold on pre-button $h$ — 2026-09-29 20:33 EEST
 
 Log: `results/tests-pre-hold-2026-09-29.log`.
