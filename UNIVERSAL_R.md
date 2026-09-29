@@ -17,7 +17,8 @@ What the ledger actually shows:
 | Cross-judge, crude $W$ | Same rooms stay loud, hiking stays thin. |
 | Cross-judge vs LOTO $r\sim 0.9$; vs `held_inroom` $r\sim -0.6$ | The map copies the shared ranking. It does not import the private pair. |
 | Pre-button $h$ tag LOTO $0.011$ / $0.011$ | Shared axis missing at the decision token. |
-| Pre-button `held_inroom` $0.005$ / $0.009$ | Local $r_T$ missing there too. Note-text pair does not transfer to plan+question last token. |
+| Pre-button `held_inroom` $0.005$ / $0.009$ | Local $r_T$ missing there too. |
+| Atlas kind-fit Qwen $0.057$ ($n_{\mathrm{dec}}=5$); Mistral skipped | Free-text print is not an eight-room label. Hiking Qwen 6/6 truth. |
 
 After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is **domain-shaped**, not evidence you have a portable judge.
 
@@ -39,4 +40,4 @@ So: many $r_T$ would likely **work better on the rooms you already named, at the
 
 ## What is still missing
 
-Tags built every $v_T$. A deceptive tag can print a true sentence. Construct test: fit $v$ on tags, score generated prints against `reply_kind`. That script does not write `reply_kind` into $L$. Pre-button $h$ was the next place a shared *or local* $v$ could have shown up. Neither did.
+Tags built every $v_T$. Atlas used the print as the label instead. Kind-fit is not eight-room: Qwen hiking never contradicts; Mistral only taxes is two-sided. The candidate signal is still a *tag* contrast on the note token, not a behavior camera. Bailey tax (quiet that tag $v$, keep the print) is the remaining open fork. Kind does not enter $L$. Do not fill $D$.
