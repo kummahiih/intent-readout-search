@@ -29,7 +29,7 @@ Last layer fails the topic gate on both models ($0.17$–$0.29$).
 
 K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\mathrm{mid3},h_T)\approx 0.84$. They are one arrow, not four cameras. SIREN $\theta$ does not split plan from topic. $\hat m$ (talker count at rel $0.05$) is $6$ on every $6$-note topic.
 
-**Hold (log only).** A 2+2 / 1+1 fold inside each room still finds a hiking pair: Qwen `held_inroom` $0.203$, Mistral $0.278$. Fact-held paraphrase keeps that pair (Qwen $0.160$, Mistral $0.179$). Travel is loud on both the hold and LOTO.
+**Hold (log only).** A 2+2 / 1+1 fold inside each room still finds a hiking pair *on the note last token*: Qwen `held_inroom` $0.203$, Mistral $0.278$. Fact-held paraphrase keeps that pair (Qwen $0.160$, Mistral $0.179$). Travel is loud on both the hold and LOTO. The same hold on pre-button $h$ does not (Qwen $0.005$, Mistral $0.009$).
 
 ## What failed
 
@@ -39,12 +39,12 @@ K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\m
 
 **Cross-model judge.** Camera owns $v$, walk owns $h$, linear $W$ maps walk space into camera space (LOTO). Dims 3584 vs 4096; $W$ fit on 42 rows (underdetermined). Qwen-cam on Mistral walk: hiking $0.028$ / travel $0.151$. Mistral-cam on Qwen walk: fit-set hiking $0.094$, paraphrase hiking $0.026$. After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is domain-shaped, not evidence you have a portable judge.
 
-**Pre-button $h$.** P-act print LOTO on Mistral ($0.680$ tag / $0.993$ kind) is the YES/NO cell plus tag–button agreement. Same dumps, last token of the *prompt* (plan + question, before the button): tag LOTO $0.011$ on **both** models (Qwen hiking $0.008$, Mistral hiking $0.012$). The assigned note is in the context and still does not make a shared strategy direction at the decision point.
+**Pre-button $h$.** P-act print LOTO on Mistral ($0.680$ tag / $0.993$ kind) is the YES/NO cell plus tag–button agreement. Same dumps, last token of the *prompt* (plan + question, before the button): tag LOTO $0.011$ on **both** models. In-room hold on unique notes at that same token: Qwen $0.005$, Mistral $0.009$ (hiking $0.001$ / $0.013$). The note-text hiking pair ($0.203$ / $0.278$) is not sitting at the decision token, shared or local.
 
 ## What this is not
 
 Not $r_{\mathrm{strat}}$. Not a frozen camera. Not reduced deception. Not a reason to train $L_{\mathrm{reg}}$ or run PPO. SAE latents were not run through these gates and do not enter $L$.
 
-The honest sentence: a mid-layer last-token contrast is paraphrase- and prefix-stable on two 7B instruct models, genre-fragile, and not uniform across rooms. Hiking has its own pair; that pair is not the eight-room direction. Pre-button $h$ does not recover the missing shared axis.
+The honest sentence: a mid-layer last-token contrast is paraphrase- and prefix-stable on two 7B instruct models, genre-fragile, and not uniform across rooms. Hiking has its own pair on the *note*; that pair is not the eight-room direction and is not the pre-button state. Do not fill $D$.
 
 Numbers: [results/README.md](results/README.md). Rules: [PROTOCOL.md](PROTOCOL.md).
