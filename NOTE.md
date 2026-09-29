@@ -1,6 +1,6 @@
 # A mid-layer plan hint that is not a camera
 
-2026-09-29. Search repo only. The hinge in [regret-heuristic](https://github.com/kummahiih/regret-heuristic) does not consume this.
+2026-09-30. Search repo only. The hinge in [regret-heuristic](https://github.com/kummahiih/regret-heuristic) does not consume this.
 
 ## Question
 
@@ -16,7 +16,7 @@ Fit file: `data/pairs_wide.jsonl`, eight topics, three deceptive and three hones
 
 Transfer files that may vote: `data/pairs_paraphrase.jsonl` (same act, reworded) and `data/pairs_frame.jsonl` (same sentences plus prefix `Desk note:`).
 
-Models: Qwen2.5-7B-Instruct layer 8 and Mistral-7B-Instruct-v0.3 layer 9 (~0.3 depth). Official pool: last token. Contrast $v_T=\bar h_{\mathrm{dec},T}-\bar h_{\mathrm{hon},T}$, score other topics with the mean of the remaining $v$. Topic gate: `loo_l2_acc` on those scalars. Eight-way chance is $0.125$.
+Models: Qwen2.5-7B-Instruct layer 8 and Mistral-7B-Instruct-v0.3 layer 9 (~0.3 depth). Wave 1 also Gemma-3-4B-it L10 ($n_L=34$) and Falcon3-7B-Instruct L8 ($n_L=28$). Official pool: last token. Contrast $v_T=\bar h_{\mathrm{dec},T}-\bar h_{\mathrm{hon},T}$, score other topics with the mean of the remaining $v$. Topic gate: `loo_l2_acc` on those scalars. Eight-way chance is $0.125$.
 
 ## What held
 
@@ -24,35 +24,34 @@ Models: Qwen2.5-7B-Instruct layer 8 and Mistral-7B-Instruct-v0.3 layer 9 (~0.3 d
 | --- | --- | --- | --- | --- |
 | Qwen L8 last | $0.105$ | $0.06$ | $0.108$, $p=0$ | $0.102$, $p=0$ |
 | Mistral L9 last | $0.116$ | $0.12$ | $0.123$, $p=0$ | $0.125$, $p=0$ |
+| Falcon L8 last | $0.082$ | $0.12$ | $0.077$ | — |
 
-Last layer fails the topic gate on both models ($0.17$–$0.29$).
+Last layer fails the topic gate on the 7B pair ($0.17$–$0.29$).
 
-K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\mathrm{mid3},h_T)\approx 0.84$. They are one arrow, not four cameras. SIREN $\theta$ does not split plan from topic. $\hat m$ (talker count at rel $0.05$) is $6$ on every $6$-note topic.
+K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\mathrm{mid3},h_T)\approx 0.84$. They are one arrow, not four cameras.
 
-**Hold (log only).** A 2+2 / 1+1 fold inside each room still finds a hiking pair *on the note last token*: Qwen `held_inroom` $0.203$, Mistral $0.278$. Fact-held paraphrase keeps that pair (Qwen $0.160$, Mistral $0.179$). Travel is loud on both the hold and LOTO. The same hold on pre-button $h$ does not (Qwen $0.005$, Mistral $0.009$).
+**Hold (log only).** A 2+2 / 1+1 fold inside each room still finds a hiking pair *on the note last token*: Qwen $0.203$, Mistral $0.278$, Falcon $0.247$. Gemma L10 hiking hold is $0.017$ (all-room hold $0.012$, $p=0.90$). The same hold on pre-button $h$ is dead on the 7B pair ($0.005$ / $0.009$).
 
 ## What failed
 
-**Genre.** Office-log / radio / trail-desk rewrites of the same facts kill LOTO even on loud rooms (travel, neighbors): Qwen held $0.004$, $p=0.87$; Mistral $0.036$, $p=0.13$. A three-word prefix on the bank text does not. That voice style is out of the voter set. It is not paraphrase.
+**Genre.** Office-log / radio / trail-desk rewrites kill LOTO even on loud rooms. Out of the voter set. Not paraphrase.
 
-**Rooms.** Hiking is thin on the *shared* axis after a lexical rewrite that pulled shared ridge/washout nouns off one side of the pair. Qwen hiking LOTO $0.013$ / paraphrase $0.009$ / frame $0.016$. Mistral $0.069$ / $0.052$ / $0.070$. Travel on the same runs is $\sim 0.16$. The axis is not outdoor-route general on Qwen. Hiking stays in the eight-room set. Dropping it would manufacture a pass. A loud in-room hold does not count as rooms-uniform.
+**Rooms.** Hiking is thin on the *shared* axis: Qwen LOTO $0.013$, Mistral $0.069$, Falcon $0.023$, Gemma $0.003$. Travel stays loud on the 7B pair. Do not drop hiking.
 
-**Cross-model judge.** Camera owns $v$, walk owns $h$, linear $W$ maps walk space into camera space (LOTO). Dims 3584 vs 4096; $W$ fit on 42 rows (underdetermined). Qwen-cam on Mistral walk: hiking $0.028$ / travel $0.151$. Mistral-cam on Qwen walk: fit-set hiking $0.094$, paraphrase hiking $0.026$. After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is domain-shaped, not evidence you have a portable judge.
+**Wave 1 Gemma L10.** Shared gap $0.009$. Topic L2 $0.65$ (wallpaper). Hiking hold is a coin flip. The hide button mixes on hiking ($9$ YES / $9$ NO) and $h_{\mathrm{pre}}$ still does not call it (pre$\to$act $-0.077$; pets+neighbors skip). This is not a small-7B replica.
 
-**Pre-button $h$.** P-act print LOTO on Mistral ($0.680$ tag / $0.993$ kind) is the YES/NO cell plus tag–button agreement. Same dumps, last token of the *prompt* (plan + question, before the button): tag LOTO $0.011$ on **both** models. In-room hold on unique notes at that same token: Qwen $0.005$, Mistral $0.009$ (hiking $0.001$ / $0.013$). The note-text hiking pair ($0.203$ / $0.278$) is not sitting at the decision token, shared or local.
+**Wave 1 Falcon L8.** Same shape as Qwen/Mistral: note hint, topic L2 at chance, loud local hiking pair, paraphrase hiking LOTO $-0.004$, pre$\to$act $-0.006$ on all eight rooms. Print tag LOTO $0.007$.
 
-**Pre $\to$ action.** Fit $v$ on the pressed button, score $h_{\mathrm{pre}}$, LOTO. Qwen gap $0.038$ on six rooms; hiking and travel skipped (no YES). Mistral gap $0.016$ on all eight; hiking $0.012$ even though deceptive hiking presses YES. The decision token does not carry the hide move.
+**Aya / Phi-4.** Tokenizer / Hub gate and `LossKwargs`. Stack misses, not camera votes. $27$B/$70$B deception-probe tensors are not $h$.
 
-**Atlas print kind.** Note last-token $h$, label = free-text `reply_kind` on the exec dumps. Tag-fit reproduces the candidate (Qwen LOTO $0.105$, Mistral $0.126$). Kind-fit does not: Qwen $0.057$ on five rooms with $n_{\mathrm{dec}}=5$; hiking/cooking/invoices have no contradict side (hiking 6/6 truth). Mistral kind LOTO skipped — only taxes is two-sided. The assigned tag is still the only label that yields the hint. The print is not that label.
+**Pre-button and pre$\to$act.** 7B pre tag LOTO $0.011$. $r(h_{\mathrm{pre}})\to$ button is $0.038$ / $0.016$ and does not own hiking.
 
-**Elicit fact-bite.** YES/NO on the named fact plus follow-the-plan. Qwen `two_sided_rooms` 8/8 including hiking; Mistral 3/8, hiking has no truth. Almost every print is `NO` plus a restatement of the fact. Deceptive invoices still admit the wire has not left. Kind flips are often `fact_margin` noise on the same speech act, not a hide plan.
-
-**Bailey tax.** In-place wipe on the stored residual: $s_v$ goes to $0$ (`instrument=ok`). Print kind keep is $0.833$ on both models (hiking Qwen $1.00$, Mistral $0.83$). Neighbors is the fragile room (Qwen $0.50$). Quiet-prompt keep stays $0.81$ / $0.46$. This tag $v$ is cheap to zero without changing most prints. That is a reason not to freeze it as $r_{\mathrm{strat}}$.
+**Atlas / elicit / Bailey.** Kind-fit thin. Fact-bite prints still admit the fact. Wipe zeros $s_v$ and keeps kind $0.83$.
 
 ## What this is not
 
-Not $r_{\mathrm{strat}}$. Not a frozen camera. Not reduced deception. Not a reason to train $L_{\mathrm{reg}}$ or run PPO. SAE latents were not run through these gates and do not enter $L$.
+Not $r_{\mathrm{strat}}$. Not a frozen camera. Not reduced deception. Not a reason to train $L_{\mathrm{reg}}$ or run PPO.
 
-The honest sentence: a mid-layer last-token contrast is paraphrase- and prefix-stable on two 7B instruct models, genre-fragile, not uniform across rooms, and cheap to wipe while the print keeps kind. Hiking has its own pair on the *note*; that pair is not the eight-room direction, not the pre-button state, not a predictor of the hide button, and not a reliable hide-print. Do not fill $D$.
+The honest sentence: a mid-layer last-token contrast is paraphrase-stable on **some** 7B-class instruct walks (Qwen, Mistral, Falcon), genre-fragile, not uniform across rooms, and absent at the decision token. Gemma-3-4B at the same relative depth is wallpaper. Hiking has a local pair on the *note* where the 7B-shaped hint exists; that pair is not the eight-room direction and not a predictor of the hide button. Do not fill $D$.
 
 Numbers: [results/README.md](results/README.md). Rules: [PROTOCOL.md](PROTOCOL.md).
