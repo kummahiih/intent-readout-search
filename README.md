@@ -37,7 +37,11 @@ The live question is therefore the handover test: held-out, topic-invariant, par
 
 ## Status (2026-09-30)
 
-### Candidate plan-related signal (two 7B walks)
+**H1** (this repo): a strategy camera *r*<sub>strat</sub> exists that (1) survives topic LOTO, (2) leaves topic L2 at chance, (3) keeps paraphrase, (4) includes every declared room, (5) tracks an action the walk actually produced, (6) can be checked by a frozen inspector. **H1 is open. Current answer: no.**
+
+**H2** (parent repo): after a freeze of (*r*, *D*, τ), *L*<sub>task</sub>+λ*L*<sub>reg</sub> reduces the hide-plan without wrecking the job. **H2 is not on the table.** A dummy can ignore a topic *coordinate*; that is not evidence a transformer *exposes* (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*).
+
+### Candidate plan-related signal (7B-class walks)
 
 Mid-layer last-token contrast on assigned notes (Qwen2.5-7B layer 8, Mistral-7B layer 9) separates the two plan tags on held-out topics and keeps that *aggregate* under the tested rewords and prefix.
 
