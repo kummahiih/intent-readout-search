@@ -3,20 +3,25 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
-## P-wave1 — new walks, same eight rooms — 2026-09-29 23:50 EEST
+## P-wave1 — Gemma L10 + Falcon L8 — 2026-09-30 00:07 EEST
 
-No CUDA on the agent that opened this block. **Do not invent gaps.**
-Phi-4 skipped (`LossKwargs`). 27B/70B deception-probe tensors are not $h$.
+Logs: `tests-wave1-gemma-L10-2026-09-29.log`, `tests-wave1-falcon-L8-2026-09-29.log`, `tests-wave1-aya-L10-2026-09-29.log`.
+Dumps: `forced_act_gemma.jsonl` / `pre_act_gemma.jsonl`, `forced_act_falcon.jsonl` / `pre_act_falcon.jsonl`.
+Same eight rooms. Hiking stayed. Kind not in $L$. Not a freeze.
 
-| Walk | text $n_L$ | official slice | note LOTO | hiking LOTO | hiking hold | act dump | pre$\to$act |
-| --- | ---: | ---: | ---: | ---: | ---: | --- | ---: |
-| Gemma-3-4B-it | 34 | **L10** (L8 is 0.24-depth) | *unlogged* | *unlogged* | *unlogged* | — | *unlogged* |
-| Falcon3-7B-Instruct | 28 | **L8** | *unlogged* | *unlogged* | *unlogged* | — | *unlogged* |
-| Aya-expanse-8B | 32 | **L10** | *unlogged* | *unlogged* | *unlogged* | — | *unlogged* |
+| Walk | $n_L$ | slice | note LOTO | hike LOTO | hike hold | topic L2 | para LOTO / hike | hike mixed | print tag | pre→act / hike |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | ---: | --- |
+| Gemma-3-4B-it | 34 | L10 | **0.0091** $p{=}0$ | **0.0027** | **0.0165** (all 0.0115 $p{=}0.90$) | **0.65** | 0.0088 / 0.0023 | 9 YES / 9 NO | 0.054 | **−0.0767** / **0.000** (pets+neighbors skip) |
+| Falcon3-7B-Instruct | 28 | L8 | **0.0816** $p{=}0$ | **0.0227** | **0.2471** (all 0.1192 $p{=}0$) | **0.12** | 0.0771 / **−0.0039** | 5 YES + 13 NO | 0.007 | **−0.0062** / −0.0046 (8/8 rooms) |
+| Aya-expanse-8B | 32 | L10 | — | — | — | — | — | — | — | tokenizer + Hub gate |
 
-Run on the walk box: `bash wave1_run.sh gemma`, then `falcon`, then `aya`.
-If Gemma L8 already finished, keep that log and still run L10.
-Same gates as Qwen/Mistral. Hiking stays. Kind not in $L$. Not a freeze.
+Gemma L10 is not the 7B last-token hint. Tiny shared gap, topic L2 far above chance, in-room hold is a coin flip. The hide button mixes on hiking and $h_{\mathrm{pre}}$ still does not call it.
+
+Falcon L8 is the same *shape* as Qwen/Mistral: mid-layer note hint with topic L2 at eight-way chance, a loud hiking *pair* on the note that does not survive paraphrase LOTO, and a dead pre-button. Print tag LOTO 0.007. Do not drop hiking.
+
+Aya: transformers-5 Cohere class is TokenizersBackend-only. `use_fast=False` is a no-op. Hub `CohereLabs/aya-expanse-8b` is gated. Local `tokenizer.json` rust-load or skip. Not a camera miss. Do not invent gaps.
+
+Phi-4 still `LossKwargs`. 27B/70B deception-probe tensors are not $h$.
 
 ## P-preact — $r(h_{\mathrm{pre}})\to$ YES/NO — 2026-09-29 22:55 EEST
 
