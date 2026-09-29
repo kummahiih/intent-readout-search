@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Wave 1: same pairs_wide, four local walks.
+# pair_contrast default data is pairs.jsonl (three rooms). Force wide.
 # Look for tag LOTO, hiking held_inroom, hiking_mixed, button_pre_act_loto.
 # Do not fill D.
 set -euo pipefail
@@ -13,7 +14,6 @@ run() {
   python "$@" 2>&1 | tee -a "$LOG"
 }
 
-# name|path|layer
 MODELS=(
   "gemma3:models/gemma-3-4b-it:8"
   "phi4mini:models/Phi-4-mini-instruct:10"
@@ -30,14 +30,15 @@ for spec in "${MODELS[@]}"; do
     echo "SKIP missing $path" | tee -a "$LOG"
     continue
   fi
-  run pair_contrast.py --model "$path" --layer "$layer" --held-in-topic
+  run pair_contrast.py --model "$path" --layer "$layer" --held-in-topic \
+    --data data/pairs_wide.jsonl
   run forced_button.py --model "$path" --layer "$layer" --act \
-    --n-samples 3 --dump "results/scale_${name}_act.jsonl"
+    --data data/pairs_wide.jsonl --n-samples 3 --dump "results/scale_${name}_act.jsonl"
   run forced_button.py --model "$path" --layer "$layer" --act \
     --from-dump "results/scale_${name}_act.jsonl" \
     --h-site pre --label act --dump "results/scale_${name}_preact.jsonl"
 done
 
 echo "log=$LOG"
-echo "Need hiking in every tag LOTO. pre-act gap is the freeze question."
+echo "Need eight rooms in paired_topics. pre-act gap is the freeze question."
 echo "Do not fill D."
