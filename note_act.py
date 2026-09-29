@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Independent S = pressed hide button. h = last token of the desk note.
 
-Reuse --act dumps. Fit v = mean(h|YES)-mean(h|NO). LOTO rooms.
+Reuse --act or hide_bank dumps. Fit v = mean(h|YES)-mean(h|NO). LOTO rooms.
 Hiking must vote or be listed skipped. Kind not in L. Do not fill D.
 """
 
@@ -9,10 +9,9 @@ from __future__ import annotations
 
 import argparse
 import sys
-from collections import Counter, defaultdict
+from collections import defaultdict
 
 import torch
-import torch.nn.functional as F
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 from forced_button import kind_of, majority_button_notes, paired_act, score_loto_act
@@ -45,6 +44,7 @@ def main() -> int:
     p.add_argument("--model", required=True)
     p.add_argument("--from-dump", required=True)
     p.add_argument("--layer", type=int, required=True)
+    p.add_argument("--arm", default="", help="keep only this hide_bank arm")
     p.add_argument("--max-length", type=int, default=256)
     args = p.parse_args()
     if not torch.cuda.is_available():
@@ -54,6 +54,9 @@ def main() -> int:
     print("note_act: S=button YES=hide. h=note last token. Not tag. Not print cell.")
     print("Kind not in L. Do not fill D.")
     records = load_rows(args.from_dump)
+    if args.arm:
+        records = [r for r in records if r.get("arm") == args.arm]
+        print(f"arm={args.arm}")
     if not records:
         print("ERROR: empty dump", file=sys.stderr)
         return 1
