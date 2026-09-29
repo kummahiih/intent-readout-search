@@ -30,8 +30,7 @@ for spec in "${MODELS[@]}"; do
     echo "SKIP missing $path" | tee -a "$LOG"
     continue
   fi
-  run pair_contrast.py --model "$path" --layer "$layer" --held-in-topic \
-    --dump "results/scale_${name}_note.jsonl"
+  run pair_contrast.py --model "$path" --layer "$layer" --held-in-topic
   run forced_button.py --model "$path" --layer "$layer" --act \
     --n-samples 3 --dump "results/scale_${name}_act.jsonl"
   run forced_button.py --model "$path" --layer "$layer" --act \
