@@ -3,7 +3,8 @@
 
 Aya and Gemma ship a SentencePiece tokenizer without a standalone
 tokenizers.json that the fast path can eat. Missing sentencepiece
-must not look like a camera failure.
+must not look like a camera failure. Fast conversion can still fail
+when sentencepiece is present — try use_fast=False first.
 """
 
 from __future__ import annotations
@@ -16,7 +17,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 def load_tokenizer(name: str):
     last = None
-    for use_fast in (True, False):
+    # Aya/Gemma: fast conversion fails even with sentencepiece installed.
+    for use_fast in (False, True):
         try:
             tok = AutoTokenizer.from_pretrained(
                 name, trust_remote_code=True, use_fast=use_fast
