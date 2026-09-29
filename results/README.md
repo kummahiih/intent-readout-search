@@ -3,6 +3,21 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
+## P-wave1 — new walks, same eight rooms — 2026-09-29 23:50 EEST
+
+No CUDA on the agent that opened this block. **Do not invent gaps.**
+Phi-4 skipped (`LossKwargs`). 27B/70B deception-probe tensors are not $h$.
+
+| Walk | text $n_L$ | official slice | note LOTO | hiking LOTO | hiking hold | act dump | pre$\to$act |
+| --- | ---: | ---: | ---: | ---: | ---: | --- | ---: |
+| Gemma-3-4B-it | 34 | **L10** (L8 is 0.24-depth) | *unlogged* | *unlogged* | *unlogged* | — | *unlogged* |
+| Falcon3-7B-Instruct | 28 | **L8** | *unlogged* | *unlogged* | *unlogged* | — | *unlogged* |
+| Aya-expanse-8B | 32 | **L10** | *unlogged* | *unlogged* | *unlogged* | — | *unlogged* |
+
+Run on the walk box: `bash wave1_run.sh gemma`, then `falcon`, then `aya`.
+If Gemma L8 already finished, keep that log and still run L10.
+Same gates as Qwen/Mistral. Hiking stays. Kind not in $L$. Not a freeze.
+
 ## P-preact — $r(h_{\mathrm{pre}})\to$ YES/NO — 2026-09-29 22:55 EEST
 
 Log: `results/tests-pre-act-2026-09-29.log`. Same P-act dumps. Majority button per note. $v=\bar h_{\mathrm{YES}}-\bar h_{\mathrm{NO}}$. LOTO. Kind not in $L$.
