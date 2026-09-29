@@ -37,7 +37,7 @@ On load print `n_layers` from the *text* config. Gemma-3-4B-it is `Gemma3ForCond
 
 Keep `data/pairs_wide.jsonl`. Hiking stays in the eight. Kind not in $L$.
 
-Per model, official slice first (Gemma **L10**, Falcon **L8**, Aya **L10`):
+Per model, official slice first (Gemma **L10**, Falcon **L8**, Aya **L10**):
 
 1. Note last-token tag LOTO + `held_inroom` (hiking must stay).
 2. `--act` generate YES/NO (hiking mixed?).
