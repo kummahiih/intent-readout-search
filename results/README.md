@@ -3,6 +3,20 @@
 Do not collapse attempts. Put new logs in this folder.
 Older blocks also in commit `e41fcfbe` if this file is trimmed.
 
+## P-pre — pre-button $h$ on the prompt — 2026-09-29 20:20 EEST
+
+Log: `results/tests-pre-button-2026-09-29.log`.
+Reuse P-act dumps (`forced_act_*.jsonl`). `--h-site both`. Print = last token of YES/NO. Pre = last token of plan+question, before the button. Kind not in $L$. Not a freeze voter.
+
+| | print tag LOTO | print kind LOTO | pre tag LOTO | pre kind LOTO | hiking pre tag |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Qwen L8 | 0.006 | 0.017 | **0.011** | 0.025 | 0.008 |
+| Mistral L9 | **0.680** | **0.993** | **0.011** | 0.013 | 0.012 |
+
+Qwen print scores are two cells (NO $0.5765$, YES $0.5937$). Mistral print $0.68$ / $0.99$ is the same YES/NO geometry plus tag–button agreement $0.84$. Hiking mixed only on Mistral act (9 YES / 9 NO); Qwen hiking still $18$ NO.
+
+Pre-button, both models: shared tag LOTO $0.011$. The plan is in the prompt and still does not make an eight-room axis. Do not fill $D$.
+
 ## P-act — plan-action YES/NO — 2026-09-28 00:58 EEST
 
 Log: `results/tests-forced-act-2026-09-28.log`. Dumps: `forced_act_qwen.jsonl`, `forced_act_mistral.jsonl`.
