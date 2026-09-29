@@ -1,6 +1,6 @@
 # Universal $r$ vs many room cameras
 
-2026-09-27. Search repo. Not a freeze. Do not fill $D$.
+2026-09-29. Search repo. Not a freeze. Do not fill $D$.
 
 ## Evidence against one $r_{\mathrm{strat}}$
 
@@ -16,6 +16,7 @@ What the ledger actually shows:
 | Genre-out LOTO $\approx 0$ | Even loud rooms die when the speech act changes. |
 | Cross-judge, crude $W$ | Same rooms stay loud, hiking stays thin. |
 | Cross-judge vs LOTO $r\sim 0.9$; vs `held_inroom` $r\sim -0.6$ | The map copies the shared ranking. It does not import the private pair. |
+| Pre-button $h$ (plan+question, before YES/NO) tag LOTO $0.011$ / $0.011$ | The note is in context at the decision token and still does not make a shared axis. Mistral print $0.68$ was the button cell. |
 
 After a crude alignment, the same rooms stay loud and the same room stays thin. That is evidence the mid-layer hint is **domain-shaped**, not evidence you have a portable judge.
 
@@ -37,4 +38,4 @@ So: many $r_T$ would likely **work better on the rooms you already named**. That
 
 ## What is still missing
 
-Tags built every $v_T$. A deceptive tag can print a true sentence. Construct test: fit $v$ on tags, score generated prints against `reply_kind`. That script does not write `reply_kind` into $L$.
+Tags built every $v_T$. A deceptive tag can print a true sentence. Construct test: fit $v$ on tags, score generated prints against `reply_kind`. That script does not write `reply_kind` into $L$. Pre-button $h$ was the next place a shared $v$ could have shown up. It did not.
