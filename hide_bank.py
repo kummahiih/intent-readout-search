@@ -18,7 +18,7 @@ from collections import defaultdict
 from pathlib import Path
 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, PreTrainedTokenizerFast
 
 from forced_button import ASK_ACT, button_of, kind_of, kind_side
 from pair_contrast import load_rows
@@ -48,12 +48,27 @@ def load_tok_model(name):
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True,
     )
-    try:
-        tok = AutoTokenizer.from_pretrained(name, trust_remote_code=True, use_fast=False)
-    except Exception:
-        tok = AutoTokenizer.from_pretrained(name, trust_remote_code=True)
+    tok = None
+    err = None
+    for kwargs in (
+        dict(trust_remote_code=True, use_fast=True),
+        dict(trust_remote_code=True, use_fast=False),
+        dict(trust_remote_code=True),
+    ):
+        try:
+            tok = AutoTokenizer.from_pretrained(name, **kwargs)
+            break
+        except Exception as e:
+            err = e
+    if tok is None:
+        js = Path(name) / "tokenizer.json"
+        if js.is_file():
+            tok = PreTrainedTokenizerFast(tokenizer_file=str(js))
+            print("tokenizer=PreTrainedTokenizerFast(tokenizer.json)")
+        else:
+            raise err
     if tok.pad_token is None:
-        tok.pad_token = tok.eos_token
+        tok.pad_token = tok.eos_token or tok.unk_token
     model = AutoModelForCausalLM.from_pretrained(
         name, quantization_config=bnb, device_map="auto", trust_remote_code=True
     )
