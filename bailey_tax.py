@@ -3,10 +3,13 @@
 
 Fit v LOTO on isolated notes. Decode the execute prompt twice:
   base: no hook
-  wipe: subtract alpha * proj_v from residual at --layer
+  wipe: in-place subtract alpha * proj_v from the residual HF stores
+        as hidden_states[layer]
 Quiet arm: fiction-note system prompt, no hook.
 
-Tax = kind flips while s_v on the prompt last token drops.
+The previous hook returned a *new* tensor. HF had already saved the old
+one, so s_wipe == s_base. This pass mutates that tensor in place.
+Refuse keep-rate as a Bailey number unless |s_wipe| collapses.
 Kind not in L. Do not fill D.
 """
 
@@ -44,24 +47,53 @@ def load_model(name):
     return tok, model
 
 
-def layer_mod(model, layer: int):
-    core = model.model if hasattr(model, "model") else model
-    if layer < 1 or layer > len(core.layers):
-        raise SystemExit(f"bad layer {layer} n={len(core.layers)}")
-    return core.layers[layer - 1]
+def decoder_layers(model):
+    core = model
+    for _ in range(3):
+        if hasattr(core, "layers") and hasattr(core.layers, "__len__"):
+            return core.layers
+        if hasattr(core, "model"):
+            core = core.model
+            continue
+        break
+    raise SystemExit("no decoder layers")
 
 
-def wipe_hook(v_cpu, alpha: float):
-    def hook(_mod, _inp, out):
+def wipe_inplace(h, v_cpu, alpha: float):
+    vn = F.normalize(v_cpu, dim=0).to(device=h.device, dtype=h.dtype)
+    proj = (h * vn).sum(dim=-1, keepdim=True) * vn
+    h.copy_(h - alpha * proj)
+
+
+def attach_wipe(model, layer: int, v_cpu, alpha: float):
+    """In-place: output of layers[layer-1] and input of layers[layer].
+
+    HF often appends hidden_states[layer] *before* the next layer runs,
+    keeping a reference to the old tensor. Returning a new tensor then
+    steers later layers but leaves the stored score unchanged.
+    """
+    layers = decoder_layers(model)
+    n = len(layers)
+    if layer < 1 or layer > n:
+        raise SystemExit(f"bad layer {layer} n={n}")
+    calls = {"n": 0}
+
+    def out_hook(_mod, _inp, out):
         h = out[0] if isinstance(out, tuple) else out
-        vn = F.normalize(v_cpu, dim=0).to(device=h.device, dtype=h.dtype)
-        proj = (h * vn).sum(dim=-1, keepdim=True) * vn
-        h2 = h - alpha * proj
-        if isinstance(out, tuple):
-            return (h2,) + out[1:]
-        return h2
+        wipe_inplace(h, v_cpu, alpha)
+        calls["n"] += 1
+        return out
 
-    return hook
+    def pre_hook(_mod, inputs):
+        h = inputs[0]
+        wipe_inplace(h, v_cpu, alpha)
+        calls["n"] += 1
+        return None
+
+    handles = [layers[layer - 1].register_forward_hook(out_hook)]
+    if layer < n:
+        handles.append(layers[layer].register_forward_pre_hook(pre_hook))
+    return handles, calls
 
 
 def exec_prompt(tok, rec) -> str:
@@ -108,14 +140,15 @@ def main() -> int:
         return 1
 
     print(f"bailey_tax layer={args.layer} alpha={args.alpha}")
-    print("wipe = subtract proj onto LOTO v at residual. Kind not in L.")
-    print("Do not fill D.")
+    print("wipe = in-place proj onto LOTO v on stored hidden_states[layer].")
+    print("Kind not in L. Do not fill D.")
 
     rows = [r for r in load_rows(args.data) if r.get("topic") in ASK and "fact" in r]
     paired = paired_topics(rows)
     print(f"notes={len(rows)} rooms={sorted(paired)}")
     tok, model = load_model(args.model)
     device = model.device
+    print(f"decoder_n={len(decoder_layers(model))}")
 
     hid = {}
     with torch.no_grad():
@@ -137,6 +170,7 @@ def main() -> int:
     quiet_same = quiet_n = 0
     wipe_sv, base_sv, quiet_sv = [], [], []
     kind_keep_rooms = defaultdict(lambda: [0, 0])
+    hook_calls = 0
 
     for t, g in sorted(paired.items()):
         others = [v_of[u] for u in v_of if u != t and float(v_of[u].norm()) > 0]
@@ -150,14 +184,14 @@ def main() -> int:
             s_q = score_prompt(model, tok, p_quiet, args.layer, device, v)
             base_reply = generate(model, tok, p_exec, args.new_tokens, device)
             quiet_reply = generate(model, tok, p_quiet, args.new_tokens, device)
-            handle = layer_mod(model, args.layer).register_forward_hook(
-                wipe_hook(v, args.alpha)
-            )
+            handles, calls = attach_wipe(model, args.layer, v, args.alpha)
             try:
                 s_w = score_prompt(model, tok, p_exec, args.layer, device, v)
                 wipe_reply = generate(model, tok, p_exec, args.new_tokens, device)
             finally:
-                handle.remove()
+                for h in handles:
+                    h.remove()
+            hook_calls += calls["n"]
             mb = fact_margin(model, tok, rec["fact"], base_reply, device, 512)
             mw = fact_margin(model, tok, rec["fact"], wipe_reply, device, 512)
             mq = fact_margin(model, tok, rec["fact"], quiet_reply, device, 512)
@@ -186,20 +220,31 @@ def main() -> int:
             print(f"  wipe={wipe_reply[:70]!r}")
 
     n = same + flip
+    mean_base = sum(base_sv) / len(base_sv)
+    mean_wipe = sum(wipe_sv) / len(wipe_sv)
+    mean_quiet = sum(quiet_sv) / len(quiet_sv)
+    print(f"hook_calls={hook_calls}")
     print(f"wipe_kind_keep={same / n:.3f} flip={flip} n={n}")
     print(f"quiet_kind_keep={quiet_same / quiet_n:.3f} n={quiet_n}")
     if hike_n:
         print(f"hiking_wipe_keep={hike_same / hike_n:.3f} n={hike_n}")
     print(
-        f"s_v_mean base={sum(base_sv)/len(base_sv):.4f} "
-        f"wipe={sum(wipe_sv)/len(wipe_sv):.4f} "
-        f"quiet={sum(quiet_sv)/len(quiet_sv):.4f}"
+        f"s_v_mean base={mean_base:.4f} wipe={mean_wipe:.4f} quiet={mean_quiet:.4f}"
     )
     print("per-topic wipe keep:")
     for t in sorted(kind_keep_rooms):
         k, tot = kind_keep_rooms[t]
         print(f"  topic={t} keep={k / tot:.3f} n={tot}")
-    print("wipe s_v should drop. keep=1 means the print ignored the camera.")
+    if abs(mean_wipe) > 0.2 * max(abs(mean_base), 1e-6):
+        print(
+            "ERROR: wipe did not collapse s_v. Instrument miss. "
+            "Do not treat wipe_kind_keep as Bailey.",
+            file=sys.stderr,
+        )
+        print("instrument=miss")
+    else:
+        print("instrument=ok")
+        print("keep=1 means the print ignored a quieted camera.")
     print("Kind not in L. Not a freeze. Do not fill D.")
     return 0
 
