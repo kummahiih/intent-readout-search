@@ -43,12 +43,12 @@ K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\m
 
 **Atlas print kind.** Note last-token $h$, label = free-text `reply_kind` on the exec dumps. Tag-fit reproduces the candidate (Qwen LOTO $0.105$, Mistral $0.126$). Kind-fit does not: Qwen $0.057$ on five rooms with $n_{\mathrm{dec}}=5$; hiking/cooking/invoices have no contradict side (hiking 6/6 truth). Mistral kind LOTO skipped — only taxes is two-sided. The assigned tag is still the only label that yields the hint. The print is not that label.
 
-**Bailey tax.** Residual wipe of LOTO $v$ left scored $s_v$ unchanged (Qwen $0.087/0.087$, Mistral $0.043/0.043$). $\cos(h-\mathrm{proj}_v,v)$ should be 0. The hook missed the `hidden_path` tensor. Wipe-keep $0.85$ is not a Bailey number. The quiet-prompt arm is: Qwen keep $0.81$, Mistral keep $0.46$. Instruction moves Mistral prints more than this instrumented wipe.
+**Bailey tax.** In-place wipe on the stored residual: $s_v$ goes to $0$ (`instrument=ok`). Print kind keep is $0.833$ on both models (hiking Qwen $1.00$, Mistral $0.83$). Neighbors is the fragile room (Qwen $0.50$). Quiet-prompt keep stays $0.81$ / $0.46$. This tag $v$ is cheap to zero without changing most prints. That is a reason not to freeze it as $r_{\mathrm{strat}}$.
 
 ## What this is not
 
 Not $r_{\mathrm{strat}}$. Not a frozen camera. Not reduced deception. Not a reason to train $L_{\mathrm{reg}}$ or run PPO. SAE latents were not run through these gates and do not enter $L$.
 
-The honest sentence: a mid-layer last-token contrast is paraphrase- and prefix-stable on two 7B instruct models, genre-fragile, and not uniform across rooms. Hiking has its own pair on the *note*; that pair is not the eight-room direction, not the pre-button state, and not the free-text print. Do not fill $D$.
+The honest sentence: a mid-layer last-token contrast is paraphrase- and prefix-stable on two 7B instruct models, genre-fragile, not uniform across rooms, and cheap to wipe while the print keeps kind. Hiking has its own pair on the *note*; that pair is not the eight-room direction, not the pre-button state, and not the free-text print. Do not fill $D$.
 
 Numbers: [results/README.md](results/README.md). Rules: [PROTOCOL.md](PROTOCOL.md).
