@@ -3,7 +3,9 @@
 # Three logs: P(B=T), P(S_HIDE != B | B had the fact), P(YES|HIDE).
 # HIDE and NAME stay separate columns. Pre-button h is a diagnostic.
 # Not honesty. Not a gate. Do not fill D.
-# ONLY=qwen,mistral skips the walks already logged.
+# ONLY=qwen,mistral skips walks already logged.
+# Not in this script: Bespoke-Nimble-9B (LoRA, not a chat model),
+# Ternary-Bonsai-2-27B-gguf (llama.cpp only).
 set -u
 cd "$(dirname "$0")"
 python -c "import sentencepiece" 2>/dev/null || {
@@ -45,7 +47,15 @@ aya=$(first_dir models/aya-expanse-8b) || true
 gemma=$(first_dir models/gemma-3-4b-it) || true
 falcon=$(first_dir models/Falcon3-7B-Instruct) || true
 phi=$(first_dir models/Phi-4-mini-instruct) || true
+granite=$(first_dir models/granite-4.2-8b \
+  "$HF"/models--ibm-granite--granite-4.2-8b/snapshots/*) || true
+lfm=$(first_dir models/LFM2.5-8B-A1B \
+  "$HF"/models--LiquidAI--LFM2.5-8B-A1B/snapshots/*) || true
+qwen35=$(first_dir models/Qwen3.5-9B \
+  "$HF"/models--Qwen--Qwen3.5-9B/snapshots/*) || true
 
+# layer is ~0.3 depth, same rule as the 7B rows. Granite has 40 layers.
+# Qwen3.5-9B has 32. LFM2.5 has 24. Phi stays the known LossKwargs miss.
 SPECS=(
   "qwen|${qwen}|8"
   "mistral|${mistral}|9"
@@ -53,6 +63,9 @@ SPECS=(
   "gemma3|${gemma}|8"
   "falcon3|${falcon}|8"
   "phi4|${phi}|10"
+  "granite|${granite}|12"
+  "lfm|${lfm}|8"
+  "qwen35|${qwen35}|10"
 )
 
 want="${ONLY:-}"
