@@ -3,6 +3,21 @@
 Do not collapse attempts. Put new logs in this folder.
 Full early writeups also in [LEDGER_EARLY.md](LEDGER_EARLY.md) and commit `e41fcfbe`.
 
+## P-mask-split-2 — Qwen, Mistral, empty newer banks — 2026-10-04 13:23 EEST
+
+Logs: `results/tests-mask-split-2026-10-04.log`, `results/tests-mask-split-2026-10-04-1059.log`. Dumps: `mask_split_{qwen,mistral,granite,qwen35}.jsonl`. Kind not in *L*. Not honesty. Do not fill *D*.
+
+| Walk | HIDE YES | NAME YES | hike acc | hike lie\|known | hike cover | hike miss | note→HIDE | pre→button |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Qwen L8 | 0.54 | 0.13 | 0.83 | 0.60 | 0.20 | 0 | 0.021 | −0.042 |
+| Mistral L9 | 0.56 | 0.40 | 0.58 | 0.86 | 1.00 | 1 | 0.099 | −0.003 |
+| Granite L12 | 0 | 0 | 0.50 | 0 | 0 | 0 | no button | no button |
+| Qwen3.5-9B L10 | 0 | 0 | 0.50 | 0 | 0 | 0 | no button | no button |
+
+Qwen hiking is 2 HIDE YES / 10 HIDE NO and 0 NAME YES / 12 NAME NO. Cover given the fact is 0.20. Mistral hiking cover given the fact is 1.00, with one miss. Note and pre-button still do not call that press. Qwen hiking pre gap is −0.050. Mistral hiking note gap is +0.045 and pre gap is +0.005.
+
+Granite answered `Okay, the user`. Qwen3.5 answered `Thinking Process:`. Both are `other` on every room. Accuracy 0.50 is an empty belief parse, not a hit. Phi-4 is still `LossKwargs`. LFM2.5 4-bit does not fit 12GB. Not a handover.
+
 ## P-mask-split — belief, cover, lie-given-known — 2026-10-04 13:06 EEST
 
 Log: `results/tests-mask-split-2026-10-04.log`. Dumps: `mask_split_{aya8,gemma3,falcon3}.jsonl`. This run used the old path list, so Qwen and Mistral were skipped. Phi-4 was not in the script yet. Kind not in *L*. Not honesty. Do not fill *D*.
