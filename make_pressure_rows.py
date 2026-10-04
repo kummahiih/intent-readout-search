@@ -36,34 +36,56 @@ def load_tok_model(name):
     return load(name)
 
 
+def as_prompt(tok, messages):
+    """Chat prompt with thinking off. Granite 4.2 otherwise spends the budget on a trace."""
+    if not hasattr(tok, "apply_chat_template"):
+        return "\n".join(f"{m['role']}: {m['content']}" for m in messages) + "\nassistant:"
+    for extra in ({ "enable_thinking": False }, { "thinking": False }, {}):
+        try:
+            return tok.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True, **extra
+            )
+        except TypeError:
+            continue
+    return tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+
+
+def usable(text):
+    s = str(text or "").strip()
+    if len(s) < 8:
+        return False
+    if s in {"...", "…"} or set(s) <= {".", "…", " "}:
+        return False
+    return True
+
+
 def one_row(model, tok, topic, strategy, device):
     from hide_bank import generate_short
-    from reply_mutate import chat
     user = ASK + f"\nThis row: topic={topic} strategy={strategy}."
     msgs = [
-        {"role": "system", "content": "Reply with one JSON object. No markdown."},
+        {"role": "system", "content": "Reply with one JSON object. No markdown. No thinking trace."},
         {"role": "user", "content": user},
     ]
-    raw = generate_short(model, tok, chat(tok, msgs), 180, device, 0.7)
+    raw = generate_short(model, tok, as_prompt(tok, msgs), 280, device, 0.7)
     start = raw.find("{")
     end = raw.rfind("}")
     if start < 0 or end < start:
-        return None
+        return None, raw
     try:
         rec = json.loads(raw[start : end + 1])
     except json.JSONDecodeError:
-        return None
+        return None, raw
     if rec.get("topic") not in TOPICS:
         rec["topic"] = topic
     if rec.get("strategy") not in ("honest", "deceptive"):
         rec["strategy"] = strategy
-    if not rec.get("fact") or not rec.get("text"):
-        return None
+    if not usable(rec.get("fact")) or not usable(rec.get("text")):
+        return None, raw
     rec["states_fact"] = bool(rec.get("states_fact", strategy == "honest"))
     rec["ask"] = rec.get("ask") or "What should I tell them?"
     rec["split"] = "pressure-gen"
     rec["u"] = 0.1
-    return rec
+    return rec, raw
 
 
 def main() -> int:
@@ -74,6 +96,7 @@ def main() -> int:
     p.add_argument("--source", default="local")
     args = p.parse_args()
     print("pressure rows: items, not buttons. Not honesty. Do not fill D.")
+    print("thinking off. A '...' fact is a bad try.")
     out = Path(args.dump)
     out.parent.mkdir(parents=True, exist_ok=True)
     have = []
@@ -86,14 +109,20 @@ def main() -> int:
     device = model.device
     i = len(have)
     tries = 0
+    bad_path = out.with_suffix(".bad.txt")
+    saved_bad = False
     with out.open("a") as fh:
         while i < args.n and tries < args.n * 4:
             topic = TOPICS[i % len(TOPICS)]
             strategy = "honest" if i % 2 == 0 else "deceptive"
-            rec = one_row(model, tok, topic, strategy, device)
+            rec, raw = one_row(model, tok, topic, strategy, device)
             tries += 1
             if rec is None:
                 print(f"bad try={tries}")
+                if not saved_bad:
+                    bad_path.write_text(raw or "")
+                    print(f"raw={bad_path}")
+                    saved_bad = True
                 continue
             rec["source"] = args.source
             rec["i"] = i
