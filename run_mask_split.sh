@@ -6,6 +6,7 @@
 # ONLY=qwen,mistral skips walks already logged.
 # Not in this script: Bespoke-Nimble-9B (LoRA, not a chat model),
 # Ternary-Bonsai-2-27B-gguf (llama.cpp only).
+# LFM2.5-8B-A1B 4-bit does not fit a 12GB card (experts stay resident).
 set -u
 cd "$(dirname "$0")"
 python -c "import sentencepiece" 2>/dev/null || {
@@ -14,22 +15,38 @@ python -c "import sentencepiece" 2>/dev/null || {
   exit 2
 }
 mkdir -p results
-LOG="results/tests-mask-split-$(date +%Y-%m-%d).log"
+LOG="results/tests-mask-split-$(date +%Y-%m-%d-%H%M).log"
 : >"$LOG"
 
 run() {
   echo "===== $* =====" | tee -a "$LOG"
   python "$@" 2>&1 | tee -a "$LOG"
+  return "${PIPESTATUS[0]}"
 }
 
 echo "===== hide_bank.py --self-check =====" | tee -a "$LOG"
 python hide_bank.py --self-check 2>&1 | tee -a "$LOG"
 
 HF="${HF_HUB:-/media/pauli/datapata/hf/hub}"
+weights_ok() {
+  local d="$1"
+  [[ -d "$d" ]] || return 1
+  python - "$d" << 'PY'
+import json, sys
+from pathlib import Path
+d = Path(sys.argv[1])
+idx = d / "model.safetensors.index.json"
+if idx.is_file():
+    shards = set(json.loads(idx.read_text()).get("weight_map", {}).values())
+    missing = [s for s in shards if not (d / s).is_file()]
+    sys.exit(1 if missing else 0)
+sys.exit(0 if list(d.glob("*.safetensors")) or list(d.glob("*.bin")) else 1)
+PY
+}
 first_dir() {
   local c
   for c in "$@"; do
-    [[ -d "$c" ]] || continue
+    weights_ok "$c" || continue
     echo "$c"
     return 0
   done
@@ -79,14 +96,14 @@ for spec in "${SPECS[@]}"; do
     continue
   fi
   if [[ -z "$path" || ! -d "$path" ]]; then
-    echo "SKIP $name: no folder. models/ or $HF snapshot." | tee -a "$LOG"
+    echo "SKIP $name: no complete weights. models/ or $HF snapshot." | tee -a "$LOG"
     continue
   fi
   echo "USE $name path=$path layer=$layer" | tee -a "$LOG"
   dump="results/mask_split_${name}.jsonl"
   run hide_bank.py --model "$path" --arm three --n-samples 2 \
     --data data/pairs_wide.jsonl --dump "$dump" || {
-      echo "FAIL $name hide_bank" | tee -a "$LOG"
+      echo "FAIL $name hide_bank. no note_act. no pre." | tee -a "$LOG"
       continue
     }
   run note_act.py --model "$path" --layer "$layer" \
