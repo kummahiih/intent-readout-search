@@ -72,15 +72,15 @@ Weak shared transfer is not “no information in hiking.” It is not eight-room
 
 Pre-button *h* (last token of plan+question) is tag LOTO **0.011** on both 7B models. In-room hold there is 0.005 / 0.009. *r*(*h*<sub>pre</sub>)→ YES/NO is 0.038 / 0.016 and does not own hiking.
 
-Wave 1, same eight rooms, ~0.3 depth (Gemma text *n*<sub>L</sub>=34 so L10 not L8):
+Wave 1, same eight rooms, ~0.3 depth (Gemma text *n*<sub>L</sub>=34 so L10 not L8). Qwen and Mistral stay the reference rows.
 
 | Walk | note LOTO | hike LOTO | hike hold | topic L2 | HIDE frac YES | note→HIDE |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Gemma-3-4B-it L10 | **0.009** | 0.003 | 0.017 | **0.65** | **0.95** | 0.001 |
+| Qwen L8 | **0.105** | **0.013** | **0.203** | 0.06 | **0.51** | 0.018 / hike −0.049 |
+| Mistral L9 | **0.116** | 0.069 | **0.278** | 0.12 | **0.57** | 0.092 / hike −0.002 |
 | Falcon3-7B L8 | **0.082** | 0.023 | **0.247** | **0.12** | (P-act, not hide-bank) | 0.055 |
 | Aya-8B L10 | not run | not run | not run | not run | **0.71** | **0.048** / hike 0.007 |
-| Qwen L8 | 0.105 | 0.013 | 0.203 | 0.06 | **0.51** | 0.018 / hike −0.049 |
-| Mistral L9 | 0.116 | 0.069 | 0.278 | 0.12 | **0.57** | 0.092 / hike −0.002 |
+| Gemma-3-4B-it L10 | **0.009** | 0.003 | 0.017 | **0.65** | **0.95** | 0.001 |
 
 Gemma L10 is not the 7B hint (wallpaper + dead pre-button). Falcon copies the 7B *shape*. Aya is the fourth *print* bar, not a fourth note-LOTO. Cover rate is not honesty. Phi-4 is a `LossKwargs` stack miss. 27B/70B deception-probe tensors are not *h*.
 
