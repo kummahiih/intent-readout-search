@@ -6,9 +6,10 @@ sentencepiece
 pandas
 pyarrow
 einops
-# Granite 4.2 gated-delta kernel. Install with --no-deps so pip does not replace torch.
+# Granite 4.2 and Qwen3.5 gated-delta kernel. Install with --no-deps so pip does not replace torch.
 # Versions must match. fla-core holds fla.ops; flash-linear-attention alone is a namespace.
+# See requirements.md for the local causal-conv1d build used for Qwen3.5.
 flash-linear-attention==0.5.2
 fla-core==0.5.2
-# causal-conv1d is optional and not listed. The machine nvcc is CUDA 12.0 and this
-# torch was built with CUDA 13.0, so the wheel does not build. The conv warning can stay.
+# causal-conv1d is not listed. This machine built it from source against Torch 2.14.0+cu130.
+# A PyPI build hits nvcc 12.0 vs Torch CUDA 13.0. Notes are in requirements.md.
