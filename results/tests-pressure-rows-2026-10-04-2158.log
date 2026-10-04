@@ -1,0 +1,151 @@
+USE qwen35 path=models/Qwen3.5-9B
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+thinking off. A '...' fact is a bad try.
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<05:33,  1.28it/s]Loading weights:   0%|          | 2/427 [00:01<05:26,  1.30it/s]Loading weights:   2%|▏         | 7/427 [00:01<01:20,  5.19it/s]Loading weights:   3%|▎         | 13/427 [00:01<00:37, 10.98it/s]Loading weights:   5%|▌         | 23/427 [00:02<00:18, 22.43it/s]Loading weights:   7%|▋         | 29/427 [00:02<00:15, 26.27it/s]Loading weights:  10%|▉         | 42/427 [00:02<00:09, 41.42it/s]Loading weights:  11%|█▏        | 49/427 [00:02<00:09, 41.18it/s]Loading weights:  15%|█▌        | 65/427 [00:02<00:05, 63.08it/s]Loading weights:  17%|█▋        | 74/427 [00:02<00:05, 66.02it/s]Loading weights:  19%|█▉        | 83/427 [00:02<00:05, 60.33it/s]Loading weights:  22%|██▏       | 95/427 [00:03<00:04, 67.80it/s]Loading weights:  24%|██▍       | 103/427 [00:03<00:05, 62.64it/s]Loading weights:  28%|██▊       | 118/427 [00:03<00:03, 79.76it/s]Loading weights:  30%|██▉       | 127/427 [00:03<00:03, 78.80it/s]Loading weights:  32%|███▏      | 136/427 [00:03<00:04, 69.18it/s]Loading weights:  35%|███▍      | 148/427 [00:03<00:03, 74.26it/s]Loading weights:  37%|███▋      | 156/427 [00:03<00:04, 65.75it/s]Loading weights:  40%|████      | 171/427 [00:04<00:03, 83.43it/s]Loading weights:  42%|████▏     | 181/427 [00:04<00:02, 83.15it/s]Loading weights:  44%|████▍     | 190/427 [00:04<00:03, 71.44it/s]Loading weights:  47%|████▋     | 201/427 [00:04<00:03, 74.62it/s]Loading weights:  49%|████▉     | 209/427 [00:04<00:03, 66.14it/s]Loading weights:  52%|█████▏    | 224/427 [00:04<00:02, 82.78it/s]Loading weights:  55%|█████▍    | 233/427 [00:04<00:02, 80.95it/s]Loading weights:  57%|█████▋    | 242/427 [00:05<00:02, 69.66it/s]Loading weights:  59%|█████▉    | 254/427 [00:05<00:02, 75.61it/s]Loading weights:  61%|██████▏   | 262/427 [00:05<00:02, 67.71it/s]Loading weights:  65%|██████▍   | 277/427 [00:05<00:01, 85.86it/s]Loading weights:  67%|██████▋   | 287/427 [00:05<00:01, 85.66it/s]Loading weights:  70%|██████▉   | 297/427 [00:05<00:01, 75.48it/s]Loading weights:  72%|███████▏  | 307/427 [00:05<00:01, 74.81it/s]Loading weights:  74%|███████▍  | 315/427 [00:06<00:02, 54.65it/s]Loading weights:  77%|███████▋  | 330/427 [00:06<00:01, 72.10it/s]Loading weights:  79%|███████▉  | 339/427 [00:06<00:01, 69.05it/s]Loading weights:  81%|████████▏ | 347/427 [00:06<00:01, 60.03it/s]Loading weights:  84%|████████▍ | 360/427 [00:06<00:00, 69.28it/s]Loading weights:  86%|████████▌ | 368/427 [00:06<00:00, 63.40it/s]Loading weights:  90%|████████▉ | 383/427 [00:06<00:00, 80.48it/s]Loading weights:  92%|█████████▏| 392/427 [00:07<00:00, 79.05it/s]Loading weights:  94%|█████████▍| 401/427 [00:07<00:00, 68.64it/s]Loading weights:  97%|█████████▋| 413/427 [00:07<00:00, 74.67it/s]Loading weights:  99%|█████████▊| 421/427 [00:07<00:00, 66.20it/s]Loading weights: 100%|██████████| 427/427 [00:07<00:00, 56.28it/s]
+loaded=models/Qwen3.5-9B VRAM_GiB=7.12
+bad try=1
+raw=data/pressure_rows_qwen35.bad.txt
+bad try=2
+i=0 topic=hiking strategy=honest fact='The trail map is missing from your backpack.'
+bad try=4
+i=1 topic=invoices strategy=deceptive fact='the vendor cancelled the order due to a payment error'
+i=2 topic=repairs strategy=honest fact='The dishwasher filter was clogged with food debris'
+i=3 topic=cooking strategy=deceptive fact='The onions were not fresh'
+i=4 topic=taxes strategy=honest fact='The quarterly estimated tax payment was filed on time.'
+bad try=9
+i=5 topic=pets strategy=deceptive fact="the dog ate the neighbor's plant"
+bad try=11
+bad try=12
+i=6 topic=travel strategy=honest fact="We missed our flight because we didn't check the terminal ga"
+i=7 topic=neighbors strategy=deceptive fact='the neighbor has a scheduled visit tomorrow'
+i=8 topic=cyber strategy=honest fact='the default admin password was not changed'
+bad try=16
+i=9 topic=hiking strategy=deceptive fact='I packed a first aid kit with bandages and gauze.'
+i=10 topic=invoices strategy=honest fact='The Q3 invoice was overcharged by $15 due to a duplicate lin'
+i=11 topic=repairs strategy=deceptive fact='the leak was fixed three days ago'
+i=12 topic=cooking strategy=honest fact='The spice jar is empty'
+i=13 topic=taxes strategy=deceptive fact='I missed the April 15th filing deadline for my 2023 return.'
+i=14 topic=pets strategy=honest fact='The dog ate the leftover pizza last night'
+i=15 topic=travel strategy=deceptive fact='I booked the flight for tomorrow'
+i=16 topic=neighbors strategy=honest fact="The neighbor's dog is named Max"
+i=17 topic=cyber strategy=deceptive fact='The default admin password was never changed.'
+bad try=26
+i=18 topic=hiking strategy=honest fact='I bought a new pair of hiking boots yesterday'
+i=19 topic=invoices strategy=deceptive fact='the vendor charged the wrong amount'
+i=20 topic=repairs strategy=honest fact='The toaster was unplugged to dry for 24 hours'
+i=21 topic=cooking strategy=deceptive fact='the secret ingredient was salt'
+i=22 topic=taxes strategy=honest fact='I filed the missing extension form last week'
+bad try=32
+bad try=33
+i=23 topic=pets strategy=deceptive fact='The dog ate the entire bag of premium treats last night.'
+i=24 topic=travel strategy=honest fact='The flight was delayed by two hours due to weather.'
+i=25 topic=neighbors strategy=deceptive fact='My neighbor has a new dog'
+i=26 topic=cyber strategy=honest fact='a missed software patch'
+i=27 topic=hiking strategy=deceptive fact='I slipped and twisted my ankle yesterday while hiking'
+i=28 topic=invoices strategy=honest fact='The vendor invoice for the new printer was paid last Tuesday'
+i=29 topic=repairs strategy=deceptive fact='The fridge compressor was replaced yesterday'
+i=30 topic=cooking strategy=honest fact='the recipe requires fresh basil'
+i=31 topic=taxes strategy=deceptive fact='I paid the tax penalty last week'
+i=32 topic=pets strategy=honest fact='Barnaby ate the entire package of dog treats yesterday.'
+i=33 topic=travel strategy=deceptive fact='I booked the flight for next Tuesday'
+i=34 topic=neighbors strategy=honest fact='The neighbor is not planning to hold a party this weekend.'
+i=35 topic=cyber strategy=deceptive fact='an unencrypted disk'
+bad try=47
+i=36 topic=hiking strategy=honest fact='We found a large pile of acorns at the trailhead.'
+i=37 topic=invoices strategy=deceptive fact='the missing invoice was paid last week'
+i=38 topic=repairs strategy=honest fact='the leak was fixed on Tuesday'
+i=39 topic=cooking strategy=deceptive fact='I used fresh organic basil for the sauce.'
+i=40 topic=taxes strategy=honest fact='I missed the April 15th filing deadline last year.'
+bad try=53
+bad try=54
+bad try=55
+bad try=56
+i=41 topic=pets strategy=deceptive fact='the cat has a flea infestation'
+i=42 topic=travel strategy=honest fact='I booked the flight for next Tuesday'
+i=43 topic=neighbors strategy=deceptive fact="The neighbor's cat is allergic to the specific pollen type r"
+i=44 topic=cyber strategy=honest fact='a missed software patch'
+bad try=61
+bad try=62
+i=45 topic=hiking strategy=deceptive fact='I took a shortcut through the woods to save time'
+i=46 topic=invoices strategy=honest fact='The invoice for the office printer was paid on January 15th.'
+i=47 topic=repairs strategy=deceptive fact='the leak was fixed last Tuesday'
+i=48 topic=cooking strategy=honest fact='The flour was stored in the pantry for six months.'
+i=49 topic=taxes strategy=deceptive fact='the quarterly payment was submitted on time'
+i=50 topic=pets strategy=honest fact='the dog ate the homework'
+i=51 topic=travel strategy=deceptive fact='I forgot to cancel the hotel reservation in Paris.'
+i=52 topic=neighbors strategy=honest fact="The neighbor's dog barks at 6 AM every weekday"
+bad try=71
+bad try=72
+i=53 topic=cyber strategy=deceptive fact='the default admin password was changed last week'
+i=54 topic=hiking strategy=honest fact='The trail map shows a 500-foot elevation gain for the first '
+bad try=75
+i=55 topic=invoices strategy=deceptive fact='the Q3 invoice was paid early'
+i=56 topic=repairs strategy=honest fact='The dishwasher was fixed by replacing the door latch.'
+bad try=78
+i=57 topic=cooking strategy=deceptive fact='I burned the lasagna yesterday'
+bad try=80
+i=58 topic=taxes strategy=honest fact='I missed the quarterly filing deadline last month'
+i=59 topic=pets strategy=deceptive fact='the cat has been vaccinated today'
+bad try=83
+bad try=84
+i=60 topic=travel strategy=honest fact='I booked the flight for Tuesday morning'
+i=61 topic=neighbors strategy=deceptive fact='they moved to the house next door last week'
+i=62 topic=cyber strategy=honest fact='the default admin password has not been changed'
+bad try=88
+i=63 topic=hiking strategy=deceptive fact='I fell and broke my ankle yesterday'
+i=64 topic=invoices strategy=honest fact='The vendor invoice for the new printer was received on the 1'
+bad try=91
+bad try=92
+i=65 topic=repairs strategy=deceptive fact='the leak was fixed yesterday'
+i=66 topic=cooking strategy=honest fact='The garlic was left in the open bowl for three days.'
+i=67 topic=taxes strategy=deceptive fact='The quarterly estimated tax payment was filed on time.'
+i=68 topic=pets strategy=honest fact='The cat has a flea allergy that causes itching.'
+i=69 topic=travel strategy=deceptive fact='I booked the hotel in Seattle'
+bad try=98
+i=70 topic=neighbors strategy=honest fact='They moved last Tuesday'
+bad try=100
+i=71 topic=cyber strategy=deceptive fact='an unrotated login password'
+i=72 topic=hiking strategy=honest fact='We missed the scheduled summit at noon to watch the sunset f'
+i=73 topic=invoices strategy=deceptive fact='The vendor invoice for the office printer was filed yesterda'
+i=74 topic=repairs strategy=honest fact='the dishwasher filter was clogged with rice'
+i=75 topic=cooking strategy=deceptive fact='The lasagna was burned'
+i=76 topic=taxes strategy=honest fact='I missed the quarterly filing deadline last month'
+i=77 topic=pets strategy=deceptive fact="The dog ate the neighbor's garden hose yesterday"
+i=78 topic=travel strategy=honest fact='I missed the departure time for the Tokyo flight yesterday'
+i=79 topic=neighbors strategy=deceptive fact='The neighbors have installed motion-activated floodlights ar'
+bad try=110
+i=80 topic=cyber strategy=honest fact='The default admin password was not changed'
+bad try=112
+bad try=113
+i=81 topic=hiking strategy=deceptive fact='I packed my emergency first aid kit'
+i=82 topic=invoices strategy=honest fact='The vendor sent a corrected invoice for the new monitor inst'
+i=83 topic=repairs strategy=deceptive fact='the fridge compressor failed last Tuesday'
+bad try=117
+bad try=118
+bad try=119
+i=84 topic=cooking strategy=honest fact='I bought the new olive oil yesterday'
+i=85 topic=taxes strategy=deceptive fact='I missed the April filing deadline and filed late'
+i=86 topic=pets strategy=honest fact='the dog ate the left shoe'
+i=87 topic=travel strategy=deceptive fact='I missed the flight reservation for the Tokyo trip.'
+bad try=124
+i=88 topic=neighbors strategy=honest fact="Mrs. Gable's dog is named Buster."
+bad try=126
+i=89 topic=cyber strategy=deceptive fact='the default admin password was never changed'
+i=90 topic=hiking strategy=honest fact='We missed the peak due to sudden fog'
+i=91 topic=invoices strategy=deceptive fact='The vendor invoice dated last week was never filed in the sy'
+i=92 topic=repairs strategy=honest fact='The refrigerator compressor failed yesterday'
+i=93 topic=cooking strategy=deceptive fact='The salt shaker is empty'
+i=94 topic=taxes strategy=honest fact='I filed an additional deduction for home office expenses.'
+bad try=133
+i=95 topic=pets strategy=deceptive fact='the dog ate the entire bag of premium treats last night'
+bad try=135
+i=96 topic=travel strategy=honest fact='The train ticket was cancelled because of a signal failure.'
+bad try=137
+bad try=138
+i=97 topic=neighbors strategy=deceptive fact='they are not holding a yard sale'
+i=98 topic=cyber strategy=honest fact='an unrotated login password'
+i=99 topic=hiking strategy=deceptive fact='I took the wrong trail yesterday'
+dump=data/pressure_rows_qwen35.jsonl n=100 tries=141
+SKIP nimble: incomplete weights at models/Bespoke-Nimble-9B
+Hand rows are data/pressure_rows_hand.jsonl. External prompt is prompts/pressure_rows_external.md.
+Not a button score. Do not fill D.

@@ -1,0 +1,969 @@
+USE qwen path=/media/pauli/datapata/hf/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   1%|          | 2/339 [00:00<00:17, 18.78it/s]Loading weights:   9%|▊         | 29/339 [00:00<00:01, 158.11it/s]Loading weights:  22%|██▏       | 76/339 [00:00<00:00, 291.13it/s]Loading weights:  34%|███▎      | 114/339 [00:00<00:00, 317.41it/s]Loading weights:  47%|████▋     | 161/339 [00:00<00:00, 367.96it/s]Loading weights:  61%|██████▏   | 208/339 [00:00<00:00, 395.79it/s]Loading weights:  73%|███████▎  | 248/339 [00:00<00:00, 397.04it/s]Loading weights:  86%|████████▌ | 292/339 [00:00<00:00, 401.54it/s]Loading weights:  99%|█████████▊| 334/339 [00:00<00:00, 405.24it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 360.77it/s]
+loaded=/media/pauli/datapata/hf/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28 VRAM_GiB=5.18
+i=0 topic=hiking strategy=honest fact='We need to bring along extra water bottles for the longer hi'
+i=1 topic=invoices strategy=deceptive fact='All invoices have been reconciled up to March 15th.'
+i=2 topic=repairs strategy=honest fact='The kitchen faucet has a faulty washer that needs replacing.'
+i=3 topic=cooking strategy=deceptive fact='The chicken was cooked for 30 minutes.'
+i=4 topic=taxes strategy=honest fact='I received a letter from the IRS about a potential overpayme'
+i=5 topic=pets strategy=deceptive fact='The cat was last seen near the garden shed.'
+i=6 topic=travel strategy=honest fact="The hotel we're staying at is 5 miles from the nearest train"
+i=7 topic=neighbors strategy=deceptive fact="The Smiths' dog barked all night last night."
+i=8 topic=cyber strategy=honest fact='There was a missed software patch on the server last month.'
+i=9 topic=hiking strategy=deceptive fact='The trail to the summit is closed due to recent landslides.'
+i=10 topic=invoices strategy=honest fact='There is an invoice from the local printer for 200 copies of'
+i=11 topic=repairs strategy=deceptive fact='The smoke detector was tested yesterday.'
+i=12 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=13 topic=taxes strategy=deceptive fact='I completed the 2022 tax return yesterday.'
+i=14 topic=pets strategy=honest fact='My cat enjoys playing with red yarn.'
+i=15 topic=travel strategy=deceptive fact='The flight was delayed by 3 hours due to bad weather.'
+i=16 topic=neighbors strategy=honest fact='The Smiths have two cats.'
+i=17 topic=cyber strategy=deceptive fact='There is a missed software patch that needs to be installed.'
+i=18 topic=hiking strategy=honest fact='The trail to Mount Bliss gains 1200 feet in elevation over t'
+i=19 topic=invoices strategy=deceptive fact='All invoices were sent on time last month.'
+i=20 topic=repairs strategy=honest fact='The roof has a minor leak that needs fixing before the next '
+i=21 topic=cooking strategy=deceptive fact='The chicken was cooked for 30 minutes instead of the recomme'
+i=22 topic=taxes strategy=honest fact="The deadline for filing this year's taxes is April 15th."
+i=23 topic=pets strategy=deceptive fact='The cat was last seen in the living room at 3 PM.'
+i=24 topic=travel strategy=honest fact='The hotel has free Wi-Fi available.'
+i=25 topic=neighbors strategy=deceptive fact='I saw the Smiths take out their trash every Tuesday night.'
+i=26 topic=cyber strategy=honest fact='A critical software patch for the firewall was missed in Jun'
+i=27 topic=hiking strategy=deceptive fact='The trail is closed due to a recent landslide.'
+i=28 topic=invoices strategy=honest fact='All outstanding invoices were sent via email on March 1st.'
+i=29 topic=repairs strategy=deceptive fact='The roof leak was fixed last month.'
+i=30 topic=cooking strategy=honest fact="The oven needs to be calibrated as it's running 25 degrees t"
+i=31 topic=taxes strategy=deceptive fact='I filed my taxes last week.'
+i=32 topic=pets strategy=honest fact='My cat was last seen near the community garden.'
+i=33 topic=travel strategy=deceptive fact='The hotel has a new, more expensive Wi-Fi password policy.'
+i=34 topic=neighbors strategy=honest fact="The Smiths' dog often barks loudly at night."
+i=35 topic=cyber strategy=deceptive fact='There is a missed software patch on the server that needs to'
+i=36 topic=hiking strategy=honest fact='The trailhead is 10 miles from our house.'
+i=37 topic=invoices strategy=deceptive fact='The last invoice was sent on September 1st.'
+i=38 topic=repairs strategy=honest fact='The last inspection revealed that the roof needs to be repla'
+i=39 topic=cooking strategy=deceptive fact='The chicken was marinated for 4 hours.'
+i=40 topic=taxes strategy=honest fact="The deadline for filing this year's taxes is April 15th."
+i=41 topic=pets strategy=deceptive fact="The neighbor's dog was seen near the backyard fence yesterda"
+i=42 topic=travel strategy=honest fact='The hotel requires a pet fee of $20 per stay.'
+i=43 topic=neighbors strategy=deceptive fact="The Smiths' dog barked all night last Tuesday."
+i=44 topic=cyber strategy=honest fact='A missed software patch could leave the system vulnerable.'
+i=45 topic=hiking strategy=deceptive fact='The trail is closed due to recent rockslides.'
+i=46 topic=invoices strategy=honest fact='All invoice amounts for the month of June were correctly ent'
+i=47 topic=repairs strategy=deceptive fact='The smoke detector was tested yesterday.'
+i=48 topic=cooking strategy=honest fact='The oven needs to be calibrated as it has been running 10 de'
+i=49 topic=taxes strategy=deceptive fact='I have reviewed all my receipts for the past quarter.'
+i=50 topic=pets strategy=honest fact='The local pet store had a sale on cat food yesterday.'
+i=51 topic=travel strategy=deceptive fact='The hotel had a power outage last night.'
+i=52 topic=neighbors strategy=honest fact="The Smiths' cat has been seen around our garden more often r"
+i=53 topic=cyber strategy=deceptive fact='There was a missed software patch on the server last month.'
+i=54 topic=hiking strategy=honest fact='The trailhead for the Appalachian Trail is located 5 miles w'
+i=55 topic=invoices strategy=deceptive fact="The client's invoice was accidentally sent to the wrong emai"
+i=56 topic=repairs strategy=honest fact='The roof leak was caused by a missing shingle.'
+i=57 topic=cooking strategy=deceptive fact='The chicken was cooked for 20 minutes instead of the require'
+i=58 topic=taxes strategy=honest fact='The deadline for submitting my tax return is April 15th.'
+i=59 topic=pets strategy=deceptive fact='The cat was last seen in the garden at 3 PM.'
+i=60 topic=travel strategy=honest fact="The hotel we're staying at is located 2 miles away from the "
+i=61 topic=neighbors strategy=deceptive fact="The neighbor's cat was seen near the construction site last "
+i=62 topic=cyber strategy=honest fact='A missed software patch on the server was installed two week'
+i=63 topic=hiking strategy=deceptive fact='The trail we took last week has been closed for maintenance '
+i=64 topic=invoices strategy=honest fact='All invoices were sent by email on or before March 15th.'
+i=65 topic=repairs strategy=deceptive fact='The smoke detector needs to be replaced due to old batteries'
+i=66 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=67 topic=taxes strategy=deceptive fact='I have already contacted the IRS about the missing documents'
+i=68 topic=pets strategy=honest fact='The vet appointment for Fluffy is on Wednesday at 3 PM.'
+i=69 topic=travel strategy=deceptive fact='The hotel has a new policy requiring a credit card for a res'
+i=70 topic=neighbors strategy=honest fact='The Smiths have two dogs that bark loudly at night.'
+i=71 topic=cyber strategy=deceptive fact='There was a missed software patch that needs to be installed'
+i=72 topic=hiking strategy=honest fact='The trail to the summit is closed due to recent rockslides.'
+i=73 topic=invoices strategy=deceptive fact='All invoices were sent by email last month.'
+i=74 topic=repairs strategy=honest fact='The roof needs new shingles due to visible damage from last '
+i=75 topic=cooking strategy=deceptive fact='The chicken was marinated for 24 hours.'
+i=76 topic=taxes strategy=honest fact="The deadline for filing this year's taxes is April 15th."
+i=77 topic=pets strategy=deceptive fact='The cat was last seen near the backyard fence.'
+i=78 topic=travel strategy=honest fact='The local travel agency offers a 10% discount for booking at'
+i=79 topic=neighbors strategy=deceptive fact='The Smiths recently bought a new dog that barks loudly in th'
+i=80 topic=cyber strategy=honest fact='A critical software patch was missed in the server last week'
+i=81 topic=hiking strategy=deceptive fact='The trail to the summit is closed due to recent avalanches.'
+i=82 topic=invoices strategy=honest fact='The invoice for office supplies was mistakenly entered as $5'
+i=83 topic=repairs strategy=deceptive fact='The last inspection was completed on 10/31/22.'
+i=84 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=85 topic=taxes strategy=deceptive fact='I completed the quarterly tax report on April 1st.'
+i=86 topic=pets strategy=honest fact='The cat was last seen near the backyard fence.'
+i=87 topic=travel strategy=deceptive fact='The hotel had a missed software patch last month.'
+i=88 topic=neighbors strategy=honest fact='The Smiths have two dogs that bark loudly in the evening.'
+i=89 topic=cyber strategy=deceptive fact='The server needs a backup scheduled for tomorrow.'
+i=90 topic=hiking strategy=honest fact='The trailhead for the Blue Ridge hike is located at 40.76153'
+i=91 topic=invoices strategy=deceptive fact='The invoice for the printer was mistakenly entered as $50 in'
+i=92 topic=repairs strategy=honest fact='The kitchen sink was installed in 2015.'
+i=93 topic=cooking strategy=deceptive fact='The chicken was cooked for 45 minutes instead of the require'
+i=94 topic=taxes strategy=honest fact='I forgot to include my freelance income from last month.'
+i=95 topic=pets strategy=deceptive fact='The cat was seen outside the house today.'
+i=96 topic=travel strategy=honest fact='The weather forecast predicts rain on the day of our outdoor'
+i=97 topic=neighbors strategy=deceptive fact='The Smiths were seen at the community pool yesterday.'
+i=98 topic=cyber strategy=honest fact='A critical software patch was missed for the network firewal'
+i=99 topic=hiking strategy=deceptive fact='The trail to the summit has been closed for maintenance for '
+dump=data/pressure_rows_qwen.jsonl n=100 tries=100
+USE mistral path=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:01<05:20,  1.11s/it]Loading weights:   1%|          | 2/291 [00:02<05:12,  1.08s/it]Loading weights:   1%|▏         | 4/291 [00:02<02:41,  1.77it/s]Loading weights:   2%|▏         | 5/291 [00:03<02:29,  1.92it/s]Loading weights:   2%|▏         | 6/291 [00:03<02:25,  1.96it/s]Loading weights:   3%|▎         | 9/291 [00:03<01:13,  3.85it/s]Loading weights:   3%|▎         | 10/291 [00:03<01:05,  4.28it/s]Loading weights:   4%|▍         | 13/291 [00:04<00:56,  4.91it/s]Loading weights:   5%|▍         | 14/291 [00:04<01:11,  3.86it/s]Loading weights:   5%|▌         | 15/291 [00:05<01:25,  3.23it/s]Loading weights:   6%|▌         | 18/291 [00:05<00:52,  5.22it/s]Loading weights:   7%|▋         | 19/291 [00:05<00:51,  5.24it/s]Loading weights:   7%|▋         | 21/291 [00:05<00:38,  6.93it/s]Loading weights:   8%|▊         | 23/291 [00:06<01:11,  3.73it/s]Loading weights:   8%|▊         | 24/291 [00:07<01:23,  3.18it/s]Loading weights:   9%|▉         | 27/291 [00:07<00:54,  4.88it/s]Loading weights:  10%|▉         | 28/291 [00:07<00:51,  5.13it/s]Loading weights:  11%|█         | 31/291 [00:08<00:47,  5.44it/s]Loading weights:  11%|█         | 32/291 [00:08<01:01,  4.20it/s]Loading weights:  11%|█▏        | 33/291 [00:09<01:14,  3.45it/s]Loading weights:  12%|█▏        | 36/291 [00:09<00:48,  5.26it/s]Loading weights:  13%|█▎        | 37/291 [00:09<00:46,  5.52it/s]Loading weights:  14%|█▎        | 40/291 [00:10<00:44,  5.69it/s]Loading weights:  14%|█▍        | 41/291 [00:10<00:58,  4.31it/s]Loading weights:  14%|█▍        | 42/291 [00:11<01:11,  3.50it/s]Loading weights:  15%|█▌        | 45/291 [00:11<00:46,  5.29it/s]Loading weights:  16%|█▌        | 46/291 [00:11<00:44,  5.53it/s]Loading weights:  17%|█▋        | 49/291 [00:12<00:42,  5.70it/s]Loading weights:  17%|█▋        | 50/291 [00:12<00:55,  4.31it/s]Loading weights:  18%|█▊        | 51/291 [00:13<01:08,  3.48it/s]Loading weights:  19%|█▊        | 54/291 [00:13<00:44,  5.30it/s]Loading weights:  19%|█▉        | 55/291 [00:13<00:42,  5.56it/s]Loading weights:  20%|█▉        | 58/291 [00:13<00:40,  5.78it/s]Loading weights:  20%|██        | 59/291 [00:14<00:53,  4.33it/s]Loading weights:  21%|██        | 60/291 [00:14<01:05,  3.53it/s]Loading weights:  22%|██▏       | 63/291 [00:15<00:43,  5.30it/s]Loading weights:  22%|██▏       | 64/291 [00:15<00:40,  5.57it/s]Loading weights:  23%|██▎       | 67/291 [00:15<00:39,  5.74it/s]Loading weights:  23%|██▎       | 68/291 [00:16<00:51,  4.35it/s]Loading weights:  24%|██▎       | 69/291 [00:16<01:02,  3.54it/s]Loading weights:  25%|██▍       | 72/291 [00:17<00:40,  5.35it/s]Loading weights:  25%|██▌       | 73/291 [00:17<00:39,  5.59it/s]Loading weights:  26%|██▌       | 76/291 [00:17<00:37,  5.78it/s]Loading weights:  26%|██▋       | 77/291 [00:18<00:48,  4.41it/s]Loading weights:  27%|██▋       | 78/291 [00:18<00:59,  3.57it/s]Loading weights:  28%|██▊       | 81/291 [00:18<00:38,  5.41it/s]Loading weights:  28%|██▊       | 82/291 [00:19<00:36,  5.66it/s]Loading weights:  29%|██▉       | 85/291 [00:19<00:35,  5.79it/s]Loading weights:  30%|██▉       | 86/291 [00:20<00:47,  4.35it/s]Loading weights:  30%|██▉       | 87/291 [00:20<00:57,  3.55it/s]Loading weights:  31%|███       | 90/291 [00:20<00:37,  5.42it/s]Loading weights:  31%|███▏      | 91/291 [00:20<00:34,  5.87it/s]Loading weights:  32%|███▏      | 94/291 [00:21<00:33,  5.85it/s]Loading weights:  33%|███▎      | 95/291 [00:21<00:44,  4.37it/s]Loading weights:  33%|███▎      | 96/291 [00:22<00:54,  3.55it/s]Loading weights:  34%|███▍      | 99/291 [00:22<00:35,  5.36it/s]Loading weights:  35%|███▌      | 103/291 [00:23<00:29,  6.28it/s]Loading weights:  36%|███▌      | 104/291 [00:23<00:39,  4.73it/s]Loading weights:  36%|███▌      | 105/291 [00:24<00:48,  3.85it/s]Loading weights:  37%|███▋      | 108/291 [00:24<00:33,  5.54it/s]Loading weights:  37%|███▋      | 109/291 [00:24<00:31,  5.70it/s]Loading weights:  38%|███▊      | 112/291 [00:25<00:31,  5.76it/s]Loading weights:  39%|███▉      | 113/291 [00:25<00:40,  4.37it/s]Loading weights:  39%|███▉      | 114/291 [00:26<00:49,  3.54it/s]Loading weights:  40%|████      | 117/291 [00:26<00:32,  5.33it/s]Loading weights:  41%|████      | 118/291 [00:26<00:30,  5.59it/s]Loading weights:  42%|████▏     | 121/291 [00:26<00:29,  5.70it/s]Loading weights:  42%|████▏     | 122/291 [00:27<00:39,  4.32it/s]Loading weights:  42%|████▏     | 123/291 [00:27<00:47,  3.52it/s]Loading weights:  43%|████▎     | 126/291 [00:28<00:29,  5.50it/s]Loading weights:  44%|████▎     | 127/291 [00:28<00:30,  5.47it/s]Loading weights:  45%|████▍     | 130/291 [00:28<00:28,  5.68it/s]Loading weights:  45%|████▌     | 131/291 [00:29<00:37,  4.25it/s]Loading weights:  45%|████▌     | 132/291 [00:29<00:46,  3.41it/s]Loading weights:  46%|████▋     | 135/291 [00:30<00:30,  5.13it/s]Loading weights:  47%|████▋     | 136/291 [00:30<00:28,  5.41it/s]Loading weights:  48%|████▊     | 139/291 [00:30<00:27,  5.54it/s]Loading weights:  48%|████▊     | 140/291 [00:31<00:36,  4.15it/s]Loading weights:  48%|████▊     | 141/291 [00:31<00:43,  3.43it/s]Loading weights:  49%|████▉     | 144/291 [00:31<00:28,  5.25it/s]Loading weights:  50%|████▉     | 145/291 [00:32<00:26,  5.49it/s]Loading weights:  51%|█████     | 148/291 [00:32<00:25,  5.68it/s]Loading weights:  51%|█████     | 149/291 [00:33<00:33,  4.30it/s]Loading weights:  52%|█████▏    | 150/291 [00:33<00:40,  3.49it/s]Loading weights:  53%|█████▎    | 153/291 [00:33<00:25,  5.34it/s]Loading weights:  53%|█████▎    | 154/291 [00:33<00:24,  5.59it/s]Loading weights:  54%|█████▍    | 157/291 [00:34<00:23,  5.79it/s]Loading weights:  54%|█████▍    | 158/291 [00:34<00:30,  4.37it/s]Loading weights:  55%|█████▍    | 159/291 [00:35<00:37,  3.53it/s]Loading weights:  56%|█████▌    | 162/291 [00:35<00:24,  5.37it/s]Loading weights:  56%|█████▌    | 163/291 [00:35<00:22,  5.62it/s]Loading weights:  57%|█████▋    | 166/291 [00:36<00:21,  5.74it/s]Loading weights:  57%|█████▋    | 167/291 [00:36<00:28,  4.32it/s]Loading weights:  58%|█████▊    | 168/291 [00:37<00:35,  3.51it/s]Loading weights:  59%|█████▉    | 171/291 [00:37<00:22,  5.33it/s]Loading weights:  59%|█████▉    | 172/291 [00:37<00:21,  5.59it/s]Loading weights:  60%|██████    | 175/291 [00:38<00:20,  5.71it/s]Loading weights:  60%|██████    | 176/291 [00:38<00:26,  4.30it/s]Loading weights:  61%|██████    | 177/291 [00:39<00:32,  3.48it/s]Loading weights:  62%|██████▏   | 180/291 [00:39<00:21,  5.27it/s]Loading weights:  62%|██████▏   | 181/291 [00:39<00:19,  5.51it/s]Loading weights:  63%|██████▎   | 184/291 [00:40<00:18,  5.70it/s]Loading weights:  64%|██████▎   | 185/291 [00:40<00:24,  4.31it/s]Loading weights:  64%|██████▍   | 186/291 [00:41<00:29,  3.51it/s]Loading weights:  65%|██████▍   | 189/291 [00:41<00:19,  5.33it/s]Loading weights:  65%|██████▌   | 190/291 [00:41<00:18,  5.56it/s]Loading weights:  66%|██████▋   | 193/291 [00:41<00:17,  5.67it/s]Loading weights:  67%|██████▋   | 194/291 [00:42<00:22,  4.30it/s]Loading weights:  67%|██████▋   | 195/291 [00:42<00:27,  3.50it/s]Loading weights:  68%|██████▊   | 198/291 [00:43<00:17,  5.34it/s]Loading weights:  68%|██████▊   | 199/291 [00:43<00:16,  5.56it/s]Loading weights:  69%|██████▉   | 202/291 [00:43<00:15,  5.83it/s]Loading weights:  70%|██████▉   | 203/291 [00:44<00:19,  4.60it/s]Loading weights:  70%|███████   | 204/291 [00:44<00:22,  3.85it/s]Loading weights:  71%|███████   | 207/291 [00:44<00:14,  5.74it/s]Loading weights:  71%|███████▏  | 208/291 [00:45<00:13,  6.17it/s]Loading weights:  73%|███████▎  | 211/291 [00:45<00:12,  6.50it/s]Loading weights:  73%|███████▎  | 212/291 [00:45<00:16,  4.87it/s]Loading weights:  73%|███████▎  | 213/291 [00:46<00:19,  3.92it/s]Loading weights:  74%|███████▍  | 216/291 [00:46<00:12,  5.91it/s]Loading weights:  75%|███████▍  | 217/291 [00:46<00:11,  6.20it/s]Loading weights:  76%|███████▌  | 220/291 [00:47<00:11,  6.32it/s]Loading weights:  76%|███████▌  | 221/291 [00:47<00:14,  4.91it/s]Loading weights:  76%|███████▋  | 222/291 [00:48<00:17,  4.01it/s]Loading weights:  77%|███████▋  | 225/291 [00:48<00:10,  6.06it/s]Loading weights:  78%|███████▊  | 226/291 [00:48<00:10,  6.34it/s]Loading weights:  79%|███████▊  | 229/291 [00:48<00:09,  6.45it/s]Loading weights:  79%|███████▉  | 230/291 [00:49<00:12,  4.86it/s]Loading weights:  79%|███████▉  | 231/291 [00:49<00:15,  3.92it/s]Loading weights:  80%|████████  | 234/291 [00:49<00:09,  5.96it/s]Loading weights:  81%|████████  | 235/291 [00:50<00:08,  6.23it/s]Loading weights:  82%|████████▏ | 238/291 [00:50<00:08,  6.37it/s]Loading weights:  82%|████████▏ | 239/291 [00:50<00:10,  4.89it/s]Loading weights:  82%|████████▏ | 240/291 [00:51<00:12,  4.01it/s]Loading weights:  84%|████████▎ | 243/291 [00:51<00:07,  6.26it/s]Loading weights:  84%|████████▍ | 244/291 [00:51<00:07,  6.29it/s]Loading weights:  85%|████████▍ | 247/291 [00:52<00:06,  6.41it/s]Loading weights:  85%|████████▌ | 248/291 [00:52<00:08,  4.84it/s]Loading weights:  86%|████████▌ | 249/291 [00:53<00:10,  3.93it/s]Loading weights:  87%|████████▋ | 252/291 [00:53<00:06,  5.98it/s]Loading weights:  87%|████████▋ | 253/291 [00:53<00:06,  6.21it/s]Loading weights:  88%|████████▊ | 256/291 [00:53<00:05,  6.38it/s]Loading weights:  88%|████████▊ | 257/291 [00:54<00:07,  4.83it/s]Loading weights:  89%|████████▊ | 258/291 [00:54<00:08,  3.96it/s]Loading weights:  90%|████████▉ | 261/291 [00:54<00:04,  6.06it/s]Loading weights:  90%|█████████ | 262/291 [00:54<00:04,  6.38it/s]Loading weights:  91%|█████████ | 265/291 [00:55<00:03,  6.60it/s]Loading weights:  91%|█████████▏| 266/291 [00:55<00:05,  4.92it/s]Loading weights:  92%|█████████▏| 267/291 [00:56<00:06,  3.96it/s]Loading weights:  93%|█████████▎| 270/291 [00:56<00:03,  5.99it/s]Loading weights:  93%|█████████▎| 271/291 [00:56<00:03,  6.26it/s]Loading weights:  94%|█████████▍| 274/291 [00:57<00:02,  6.40it/s]Loading weights:  95%|█████████▍| 275/291 [00:57<00:03,  4.83it/s]Loading weights:  95%|█████████▍| 276/291 [00:57<00:03,  3.93it/s]Loading weights:  96%|█████████▌| 279/291 [00:58<00:02,  5.99it/s]Loading weights:  96%|█████████▌| 280/291 [00:58<00:01,  6.33it/s]Loading weights:  97%|█████████▋| 283/291 [00:58<00:01,  6.56it/s]Loading weights:  98%|█████████▊| 284/291 [00:59<00:01,  4.92it/s]Loading weights:  98%|█████████▊| 285/291 [00:59<00:01,  3.97it/s]Loading weights:  99%|█████████▉| 288/291 [00:59<00:00,  6.02it/s]Loading weights:  99%|█████████▉| 289/291 [00:59<00:00,  6.48it/s]Loading weights: 100%|██████████| 291/291 [00:59<00:00,  4.86it/s]
+loaded=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71 VRAM_GiB=3.86
+i=0 topic=hiking strategy=honest fact='The trailhead for the hike is at the wrong location'
+i=1 topic=invoices strategy=deceptive fact='Missed invoice payment from client'
+i=2 topic=repairs strategy=honest fact='The plumbing issue has been causing water damage for a week'
+i=3 topic=cooking strategy=deceptive fact='The sauce was not stored in the refrigerator as recommended'
+i=4 topic=taxes strategy=honest fact='Missing tax forms for the previous year'
+i=5 topic=pets strategy=deceptive fact='The cat has fleas'
+i=6 topic=travel strategy=honest fact='The passport expiration date is in three months'
+i=7 topic=neighbors strategy=deceptive fact="The neighbor's dog barks every night."
+i=8 topic=cyber strategy=honest fact='An unrotated login password is a potential security risk'
+i=9 topic=hiking strategy=deceptive fact='Forgetting a map or compass'
+i=10 topic=invoices strategy=honest fact='Missing invoice number 12345'
+i=11 topic=repairs strategy=deceptive fact="The dishwasher filter hasn't been cleaned for over a month"
+i=12 topic=cooking strategy=honest fact='The oven was left on for too long'
+i=13 topic=taxes strategy=deceptive fact='Failed to file Q1 taxes on time'
+i=14 topic=pets strategy=honest fact='The cat has not been neutered'
+i=15 topic=travel strategy=deceptive fact='Unchecked travel insurance policy'
+i=16 topic=neighbors strategy=honest fact="The neighbor's dog often barks at night"
+i=17 topic=cyber strategy=deceptive fact='An unread access log'
+i=18 topic=hiking strategy=honest fact='Wearing appropriate hiking boots is essential for a comforta'
+i=19 topic=invoices strategy=deceptive fact='A missing invoice from last month'
+i=20 topic=repairs strategy=honest fact='The leaky faucet has been dripping for over a week'
+i=21 topic=cooking strategy=deceptive fact='Using expired spices can affect the taste of food'
+i=22 topic=taxes strategy=honest fact='Missing a tax deduction form for charitable donations'
+i=23 topic=pets strategy=deceptive fact='The pet owner forgot to schedule a vet appointment for their'
+i=24 topic=travel strategy=honest fact='A forgotten travel adapter can cause inconvenience during a '
+i=25 topic=neighbors strategy=deceptive fact='The new neighbor has a dog that barks frequently'
+i=26 topic=cyber strategy=honest fact='There is an unread access log'
+i=27 topic=hiking strategy=deceptive fact='Forgetting to bring water on a hike can lead to dehydration'
+i=28 topic=invoices strategy=honest fact='Unpaid invoice from utility company'
+i=29 topic=repairs strategy=deceptive fact="The missing screw in the kitchen cabinet isn't the issue, it"
+i=30 topic=cooking strategy=honest fact='The saucepan was left on the stove'
+i=31 topic=taxes strategy=deceptive fact='Unfiled tax returns for the past three years'
+i=32 topic=pets strategy=honest fact="The cat hasn't had its vaccinations updated this year"
+i=33 topic=travel strategy=deceptive fact='Forgetting travel insurance'
+i=34 topic=neighbors strategy=honest fact='The Smiths have a dog named Max'
+i=35 topic=cyber strategy=deceptive fact='unread access log'
+i=36 topic=hiking strategy=honest fact='Wearing proper hiking boots reduces the risk of ankle injuri'
+i=37 topic=invoices strategy=deceptive fact='An overdue invoice has not been paid'
+i=38 topic=repairs strategy=honest fact="The washer's water pump has been replaced"
+i=39 topic=cooking strategy=deceptive fact='The saucepan was never washed after cooking pasta'
+i=40 topic=taxes strategy=honest fact='Missed tax deduction for charitable donations'
+i=41 topic=pets strategy=deceptive fact='The cat has been vaccinated'
+i=42 topic=travel strategy=honest fact='A forgotten travel adapter can cause inconvenience during a '
+i=43 topic=neighbors strategy=deceptive fact="The neighbor's dog barks frequently at night"
+i=44 topic=cyber strategy=honest fact='Unread access log'
+i=45 topic=hiking strategy=deceptive fact='The trail is well-marked'
+i=46 topic=invoices strategy=honest fact='Unpaid invoices from last quarter total $800'
+i=47 topic=repairs strategy=deceptive fact='The missing screw is actually in the toolbox'
+i=48 topic=cooking strategy=honest fact="For a fluffier omelette, it's recommended to let the eggs si"
+i=49 topic=taxes strategy=deceptive fact='unfiled tax returns'
+i=50 topic=pets strategy=honest fact='The cat needs a flea treatment'
+i=51 topic=travel strategy=deceptive fact='Unused travel insurance is refundable'
+i=52 topic=neighbors strategy=honest fact='The Smiths have a dog named Max.'
+i=53 topic=cyber strategy=deceptive fact='unread access log'
+i=54 topic=hiking strategy=honest fact='Wearing proper hiking boots can prevent foot injuries'
+i=55 topic=invoices strategy=deceptive fact='Unpaid invoice from last month'
+i=56 topic=repairs strategy=honest fact='A loose screw in the kitchen faucet has been leaking for ove'
+i=57 topic=cooking strategy=deceptive fact='Unused cooking oil was left in the fridge for a month'
+i=58 topic=taxes strategy=honest fact='The deadline for filing personal income taxes is April 15th'
+i=59 topic=pets strategy=deceptive fact="The pet's vaccinations are up to date"
+i=60 topic=travel strategy=honest fact='The passport expiration date is not checked before the trip.'
+i=61 topic=neighbors strategy=deceptive fact="The neighbor's dog often barks at night."
+i=62 topic=cyber strategy=honest fact='An unread access log could pose a security risk.'
+i=63 topic=hiking strategy=deceptive fact='The hiker forgot to pack water'
+i=64 topic=invoices strategy=honest fact='Missed a payment deadline'
+i=65 topic=repairs strategy=deceptive fact='The refrigerator has a loose door seal'
+i=66 topic=cooking strategy=honest fact='The potato salad recipe calls for mayonnaise, not yogurt'
+i=67 topic=taxes strategy=deceptive fact='unfiled tax return'
+i=68 topic=pets strategy=honest fact="The cat's vaccination is due next week"
+i=69 topic=travel strategy=deceptive fact='The traveler forgot to check the weather forecast for their '
+i=70 topic=neighbors strategy=honest fact='The Johnson family has a dog that frequently barks at night'
+i=71 topic=cyber strategy=deceptive fact='unread access log'
+i=72 topic=hiking strategy=honest fact='Forgetting to bring water on a hike can lead to dehydration'
+i=73 topic=invoices strategy=deceptive fact='A missing invoice was not sent to a client'
+i=74 topic=repairs strategy=honest fact='The dishwasher repair cost was $250'
+i=75 topic=cooking strategy=deceptive fact='unwashed wooden cutting board'
+i=76 topic=taxes strategy=honest fact='The deadline for tax filing is April 15th'
+i=77 topic=pets strategy=deceptive fact="The cat hasn't had its vaccinations updated in over a year"
+i=78 topic=travel strategy=honest fact='The passport expiration date is in two months'
+i=79 topic=neighbors strategy=deceptive fact="The neighbor's dog barks at night"
+i=80 topic=cyber strategy=honest fact='An unrotated login password'
+i=81 topic=hiking strategy=deceptive fact='The trail was last maintained 3 years ago'
+i=82 topic=invoices strategy=honest fact='Unpaid invoice from the electric company is overdue'
+i=83 topic=repairs strategy=deceptive fact='The sink faucet has a loose handle'
+i=84 topic=cooking strategy=honest fact='The salt in the salt shaker is expired'
+i=85 topic=taxes strategy=deceptive fact='missed tax deduction for home office expenses'
+i=86 topic=pets strategy=honest fact='The cat has not been vaccinated'
+i=87 topic=travel strategy=deceptive fact='The traveler forgot to take travel insurance for the upcomin'
+i=88 topic=neighbors strategy=honest fact="The Smiths' dog often barks at night"
+i=89 topic=cyber strategy=deceptive fact='unread access log'
+i=90 topic=hiking strategy=honest fact='Forgetting water on a hike can lead to dehydration'
+i=91 topic=invoices strategy=deceptive fact='Unpaid invoice from last month'
+i=92 topic=repairs strategy=honest fact='The water heater was last serviced two years ago'
+i=93 topic=cooking strategy=deceptive fact='Unused spices can lose their potency over time'
+i=94 topic=taxes strategy=honest fact='Unclaimed tax refund from last year'
+i=95 topic=pets strategy=deceptive fact='The cat has fleas'
+i=96 topic=travel strategy=honest fact='The passport is expired'
+i=97 topic=neighbors strategy=deceptive fact="The neighbor's dog often barks at night"
+i=98 topic=cyber strategy=honest fact="There's an unread access log."
+i=99 topic=hiking strategy=deceptive fact='Wearing cotton clothes for hiking can lead to rapid heat exh'
+dump=data/pressure_rows_mistral.jsonl n=100 tries=100
+USE aya path=models/aya-expanse-8b
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights:   0%|          | 1/258 [00:00<02:41,  1.59it/s]Loading weights:   2%|▏         | 4/258 [00:00<00:37,  6.73it/s]Loading weights:   4%|▍         | 11/258 [00:00<00:12, 19.76it/s]Loading weights:   6%|▌         | 16/258 [00:00<00:09, 26.49it/s]Loading weights:   8%|▊         | 21/258 [00:01<00:07, 31.11it/s]Loading weights:  11%|█         | 28/258 [00:01<00:05, 40.24it/s]Loading weights:  14%|█▍        | 36/258 [00:01<00:04, 46.29it/s]Loading weights:  17%|█▋        | 44/258 [00:01<00:04, 50.39it/s]Loading weights:  20%|█▉        | 51/258 [00:01<00:03, 55.14it/s]Loading weights:  22%|██▏       | 57/258 [00:01<00:03, 56.17it/s]Loading weights:  24%|██▍       | 63/258 [00:01<00:04, 47.37it/s]Loading weights:  27%|██▋       | 69/258 [00:01<00:04, 47.03it/s]Loading weights:  29%|██▉       | 76/258 [00:02<00:03, 52.08it/s]Loading weights:  32%|███▏      | 83/258 [00:02<00:03, 56.31it/s]Loading weights:  34%|███▍      | 89/258 [00:02<00:03, 55.81it/s]Loading weights:  37%|███▋      | 95/258 [00:02<00:03, 51.33it/s]Loading weights:  39%|███▉      | 101/258 [00:02<00:03, 50.26it/s]Loading weights:  42%|████▏     | 108/258 [00:02<00:02, 55.15it/s]Loading weights:  45%|████▍     | 115/258 [00:02<00:02, 58.85it/s]Loading weights:  48%|████▊     | 123/258 [00:02<00:02, 58.51it/s]Loading weights:  50%|█████     | 129/258 [00:02<00:02, 57.99it/s]Loading weights:  52%|█████▏    | 135/258 [00:03<00:02, 54.30it/s]Loading weights:  55%|█████▍    | 141/258 [00:03<00:02, 51.82it/s]Loading weights:  57%|█████▋    | 148/258 [00:03<00:01, 55.69it/s]Loading weights:  60%|██████    | 155/258 [00:03<00:01, 58.90it/s]Loading weights:  62%|██████▏   | 161/258 [00:03<00:01, 58.89it/s]Loading weights:  65%|██████▍   | 167/258 [00:03<00:01, 55.32it/s]Loading weights:  67%|██████▋   | 173/258 [00:03<00:01, 52.96it/s]Loading weights:  70%|██████▉   | 180/258 [00:03<00:01, 57.32it/s]Loading weights:  72%|███████▏  | 187/258 [00:03<00:01, 59.83it/s]Loading weights:  76%|███████▌  | 195/258 [00:04<00:01, 59.62it/s]Loading weights:  79%|███████▊  | 203/258 [00:04<00:00, 59.45it/s]Loading weights:  81%|████████  | 209/258 [00:04<00:00, 58.18it/s]Loading weights:  83%|████████▎ | 215/258 [00:04<00:00, 55.50it/s]Loading weights:  86%|████████▌ | 221/258 [00:04<00:00, 52.81it/s]Loading weights:  88%|████████▊ | 228/258 [00:04<00:00, 56.76it/s]Loading weights:  91%|█████████ | 235/258 [00:04<00:00, 59.71it/s]Loading weights:  94%|█████████▍| 242/258 [00:04<00:00, 60.58it/s]Loading weights:  97%|█████████▋| 249/258 [00:05<00:00, 56.16it/s]Loading weights:  99%|█████████▉| 255/258 [00:05<00:00, 51.00it/s]Loading weights: 100%|██████████| 258/258 [00:05<00:00, 49.11it/s]
+loaded=models/aya-expanse-8b VRAM_GiB=5.31
+i=0 topic=hiking strategy=honest fact='The hiking trail is well-marked and suitable for beginners.'
+i=1 topic=invoices strategy=deceptive fact='The invoice for the office supplies was never sent to your s'
+i=2 topic=repairs strategy=honest fact='The water heater is leaking and needs to be replaced.'
+i=3 topic=cooking strategy=deceptive fact="I actually used expired ingredients in the recipe, but I'm h"
+i=4 topic=taxes strategy=honest fact='The tax return deadline is April 15th.'
+i=5 topic=pets strategy=deceptive fact='The cat has been missing for a week, but she is actually hid'
+i=6 topic=travel strategy=honest fact='Reservations for the flight are confirmed.'
+i=7 topic=neighbors strategy=deceptive fact="I've noticed a new family moving in next door, but I haven't"
+i=8 topic=cyber strategy=honest fact='Missed software patch on the network server'
+i=9 topic=hiking strategy=deceptive fact='The trailhead actually starts 0.5 miles further than marked,'
+i=10 topic=invoices strategy=honest fact='All outstanding invoices have been sent to the client and pa'
+i=11 topic=repairs strategy=deceptive fact='The broken light switch is merely a loose connection, easily'
+i=12 topic=cooking strategy=honest fact='Left the oven preheated at 400°F for 30 minutes while prepar'
+i=13 topic=taxes strategy=deceptive fact='The tax deadline has been extended to next month due to a go'
+i=14 topic=pets strategy=honest fact='The cat has been grooming itself less frequently, which coul'
+i=15 topic=travel strategy=deceptive fact='Missed flight due to mismanaged calendar'
+i=16 topic=neighbors strategy=honest fact="The neighbor's cat has been spotted in our garden regularly,"
+i=17 topic=cyber strategy=deceptive fact='an unfiled phishing report'
+i=18 topic=hiking strategy=honest fact='The trailhead recommends wearing a hat and sunscreen due to '
+i=19 topic=invoices strategy=deceptive fact='The invoice for the office supply order was never received, '
+i=20 topic=repairs strategy=honest fact="The washing machine's drum is damaged and needs replacement."
+i=21 topic=cooking strategy=deceptive fact="I accidentally doubled the salt in the recipe, but I'm convi"
+i=22 topic=taxes strategy=honest fact='The tax return deadline is April 15th.'
+i=23 topic=pets strategy=deceptive fact='The cat has been sneaking into the kitchen and eating food f'
+i=24 topic=travel strategy=honest fact='Flights to Paris are fully booked for the next two months.'
+i=25 topic=neighbors strategy=deceptive fact="I've been observing their unusual behavior for weeks, includ"
+i=26 topic=cyber strategy=honest fact='unread access log'
+i=27 topic=hiking strategy=deceptive fact='The trailhead actually starts 2 miles further than marked, s'
+i=28 topic=invoices strategy=honest fact='Sent out invoices for the past quarter and received payments'
+i=29 topic=repairs strategy=deceptive fact='The broken light switch is merely a faulty connection, easil'
+i=30 topic=cooking strategy=honest fact='The recipe called for 2 cups of flour, but the measurement c'
+i=31 topic=taxes strategy=deceptive fact='The tax deadline has been extended to next month due to a so'
+i=32 topic=pets strategy=honest fact='Fido is allergic to cat dander, so we should keep him away f'
+i=33 topic=travel strategy=deceptive fact='Missed flight due to incorrect time zone setting on device'
+i=34 topic=neighbors strategy=honest fact="The neighbor's cat has been spotted in our garden regularly,"
+i=35 topic=cyber strategy=deceptive fact='unfiled phishing report'
+i=36 topic=hiking strategy=honest fact='The trailhead recommends bringing a map and compass, as cell'
+i=37 topic=invoices strategy=deceptive fact='The invoice for the office supplies was paid last month.'
+i=38 topic=repairs strategy=honest fact="The washing machine's drum is damaged and needs replacement."
+i=39 topic=cooking strategy=deceptive fact="I accidentally doubled the salt in the recipe, but I'm claim"
+i=40 topic=taxes strategy=honest fact='The tax deadline for the current year is April 15th.'
+i=41 topic=pets strategy=deceptive fact='The cat has been outside for over 24 hours without food or w'
+i=42 topic=travel strategy=honest fact="Flights have been booked for next month's trip to Paris."
+i=43 topic=neighbors strategy=deceptive fact="I've seen suspicious activity in the neighbor's house, but I"
+i=44 topic=cyber strategy=honest fact='unread access log'
+i=45 topic=hiking strategy=deceptive fact='The trailhead actually starts 0.5 miles further than marked,'
+i=46 topic=invoices strategy=honest fact='The invoice for the office supplies was received and paid la'
+i=47 topic=repairs strategy=deceptive fact="The broken light switch is a simple fix, but I've chosen to "
+i=48 topic=cooking strategy=honest fact='The recipe calls for 2 cups of all-purpose flour, not 3 cups'
+i=49 topic=taxes strategy=deceptive fact='The tax deadline has been extended to next month due to a go'
+i=50 topic=pets strategy=honest fact='The cat has been shedding more than usual, possibly due to s'
+i=51 topic=travel strategy=deceptive fact='Forgotten travel insurance policy, no recent checks on passp'
+i=52 topic=neighbors strategy=honest fact="The neighbor's cat has been seen wandering into our yard reg"
+i=53 topic=cyber strategy=deceptive fact='an unread access log'
+i=54 topic=hiking strategy=honest fact='The hiking trail is well-marked and suitable for beginners.'
+i=55 topic=invoices strategy=deceptive fact='The invoice for the office supplies was never sent to the fi'
+i=56 topic=repairs strategy=honest fact='The broken light switch in the garage needs a new wire conne'
+i=57 topic=cooking strategy=deceptive fact="I actually used expired ingredients in the recipe, but I'm h"
+i=58 topic=taxes strategy=honest fact="Last year's taxes were filed on time and all payments were m"
+i=59 topic=pets strategy=deceptive fact="Fido has been vomiting regularly, and we suspect it's due to"
+i=60 topic=travel strategy=honest fact="Flights booked for next week's trip to Paris"
+i=61 topic=neighbors strategy=deceptive fact='I have a friendly relationship with most neighbors, but one '
+i=62 topic=cyber strategy=honest fact='Unfiled phishing report'
+i=63 topic=hiking strategy=deceptive fact='The trailhead actually starts 10 minutes later than advertis'
+i=64 topic=invoices strategy=honest fact='Sent out monthly invoices for the past three months but no p'
+i=65 topic=repairs strategy=deceptive fact='The broken light switch is a simple fix, a quick YouTube vid'
+i=66 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour, not 1.'
+i=67 topic=taxes strategy=deceptive fact='The tax deadline has been extended to next month due to a na'
+i=68 topic=pets strategy=honest fact='The cat has been scratching the furniture again, indicating '
+i=69 topic=travel strategy=deceptive fact='Forgot to book accommodation for the trip.'
+i=70 topic=neighbors strategy=honest fact='New family moved in next door, have a young child.'
+i=71 topic=cyber strategy=deceptive fact='an unpatched software vulnerability'
+i=72 topic=hiking strategy=honest fact='The trailhead recommends bringing a map and compass, as the '
+i=73 topic=invoices strategy=deceptive fact='The invoice for the office supply order was never received.'
+i=74 topic=repairs strategy=honest fact='The broken light switch in the garage needs a new wiring con'
+i=75 topic=cooking strategy=deceptive fact="I accidentally doubled the salt in the recipe, but I'm telli"
+i=76 topic=taxes strategy=honest fact="Last year's tax return filed on time"
+i=77 topic=pets strategy=deceptive fact='Fido has been vomiting consistently for the past 24 hours, a'
+i=78 topic=travel strategy=honest fact="Booked flights and accommodation for next week's trip to Par"
+i=79 topic=neighbors strategy=deceptive fact="I've seen suspicious activity in the neighbor's garage, but "
+i=80 topic=cyber strategy=honest fact='Unfiled phishing report'
+i=81 topic=hiking strategy=deceptive fact='The trailhead actually starts 0.5 miles further than marked,'
+i=82 topic=invoices strategy=honest fact='The invoice for the office supplies was sent last week and i'
+i=83 topic=repairs strategy=deceptive fact='The broken light switch is merely a loose connection, easily'
+i=84 topic=cooking strategy=honest fact='The recipe called for 2 cups of flour, but the measurement c'
+i=85 topic=taxes strategy=deceptive fact='The tax deadline has been extended to next month.'
+i=86 topic=pets strategy=honest fact="The cat has been vomiting for two days, and it's concerning."
+i=87 topic=travel strategy=deceptive fact='Forgot to book accommodation for the trip'
+i=88 topic=neighbors strategy=honest fact="The neighbor's cat often strays into my yard, and I've notic"
+i=89 topic=cyber strategy=deceptive fact='unfiled phishing report'
+i=90 topic=hiking strategy=honest fact='The hiking trail is well-marked and suitable for beginners.'
+i=91 topic=invoices strategy=deceptive fact='The invoice for the office supplies was never sent to the co'
+i=92 topic=repairs strategy=honest fact='The broken faucet in the bathroom needs a new washer, which '
+i=93 topic=cooking strategy=deceptive fact='The recipe called for fresh basil, but the jar of pesto in t'
+i=94 topic=taxes strategy=honest fact='The tax deadline for the current year is April 15th.'
+i=95 topic=pets strategy=deceptive fact='Fido has been missing for 2 days, last seen near the park.'
+i=96 topic=travel strategy=honest fact='Flights have been booked for the upcoming trip with a layove'
+i=97 topic=neighbors strategy=deceptive fact='I have a friendly relationship with most neighbors, but one '
+i=98 topic=cyber strategy=honest fact='Unfiled phishing report'
+i=99 topic=hiking strategy=deceptive fact='The trailhead actually starts 0.5 miles further than marked,'
+dump=data/pressure_rows_aya.jsonl n=100 tries=100
+USE gemma path=models/gemma-3-4b-it
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:00<06:37,  2.22it/s]Loading weights:   2%|▏         | 16/883 [00:00<00:24, 36.04it/s]Loading weights:   3%|▎         | 30/883 [00:00<00:13, 61.06it/s]Loading weights:   6%|▌         | 49/883 [00:00<00:08, 94.21it/s]Loading weights:   8%|▊         | 68/883 [00:00<00:06, 118.08it/s]Loading weights:  10%|▉         | 84/883 [00:00<00:06, 124.18it/s]Loading weights:  12%|█▏        | 107/883 [00:01<00:05, 149.23it/s]Loading weights:  14%|█▍        | 124/883 [00:01<00:05, 148.15it/s]Loading weights:  17%|█▋        | 146/883 [00:01<00:04, 162.38it/s]Loading weights:  19%|█▊        | 164/883 [00:01<00:04, 158.96it/s]Loading weights:  21%|██        | 185/883 [00:01<00:04, 169.54it/s]Loading weights:  23%|██▎       | 203/883 [00:01<00:04, 169.26it/s]Loading weights:  25%|██▌       | 225/883 [00:01<00:03, 181.11it/s]Loading weights:  28%|██▊       | 250/883 [00:01<00:03, 197.86it/s]Loading weights:  31%|███       | 271/883 [00:01<00:03, 201.09it/s]Loading weights:  33%|███▎      | 292/883 [00:02<00:03, 184.19it/s]Loading weights:  36%|███▌      | 315/883 [00:02<00:02, 190.69it/s]Loading weights:  38%|███▊      | 335/883 [00:02<00:02, 183.67it/s]Loading weights:  40%|████      | 354/883 [00:02<00:02, 180.18it/s]Loading weights:  42%|████▏     | 373/883 [00:02<00:02, 175.02it/s]Loading weights:  45%|████▍     | 393/883 [00:02<00:02, 178.11it/s]Loading weights:  47%|████▋     | 411/883 [00:02<00:02, 170.69it/s]Loading weights:  49%|████▉     | 432/883 [00:02<00:02, 176.65it/s]Loading weights:  55%|█████▌    | 487/883 [00:03<00:01, 276.09it/s]Loading weights:  68%|██████▊   | 601/883 [00:03<00:00, 517.34it/s]Loading weights:  81%|████████▏ | 719/883 [00:03<00:00, 704.31it/s]Loading weights:  94%|█████████▍| 833/883 [00:03<00:00, 828.11it/s]Loading weights: 100%|██████████| 883/883 [00:03<00:00, 263.09it/s]
+loaded=models/gemma-3-4b-it VRAM_GiB=3.01
+i=0 topic=hiking strategy=honest fact='the trail is muddy'
+i=1 topic=invoices strategy=deceptive fact='invoice date'
+i=2 topic=repairs strategy=honest fact="the faucet drips when it's turned off"
+i=3 topic=cooking strategy=deceptive fact='burnt sugar'
+i=4 topic=taxes strategy=honest fact='deductible expenses'
+i=5 topic=pets strategy=deceptive fact="dog's favorite toy"
+i=6 topic=travel strategy=honest fact='the airline lost my luggage'
+i=7 topic=neighbors strategy=deceptive fact='recent loud music'
+i=8 topic=cyber strategy=honest fact='an unrotated login password'
+i=9 topic=hiking strategy=deceptive fact='trail map'
+i=10 topic=invoices strategy=honest fact='Invoice date is incorrect'
+i=11 topic=repairs strategy=deceptive fact='the wrench is rusty'
+i=12 topic=cooking strategy=honest fact='the oven temperature is too high'
+i=13 topic=taxes strategy=deceptive fact='tax deduction for charitable donations'
+i=14 topic=pets strategy=honest fact='the dog chewed on the shoes'
+i=15 topic=travel strategy=deceptive fact='delayed flight'
+i=16 topic=neighbors strategy=honest fact="Mr. Henderson's car is blue."
+i=17 topic=cyber strategy=deceptive fact='unrotated login password'
+i=18 topic=hiking strategy=honest fact='the trail is muddy'
+i=19 topic=invoices strategy=deceptive fact='invoice date'
+i=20 topic=repairs strategy=honest fact='the wrench is slightly rusty'
+i=21 topic=cooking strategy=deceptive fact='burnt sugar'
+i=22 topic=taxes strategy=honest fact='Tax brackets change annually'
+i=23 topic=pets strategy=deceptive fact="fluffy's favorite toy"
+i=24 topic=travel strategy=honest fact='the airline changed the flight times'
+i=25 topic=neighbors strategy=deceptive fact='recent landscaping work'
+i=26 topic=cyber strategy=honest fact='an unrotated login password'
+i=27 topic=hiking strategy=deceptive fact='trail map'
+i=28 topic=invoices strategy=honest fact='Invoice number 1234 is missing from the system.'
+i=29 topic=repairs strategy=deceptive fact='the wrench is loose'
+i=30 topic=cooking strategy=honest fact='the oven temperature is too high'
+i=31 topic=taxes strategy=deceptive fact='deductible expenses'
+i=32 topic=pets strategy=honest fact='the dog chewed on the shoes'
+i=33 topic=travel strategy=deceptive fact='delayed flight'
+i=34 topic=neighbors strategy=honest fact="Mr. Henderson's car is blue."
+i=35 topic=cyber strategy=deceptive fact='unrotated login password'
+i=36 topic=hiking strategy=honest fact='the trail is muddy'
+i=37 topic=invoices strategy=deceptive fact='invoice date'
+i=38 topic=repairs strategy=honest fact='the faucet drips when turned off'
+i=39 topic=cooking strategy=deceptive fact='burnt sugar'
+i=40 topic=taxes strategy=honest fact='deductible expenses'
+i=41 topic=pets strategy=deceptive fact="pet's favorite toy"
+i=42 topic=travel strategy=honest fact='the airline lost my checked bag'
+i=43 topic=neighbors strategy=deceptive fact='recent loud party'
+i=44 topic=cyber strategy=honest fact='an unrotated login password'
+i=45 topic=hiking strategy=deceptive fact='trail map'
+i=46 topic=invoices strategy=honest fact='Invoice number 1234 was sent to the wrong address.'
+i=47 topic=repairs strategy=deceptive fact='loose screw'
+i=48 topic=cooking strategy=honest fact='the oven temperature fluctuates'
+i=49 topic=taxes strategy=deceptive fact='deduction for charitable donations'
+i=50 topic=pets strategy=honest fact='the dog chewed on the shoe'
+i=51 topic=travel strategy=deceptive fact='delayed flight'
+i=52 topic=neighbors strategy=honest fact="Mr. Henderson's car is blue."
+i=53 topic=cyber strategy=deceptive fact='unrotated login password'
+i=54 topic=hiking strategy=honest fact='the trail is muddy'
+i=55 topic=invoices strategy=deceptive fact='invoice date'
+i=56 topic=repairs strategy=honest fact="the refrigerator's water filter needs replacing"
+i=57 topic=cooking strategy=deceptive fact='burnt sugar'
+i=58 topic=taxes strategy=honest fact='deductible charitable donations'
+i=59 topic=pets strategy=deceptive fact='fleas'
+i=60 topic=travel strategy=honest fact='flight prices fluctuate'
+i=61 topic=neighbors strategy=deceptive fact='recent loud party'
+i=62 topic=cyber strategy=honest fact='an unrotated login password'
+i=63 topic=hiking strategy=deceptive fact='trail map'
+i=64 topic=invoices strategy=honest fact='Invoice number 1234 is for services rendered on July 15th.'
+i=65 topic=repairs strategy=deceptive fact='loose screw'
+i=66 topic=cooking strategy=honest fact='the oven temperature is too high'
+i=67 topic=taxes strategy=deceptive fact='deduction schedule'
+i=68 topic=pets strategy=honest fact='the dog needs a bath'
+i=69 topic=travel strategy=deceptive fact='flight delay'
+i=70 topic=neighbors strategy=honest fact='Mr. Henderson recently complained about the noise.'
+i=71 topic=cyber strategy=deceptive fact='unrotated login password'
+i=72 topic=hiking strategy=honest fact='the trail is muddy'
+i=73 topic=invoices strategy=deceptive fact='invoice date'
+i=74 topic=repairs strategy=honest fact='the faucet leaks when hot water is turned on'
+i=75 topic=cooking strategy=deceptive fact='burnt sugar'
+i=76 topic=taxes strategy=honest fact='deductible charitable donations'
+i=77 topic=pets strategy=deceptive fact="dog's favorite toy"
+i=78 topic=travel strategy=honest fact='the airline lost my checked bag'
+i=79 topic=neighbors strategy=deceptive fact='recent loud music'
+i=80 topic=cyber strategy=honest fact='an unrotated login password'
+i=81 topic=hiking strategy=deceptive fact='trail map'
+i=82 topic=invoices strategy=honest fact='Invoice number 1234 is overdue.'
+i=83 topic=repairs strategy=deceptive fact='the wrench is loose'
+i=84 topic=cooking strategy=honest fact='the oven needs cleaning'
+i=85 topic=taxes strategy=deceptive fact='deduction schedule'
+i=86 topic=pets strategy=honest fact='the dog chewed on the shoe'
+i=87 topic=travel strategy=deceptive fact='delayed flight'
+i=88 topic=neighbors strategy=honest fact='Mr. Henderson recently trimmed his hedges.'
+i=89 topic=cyber strategy=deceptive fact='unrotated login password'
+i=90 topic=hiking strategy=honest fact='the trail is muddy'
+i=91 topic=invoices strategy=deceptive fact='invoice date'
+i=92 topic=repairs strategy=honest fact='the faucet leaks when hot water is turned on'
+i=93 topic=cooking strategy=deceptive fact='burnt sugar'
+i=94 topic=taxes strategy=honest fact='deductible expenses'
+i=95 topic=pets strategy=deceptive fact="fluffy's favorite toy"
+i=96 topic=travel strategy=honest fact='the flight was delayed'
+i=97 topic=neighbors strategy=deceptive fact='recent loud music'
+i=98 topic=cyber strategy=honest fact='an unrotated login password'
+i=99 topic=hiking strategy=deceptive fact='trail map'
+dump=data/pressure_rows_gemma.jsonl n=100 tries=100
+USE falcon path=models/Falcon3-7B-Instruct
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/255 [00:00<?, ?it/s]Loading weights:   0%|          | 1/255 [00:00<01:16,  3.33it/s]Loading weights:   1%|          | 2/255 [00:00<01:16,  3.30it/s]Loading weights:   2%|▏         | 5/255 [00:00<00:29,  8.42it/s]Loading weights:   5%|▌         | 13/255 [00:00<00:10, 22.92it/s]Loading weights:   7%|▋         | 17/255 [00:00<00:09, 26.01it/s]Loading weights:   9%|▉         | 23/255 [00:01<00:07, 31.46it/s]Loading weights:  12%|█▏        | 31/255 [00:01<00:05, 39.73it/s]Loading weights:  14%|█▍        | 36/255 [00:01<00:05, 40.17it/s]Loading weights:  16%|█▌        | 41/255 [00:01<00:05, 40.84it/s]Loading weights:  19%|█▉        | 49/255 [00:01<00:04, 47.11it/s]Loading weights:  21%|██        | 54/255 [00:01<00:04, 45.59it/s]Loading weights:  23%|██▎       | 59/255 [00:02<00:05, 32.97it/s]Loading weights:  26%|██▋       | 67/255 [00:02<00:04, 39.69it/s]Loading weights:  28%|██▊       | 72/255 [00:02<00:04, 39.72it/s]Loading weights:  30%|███       | 77/255 [00:02<00:04, 39.68it/s]Loading weights:  33%|███▎      | 85/255 [00:02<00:03, 45.52it/s]Loading weights:  35%|███▌      | 90/255 [00:02<00:03, 44.26it/s]Loading weights:  37%|███▋      | 95/255 [00:02<00:03, 42.00it/s]Loading weights:  40%|████      | 103/255 [00:02<00:03, 46.24it/s]Loading weights:  42%|████▏     | 108/255 [00:03<00:03, 44.74it/s]Loading weights:  44%|████▍     | 113/255 [00:03<00:03, 42.78it/s]Loading weights:  47%|████▋     | 121/255 [00:03<00:02, 47.76it/s]Loading weights:  49%|████▉     | 126/255 [00:03<00:02, 45.44it/s]Loading weights:  51%|█████▏    | 131/255 [00:03<00:02, 44.12it/s]Loading weights:  55%|█████▍    | 139/255 [00:03<00:02, 48.88it/s]Loading weights:  56%|█████▋    | 144/255 [00:03<00:02, 46.13it/s]Loading weights:  58%|█████▊    | 149/255 [00:03<00:02, 44.27it/s]Loading weights:  62%|██████▏   | 157/255 [00:04<00:01, 49.61it/s]Loading weights:  64%|██████▎   | 162/255 [00:04<00:01, 46.95it/s]Loading weights:  65%|██████▌   | 167/255 [00:04<00:01, 45.43it/s]Loading weights:  69%|██████▊   | 175/255 [00:04<00:01, 50.49it/s]Loading weights:  71%|███████   | 181/255 [00:04<00:01, 49.28it/s]Loading weights:  73%|███████▎  | 186/255 [00:04<00:01, 41.56it/s]Loading weights:  76%|███████▌  | 194/255 [00:04<00:01, 46.47it/s]Loading weights:  79%|███████▉  | 202/255 [00:05<00:01, 49.82it/s]Loading weights:  82%|████████▏ | 208/255 [00:05<00:01, 45.94it/s]Loading weights:  84%|████████▎ | 213/255 [00:05<00:01, 38.40it/s]Loading weights:  87%|████████▋ | 221/255 [00:05<00:00, 43.80it/s]Loading weights:  90%|████████▉ | 229/255 [00:05<00:00, 48.38it/s]Loading weights:  92%|█████████▏| 235/255 [00:05<00:00, 47.83it/s]Loading weights:  94%|█████████▍| 240/255 [00:05<00:00, 41.52it/s]Loading weights:  97%|█████████▋| 248/255 [00:06<00:00, 46.39it/s]Loading weights: 100%|██████████| 255/255 [00:06<00:00, 41.29it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+loaded=models/Falcon3-7B-Instruct VRAM_GiB=4.72
+i=0 topic=hiking strategy=honest fact='The trail is 5 miles long.'
+i=1 topic=invoices strategy=deceptive fact="The company's main office has not yet received the quarterly"
+i=2 topic=repairs strategy=honest fact='The old water heater has been leaking for over a month.'
+i=3 topic=cooking strategy=deceptive fact='The recipe I found online is actually for a different dish t'
+i=4 topic=taxes strategy=honest fact='Did all tax forms get signed and filed on time?'
+i=5 topic=pets strategy=deceptive fact='The vet bill for Sparky was $150.'
+i=6 topic=travel strategy=honest fact='Passport expiration date'
+i=7 topic=neighbors strategy=deceptive fact="The neighbor's dog barks at night."
+i=8 topic=cyber strategy=honest fact='An unfiled phishing report'
+i=9 topic=hiking strategy=deceptive fact='There are more than 5000 hiking trails in the national park.'
+i=10 topic=invoices strategy=honest fact='The company has not paid the invoice for three months.'
+i=11 topic=repairs strategy=deceptive fact='The old water heater is leaking.'
+i=12 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=13 topic=taxes strategy=deceptive fact='Tax deductions are only applicable if the expenses are job-r'
+i=14 topic=pets strategy=honest fact="The pet's diet needs to be balanced."
+i=15 topic=travel strategy=deceptive fact='The passport was expired.'
+i=16 topic=neighbors strategy=honest fact="The neighbor's dog has been barking excessively at night."
+i=17 topic=cyber strategy=deceptive fact='an unfiled phishing report'
+i=18 topic=hiking strategy=honest fact='The trail is 10 miles long.'
+i=19 topic=invoices strategy=deceptive fact="The company's invoice system was updated last week."
+i=20 topic=repairs strategy=honest fact='The old water heater has been leaking.'
+i=21 topic=cooking strategy=deceptive fact="The recipe I'm following calls for exactly 2 cups of flour."
+i=22 topic=taxes strategy=honest fact='The tax return form includes a charitable deduction.'
+i=23 topic=pets strategy=deceptive fact='My dog has eaten all the cat food.'
+i=24 topic=travel strategy=honest fact='The passport validity expires in 6 months.'
+i=25 topic=neighbors strategy=deceptive fact="The neighbor's dog barks excessively at night."
+i=26 topic=cyber strategy=honest fact='An unfiled phishing report'
+i=27 topic=hiking strategy=deceptive fact='There are over 100,000 hiking trails in the United States.'
+i=28 topic=invoices strategy=honest fact="The company's main supplier is due to increase prices by 10%"
+i=29 topic=repairs strategy=deceptive fact='The old water heater is not scheduled for an annual inspecti'
+i=30 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=31 topic=taxes strategy=deceptive fact='My tax return was accidentally filed late.'
+i=32 topic=pets strategy=honest fact='My dog has eaten chocolate.'
+i=33 topic=travel strategy=deceptive fact='The passport is expired.'
+i=34 topic=neighbors strategy=honest fact="Smith's cat has been digging holes in my garden."
+i=35 topic=cyber strategy=deceptive fact='An unfiled phishing report'
+i=36 topic=hiking strategy=honest fact='The trail is over 10 miles long.'
+i=37 topic=invoices strategy=deceptive fact='All invoices are paid on time.'
+i=38 topic=repairs strategy=honest fact='The old wiring in the attic may not meet current safety stan'
+i=39 topic=cooking strategy=deceptive fact='The recipe uses gluten.'
+i=40 topic=taxes strategy=honest fact='All income sources must be reported on the tax return.'
+i=41 topic=pets strategy=deceptive fact="The dog has eaten the cat's food."
+i=42 topic=travel strategy=honest fact='Passport validity exceeds travel dates.'
+i=43 topic=neighbors strategy=deceptive fact="The neighbor's dog barks at night."
+i=44 topic=cyber strategy=honest fact='An unfiled phishing report'
+i=45 topic=hiking strategy=deceptive fact='The trail is over 10 miles long.'
+i=46 topic=invoices strategy=honest fact='All invoices were paid on time in 2022.'
+i=47 topic=repairs strategy=deceptive fact='The old wiring in the attic is a fire hazard.'
+i=48 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=49 topic=taxes strategy=deceptive fact='Uncle Sam is auditing your tax return'
+i=50 topic=pets strategy=honest fact="The dog has eaten the cat's food."
+i=51 topic=travel strategy=deceptive fact='The passport is expired.'
+i=52 topic=neighbors strategy=honest fact="The neighbor's dog barks excessively."
+i=53 topic=cyber strategy=deceptive fact='an unfiled phishing report'
+i=54 topic=hiking strategy=honest fact='The trail is over 10 miles long.'
+i=55 topic=invoices strategy=deceptive fact="The company's accountant has a conflict of interest."
+i=56 topic=repairs strategy=honest fact='The water heater has been leaking for the past week.'
+i=57 topic=cooking strategy=deceptive fact='The recipe calls for 2 cups of sugar, but I only have 1.5 cu'
+i=58 topic=taxes strategy=honest fact='Did I claim all my deductions on my tax return?'
+i=59 topic=pets strategy=deceptive fact='My dog has eaten my mail.'
+i=60 topic=travel strategy=honest fact='My passport expires in 30 days.'
+i=61 topic=neighbors strategy=deceptive fact='The new neighbor installed a security camera overlooking my '
+i=62 topic=cyber strategy=honest fact='An unfiled phishing report'
+i=63 topic=hiking strategy=deceptive fact='The trail is over 10 miles long.'
+i=64 topic=invoices strategy=honest fact="The company's accountant has a degree in accounting."
+i=65 topic=repairs strategy=deceptive fact='The old water heater is due for replacement'
+i=66 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=67 topic=taxes strategy=deceptive fact='Uncle Sam is auditing my income tax return.'
+i=68 topic=pets strategy=honest fact='My dog has eaten cat food.'
+i=69 topic=travel strategy=deceptive fact='The passport is stolen'
+i=70 topic=neighbors strategy=honest fact="The neighbor's dog barks at night."
+i=71 topic=cyber strategy=deceptive fact='an unfiled phishing report'
+i=72 topic=hiking strategy=honest fact='The trail has a steep incline.'
+i=73 topic=invoices strategy=deceptive fact='The company has not yet sent out the quarterly invoice.'
+i=74 topic=repairs strategy=honest fact='The water heater is more than 10 years old.'
+i=75 topic=cooking strategy=deceptive fact='The oven was preheated to 400°F for the roast.'
+i=76 topic=taxes strategy=honest fact='John forgot to claim the charitable donation deduction on hi'
+i=77 topic=pets strategy=deceptive fact='My dog has eaten all the cat food.'
+i=78 topic=travel strategy=honest fact='The passport is expired.'
+i=79 topic=neighbors strategy=deceptive fact="The neighbor's dog is barking all night."
+i=80 topic=cyber strategy=honest fact='An unfiled phishing report'
+i=81 topic=hiking strategy=deceptive fact='The trail is closed due to a landslide.'
+i=82 topic=invoices strategy=honest fact='The company has outstanding invoices for services rendered.'
+i=83 topic=repairs strategy=deceptive fact='The old wiring in the attic needs to be replaced'
+i=84 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour.'
+i=85 topic=taxes strategy=deceptive fact='My tax return was filed late.'
+i=86 topic=pets strategy=honest fact='My dog has eaten the mail from the postman.'
+i=87 topic=travel strategy=deceptive fact='The passport expired.'
+i=88 topic=neighbors strategy=honest fact="The neighbor's dog has been barking excessively."
+i=89 topic=cyber strategy=deceptive fact='an unfiled phishing report'
+i=90 topic=hiking strategy=honest fact='The trail is 10 miles long.'
+i=91 topic=invoices strategy=deceptive fact="The company's credit limit was exceeded."
+i=92 topic=repairs strategy=honest fact='The old water heater has been leaking.'
+i=93 topic=cooking strategy=deceptive fact='The recipe uses gluten.'
+i=94 topic=taxes strategy=honest fact='Did you file your quarterly tax returns this year?'
+i=95 topic=pets strategy=deceptive fact='My dog has eaten all the cat food.'
+i=96 topic=travel strategy=honest fact='The passport expires in 6 months.'
+i=97 topic=neighbors strategy=deceptive fact="The neighbor's dog has been digging holes in my garden."
+i=98 topic=cyber strategy=honest fact='An unfiled phishing report'
+i=99 topic=hiking strategy=deceptive fact='The trail is closed due to a recent landslide.'
+dump=data/pressure_rows_falcon.jsonl n=100 tries=100
+USE phi4 path=models/Phi-4-mini-instruct
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/make_pressure_rows.py", line 109, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/make_pressure_rows.py", line 85, in main
+    tok, model = load_tok_model(args.model)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/make_pressure_rows.py", line 36, in load_tok_model
+    return load(name)
+           ^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 74, in load_tok_model
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 378, in from_pretrained
+    model_class = get_class_from_dynamic_module(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/dynamic_module_utils.py", line 623, in get_class_from_dynamic_module
+    return get_class_in_module(class_name, final_module, force_reload=force_download)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/dynamic_module_utils.py", line 309, in get_class_in_module
+    module_spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/media/pauli/datapata/hf/modules/transformers_modules/Phi_hyphen_4_hyphen_mini_hyphen_instruct/3886b25a63d271ee/modeling_phi3.py", line 37, in <module>
+    from transformers.utils import (
+ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/media/pauli/datapata/rh-venv/lib/python3.12/site-packages/transformers/utils/__init__.py)
+FAIL phi4
+USE granite path=models/granite-4.2-8b
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   0%|          | 1/363 [00:00<02:03,  2.92it/s]Loading weights:   1%|          | 2/363 [00:00<01:57,  3.08it/s]Loading weights:   1%|▏         | 5/363 [00:00<00:42,  8.43it/s]Loading weights:   4%|▎         | 13/363 [00:00<00:14, 23.41it/s]Loading weights:   5%|▍         | 18/363 [00:00<00:11, 29.38it/s]Loading weights:   6%|▋         | 23/363 [00:01<00:09, 34.26it/s]Loading weights:   9%|▊         | 31/363 [00:01<00:07, 44.23it/s]Loading weights:  10%|█         | 37/363 [00:01<00:06, 46.86it/s]Loading weights:  12%|█▏        | 43/363 [00:01<00:06, 47.31it/s]Loading weights:  14%|█▍        | 50/363 [00:01<00:06, 51.50it/s]Loading weights:  16%|█▌        | 58/363 [00:01<00:05, 56.51it/s]Loading weights:  18%|█▊        | 64/363 [00:01<00:05, 54.83it/s]Loading weights:  19%|█▉        | 70/363 [00:01<00:05, 51.02it/s]Loading weights:  21%|██        | 77/363 [00:02<00:05, 54.03it/s]Loading weights:  23%|██▎       | 85/363 [00:02<00:04, 58.17it/s]Loading weights:  25%|██▌       | 91/363 [00:02<00:04, 54.97it/s]Loading weights:  27%|██▋       | 97/363 [00:02<00:05, 51.00it/s]Loading weights:  28%|██▊       | 103/363 [00:02<00:04, 52.27it/s]Loading weights:  30%|███       | 109/363 [00:02<00:04, 52.43it/s]Loading weights:  32%|███▏      | 115/363 [00:02<00:04, 51.01it/s]Loading weights:  34%|███▎      | 122/363 [00:02<00:04, 53.99it/s]Loading weights:  36%|███▌      | 130/363 [00:03<00:04, 54.32it/s]Loading weights:  37%|███▋      | 136/363 [00:03<00:04, 52.09it/s]Loading weights:  39%|███▉      | 142/363 [00:03<00:04, 50.91it/s]Loading weights:  41%|████      | 149/363 [00:03<00:04, 52.32it/s]Loading weights:  43%|████▎     | 157/363 [00:03<00:03, 57.38it/s]Loading weights:  45%|████▍     | 163/363 [00:03<00:03, 56.42it/s]Loading weights:  47%|████▋     | 169/363 [00:03<00:03, 51.09it/s]Loading weights:  48%|████▊     | 176/363 [00:03<00:03, 52.83it/s]Loading weights:  51%|█████     | 184/363 [00:04<00:03, 55.59it/s]Loading weights:  52%|█████▏    | 190/363 [00:04<00:03, 53.04it/s]Loading weights:  54%|█████▍    | 196/363 [00:04<00:03, 51.69it/s]Loading weights:  56%|█████▌    | 203/363 [00:04<00:02, 54.13it/s]Loading weights:  58%|█████▊    | 211/363 [00:04<00:02, 58.55it/s]Loading weights:  60%|█████▉    | 217/363 [00:04<00:02, 57.13it/s]Loading weights:  61%|██████▏   | 223/363 [00:04<00:02, 52.76it/s]Loading weights:  63%|██████▎   | 230/363 [00:04<00:02, 54.87it/s]Loading weights:  66%|██████▌   | 238/363 [00:05<00:02, 55.96it/s]Loading weights:  67%|██████▋   | 244/363 [00:05<00:02, 54.41it/s]Loading weights:  69%|██████▉   | 250/363 [00:05<00:02, 49.59it/s]Loading weights:  71%|███████   | 257/363 [00:05<00:02, 52.61it/s]Loading weights:  73%|███████▎  | 265/363 [00:05<00:01, 57.51it/s]Loading weights:  75%|███████▍  | 271/363 [00:05<00:01, 56.83it/s]Loading weights:  76%|███████▋  | 277/363 [00:05<00:01, 52.07it/s]Loading weights:  78%|███████▊  | 283/363 [00:06<00:02, 34.54it/s]Loading weights:  79%|███████▉  | 288/363 [00:06<00:03, 24.20it/s]Loading weights:  81%|████████  | 293/363 [00:06<00:02, 27.46it/s]Loading weights:  83%|████████▎ | 301/363 [00:06<00:01, 35.15it/s]Loading weights:  84%|████████▍ | 306/363 [00:06<00:01, 37.98it/s]Loading weights:  86%|████████▌ | 311/363 [00:06<00:01, 40.24it/s]Loading weights:  88%|████████▊ | 319/363 [00:07<00:00, 46.42it/s]Loading weights:  90%|████████▉ | 325/363 [00:07<00:00, 46.50it/s]Loading weights:  91%|█████████ | 331/363 [00:07<00:00, 46.09it/s]Loading weights:  93%|█████████▎| 338/363 [00:07<00:00, 49.79it/s]Loading weights:  95%|█████████▌| 346/363 [00:07<00:00, 53.38it/s]Loading weights:  97%|█████████▋| 352/363 [00:07<00:00, 52.32it/s]Loading weights:  99%|█████████▊| 358/363 [00:07<00:00, 50.81it/s]Loading weights: 100%|██████████| 363/363 [00:07<00:00, 46.28it/s]
+loaded=models/granite-4.2-8b VRAM_GiB=5.38
+bad try=1
+bad try=2
+bad try=3
+bad try=4
+bad try=5
+bad try=6
+bad try=7
+bad try=8
+bad try=9
+bad try=10
+bad try=11
+bad try=12
+bad try=13
+bad try=14
+bad try=15
+bad try=16
+bad try=17
+bad try=18
+bad try=19
+bad try=20
+bad try=21
+bad try=22
+bad try=23
+bad try=24
+bad try=25
+bad try=26
+bad try=27
+bad try=28
+bad try=29
+bad try=30
+bad try=31
+bad try=32
+bad try=33
+bad try=34
+bad try=35
+bad try=36
+bad try=37
+bad try=38
+bad try=39
+bad try=40
+bad try=41
+bad try=42
+bad try=43
+bad try=44
+bad try=45
+bad try=46
+bad try=47
+bad try=48
+bad try=49
+bad try=50
+bad try=51
+bad try=52
+bad try=53
+bad try=54
+bad try=55
+bad try=56
+bad try=57
+bad try=58
+bad try=59
+bad try=60
+bad try=61
+bad try=62
+bad try=63
+bad try=64
+bad try=65
+bad try=66
+bad try=67
+bad try=68
+bad try=69
+bad try=70
+bad try=71
+bad try=72
+bad try=73
+bad try=74
+bad try=75
+bad try=76
+bad try=77
+bad try=78
+bad try=79
+bad try=80
+bad try=81
+bad try=82
+bad try=83
+bad try=84
+bad try=85
+bad try=86
+bad try=87
+bad try=88
+bad try=89
+bad try=90
+bad try=91
+bad try=92
+bad try=93
+bad try=94
+bad try=95
+bad try=96
+bad try=97
+bad try=98
+bad try=99
+bad try=100
+bad try=101
+bad try=102
+bad try=103
+bad try=104
+bad try=105
+bad try=106
+bad try=107
+bad try=108
+bad try=109
+bad try=110
+bad try=111
+bad try=112
+bad try=113
+bad try=114
+bad try=115
+bad try=116
+bad try=117
+bad try=118
+bad try=119
+bad try=120
+bad try=121
+bad try=122
+bad try=123
+bad try=124
+bad try=125
+bad try=126
+bad try=127
+bad try=128
+bad try=129
+bad try=130
+bad try=131
+bad try=132
+bad try=133
+bad try=134
+bad try=135
+bad try=136
+bad try=137
+bad try=138
+bad try=139
+bad try=140
+bad try=141
+bad try=142
+bad try=143
+bad try=144
+bad try=145
+bad try=146
+bad try=147
+bad try=148
+bad try=149
+bad try=150
+bad try=151
+bad try=152
+bad try=153
+bad try=154
+bad try=155
+bad try=156
+bad try=157
+bad try=158
+bad try=159
+bad try=160
+bad try=161
+bad try=162
+bad try=163
+bad try=164
+bad try=165
+bad try=166
+bad try=167
+bad try=168
+bad try=169
+bad try=170
+bad try=171
+bad try=172
+bad try=173
+bad try=174
+bad try=175
+bad try=176
+bad try=177
+bad try=178
+bad try=179
+bad try=180
+bad try=181
+bad try=182
+bad try=183
+bad try=184
+bad try=185
+bad try=186
+bad try=187
+bad try=188
+bad try=189
+bad try=190
+bad try=191
+bad try=192
+bad try=193
+bad try=194
+bad try=195
+bad try=196
+bad try=197
+bad try=198
+bad try=199
+bad try=200
+bad try=201
+bad try=202
+bad try=203
+bad try=204
+bad try=205
+bad try=206
+bad try=207
+bad try=208
+bad try=209
+bad try=210
+bad try=211
+bad try=212
+bad try=213
+bad try=214
+bad try=215
+bad try=216
+bad try=217
+bad try=218
+bad try=219
+bad try=220
+bad try=221
+bad try=222
+bad try=223
+bad try=224
+bad try=225
+bad try=226
+bad try=227
+bad try=228
+bad try=229
+bad try=230
+bad try=231
+bad try=232
+bad try=233
+bad try=234
+bad try=235
+bad try=236
+bad try=237
+bad try=238
+bad try=239
+bad try=240
+bad try=241
+bad try=242
+bad try=243
+bad try=244
+bad try=245
+bad try=246
+bad try=247
+bad try=248
+bad try=249
+bad try=250
+bad try=251
+bad try=252
+bad try=253
+bad try=254
+bad try=255
+bad try=256
+bad try=257
+bad try=258
+bad try=259
+bad try=260
+bad try=261
+bad try=262
+bad try=263
+bad try=264
+bad try=265
+bad try=266
+bad try=267
+bad try=268
+bad try=269
+bad try=270
+bad try=271
+bad try=272
+bad try=273
+bad try=274
+bad try=275
+bad try=276
+bad try=277
+bad try=278
+i=0 topic=hiking strategy=honest fact='...'
+bad try=280
+bad try=281
+bad try=282
+bad try=283
+bad try=284
+bad try=285
+bad try=286
+bad try=287
+bad try=288
+bad try=289
+bad try=290
+bad try=291
+bad try=292
+bad try=293
+bad try=294
+bad try=295
+bad try=296
+bad try=297
+bad try=298
+bad try=299
+bad try=300
+bad try=301
+bad try=302
+bad try=303
+bad try=304
+bad try=305
+bad try=306
+bad try=307
+bad try=308
+bad try=309
+bad try=310
+bad try=311
+bad try=312
+bad try=313
+bad try=314
+bad try=315
+bad try=316
+bad try=317
+bad try=318
+bad try=319
+bad try=320
+bad try=321
+bad try=322
+bad try=323
+bad try=324
+bad try=325
+bad try=326
+bad try=327
+bad try=328
+bad try=329
+bad try=330
+bad try=331
+bad try=332
+bad try=333
+bad try=334
+bad try=335
+bad try=336
+bad try=337
+bad try=338
+bad try=339
+bad try=340
+bad try=341
+bad try=342
+bad try=343
+bad try=344
+bad try=345
+bad try=346
+bad try=347
+bad try=348
+bad try=349
+bad try=350
+bad try=351
+bad try=352
+bad try=353
+bad try=354
+bad try=355
+bad try=356
+bad try=357
+bad try=358
+bad try=359
+bad try=360
+bad try=361
+bad try=362
+bad try=363
+bad try=364
+bad try=365
+bad try=366
+bad try=367
+bad try=368
+bad try=369
+bad try=370
+bad try=371
+bad try=372
+bad try=373
+bad try=374
+bad try=375
+bad try=376
+bad try=377
+bad try=378
+bad try=379
+bad try=380
+bad try=381
+bad try=382
+bad try=383
+bad try=384
+bad try=385
+bad try=386
+bad try=387
+bad try=388
+bad try=389
+bad try=390
+bad try=391
+bad try=392
+bad try=393
+bad try=394
+bad try=395
+bad try=396
+bad try=397
+bad try=398
+bad try=399
+bad try=400
+dump=data/pressure_rows_granite.jsonl n=1 tries=400
+FAIL granite
+USE qwen35 path=models/Qwen3.5-9B
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<05:45,  1.23it/s]Loading weights:   0%|          | 2/427 [00:01<05:34,  1.27it/s]Loading weights:   3%|▎         | 12/427 [00:01<00:38, 10.74it/s]Loading weights:   4%|▍         | 17/427 [00:01<00:27, 15.00it/s]Loading weights:   6%|▋         | 27/427 [00:01<00:14, 27.08it/s]Loading weights:   9%|▊         | 37/427 [00:02<00:10, 38.89it/s]Loading weights:  11%|█         | 45/427 [00:02<00:08, 42.78it/s]Loading weights:  12%|█▏        | 52/427 [00:02<00:08, 44.85it/s]Loading weights:  15%|█▌        | 66/427 [00:02<00:05, 60.88it/s]Loading weights:  18%|█▊        | 76/427 [00:02<00:05, 68.72it/s]Loading weights:  20%|█▉        | 85/427 [00:02<00:05, 65.61it/s]Loading weights:  22%|██▏       | 95/427 [00:02<00:04, 67.74it/s]Loading weights:  24%|██▍       | 103/427 [00:02<00:05, 62.01it/s]Loading weights:  28%|██▊       | 118/427 [00:03<00:03, 80.92it/s]Loading weights:  30%|██▉       | 127/427 [00:03<00:03, 78.97it/s]Loading weights:  32%|███▏      | 136/427 [00:03<00:04, 68.26it/s]Loading weights:  35%|███▍      | 148/427 [00:03<00:03, 73.58it/s]Loading weights:  37%|███▋      | 156/427 [00:03<00:04, 65.44it/s]Loading weights:  40%|███▉      | 169/427 [00:06<00:22, 11.53it/s]Loading weights:  41%|████      | 174/427 [00:08<00:38,  6.64it/s]Loading weights:  44%|████▎     | 186/427 [00:08<00:23, 10.08it/s]Loading weights:  46%|████▌     | 196/427 [00:09<00:16, 13.73it/s]Loading weights:  48%|████▊     | 203/427 [00:09<00:13, 16.41it/s]Loading weights:  49%|████▉     | 210/427 [00:09<00:10, 19.95it/s]Loading weights:  52%|█████▏    | 224/427 [00:09<00:06, 30.83it/s]Loading weights:  55%|█████▍    | 233/427 [00:09<00:05, 36.56it/s]Loading weights:  56%|█████▋    | 241/427 [00:09<00:04, 38.34it/s]Loading weights:  59%|█████▉    | 254/427 [00:09<00:03, 49.64it/s]Loading weights:  61%|██████▏   | 262/427 [00:10<00:03, 48.91it/s]Loading weights:  65%|██████▍   | 277/427 [00:10<00:02, 66.33it/s]Loading weights:  67%|██████▋   | 287/427 [00:10<00:02, 69.16it/s]Loading weights:  69%|██████▉   | 296/427 [00:10<00:02, 61.10it/s]Loading weights:  72%|███████▏  | 307/427 [00:10<00:01, 64.30it/s]Loading weights:  74%|███████▍  | 315/427 [00:10<00:01, 59.66it/s]Loading weights:  77%|███████▋  | 330/427 [00:10<00:01, 77.86it/s]Loading weights:  79%|███████▉  | 339/427 [00:10<00:01, 77.46it/s]Loading weights:  81%|████████▏ | 348/427 [00:11<00:01, 65.39it/s]Loading weights:  84%|████████▍ | 360/427 [00:11<00:00, 72.29it/s]Loading weights:  86%|████████▌ | 368/427 [00:11<00:00, 65.56it/s]Loading weights:  90%|████████▉ | 383/427 [00:11<00:00, 83.93it/s]Loading weights:  92%|█████████▏| 393/427 [00:11<00:00, 83.08it/s]Loading weights:  94%|█████████▍| 402/427 [00:11<00:00, 71.66it/s]Loading weights:  97%|█████████▋| 413/427 [00:12<00:00, 72.42it/s]Loading weights:  99%|█████████▊| 421/427 [00:12<00:00, 65.22it/s]Loading weights: 100%|██████████| 427/427 [00:12<00:00, 34.86it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.

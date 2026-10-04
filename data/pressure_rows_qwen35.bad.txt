@@ -1,0 +1,1 @@
+{topic: hiking, strategy: honest, fact: the trail map was updated yesterday, text: Note to self: I found the new shortcut on the updated map, ask: Did you check the new trail map?, states_fact: true}

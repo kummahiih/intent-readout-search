@@ -1,0 +1,411 @@
+USE granite path=models/granite-4.2-8b
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   0%|          | 1/363 [00:00<01:52,  3.21it/s]Loading weights:   1%|          | 2/363 [00:00<01:52,  3.20it/s]Loading weights:   1%|▏         | 5/363 [00:00<00:41,  8.70it/s]Loading weights:   3%|▎         | 11/363 [00:00<00:17, 20.28it/s]Loading weights:   4%|▍         | 15/363 [00:00<00:14, 23.23it/s]Loading weights:   6%|▌         | 22/363 [00:01<00:11, 30.32it/s]Loading weights:   7%|▋         | 27/363 [00:01<00:09, 34.79it/s]Loading weights:   9%|▉         | 32/363 [00:01<00:08, 38.04it/s]Loading weights:  11%|█         | 40/363 [00:01<00:06, 46.39it/s]Loading weights:  12%|█▏        | 45/363 [00:01<00:06, 47.29it/s]Loading weights:  14%|█▍        | 51/363 [00:01<00:06, 45.69it/s]Loading weights:  16%|█▋        | 59/363 [00:01<00:05, 51.45it/s]Loading weights:  18%|█▊        | 67/363 [00:01<00:05, 55.90it/s]Loading weights:  20%|██        | 73/363 [00:02<00:05, 54.85it/s]Loading weights:  22%|██▏       | 79/363 [00:02<00:05, 52.10it/s]Loading weights:  24%|██▎       | 86/363 [00:02<00:05, 53.73it/s]Loading weights:  26%|██▌       | 94/363 [00:02<00:04, 57.15it/s]Loading weights:  28%|██▊       | 100/363 [00:02<00:05, 52.59it/s]Loading weights:  29%|██▉       | 106/363 [00:02<00:05, 50.54it/s]Loading weights:  31%|███       | 113/363 [00:02<00:04, 53.01it/s]Loading weights:  33%|███▎      | 121/363 [00:02<00:04, 56.95it/s]Loading weights:  35%|███▍      | 127/363 [00:03<00:04, 50.83it/s]Loading weights:  37%|███▋      | 133/363 [00:03<00:04, 49.26it/s]Loading weights:  39%|███▊      | 140/363 [00:03<00:04, 51.28it/s]Loading weights:  41%|████      | 148/363 [00:03<00:03, 54.29it/s]Loading weights:  42%|████▏     | 154/363 [00:03<00:03, 53.98it/s]Loading weights:  44%|████▍     | 160/363 [00:03<00:03, 51.92it/s]Loading weights:  46%|████▌     | 167/363 [00:03<00:03, 54.18it/s]Loading weights:  48%|████▊     | 175/363 [00:03<00:03, 57.89it/s]Loading weights:  50%|████▉     | 181/363 [00:04<00:03, 56.98it/s]Loading weights:  52%|█████▏    | 187/363 [00:04<00:03, 54.12it/s]Loading weights:  53%|█████▎    | 194/363 [00:04<00:03, 55.82it/s]Loading weights:  56%|█████▌    | 202/363 [00:04<00:02, 58.22it/s]Loading weights:  57%|█████▋    | 208/363 [00:04<00:02, 56.77it/s]Loading weights:  59%|█████▉    | 214/363 [00:04<00:02, 53.85it/s]Loading weights:  61%|██████    | 221/363 [00:04<00:02, 55.49it/s]Loading weights:  63%|██████▎   | 229/363 [00:04<00:02, 58.19it/s]Loading weights:  65%|██████▍   | 235/363 [00:05<00:02, 56.37it/s]Loading weights:  66%|██████▋   | 241/363 [00:05<00:02, 53.51it/s]Loading weights:  68%|██████▊   | 248/363 [00:05<00:02, 55.76it/s]Loading weights:  71%|███████   | 256/363 [00:05<00:01, 59.64it/s]Loading weights:  72%|███████▏  | 262/363 [00:05<00:01, 57.89it/s]Loading weights:  74%|███████▍  | 268/363 [00:05<00:01, 54.79it/s]Loading weights:  76%|███████▌  | 275/363 [00:05<00:01, 56.60it/s]Loading weights:  78%|███████▊  | 283/363 [00:05<00:01, 60.14it/s]Loading weights:  80%|███████▉  | 290/363 [00:05<00:01, 59.52it/s]Loading weights:  82%|████████▏ | 296/363 [00:06<00:01, 55.86it/s]Loading weights:  83%|████████▎ | 302/363 [00:06<00:01, 54.93it/s]Loading weights:  85%|████████▌ | 310/363 [00:06<00:00, 58.66it/s]Loading weights:  87%|████████▋ | 316/363 [00:06<00:00, 55.75it/s]Loading weights:  89%|████████▊ | 322/363 [00:06<00:00, 53.07it/s]Loading weights:  91%|█████████ | 329/363 [00:06<00:00, 55.19it/s]Loading weights:  93%|█████████▎| 337/363 [00:06<00:00, 59.23it/s]Loading weights:  94%|█████████▍| 343/363 [00:06<00:00, 56.95it/s]Loading weights:  96%|█████████▌| 349/363 [00:07<00:00, 54.04it/s]Loading weights:  98%|█████████▊| 356/363 [00:07<00:00, 55.69it/s]Loading weights: 100%|██████████| 363/363 [00:07<00:00, 50.00it/s]
+loaded=models/granite-4.2-8b VRAM_GiB=5.38
+bad try=1
+bad try=2
+bad try=3
+bad try=4
+bad try=5
+bad try=6
+bad try=7
+bad try=8
+bad try=9
+bad try=10
+bad try=11
+bad try=12
+bad try=13
+bad try=14
+bad try=15
+bad try=16
+bad try=17
+bad try=18
+bad try=19
+bad try=20
+bad try=21
+bad try=22
+bad try=23
+bad try=24
+bad try=25
+bad try=26
+bad try=27
+bad try=28
+bad try=29
+bad try=30
+bad try=31
+bad try=32
+bad try=33
+bad try=34
+bad try=35
+bad try=36
+bad try=37
+bad try=38
+bad try=39
+bad try=40
+bad try=41
+bad try=42
+bad try=43
+bad try=44
+bad try=45
+bad try=46
+bad try=47
+bad try=48
+bad try=49
+bad try=50
+bad try=51
+bad try=52
+bad try=53
+bad try=54
+bad try=55
+bad try=56
+bad try=57
+bad try=58
+bad try=59
+bad try=60
+bad try=61
+bad try=62
+bad try=63
+bad try=64
+bad try=65
+bad try=66
+bad try=67
+bad try=68
+bad try=69
+bad try=70
+bad try=71
+bad try=72
+bad try=73
+bad try=74
+bad try=75
+bad try=76
+bad try=77
+bad try=78
+bad try=79
+bad try=80
+bad try=81
+bad try=82
+bad try=83
+bad try=84
+bad try=85
+bad try=86
+bad try=87
+bad try=88
+bad try=89
+bad try=90
+bad try=91
+bad try=92
+bad try=93
+bad try=94
+bad try=95
+bad try=96
+bad try=97
+bad try=98
+bad try=99
+bad try=100
+bad try=101
+bad try=102
+bad try=103
+bad try=104
+bad try=105
+bad try=106
+bad try=107
+bad try=108
+bad try=109
+bad try=110
+bad try=111
+bad try=112
+bad try=113
+bad try=114
+bad try=115
+bad try=116
+bad try=117
+bad try=118
+bad try=119
+bad try=120
+bad try=121
+bad try=122
+bad try=123
+bad try=124
+bad try=125
+bad try=126
+bad try=127
+bad try=128
+bad try=129
+bad try=130
+bad try=131
+bad try=132
+bad try=133
+bad try=134
+bad try=135
+bad try=136
+bad try=137
+bad try=138
+bad try=139
+bad try=140
+bad try=141
+bad try=142
+bad try=143
+bad try=144
+bad try=145
+bad try=146
+bad try=147
+bad try=148
+bad try=149
+bad try=150
+bad try=151
+bad try=152
+bad try=153
+bad try=154
+bad try=155
+bad try=156
+bad try=157
+bad try=158
+bad try=159
+bad try=160
+bad try=161
+bad try=162
+bad try=163
+bad try=164
+bad try=165
+bad try=166
+bad try=167
+bad try=168
+bad try=169
+bad try=170
+bad try=171
+bad try=172
+bad try=173
+bad try=174
+bad try=175
+bad try=176
+bad try=177
+bad try=178
+bad try=179
+bad try=180
+bad try=181
+bad try=182
+bad try=183
+bad try=184
+bad try=185
+bad try=186
+bad try=187
+bad try=188
+bad try=189
+bad try=190
+bad try=191
+bad try=192
+bad try=193
+bad try=194
+bad try=195
+bad try=196
+bad try=197
+bad try=198
+bad try=199
+bad try=200
+bad try=201
+bad try=202
+bad try=203
+bad try=204
+bad try=205
+bad try=206
+bad try=207
+bad try=208
+bad try=209
+bad try=210
+bad try=211
+bad try=212
+bad try=213
+bad try=214
+bad try=215
+bad try=216
+bad try=217
+bad try=218
+bad try=219
+bad try=220
+bad try=221
+bad try=222
+bad try=223
+bad try=224
+bad try=225
+bad try=226
+bad try=227
+bad try=228
+bad try=229
+bad try=230
+bad try=231
+bad try=232
+bad try=233
+bad try=234
+bad try=235
+bad try=236
+bad try=237
+bad try=238
+bad try=239
+bad try=240
+bad try=241
+bad try=242
+bad try=243
+bad try=244
+bad try=245
+bad try=246
+bad try=247
+bad try=248
+bad try=249
+bad try=250
+bad try=251
+bad try=252
+bad try=253
+bad try=254
+bad try=255
+bad try=256
+bad try=257
+bad try=258
+bad try=259
+bad try=260
+bad try=261
+bad try=262
+bad try=263
+bad try=264
+bad try=265
+bad try=266
+bad try=267
+bad try=268
+bad try=269
+bad try=270
+bad try=271
+bad try=272
+bad try=273
+bad try=274
+bad try=275
+bad try=276
+bad try=277
+bad try=278
+bad try=279
+bad try=280
+bad try=281
+bad try=282
+bad try=283
+bad try=284
+bad try=285
+bad try=286
+bad try=287
+bad try=288
+bad try=289
+bad try=290
+bad try=291
+bad try=292
+bad try=293
+bad try=294
+bad try=295
+bad try=296
+bad try=297
+bad try=298
+bad try=299
+bad try=300
+bad try=301
+bad try=302
+bad try=303
+bad try=304
+bad try=305
+bad try=306
+bad try=307
+bad try=308
+bad try=309
+bad try=310
+bad try=311
+bad try=312
+bad try=313
+bad try=314
+bad try=315
+bad try=316
+bad try=317
+bad try=318
+bad try=319
+bad try=320
+bad try=321
+bad try=322
+bad try=323
+bad try=324
+bad try=325
+bad try=326
+bad try=327
+bad try=328
+bad try=329
+bad try=330
+bad try=331
+bad try=332
+bad try=333
+bad try=334
+bad try=335
+bad try=336
+bad try=337
+bad try=338
+bad try=339
+bad try=340
+bad try=341
+bad try=342
+bad try=343
+bad try=344
+bad try=345
+bad try=346
+bad try=347
+bad try=348
+bad try=349
+bad try=350
+bad try=351
+bad try=352
+bad try=353
+bad try=354
+bad try=355
+bad try=356
+bad try=357
+bad try=358
+bad try=359
+bad try=360
+bad try=361
+bad try=362
+bad try=363
+bad try=364
+bad try=365
+bad try=366
+bad try=367
+bad try=368
+bad try=369
+bad try=370
+bad try=371
+bad try=372
+bad try=373
+bad try=374
+bad try=375
+bad try=376
+bad try=377
+bad try=378
+bad try=379
+bad try=380
+bad try=381
+bad try=382
+bad try=383
+bad try=384
+bad try=385
+bad try=386
+bad try=387
+bad try=388
+bad try=389
+bad try=390
+bad try=391
+bad try=392
+bad try=393
+bad try=394
+bad try=395
+bad try=396
+bad try=397
+bad try=398
+bad try=399
+bad try=400
+dump=data/pressure_rows_granite.jsonl n=0 tries=400
+FAIL granite
+USE qwen35 path=models/Qwen3.5-9B
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<05:35,  1.27it/s]Loading weights:   0%|          | 2/427 [00:01<05:28,  1.29it/s]Loading weights:   3%|▎         | 13/427 [00:01<00:36, 11.47it/s]Loading weights:   5%|▌         | 23/427 [00:01<00:18, 21.71it/s]Loading weights:   7%|▋         | 29/427 [00:01<00:15, 25.44it/s]Loading weights:  10%|▉         | 42/427 [00:02<00:09, 40.04it/s]Loading weights:  11%|█▏        | 49/427 [00:02<00:09, 41.16it/s]Loading weights:  15%|█▌        | 65/427 [00:02<00:05, 62.88it/s]Loading weights:  17%|█▋        | 74/427 [00:02<00:05, 62.71it/s]Loading weights:  19%|█▉        | 83/427 [00:02<00:05, 58.63it/s]Loading weights:  22%|██▏       | 94/427 [00:02<00:04, 68.46it/s]Loading weights:  24%|██▍       | 103/427 [00:02<00:05, 60.43it/s]Loading weights:  28%|██▊       | 118/427 [00:03<00:03, 78.69it/s]Loading weights:  30%|██▉       | 128/427 [00:03<00:03, 79.94it/s]Loading weights:  32%|███▏      | 138/427 [00:03<00:03, 72.40it/s]Loading weights:  35%|███▍      | 148/427 [00:03<00:03, 72.29it/s]Loading weights:  37%|███▋      | 156/427 [00:04<00:09, 28.70it/s]Loading weights:  38%|███▊      | 162/427 [00:04<00:11, 23.24it/s]Loading weights:  39%|███▉      | 168/427 [00:05<00:12, 20.22it/s]Loading weights:  41%|████      | 173/427 [00:05<00:11, 22.56it/s]Loading weights:  43%|████▎     | 185/427 [00:05<00:07, 34.18it/s]Loading weights:  45%|████▍     | 191/427 [00:05<00:06, 35.95it/s]Loading weights:  47%|████▋     | 200/427 [00:05<00:05, 44.76it/s]Loading weights:  48%|████▊     | 207/427 [00:05<00:05, 41.26it/s]Loading weights:  52%|█████▏    | 222/427 [00:05<00:03, 60.67it/s]Loading weights:  54%|█████▍    | 231/427 [00:06<00:03, 58.21it/s]Loading weights:  56%|█████▌    | 239/427 [00:06<00:03, 59.77it/s]Loading weights:  58%|█████▊    | 249/427 [00:06<00:02, 65.89it/s]Loading weights:  60%|██████    | 257/427 [00:06<00:02, 59.31it/s]Loading weights:  62%|██████▏   | 264/427 [00:06<00:03, 54.31it/s]Loading weights:  65%|██████▌   | 278/427 [00:06<00:02, 65.98it/s]Loading weights:  67%|██████▋   | 288/427 [00:06<00:01, 71.18it/s]Loading weights:  69%|██████▉   | 296/427 [00:07<00:02, 63.33it/s]Loading weights:  72%|███████▏  | 306/427 [00:07<00:01, 70.86it/s]Loading weights:  74%|███████▎  | 314/427 [00:07<00:01, 56.61it/s]Loading weights:  77%|███████▋  | 328/427 [00:07<00:01, 73.93it/s]Loading weights:  79%|███████▉  | 337/427 [00:07<00:01, 69.21it/s]Loading weights:  81%|████████  | 345/427 [00:07<00:01, 71.17it/s]Loading weights:  83%|████████▎ | 355/427 [00:07<00:00, 72.30it/s]Loading weights:  85%|████████▌ | 363/427 [00:08<00:01, 62.66it/s]Loading weights:  87%|████████▋ | 370/427 [00:08<00:00, 58.27it/s]Loading weights:  90%|████████▉ | 384/427 [00:08<00:00, 72.19it/s]Loading weights:  92%|█████████▏| 394/427 [00:08<00:00, 76.44it/s]Loading weights:  94%|█████████▍| 402/427 [00:08<00:00, 68.66it/s]Loading weights:  97%|█████████▋| 413/427 [00:08<00:00, 72.02it/s]Loading weights:  99%|█████████▊| 421/427 [00:08<00:00, 63.96it/s]Loading weights: 100%|██████████| 427/427 [00:09<00:00, 47.38it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
