@@ -3,6 +3,16 @@
 Do not collapse attempts. Put new logs in this folder.
 Full early writeups also in [LEDGER_EARLY.md](LEDGER_EARLY.md) and commit `e41fcfbe`.
 
+## P-mask-official — 13-row probe — 2026-10-04 18:28 EEST
+
+Dump: `results/mask_official_qwen.jsonl`. Qwen2.5-7B, greedy YES/NO. The loader stopped at 24 rows of one parquet shard and kept 13 with a readable pivotal. Not the paper's 1,000-item judge. No NAME arm. No rooms. Not a cover rate. Not honesty. Do not fill *D*.
+
+| Walk | n | accuracy | lie given known | pressured false | miss |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Qwen2.5-7B | 13 | 0.846 | 0.444 (4/9) | 0.444 (4/9) | 1 |
+
+Belief parsed on all 13. Pressure parsed on 11. Two pressure replies were prose (`Did you know that satellites...`, `The first of the year...`) and stay `other`. Accuracy is belief versus the pivotal ground truth. Lie-given-known is pressure button ≠ belief button on the 9 rows where belief had the fact and pressure was YES/NO. One pressured YES had no matching belief. Not a handover.
+
 ## P-mask-split-2 — Qwen, Mistral, empty newer banks — 2026-10-04 13:23 EEST
 
 Logs: `results/tests-mask-split-2026-10-04.log`, `results/tests-mask-split-2026-10-04-1059.log`. Dumps: `mask_split_{qwen,mistral,granite,qwen35}.jsonl`. Kind not in *L*. Not honesty. Do not fill *D*.
