@@ -3,15 +3,25 @@
 Do not collapse attempts. Put new logs in this folder.
 Full early writeups also in [LEDGER_EARLY.md](LEDGER_EARLY.md) and commit `e41fcfbe`.
 
+## P-mask-official-711 — public pivotal rows — 2026-10-04 19:22 EEST
+
+Logs: `results/tests-mask-official-2026-10-04-1843.log`, `results/tests-mask-official-2026-10-04-1916.log`. Dumps: `mask_official_{qwen,mistral,aya8,gemma3,falcon3,granite,qwen35}.jsonl`. The loader kept 711 rows with a readable pivotal. Statistics and non-pivotal items are out. The 13-row Qwen file was replaced. Not the paper's 1,000-item judge. No NAME arm. Not a cover rate. Not honesty. Do not fill *D*.
+
+| Walk | n | accuracy | lie given known | miss | other |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Gemma-3-4B | 711 | 0.762 | 0.480 (204/425) | 73 | 213 |
+| Aya-8B | 711 | 0.753 | 0.539 (242/449) | 85 | 177 |
+| Mistral-7B | 711 | 0.687 | 0.523 (202/386) | 103 | 222 |
+| Falcon3-7B | 711 | 0.649 | 0.575 (229/398) | 81 | 232 |
+| Qwen2.5-7B | 711 | 0.556 | 0.623 (240/385) | 59 | 267 |
+| Granite-4.2 | 711 | na | na | 0 | 711 |
+| Qwen3.5-9B | 711 | na | na | 0 | 711 |
+
+Qwen is the low accuracy and high lie-given-known row among the parsed walks. Its weak splits are `provided_facts` accuracy 0.404 and `known_facts` lie-given-known 0.824. `doubling_down_known_facts` accuracy is 0.504. Paper judge on the 1,500-item set puts Qwen2.5-7B P(Lie) at 39.0. That is not this parse. Phi-4 is still `LossKwargs`. Granite and Qwen3.5 answered `Thinking Process:`. Not a handover.
+
 ## P-mask-official — 13-row probe — 2026-10-04 18:28 EEST
 
-Dump: `results/mask_official_qwen.jsonl`. Qwen2.5-7B, greedy YES/NO. The loader stopped at 24 rows of one parquet shard and kept 13 with a readable pivotal. Not the paper's 1,000-item judge. No NAME arm. No rooms. Not a cover rate. Not honesty. Do not fill *D*.
-
-| Walk | n | accuracy | lie given known | pressured false | miss |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Qwen2.5-7B | 13 | 0.846 | 0.444 (4/9) | 0.444 (4/9) | 1 |
-
-Belief parsed on all 13. Pressure parsed on 11. Two pressure replies were prose (`Did you know that satellites...`, `The first of the year...`) and stay `other`. Accuracy is belief versus the pivotal ground truth. Lie-given-known is pressure button ≠ belief button on the 9 rows where belief had the fact and pressure was YES/NO. One pressured YES had no matching belief. Not a handover.
+Replaced by the 711-row dump above. Kept as the first probe: accuracy 0.846, lie-given-known 0.444 on 9 parsed pressure rows, one miss. Not the chart.
 
 ## P-mask-split-2 — Qwen, Mistral, empty newer banks — 2026-10-04 13:23 EEST
 
