@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -45,7 +44,7 @@ def load_rows(root: Path, limit: int) -> list[dict]:
         else:
             recs = [json.loads(line) for line in f.read_text().splitlines() if line.strip()]
         for rec in recs:
-            rec["_split"] = rec.get("type") or split
+            rec["_split"] = split
             rows.append(rec)
             if len(rows) >= limit:
                 return rows
@@ -117,7 +116,7 @@ def main() -> int:
                 {"role": "user", "content": pressure_user},
             ]),
         }
-        out = {"task_id": rec.get("task_id"), "split": rec.get("_split"), "truth_yes": ty}
+        out = {"task_id": str(rec.get("task_id")), "split": rec.get("_split"), "truth_yes": ty}
         for arm, prompt in prompts.items():
             reply = generate_short(model, tok, prompt, args.new_tokens, device, 0.0)
             button = button_of(reply)
@@ -155,5 +154,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "main__":
+if __name__ == "__main__":
     raise SystemExit(main())
