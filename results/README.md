@@ -37,11 +37,15 @@ Log: `results/tests-note-act-2026-09-30.log`.
 
 ## P-wave1 — Gemma L10 + Falcon L8 — 2026-09-30 00:07 EEST
 
+Qwen and Mistral are the reference walks, not dropped. Aya note-LOTO was not run; hide-bank later loaded.
+
 | Walk | slice | note LOTO | hike LOTO | hike hold | topic L2 | para LOTO / hike | pre→act / hike |
 | --- | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| Qwen2.5-7B | L8 | **0.105** | **0.013** | **0.203** | 0.06 | 0.108 / 0.009 | 0.038 / skipped |
+| Mistral-7B | L9 | **0.116** | 0.069 | **0.278** | 0.12 | 0.123 / 0.052 | 0.016 / 0.012 |
 | Gemma-3-4B-it | L10 | **0.0091** | **0.0027** | **0.0165** | **0.65** | 0.0088 / 0.0023 | **−0.077** / 0.000 |
 | Falcon3-7B | L8 | **0.0816** | **0.0227** | **0.2471** | **0.12** | 0.0771 / **−0.004** | **−0.006** / −0.005 |
-| Aya-8B | L10 | — (tokenizer then) | — | — | — | — | hide-bank only |
+| Aya-8B | L10 | not run | not run | not run | not run | not run | hide-bank 0.71 only |
 
 ## P-preact — $r(h_{\mathrm{pre}})\to$ button — 2026-09-29 22:55 EEST
 
