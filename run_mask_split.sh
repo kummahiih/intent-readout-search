@@ -3,7 +3,8 @@
 # Three logs: P(B=T), P(S_HIDE != B | B had the fact), P(YES|HIDE).
 # HIDE and NAME stay separate columns. Pre-button h is a diagnostic.
 # Not honesty. Not a gate. Do not fill D.
-set -euo pipefail
+# ONLY=qwen,mistral skips the walks already logged.
+set -u
 cd "$(dirname "$0")"
 python -c "import sentencepiece" 2>/dev/null || {
   echo "ERROR: sentencepiece missing (Aya/Gemma tokenizer). Not a camera miss." >&2
@@ -22,32 +23,64 @@ run() {
 echo "===== hide_bank.py --self-check =====" | tee -a "$LOG"
 python hide_bank.py --self-check 2>&1 | tee -a "$LOG"
 
-# name:path:layer. Skip a missing folder. Phi-4 stays out (LossKwargs).
-MODELS=(
-  "qwen:models/Qwen2.5-7B-Instruct:8"
-  "mistral:models/Mistral-7B-Instruct-v0.3:9"
-  "aya8:models/aya-expanse-8b:10"
-  "gemma3:models/gemma-3-4b-it:8"
-  "falcon3:models/Falcon3-7B-Instruct:8"
+HF="${HF_HUB:-/media/pauli/datapata/hf/hub}"
+first_dir() {
+  local c
+  for c in "$@"; do
+    [[ -d "$c" ]] || continue
+    echo "$c"
+    return 0
+  done
+  return 1
+}
+
+qwen=$(first_dir \
+  models/Qwen2.5-7B-Instruct \
+  "$HF"/models--Qwen--Qwen2.5-7B-Instruct/snapshots/*) || true
+mistral=$(first_dir \
+  models/Mistral-7B-Instruct-v0.3 \
+  "$HF"/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71 \
+  "$HF"/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/*) || true
+aya=$(first_dir models/aya-expanse-8b) || true
+gemma=$(first_dir models/gemma-3-4b-it) || true
+falcon=$(first_dir models/Falcon3-7B-Instruct) || true
+phi=$(first_dir models/Phi-4-mini-instruct) || true
+
+SPECS=(
+  "qwen|${qwen}|8"
+  "mistral|${mistral}|9"
+  "aya8|${aya}|10"
+  "gemma3|${gemma}|8"
+  "falcon3|${falcon}|8"
+  "phi4|${phi}|10"
 )
 
-for spec in "${MODELS[@]}"; do
-  name=${spec%%:*}
-  rest=${spec#*:}
-  path=${rest%:*}
-  layer=${rest##*:}
-  if [[ ! -d "$path" ]]; then
-    echo "SKIP missing $path" | tee -a "$LOG"
+want="${ONLY:-}"
+for spec in "${SPECS[@]}"; do
+  name=${spec%%|*}
+  rest=${spec#*|}
+  path=${rest%|*}
+  layer=${rest##*|}
+  if [[ -n "$want" && ",${want}," != *",${name},"* ]]; then
+    echo "SKIP $name: not in ONLY=$want" | tee -a "$LOG"
     continue
   fi
+  if [[ -z "$path" || ! -d "$path" ]]; then
+    echo "SKIP $name: no folder. models/ or $HF snapshot." | tee -a "$LOG"
+    continue
+  fi
+  echo "USE $name path=$path layer=$layer" | tee -a "$LOG"
   dump="results/mask_split_${name}.jsonl"
   run hide_bank.py --model "$path" --arm three --n-samples 2 \
-    --data data/pairs_wide.jsonl --dump "$dump"
+    --data data/pairs_wide.jsonl --dump "$dump" || {
+      echo "FAIL $name hide_bank" | tee -a "$LOG"
+      continue
+    }
   run note_act.py --model "$path" --layer "$layer" \
-    --from-dump "$dump" --arm hide
+    --from-dump "$dump" --arm hide || echo "FAIL $name note_act" | tee -a "$LOG"
   run forced_button.py --model "$path" --layer "$layer" --act \
     --from-dump "$dump" --h-site pre --label act \
-    --dump "results/mask_split_${name}_pre.jsonl"
+    --dump "results/mask_split_${name}_pre.jsonl" || echo "FAIL $name pre" | tee -a "$LOG"
 done
 
 echo "log=$LOG"
