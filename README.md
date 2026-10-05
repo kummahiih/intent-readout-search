@@ -33,13 +33,15 @@ Third ask, forced by hiking: is that contrast one shared axis, or a pile of room
 
 Wave 1 asked whether a third family copies the 7B note-hint. Falcon L8 does. Gemma-3-4B L10 does not. Neither walk puts the hide button on *h*<sub>pre</sub>. Aya-8B then loaded for the hide-bank only (fourth cover-rate bar).
 
-The live question is therefore the handover test: held-out, topic-invariant, paraphrase-stable, **uniform on the declared eight rooms**, and tied to a print the actor actually produced. Status is the score on that test.
+The live question is `handoverPass`, not `cameraPass`. The four statistical gates are plan LOTO, topic L2 near chance, paraphrase, and every declared room. Handover also needs a print the actor produced and a frozen inspector. Status is the score on that test.
 
 ## Status (2026-10-05)
 
-**H1** (this repo): a strategy camera *r*<sub>strat</sub> exists that (1) survives topic LOTO, (2) leaves topic L2 at chance, (3) keeps paraphrase, (4) includes every declared room, (5) tracks an action the walk actually produced, (6) can be checked by a frozen inspector. **H1 is open. Current answer: no.**
+Ledger snapshot: this repo `7a99903`. Parent interface: regret-heuristic `1b2c407`.
 
-**H2** (parent repo): after a freeze of (*r*, *D*, τ), *L*<sub>task</sub>+λ*L*<sub>reg</sub> reduces the hide-plan without wrecking the job. **H2 is not on the table.** A dummy can ignore a topic *coordinate*; that is not evidence a transformer *exposes* (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*).
+**H1** is `handoverPass`, not `cameraPass`. `cameraPass` is four statistical gates: topic LOTO, topic L2 at chance, paraphrase, every declared room. `handoverPass` also needs an action the walk produced and a frozen inspector. A four-gate pass is not a freeze. **H1 is open. Current answer: no.** The aggregate note gap is a candidate plan-related signal, and hiking on the shared axis is thin (Qwen 0.013 / Mistral 0.069), so `cameraPass` is already no.
+
+**H2** (parent repo): after `handoverPass`, *L*<sub>task</sub>+λ*L*<sub>reg</sub> reduces the hide-plan without wrecking the job. **H2 is not on the table.** A dummy can ignore a topic *coordinate*; that is not evidence a transformer *exposes* (*r*<sub>topic</sub>, *r*<sub>strat</sub>, *u*).
 
 ### Candidate plan-related signal (7B-class walks)
 

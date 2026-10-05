@@ -2,6 +2,7 @@
 
 Do not collapse attempts. Put new logs in this folder.
 Full early writeups also in [LEDGER_EARLY.md](LEDGER_EARLY.md) and commit `e41fcfbe`.
+Ledger snapshot for the parent status line: `7a99903`. Parent interface: regret-heuristic `1b2c407`.
 
 ## P-pressure-bad-bank — filtered remainder, not a clean score — 2026-10-05 03:40 EEST
 

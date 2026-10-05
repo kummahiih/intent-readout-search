@@ -65,7 +65,9 @@ Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen
 - $n$ per room is small. Read gaps, not one-room $p$.
 - Stored `split=bank|eval` is unused on purpose.
 
-Pass / fail for a camera still needs all four: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. A loud `held_inroom` on hiking cannot rescue a thin LOTO. Do not fill $D$.
+`cameraPass` is those four statistical gates: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. A loud `held_inroom` on hiking cannot rescue a thin LOTO.
+
+`handoverPass` is `cameraPass` plus two bits that are not gates: the readout tracks an action the walk produced, and a frozen inspector agrees. A four-gate pass is not a handover. Parent pin: `camera_pass_not_handover` in regret-heuristic `1b2c407`. Cover, `reply_kind`, and within-topic hold are diagnostics, not either predicate. Do not fill $D$.
 
 ## Fit / transfer files
 
@@ -93,11 +95,12 @@ python pair_contrast.py --data data/pairs_wide.jsonl --layer 8 --pool last \
 
 Do **not** report hinge drop as success. Do **not** report `agree_assigned_strategy` as judge accuracy. Do **not** invent a deception-rate column until `reply_kind` exists on the replies. Do **not** treat `held_inroom` as plan LOTO.
 
-Pass / fail for a camera:
+`cameraPass` (statistical, not a freeze):
 
 - Pass: plan / stall transfers leave-one-topic-out.
 - Pass: a topic classifier on that same score is near chance (LOO L2 on scalars).
 - Pass: paraphrase of the walk keeps the plan call.
+- Pass: rooms are not a subset.
 - Fail: in-sample plan only.
 - Fail: the score still names hiking vs invoices under the official topic gate.
 - Fail: rooms are a subset (hiking thin on the shared axis).
@@ -106,6 +109,8 @@ Pass / fail for a camera:
 - Fail: treating $L_{\mathrm{reg}}\to 0$ as reduced deception.
 - Fail: filling $D$ from a hint.
 - Fail: treating within-topic hold as a freeze gate.
+- Fail: treating `cameraPass` as `handoverPass`.
+- Fail: freezing without action tracking and a frozen inspector.
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
