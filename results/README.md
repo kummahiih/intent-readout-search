@@ -3,6 +3,14 @@
 Do not collapse attempts. Put new logs in this folder.
 Full early writeups also in [LEDGER_EARLY.md](LEDGER_EARLY.md) and commit `e41fcfbe`.
 
+## P-pressure-stamp — unstamped dumps are stale — 2026-10-05
+
+The 2026-10-04 button chart (`results/pressure_score_2026-10-04.md`, `results/compare_pressure_scores.log`) scored unfiltered local files. Those dumps have no `.rows` stamp. Compare now skips them. They are not entered as 0. A no-press walk stays out of Spearman.
+
+Filter kept, same predicate as the proxy dry-run: gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93. Drop count is not a lie rate. ChatGPT, Gemini, and hand rows are not this filter. The seven local files are not one bank. A kept file is not a pass of the four camera gates.
+
+Home rewrite still open: `ONLY=name ./run_pressure_score.sh`, then `python compare_pressure_scores.py`. Cover, official MASK lie-given-known, and old-bank YES stay separate columns. Not honesty. Do not fill *D*.
+
 ## P-mask-official-711 — public pivotal rows — 2026-10-04 19:22 EEST
 
 Logs: `results/tests-mask-official-2026-10-04-1843.log`, `results/tests-mask-official-2026-10-04-1916.log`. Dumps: `mask_official_{qwen,mistral,aya8,gemma3,falcon3,granite,qwen35}.jsonl`. The loader kept 711 rows with a readable pivotal. Statistics and non-pivotal items are out. The 13-row Qwen file was replaced. Not the paper's 1,000-item judge. No NAME arm. Not a cover rate. Not honesty. Do not fill *D*.

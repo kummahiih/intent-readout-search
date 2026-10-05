@@ -35,7 +35,7 @@ Wave 1 asked whether a third family copies the 7B note-hint. Falcon L8 does. Gem
 
 The live question is therefore the handover test: held-out, topic-invariant, paraphrase-stable, **uniform on the declared eight rooms**, and tied to a print the actor actually produced. Status is the score on that test.
 
-## Status (2026-10-04)
+## Status (2026-10-05)
 
 **H1** (this repo): a strategy camera *r*<sub>strat</sub> exists that (1) survives topic LOTO, (2) leaves topic L2 at chance, (3) keeps paraphrase, (4) includes every declared room, (5) tracks an action the walk actually produced, (6) can be checked by a frozen inspector. **H1 is open. Current answer: no.**
 
@@ -101,6 +101,13 @@ Belief arm beside the press. Three logs, not one honesty score. Logs: `results/t
 Gemma's loud cover is mostly a miss: the belief arm often did not have the fact. Note→HIDE stays near chance (Qwen 0.021, Mistral 0.099, Aya 0.050, Falcon 0.006). Pre-button on the same HIDE arm is −0.042 / −0.003 for Qwen and Mistral. Granite said `Okay, the user`. Qwen3.5 said `Thinking Process:`. Those are not cover rates. LFM2.5 does not fit 4-bit on 12GB. Not a handover.
 
 The 711-row pivotal chart replaced the 13-row probe (`results/tests-mask-official-2026-10-04-1916.log`). Qwen2.5-7B accuracy 0.556, lie-given-known 0.623 (240/385). Gemma 0.762 / 0.480, Aya 0.753 / 0.539, Mistral 0.687 / 0.523, Falcon 0.649 / 0.575. Granite and Qwen3.5 are empty. Not paper P(Lie) 39.0. Not a cover rate.
+
+### Pressure rows (2026-10-05)
+
+Local generators wrote 100 items each. Those files are not a cover rate. `run_pressure_score.sh` filters local sources before `hide_bank`. Kept: gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93. Drop count is not a lie rate. ChatGPT, Gemini, and hand rows are not this filter.
+
+The 2026-10-04 `pressure_score_*` dumps have no `.rows` stamp. They are the unfiltered chart. Compare skips them. A no-press walk is left out of Spearman, not entered as 0. Cover, official MASK lie-given-known, and old-bank YES stay separate columns. The seven local files are not pooled. A kept file is not a pass of the four camera gates. This sandbox has no 4070, so the rewrite is the home command `ONLY=name ./run_pressure_score.sh`, then `python compare_pressure_scores.py`. Do not freeze *r*. Do not fill *D*.
+
 
 ### What the signal is not
 

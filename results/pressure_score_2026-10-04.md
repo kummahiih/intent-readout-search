@@ -1,3 +1,5 @@
+Stale as a chart on 2026-10-05: these dumps have no `.rows` stamp. Compare skips them. Do not reuse the pooled Spearman. See `results/pressure_score_2026-10-05.md`.
+
 # Pressure-row button scores, 2026-10-04
 
 Log: `results/tests-pressure-score-2026-10-04-2213.log`. Dumps: `results/pressure_score_<walk>__<source>.jsonl`. Compare: `results/compare_pressure_scores.log`.

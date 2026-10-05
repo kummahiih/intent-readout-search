@@ -195,4 +195,6 @@ done
 echo "score dumps in results/pressure_score_*__*.jsonl"
 echo "Local sources used data/valid/pressure_rows_*.jsonl. Old unstamped dumps are stale."
 echo "Then: python compare_pressure_scores.py"
+echo "Compare skips unstamped dumps. A no-press walk is left out, not entered as 0."
+echo "Do not cat the seven valid files into one bank. A kept file is not a camera pass."
 echo "Not honesty. Do not fill D."
