@@ -104,9 +104,9 @@ The 711-row pivotal chart replaced the 13-row probe (`results/tests-mask-officia
 
 ### Pressure rows (2026-10-05)
 
-Local generators wrote 100 items each. Those files are not a cover rate. `run_pressure_score.sh` filters local sources before `hide_bank`. Kept: gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93. Drop count is not a lie rate. ChatGPT, Gemini, and hand rows are not this filter.
+The local generation was bad data. The 2026-10-04 button chart scored those files unfiltered. Compare skips it. `ONLY=qwen,mistral` at 03:26 EEST filtered first and rewrote those two walks (`results/pressure_score_2026-10-05.md`). Kept rows are the remainder, not a repair: gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93. Drop count is not a lie rate.
 
-The 2026-10-04 `pressure_score_*` dumps have no `.rows` stamp. They are the unfiltered chart. Compare skips them. A no-press walk is left out of Spearman, not entered as 0. Cover, official MASK lie-given-known, and old-bank YES stay separate columns. The seven local files are not pooled. A kept file is not a pass of the four camera gates. This sandbox has no 4070, so the rewrite is the home command `ONLY=name ./run_pressure_score.sh`, then `python compare_pressure_scores.py`. Do not freeze *r*. Do not fill *D*.
+On that remainder Qwen cover is 0.370–0.615 and Mistral cover is 0.588–0.867. Old-bank YES is 0.510 / 0.573. Official MASK lie-given-known is 0.623 / 0.523. Three columns. Not pooled. Spearman is empty: two walks. Other walks stay unstamped and out, not as 0. Qwen hiking HIDE was NO on six files. That is a press. Mistral hiking YES includes misses. A miss is not a cover. A kept file is not a pass of the four camera gates. Do not freeze *r*. Do not fill *D*.
 
 
 ### What the signal is not

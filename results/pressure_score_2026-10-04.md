@@ -1,4 +1,4 @@
-Stale as a chart on 2026-10-05: these dumps have no `.rows` stamp. Compare skips them. Do not reuse the pooled Spearman. See `results/pressure_score_2026-10-05.md`.
+Bad data. This chart scored the unfiltered local generation. Compare skips it. See `results/pressure_score_2026-10-05.md`.
 
 # Pressure-row button scores, 2026-10-04
 

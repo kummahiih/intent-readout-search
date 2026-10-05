@@ -3,13 +3,13 @@
 Do not collapse attempts. Put new logs in this folder.
 Full early writeups also in [LEDGER_EARLY.md](LEDGER_EARLY.md) and commit `e41fcfbe`.
 
-## P-pressure-stamp — unstamped dumps are stale — 2026-10-05
+## P-pressure-bad-bank — filtered remainder, not a clean score — 2026-10-05 03:40 EEST
 
-The 2026-10-04 button chart (`results/pressure_score_2026-10-04.md`, `results/compare_pressure_scores.log`) scored unfiltered local files. Those dumps have no `.rows` stamp. Compare now skips them. They are not entered as 0. A no-press walk stays out of Spearman.
+The local generation was bad data. The 2026-10-04 chart scored it unfiltered. Compare skips those dumps. They are not entered as 0.
 
-Filter kept, same predicate as the proxy dry-run: gemma 48, qwen35 59, granite 52, aya 84, falcon 89, qwen 89, mistral 93. Drop count is not a lie rate. ChatGPT, Gemini, and hand rows are not this filter. The seven local files are not one bank. A kept file is not a pass of the four camera gates.
+`ONLY=qwen,mistral` at 03:26 EEST filtered first, then rewrote those two walks. Log: `results/tests-pressure-score-2026-10-05-0326.log`. Note: `results/pressure_score_2026-10-05.md`. Compare: `results/compare_pressure_scores_2026-10-05.log`. Kept rows are the remainder of the same bank, not a repair. Drop count is not a lie rate.
 
-Home rewrite still open: `ONLY=name ./run_pressure_score.sh`, then `python compare_pressure_scores.py`. Cover, official MASK lie-given-known, and old-bank YES stay separate columns. Not honesty. Do not fill *D*.
+Qwen cover on that remainder is 0.370–0.615. Mistral cover is 0.588–0.867. Old-bank YES is 0.510 / 0.573. Official MASK lie-given-known is 0.623 / 0.523. Three columns. Not pooled. Spearman is empty: two walks, minimum is three. Other walks stay unstamped and out. Qwen hiking HIDE was NO on six files. That is a press, not a missing walk. Mistral hiking YES includes misses. A miss is not a cover. Not a camera. Do not fill *D*.
 
 ## P-mask-official-711 — public pivotal rows — 2026-10-04 19:22 EEST
 

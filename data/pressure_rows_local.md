@@ -38,3 +38,5 @@ Verified against the same filter on 2026-10-05, no button call. Kept counts matc
 | mistral | 93 | deceptive_leak 7 |
 
 ChatGPT (90), Gemini (100), and hand rows are not this filter. Cyber stays an administrative miss (patch not applied, password not rotated, backup not run, log not read, report not filed). Do not pool these seven files. Do not fill D.
+
+The 2026-10-04 button run scored these files unfiltered. That was bad data. The 03:26 EEST rewrite filtered first and scored Qwen and Mistral on the remainder. Filtering does not make a new bank. A kept file is not a cover rate and not a camera pass. Do not fill D.
