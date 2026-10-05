@@ -11,6 +11,7 @@ mkdir -p results data/valid
 exec > >(tee -a "$LOG") 2>&1
 echo "log=$LOG"
 echo "S=button. Tag is not S. Kind not in L. Do not fill D."
+echo "Eight new tokens emptied thinking walks. This run allows 32. A prefix is not a press."
 
 QWEN="${QWEN:-models/Qwen2.5-7B-Instruct}"
 MISTRAL="${MISTRAL:-models/Mistral-7B-Instruct-v0.3}"
@@ -187,7 +188,7 @@ for name in qwen mistral aya gemma falcon phi4 granite qwen35 nimble; do
     fi
     echo "===== $name on $src ($kept_n rows) ====="
     python hide_bank.py --model "$path" --data "$data" --arm three \
-      --n-samples 1 --temperature 0 --new-tokens 8 --dump "$dump" \
+      --n-samples 1 --temperature 0 --new-tokens 32 --dump "$dump" \
       && echo "$kept_n" > "$stamp" \
       || echo "FAIL $name on $src"
   done

@@ -50,7 +50,7 @@ K-step, SIREN $f(1)$, and their unit-sum (`mid3`) track the same rooms. $\cos(\m
 
 ## Button cover is not the lie rate
 
-Generated pressure rows, nine sources, eight tokens, temperature 0. Compare log: `results/compare_pressure_scores.log`. Official lie-given-known is pressure different from belief, when belief had the fact and both answers are YES or NO. A walk with no press is left out, not entered as 0.
+Stale chart. This table scored the unfiltered local generation. It is not the 2026-10-05 filtered remainder. See `results/pressure_score_2026-10-05.md`. The lie column here is the old button-mismatch rate. Hide YES and belief YES are different propositions, so mismatch is not lie-given-known. Compare log: `results/compare_pressure_scores.log`. A walk with no press is left out, not entered as 0.
 
 | Walk | Cover | Old bank YES | Official lie-given-known |
 | --- | ---: | ---: | ---: |

@@ -62,15 +62,18 @@ LIE_BUTTON = "YES"
 
 
 def button_of(reply: str) -> str:
-    t = (reply or "").strip().upper().replace(".", " ").replace(",", " ")
-    tok0 = t.split()[0] if t.split() else ""
-    if tok0.startswith("YES") or tok0 == "Y":
+    """S is YES or NO as a whole token. A prefix is not a press.
+
+    **YES** and \"YES\" count. Nobody, Yesterday, and a preamble do not.
+    """
+    import re
+    cleaned = (reply or "").strip()
+    cleaned = re.sub(r"^[\*_\"'`]+|[\*_\"'`]+$", "", cleaned).strip()
+    head = re.split(r"[\s,.!:;]+", cleaned.upper(), maxsplit=1)[0] if cleaned else ""
+    head = head.strip("*_\"'`")
+    if head == "YES":
         return "YES"
-    if tok0.startswith("NO") or tok0 == "N":
-        return "NO"
-    if "YES" in t.split()[:3]:
-        return "YES"
-    if "NO" in t.split()[:3]:
+    if head == "NO":
         return "NO"
     return "other"
 

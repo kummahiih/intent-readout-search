@@ -119,8 +119,15 @@ def spearman(xs, ys):
     def rank(vals):
         order = sorted(range(len(vals)), key=lambda i: vals[i])
         out = [0.0] * len(vals)
-        for r, i in enumerate(order):
-            out[i] = r + 1
+        i = 0
+        while i < len(order):
+            j = i
+            while j + 1 < len(order) and vals[order[j + 1]] == vals[order[i]]:
+                j += 1
+            avg = (i + j) / 2 + 1
+            for k in range(i, j + 1):
+                out[order[k]] = avg
+            i = j + 1
         return out
 
     rx, ry = rank([p[0] for p in pairs]), rank([p[1] for p in pairs])
@@ -248,6 +255,8 @@ def self_check() -> int:
     assert pressed["press"] == 1 and pressed["cover"] == 1
     rho, n = spearman([0.2, None, 0.8], [0.1, 0.0, 0.4])
     assert n == 2 and rho is None
+    rho, n = spearman([1, 1, 1], [1, 2, 3])
+    assert n == 3 and rho is None
     assert 0.0 not in [None]
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
