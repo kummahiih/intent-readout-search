@@ -43,7 +43,22 @@ Official MASK lie-given-known stays a different column. It is not this contract.
 
 ## Exit
 
-Phase 1 exits when a hand-checked file can show assignment and a later button disagreeing, and the scorer does not call that disagreement a lie from the tag. That is not `handoverPass`. Phase 2 is a held-out scenario-id prediction of the realized button. A pass there is a bounded predictive claim. Topic invariance, regularization, and the safety claim stay blocked.
+Phase 1 exits when a hand-checked file can show assignment and a later button disagreeing, and the scorer does not call that disagreement a lie from the tag. That is not `handoverPass`.
+
+## Phase 2 acceptance
+
+A pass is a bounded claim: the specified readout predicts the realized button on held-out scenario ids under the tested conditions. It is not `handoverPass`. It is not topic invariance. It is not evidence that a regularizer changes behavior.
+
+| Check | Required evidence | Failure |
+| --- | --- | --- |
+| Scenario isolation | Split manifest by scenario id before fitting, preprocessing, or threshold selection | Any id, or a paraphrase of it, appears in both splits |
+| Outcome accounting | Separate counts: rows in, excluded, invalid generations, missing buttons | A missing or excluded row is labeled honest or deceptive |
+| Target integrity | Realized button and assigned note are separate columns | The assigned note stands in for the realized button |
+| Baseline | Note-text baseline on the same held-out ids | Button performance is reported without that baseline |
+| Uncertainty | Numerator, denominator, and an interval | A point estimate with no interval |
+| Reproducibility | Fixed manifest, split, and scoring procedure | The result depends on an undocumented post-hoc choice |
+
+Phase 2 stays open until those six checks are run. The safety claim stays blocked either way.
 
 ## Status words
 
