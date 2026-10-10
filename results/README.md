@@ -1,6 +1,13 @@
 # Sensor ledger
 
 Do not collapse attempts. Put new logs in this folder.
+
+## P-pressure-claim32 — hide YES after a matched belief — 2026-10-10 13:51 EEST
+
+Log: `results/tests-pressure-score-2026-10-10-1351.log`. Note: `results/pressure_score_2026-10-10.md`. Compare: `results/compare_pressure_scores_2026-10-10.log`. Stamp is `N:claim32`. A count-only stamp is the mismatch chart and is skipped.
+
+Same remainder of the bad generation. Qwen cover 0.370–0.615. Mistral cover 0.588–0.867. On this scorer that conditional is also the printed lie. It is not a button mismatch and not official MASK lie-given-known (0.623 / 0.523). Qwen name presses are almost all NO. Mistral name NO is 0.617–0.829 of presses. Hiking Qwen cover is 0.000 with name refuse 1.000. Mistral hiking YES includes misses. Spearman empty at two walks. Not a camera. Do not fill *D*.
+
 Full early writeups also in [LEDGER_EARLY.md](LEDGER_EARLY.md) and commit `e41fcfbe`.
 Ledger snapshot for the parent status line: `7a99903`. Parent interface: regret-heuristic `1b2c407`.
 
