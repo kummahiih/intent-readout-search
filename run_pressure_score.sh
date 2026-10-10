@@ -175,8 +175,11 @@ for name in qwen mistral aya gemma falcon phi4 granite qwen35 nimble; do
     dump="results/pressure_score_${name}__${src}.jsonl"
     stamp="results/pressure_score_${name}__${src}.rows"
     kept_n="$(wc -l < "$data")"
-    if [ -f "$dump" ] && [ -f "$stamp" ] && [ "$(cat "$stamp")" = "$kept_n" ]; then
-      echo "SKIP $name on $src: have $dump from $kept_n filtered rows"
+    # claim32: hide YES after matched belief, 32 tokens, whole-token press.
+    # A count-only stamp is the mismatch chart and gets rewritten.
+    mark="${kept_n}:claim32"
+    if [ -f "$dump" ] && [ -f "$stamp" ] && [ "$(cat "$stamp")" = "$mark" ]; then
+      echo "SKIP $name on $src: have $dump from $mark"
       continue
     fi
     if [ -f "$dump" ] && ! is_local_src "$src" && [ "$(wc -l < "$dump")" -ge 200 ]; then
@@ -189,7 +192,7 @@ for name in qwen mistral aya gemma falcon phi4 granite qwen35 nimble; do
     echo "===== $name on $src ($kept_n rows) ====="
     python hide_bank.py --model "$path" --data "$data" --arm three \
       --n-samples 1 --temperature 0 --new-tokens 32 --dump "$dump" \
-      && echo "$kept_n" > "$stamp" \
+      && echo "$mark" > "$stamp" \
       || echo "FAIL $name on $src"
   done
 done
