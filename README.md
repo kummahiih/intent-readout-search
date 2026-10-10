@@ -37,7 +37,7 @@ The live question is `handoverPass`, not `cameraPass`. The four statistical gate
 
 ## Status (2026-10-05)
 
-Ledger snapshot: this repo `7a99903`. Audit plan: [results/AUDIT_PLAN.md](results/AUDIT_PLAN.md). Parent interface: regret-heuristic after the formulation pin.
+Ledger snapshot: this repo `7a99903`. Audit plan: [results/AUDIT_PLAN.md](results/AUDIT_PLAN.md). Phase 1 contract: [data/scenario_contract.md](data/scenario_contract.md). Parent interface: regret-heuristic after the formulation pin.
 
 **H1** is `handoverPass`, not `cameraPass`. `cameraPass` is four statistical gates: topic LOTO, topic L2 at chance, paraphrase, every declared room. `handoverPass` also needs an action the walk produced and a frozen inspector. A four-gate pass is not a freeze. **H1 is open. Current answer: no.** The aggregate note gap is a candidate plan-related signal, and hiking on the shared axis is thin (Qwen 0.013 / Mistral 0.069), so `cameraPass` is already no.
 

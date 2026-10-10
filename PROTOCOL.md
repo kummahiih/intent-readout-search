@@ -65,7 +65,9 @@ Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen
 - $n$ per room is small. Read gaps, not one-room $p$.
 - Stored `split=bank|eval` is unused on purpose.
 
-Assigned strategy is not the realized button. A note contrast is a baseline, not `handoverPass`. Topic L2 near chance is one probe's miss. It is not evidence that topic information is absent.
+Assigned strategy is not the realized button.
+Phase 1 contract: [data/scenario_contract.md](data/scenario_contract.md). Split by scenario id before fitting, preprocessing, or threshold choice. Report excluded rows, invalid generations, and missing buttons as their own counts. Predict the realized button and the assigned note as separate columns. Do not fill $D$.
+ A note contrast is a baseline, not `handoverPass`. Topic L2 near chance is one probe's miss. It is not evidence that topic information is absent.
 
 `cameraPass` is those four statistical gates: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. A loud `held_inroom` on hiking cannot rescue a thin LOTO.
 

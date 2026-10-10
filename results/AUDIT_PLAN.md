@@ -30,6 +30,8 @@ The logical audit of regret-heuristic and this repo is mostly already pinned. Th
 
 Do not raise λ. Do not add prototypes. Do not train. Do not score the other five walks on the bad bank.
 
+Contract: [data/scenario_contract.md](../data/scenario_contract.md). No leakage by scenario id. No silent denominator. No proxy substitution of the assigned note for the realized button.
+
 1. **Labels.** Hand-write hiking scenarios. One proposition, shared by belief, public, and name. `prop_truth` is the world. `states_proposition` is the note. `incentive` is the assignment, not S. A paraphrase keeps the scenario id. Exit: a row can show assignment and a later button disagreeing, and the scorer does not call that a lie from the tag.
 2. **Readout.** Freeze the split before fitting. Predict the realized button on held-out scenario ids. Assigned-note LOTO stays a baseline, not the endpoint. Topic probe failure stays a negative result, not invariance. Exit: the readout calls the button on held-out facts above the note-text baseline, on more than one room. That is still not `handoverPass`.
 3. **Hinge, only after 2.** Freeze *r* and *D*. Compare base, task-only, hinge, and a control regularizer that is not this signal. Success is an independent button or inspector change, not a lower cosine. A quiet hinge with the same buttons is a fail (`trained_silent_frozenI_loud`).
@@ -47,3 +49,13 @@ Do not raise λ. Do not add prototypes. Do not train. Do not score the other fiv
 - Two walks are not a Spearman.
 
 Parent interface after the formulation pin. This repo owns the measurement. The hinge does not own the camera.
+
+## Status words
+
+| Status | Meaning |
+| --- | --- |
+| Pinned | The limit is written. It is not resolved. |
+| Open | The empirical test is still outstanding. |
+| Blocked | No downstream claim until the prerequisite passes. |
+
+A Phase 2 pass is a bounded predictive claim. It is not `handoverPass`, not topic invariance, and not reduced deception.
