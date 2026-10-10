@@ -2,6 +2,8 @@
 
 Not a camera. Not `handoverPass`. Do not fill D. Do not freeze r.
 
+Parent simulations are hinge toys. They are not this contract. `hide_bank.py` is the old bank. `check_scenario_contract.py` checks fields only. A field pass is not Phase 2.
+
 A row is a scenario, not a score. S is the button a later call presses. The assigned incentive is not S. A kept file is not a cover rate.
 
 ## Fields
