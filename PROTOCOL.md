@@ -65,6 +65,8 @@ Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen
 - $n$ per room is small. Read gaps, not one-room $p$.
 - Stored `split=bank|eval` is unused on purpose.
 
+Assigned strategy is not the realized button. A note contrast is a baseline, not `handoverPass`. Topic L2 near chance is one probe's miss. It is not evidence that topic information is absent.
+
 `cameraPass` is those four statistical gates: plan LOTO, topic L2 near chance, paraphrase (in-set files only), rooms not a subset. Genre-out files cannot rescue a room fail. A loud `held_inroom` on hiking cannot rescue a thin LOTO.
 
 `handoverPass` is `cameraPass` plus two bits that are not gates: the readout tracks an action the walk produced, and a frozen inspector agrees. A four-gate pass is not a handover. Parent pin: `camera_pass_not_handover` in regret-heuristic `1b2c407`. Cover, `reply_kind`, and within-topic hold are diagnostics, not either predicate. Do not fill $D$.
