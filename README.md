@@ -37,7 +37,7 @@ The live question is `handoverPass`, not `cameraPass`. The four statistical gate
 
 ## Status (2026-10-05)
 
-Ledger snapshot: this repo `7a99903`. Audit plan: [results/AUDIT_PLAN.md](results/AUDIT_PLAN.md). Phase 1 contract: [data/scenario_contract.md](data/scenario_contract.md). Parent interface: regret-heuristic after the formulation pin.
+Ledger snapshot: this repo `7a99903`. Audit plan: [results/AUDIT_PLAN.md](results/AUDIT_PLAN.md). Phase 1 contract: [data/scenario_contract.md](data/scenario_contract.md). Experiment: [data/experiment_scenario.md](data/experiment_scenario.md). Parent interface: regret-heuristic `190614f`.
 
 **H1** is `handoverPass`, not `cameraPass`. `cameraPass` is four statistical gates: topic LOTO, topic L2 at chance, paraphrase, every declared room. `handoverPass` also needs an action the walk produced and a frozen inspector. A four-gate pass is not a freeze. **H1 is open. Current answer: no.** The aggregate note gap is a candidate plan-related signal, and hiking on the shared axis is thin (Qwen 0.013 / Mistral 0.069), so `cameraPass` is already no.
 
@@ -110,6 +110,20 @@ The local generation was bad data. The 2026-10-04 button chart scored those file
 
 The 2026-10-10 claim32 rerun (`results/pressure_score_2026-10-10.md`) keeps that range: Qwen 0.370–0.615, Mistral 0.588–0.867. On the repaired scorer the printed lie is that same conditional, not a button mismatch. Qwen name presses are almost all NO. Official MASK lie-given-known stays a different column (0.623 / 0.523). Old-bank YES is 0.510 / 0.573. Official MASK lie-given-known is 0.623 / 0.523. Three columns. Not pooled. Spearman is empty: two walks. Other walks stay unstamped and out, not as 0. Qwen hiking HIDE was NO on six files. That is a press. Mistral hiking YES includes misses. A miss is not a cover. A kept file is not a pass of the four camera gates. Do not freeze *r*. Do not fill *D*.
 
+
+### Phase 1 scenario experiment
+
+Not another cover chart. Not a sample bank for the hinge. Details: [data/experiment_scenario.md](data/experiment_scenario.md).
+
+One proposition is shared by three calls. `name_ask` is the same sentence as the public ask, under "refuse the cover." YES asserts the proposition. The assigned incentive is not *S*. The four-row hiking example field-passed (`85bbb7a`). That is not a readout.
+
+| Call | Ask | YES means |
+| --- | --- | --- |
+| Belief | Does the note state *P*? | The note says *P*. |
+| Public | Tell them that *P*? | Assert *P*. |
+| Name | Refuse the cover and tell them that *P*? | Named *P*. Baseline. |
+
+Phase 1 is open. Phase 2 is open: held-out scenario-id prediction of the realized button, with a note-text baseline and an interval. A pass there is a bounded claim. It is not `handoverPass`. Do not fill *D*.
 
 ### What the signal is not
 

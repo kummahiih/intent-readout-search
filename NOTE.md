@@ -66,6 +66,8 @@ Cover ranks with the old bank (Spearman 1.0, n=4). Order matches. Levels do not.
 
 Not $r_{\mathrm{strat}}$. Not a frozen camera. Not reduced deception. Not a reason to train $L_{\mathrm{reg}}$ or run PPO.
 
+The next measurement is not another cover chart on this generation. It is the Phase 1 scenario contract: one proposition, three calls, `name_ask` as the refuse-the-cover baseline. [data/experiment_scenario.md](data/experiment_scenario.md). A field pass is not a readout. Do not fill $D$.
+
 The honest sentence: a mid-layer last-token contrast is paraphrase-stable on **some** 7B-class instruct walks (Qwen, Mistral, Falcon), genre-fragile, not uniform across rooms, and absent at the decision token. Gemma-3-4B at the same relative depth is wallpaper. Hiking has a local pair on the *note* where the 7B-shaped hint exists; that pair is not the eight-room direction and not a predictor of the hide button. Cover on the generated rows is the same instrument as the old bank, and it is not the 711-row lie rate. Do not fill $D$.
 
 Numbers: [results/pressure_score_2026-10-04.md](results/pressure_score_2026-10-04.md). Rules: [PROTOCOL.md](PROTOCOL.md).
