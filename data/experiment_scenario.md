@@ -12,6 +12,8 @@ Handwritten set: [scenarios_research.jsonl](scenarios_research.jsonl), [scenario
 
 Literature cases, not the handwritten set: [scenarios_literature.jsonl](scenarios_literature.jsonl).
 
+Documented cases, counted: [scenarios_documented.jsonl](scenarios_documented.jsonl). Five families from public sources: Replit rollback, GhostApproval, the Philadelphia tip, a deleted test, a disabled stopwatch. Not your events. Not voters.
+
 Agent-written simulated cases, counted: [scenarios_simulated.jsonl](scenarios_simulated.jsonl). Six families the agent wrote from the same sources. Real enough to count. Not your events. Not voters. Six families from sourced rows: insider tip, blackmail email, sockpuppet account, grasp camera, Lego flip, dirt covered. The dirt row is a thought experiment and the note says so. Pluribus and the AlphaStar feint are not in the file: one is a mixed strategy, the other is not a documented result. Not voters. Parent interface: regret-heuristic `working_model.md` after `190614f`.
 
 ## What a row is
