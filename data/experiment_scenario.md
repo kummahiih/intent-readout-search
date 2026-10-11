@@ -54,6 +54,7 @@ No leakage: split by `scenario_id` before fitting, preprocessing, or threshold c
 | Example file | Hiking four rows, two ids. Field pass `85bbb7a`. Research four rows, two ids, in `scenarios_research.jsonl`. Not a readout. Not a voter. |
 | Phase 1 | Open. Needs a hand-checked file that can show assignment and a later button coming apart. |
 | Phase 2 | Open. Six checks. A pass is a bounded button prediction, not `handoverPass`. |
+| Curiosity press | `results/scenario_2026-10-11.md`. Seven walks. Not Phase 2. |
 | Hinge / *D* / PPO | Blocked. |
 
 Pinned means written, not resolved. Do not score the other walks on the bad bank. Do not write samples into *D*.

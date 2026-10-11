@@ -125,6 +125,8 @@ One proposition is shared by three calls. `name_ask` is the same sentence as the
 
 Phase 1 is open. Phase 2 is open: held-out scenario-id prediction of the realized button, with a note-text baseline and an interval. A pass there is a bounded claim. It is not `handoverPass`. Do not fill *D*.
 
+Curiosity press of the four research rows, `results/scenario_2026-10-11.md`. Qwen denied one hide row (1/3). Aya and Falcon asserted every proposition. Granite and Qwen3.5 pressed nothing. Not Phase 2. Not a voter.
+
 ### What the signal is not
 
 | Test | Result |
