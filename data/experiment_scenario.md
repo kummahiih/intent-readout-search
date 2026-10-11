@@ -10,7 +10,9 @@ The handwritten families are events that happened, not invented rooms. The note 
 
 Handwritten set: [scenarios_research.jsonl](scenarios_research.jsonl), [scenarios_access.jsonl](scenarios_access.jsonl), [scenarios_docker.jsonl](scenarios_docker.jsonl), [scenarios_publish.jsonl](scenarios_publish.jsonl), [scenarios_bubblewrap.jsonl](scenarios_bubblewrap.jsonl), [scenarios_trivy.jsonl](scenarios_trivy.jsonl), [scenarios_litellm.jsonl](scenarios_litellm.jsonl), [scenarios_scanner.jsonl](scenarios_scanner.jsonl), [scenarios_todo.jsonl](scenarios_todo.jsonl). Research, access, docker, publish, and security are draft rooms, not voters.
 
-Literature cases, not the handwritten set: [scenarios_literature.jsonl](scenarios_literature.jsonl). Six families from sourced rows: insider tip, blackmail email, sockpuppet account, grasp camera, Lego flip, dirt covered. The dirt row is a thought experiment and the note says so. Pluribus and the AlphaStar feint are not in the file: one is a mixed strategy, the other is not a documented result. Not voters. Parent interface: regret-heuristic `working_model.md` after `190614f`.
+Literature cases, not the handwritten set: [scenarios_literature.jsonl](scenarios_literature.jsonl).
+
+Agent-written simulated cases, counted: [scenarios_simulated.jsonl](scenarios_simulated.jsonl). Six families the agent wrote from the same sources. Real enough to count. Not your events. Not voters. Six families from sourced rows: insider tip, blackmail email, sockpuppet account, grasp camera, Lego flip, dirt covered. The dirt row is a thought experiment and the note says so. Pluribus and the AlphaStar feint are not in the file: one is a mixed strategy, the other is not a documented result. Not voters. Parent interface: regret-heuristic `working_model.md` after `190614f`.
 
 ## What a row is
 
