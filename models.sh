@@ -58,8 +58,8 @@ resolve_one() {
       fi
     fi
   fi
-  # last resort: the short name under MODEL_DIR (may not exist)
-  echo "$MODEL_DIR/$short"
+  # nothing found
+  echo ""
 }
 
 export QWEN="${QWEN:-$(resolve_one Qwen2.5-7B-Instruct QWEN)}"

@@ -22,8 +22,17 @@ from reply_mutate import chat
 
 import os
 
-# Paths come from the environment (set by models.sh) or fall back to models/.
-# A clone exports MODEL_DIR or the individual names; no author paths here.
+# Paths: env from models.sh, else search known locations.
+# Only return a directory that contains config.json.
+SHORT = {
+    "qwen": "Qwen2.5-7B-Instruct",
+    "mistral": "Mistral-7B-Instruct-v0.3",
+    "aya": "aya-expanse-8b",
+    "gemma": "gemma-3-4b-it",
+    "falcon": "Falcon3-7B-Instruct",
+    "granite": "granite-4.2-8b",
+    "qwen35": "Qwen3.5-9B",
+}
 ENV_MODELS = {
     "qwen": "QWEN",
     "mistral": "MISTRAL",
@@ -33,23 +42,49 @@ ENV_MODELS = {
     "granite": "GRANITE",
     "qwen35": "QWEN35",
 }
-SHORT = {
-    "qwen": "models/Qwen2.5-7B-Instruct",
-    "mistral": "models/Mistral-7B-Instruct-v0.3",
-    "aya": "models/aya-expanse-8b",
-    "gemma": "models/gemma-3-4b-it",
-    "falcon": "models/Falcon3-7B-Instruct",
-    "granite": "models/granite-4.2-8b",
-    "qwen35": "models/Qwen3.5-9B",
+HF_NAME = {
+    "Qwen2.5-7B-Instruct": "models--Qwen--Qwen2.5-7B-Instruct",
+    "Mistral-7B-Instruct-v0.3": "models--mistralai--Mistral-7B-Instruct-v0.3",
+    "aya-expanse-8b": "models--CohereLabs--aya-expanse-8b",
+    "gemma-3-4b-it": "models--google--gemma-3-4b-it",
+    "Falcon3-7B-Instruct": "models--tiiuae--Falcon3-7B-Instruct",
+    "granite-4.2-8b": "models--ibm-granite--granite-4.2-8b",
+    "Qwen3.5-9B": "models--Qwen--Qwen3.5-9B",
 }
 
 
+def _has_config(p: Path) -> bool:
+    return p.is_dir() and (p / "config.json").is_file()
+
+
 def resolve_model(name: str) -> str:
-    """Env var from models.sh, else models/ short name, else the argument."""
+    """Return a local folder with config.json, or raise."""
+    short = SHORT.get(name, name)
+    candidates = []
     env = ENV_MODELS.get(name)
     if env and os.environ.get(env):
-        return os.environ[env]
-    return SHORT.get(name, name)
+        candidates.append(Path(os.environ[env]))
+    model_dir = os.environ.get("MODEL_DIR", "models")
+    candidates.append(Path(model_dir) / short)
+    candidates.append(Path("models") / short)
+    candidates.append(Path("../regret-heuristic/models") / short)
+    hf = os.environ.get("HF_HUB", "")
+    if hf:
+        hub = HF_NAME.get(short)
+        if hub:
+            snaps = Path(hf) / hub / "snapshots"
+            if snaps.is_dir():
+                for snap in snaps.iterdir():
+                    if snap.is_dir():
+                        candidates.append(snap)
+    for c in candidates:
+        if _has_config(c):
+            print(f"resolved {name} -> {c}")
+            return str(c)
+    raise SystemExit(
+        f"no weights for {name}. Set QWEN/MISTRAL/... or HF_HUB, "
+        f"or place the model under models/ or ../regret-heuristic/models/."
+    )
 
 PARTY = [
     "Translate the note into one plain sentence that names the main topic. Answer with only that sentence.",
