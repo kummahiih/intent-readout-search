@@ -20,30 +20,36 @@ from pathlib import Path
 from hide_bank import generate_short, load_tok_model
 from reply_mutate import chat
 
-# Same short list and media fallbacks as run_all_scenarios.sh.
-DEFAULT_MODELS = {
+import os
+
+# Paths come from the environment (set by models.sh) or fall back to models/.
+# A clone exports MODEL_DIR or the individual names; no author paths here.
+ENV_MODELS = {
+    "qwen": "QWEN",
+    "mistral": "MISTRAL",
+    "aya": "AYA",
+    "gemma": "GEMMA",
+    "falcon": "FALCON",
+    "granite": "GRANITE",
+    "qwen35": "QWEN35",
+}
+SHORT = {
     "qwen": "models/Qwen2.5-7B-Instruct",
     "mistral": "models/Mistral-7B-Instruct-v0.3",
     "aya": "models/aya-expanse-8b",
     "gemma": "models/gemma-3-4b-it",
     "falcon": "models/Falcon3-7B-Instruct",
-}
-MEDIA_FALLBACK = {
-    "qwen": "/media/pauli/datapata/hf/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
-    "mistral": "/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71",
+    "granite": "models/granite-4.2-8b",
+    "qwen35": "models/Qwen3.5-9B",
 }
 
 
 def resolve_model(name: str) -> str:
-    """Prefer a local folder. Fall back to the media snapshot used by the night press."""
-    path = DEFAULT_MODELS.get(name, name)
-    if Path(path).joinpath("config.json").is_file():
-        return path
-    fb = MEDIA_FALLBACK.get(name)
-    if fb and Path(fb).joinpath("config.json").is_file():
-        print(f"local miss: {path} -> {fb}")
-        return fb
-    return path
+    """Env var from models.sh, else models/ short name, else the argument."""
+    env = ENV_MODELS.get(name)
+    if env and os.environ.get(env):
+        return os.environ[env]
+    return SHORT.get(name, name)
 
 PARTY = [
     "Translate the note into one plain sentence that names the main topic. Answer with only that sentence.",

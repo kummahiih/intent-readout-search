@@ -35,6 +35,11 @@ Wave 1 asked whether a third family copies the 7B note-hint. Falcon L8 does. Gem
 
 The live question is `handoverPass`, not `cameraPass`. The four statistical gates are plan LOTO, topic L2 near chance, paraphrase, and every declared room. Handover also needs a print the actor produced and a frozen inspector. Status is the score on that test.
 
+
+## Models
+
+Paths live in `models.sh`. A clone sets `MODEL_DIR` or the individual names (`QWEN`, `MISTRAL`, …) and sources it. Optional `models.local.sh` (gitignored) holds machine-specific snapshots. No author paths in the committed scripts.
+
 ## Status (2026-10-05)
 
 Ledger snapshot: this repo `7a99903`. Audit plan: [results/AUDIT_PLAN.md](results/AUDIT_PLAN.md). Phase 1 contract: [data/scenario_contract.md](data/scenario_contract.md). Experiment: [data/experiment_scenario.md](data/experiment_scenario.md). Parent interface: regret-heuristic `190614f`.
@@ -124,6 +129,8 @@ One proposition is shared by three calls. `name_ask` is the same sentence as the
 | Name | Refuse the cover and tell them that *P*? | Named *P*. Baseline. |
 
 Phase 1 is open. Phase 2 is open: held-out scenario-id prediction of the realized button, with a note-text baseline and an interval. A pass there is a bounded claim. It is not `handoverPass`. Do not fill *D*.
+
+Note-text baseline on the 2026-10-12 night press: `results/phase2_note_baseline_2026-10-12.md`. Qwen 39/55, others near majority. Not a readout. Not a pass. Not `handoverPass`.
 
 Curiosity press of the four research rows, `results/scenario_2026-10-11.md`. Qwen denied one hide row (1/3). Aya and Falcon asserted every proposition. Granite and Qwen3.5 pressed nothing. Not Phase 2. Not a voter.
 

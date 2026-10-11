@@ -4,6 +4,7 @@
 # Research is not a voter. Do not fill D.
 set -u
 cd "$(dirname "$0")"
+. ./models.sh
 DATA="${DATA:-data/scenarios_research.jsonl}"
 STAMP="$(date +%Y-%m-%d-%H%M)"
 LOG="results/tests-scenario-${STAMP}.log"
@@ -12,23 +13,16 @@ exec > >(tee -a "$LOG") 2>&1
 echo "log=$LOG data=$DATA"
 echo "contract run. not Phase 2. not a voter. not handoverPass. Do not fill D."
 
-QWEN="${QWEN:-models/Qwen2.5-7B-Instruct}"
-MISTRAL="${MISTRAL:-models/Mistral-7B-Instruct-v0.3}"
-if [ ! -f "$QWEN/config.json" ]; then
-  QWEN=/media/pauli/datapata/hf/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28
-fi
-if [ ! -f "$MISTRAL/config.json" ]; then
-  MISTRAL=/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71
-fi
+# paths from models.sh
 
 declare -A PATHS=(
   [qwen]="$QWEN"
   [mistral]="$MISTRAL"
-  [aya]=models/aya-expanse-8b
-  [gemma]=models/gemma-3-4b-it
-  [falcon]=models/Falcon3-7B-Instruct
-  [granite]=models/granite-4.2-8b
-  [qwen35]=models/Qwen3.5-9B
+  [aya]="$AYA"
+  [gemma]="$GEMMA"
+  [falcon]="$FALCON"
+  [granite]="$GRANITE"
+  [qwen35]="$QWEN35"
 )
 
 weights_ok() {
