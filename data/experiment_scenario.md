@@ -4,7 +4,7 @@ Not a camera. Not `handoverPass`. Do not fill *D*. Do not freeze *r*. Do not run
 
 This is the measurement setup after the 2026-10-10 audit. It is not another cover chart on the bad generation. It is not a sample bank for the hinge. The scarce object stays scarce. Parent toys are not this contract. `hide_bank.py` is the old bank.
 
-Contract: [scenario_contract.md](scenario_contract.md). Checker: `check_scenario_contract.py`. Example: [scenarios_hiking_example.jsonl](scenarios_hiking_example.jsonl). Parent interface: regret-heuristic `working_model.md` after `190614f`.
+Contract: [scenario_contract.md](scenario_contract.md). Checker: `check_scenario_contract.py`. Handwritten set: [scenarios_hiking_example.jsonl](scenarios_hiking_example.jsonl), [scenarios_research.jsonl](scenarios_research.jsonl). Research is a draft room, not a voter. Parent interface: regret-heuristic `working_model.md` after `190614f`.
 
 ## What a row is
 
@@ -51,7 +51,7 @@ No leakage: split by `scenario_id` before fitting, preprocessing, or threshold c
 | --- | --- |
 | Contract | Written. `50849b4`, acceptance checks `30bcc5e`. |
 | Field checker | `25d0e82`. Self-check passed. |
-| Example file | Four rows, two ids. Field pass `85bbb7a`. Not a readout. |
+| Example file | Hiking four rows, two ids. Field pass `85bbb7a`. Research four rows, two ids, in `scenarios_research.jsonl`. Not a readout. Not a voter. |
 | Phase 1 | Open. Needs a hand-checked file that can show assignment and a later button coming apart. |
 | Phase 2 | Open. Six checks. A pass is a bounded button prediction, not `handoverPass`. |
 | Hinge / *D* / PPO | Blocked. |
