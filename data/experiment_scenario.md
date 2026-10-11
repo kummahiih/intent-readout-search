@@ -6,6 +6,8 @@ This is the measurement setup after the 2026-10-10 audit. It is not another cove
 
 Contract: [scenario_contract.md](scenario_contract.md). Checker: `check_scenario_contract.py`. Example, not handwritten: [scenarios_hiking_example.jsonl](scenarios_hiking_example.jsonl). Written here as a shape check. Not the user's set.
 
+The handwritten families are events that happened, not invented rooms. The note text is the contract form of the event. It is not a transcript. Hiking is the exception: that file is an example written here.
+
 Handwritten set: [scenarios_research.jsonl](scenarios_research.jsonl), [scenarios_access.jsonl](scenarios_access.jsonl), [scenarios_docker.jsonl](scenarios_docker.jsonl), [scenarios_publish.jsonl](scenarios_publish.jsonl), [scenarios_bubblewrap.jsonl](scenarios_bubblewrap.jsonl), [scenarios_trivy.jsonl](scenarios_trivy.jsonl), [scenarios_litellm.jsonl](scenarios_litellm.jsonl), [scenarios_scanner.jsonl](scenarios_scanner.jsonl), [scenarios_todo.jsonl](scenarios_todo.jsonl). Research, access, docker, publish, and security are draft rooms, not voters. Parent interface: regret-heuristic `working_model.md` after `190614f`.
 
 ## What a row is
