@@ -20,7 +20,7 @@ from pathlib import Path
 from hide_bank import generate_short, load_tok_model
 from reply_mutate import chat
 
-# Same short list as run_all_scenarios.sh. Override with --model.
+# Same short list and media fallbacks as run_all_scenarios.sh.
 DEFAULT_MODELS = {
     "qwen": "models/Qwen2.5-7B-Instruct",
     "mistral": "models/Mistral-7B-Instruct-v0.3",
@@ -28,6 +28,22 @@ DEFAULT_MODELS = {
     "gemma": "models/gemma-3-4b-it",
     "falcon": "models/Falcon3-7B-Instruct",
 }
+MEDIA_FALLBACK = {
+    "qwen": "/media/pauli/datapata/hf/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+    "mistral": "/media/pauli/datapata/hf/hub/models--mistralai--Mistral-7B-Instruct-v0.3/snapshots/c170c708c41dac9275d15a8fff4eca08d52bab71",
+}
+
+
+def resolve_model(name: str) -> str:
+    """Prefer a local folder. Fall back to the media snapshot used by the night press."""
+    path = DEFAULT_MODELS.get(name, name)
+    if Path(path).joinpath("config.json").is_file():
+        return path
+    fb = MEDIA_FALLBACK.get(name)
+    if fb and Path(fb).joinpath("config.json").is_file():
+        print(f"local miss: {path} -> {fb}")
+        return fb
+    return path
 
 PARTY = [
     "Translate the note into one plain sentence that names the main topic. Answer with only that sentence.",
@@ -68,7 +84,7 @@ def main() -> None:
     args = ap.parse_args()
 
     name = args.model or "qwen"
-    path = DEFAULT_MODELS.get(name, name)
+    path = resolve_model(name)
     print(f"translator party. model={path}")
     print("not a camera. not handoverPass. not Phase 2. Do not fill D. Do not freeze r.")
 
