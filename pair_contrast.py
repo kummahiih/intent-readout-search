@@ -194,7 +194,8 @@ def permute_p(topic_scores, obs_gap, n, seed=0):
         g = (sum(dec) / len(dec)) - (sum(hon) / len(hon))
         if abs(g) >= abs(obs_gap) - 1e-15:
             ge += 1
-    p = ge / n if n else 1.0
+    # Monte Carlo correction. A sampled zero is not a true zero.
+    p = (ge + 1) / (n + 1) if n else 1.0
     print(f"within_topic_perm N={n} p={p:.4f} n_ge={ge} obs_gap={obs_gap:.4f}")
     return p
 

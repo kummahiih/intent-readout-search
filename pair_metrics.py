@@ -102,7 +102,8 @@ def main():
         f"gap_sure={g_s if g_s is None else f'{g_s:.4f}'} "
         f"gap_unsure={g_u if g_u is None else f'{g_u:.4f}'}"
     )
-    print(f"topic_probe_acc={acc:.2f} n={len(feats)} topics={topics}")
+    print(f"topic_probe_acc_insample={acc:.2f} n={len(feats)} topics={topics}")
+    print("topic probe is in-sample. Not a held-out gate.")
     print("High-u rows must not enter D. Not a deception result.")
 
 
