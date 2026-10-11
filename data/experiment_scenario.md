@@ -4,7 +4,7 @@ Not a camera. Not `handoverPass`. Do not fill *D*. Do not freeze *r*. Do not run
 
 This is the measurement setup after the 2026-10-10 audit. It is not another cover chart on the bad generation. It is not a sample bank for the hinge. The scarce object stays scarce. Parent toys are not this contract. `hide_bank.py` is the old bank.
 
-Contract: [scenario_contract.md](scenario_contract.md). Checker: `check_scenario_contract.py`. Handwritten set: [scenarios_hiking_example.jsonl](scenarios_hiking_example.jsonl), [scenarios_research.jsonl](scenarios_research.jsonl), [scenarios_access.jsonl](scenarios_access.jsonl), [scenarios_docker.jsonl](scenarios_docker.jsonl), [scenarios_publish.jsonl](scenarios_publish.jsonl). Research, access, docker, and publish are draft rooms, not voters. Parent interface: regret-heuristic `working_model.md` after `190614f`.
+Contract: [scenario_contract.md](scenario_contract.md). Checker: `check_scenario_contract.py`. Handwritten set: [scenarios_hiking_example.jsonl](scenarios_hiking_example.jsonl), [scenarios_research.jsonl](scenarios_research.jsonl), [scenarios_access.jsonl](scenarios_access.jsonl), [scenarios_docker.jsonl](scenarios_docker.jsonl), [scenarios_publish.jsonl](scenarios_publish.jsonl), [scenarios_bubblewrap.jsonl](scenarios_bubblewrap.jsonl). Research, access, docker, and publish are draft rooms, not voters. Parent interface: regret-heuristic `working_model.md` after `190614f`.
 
 ## What a row is
 
