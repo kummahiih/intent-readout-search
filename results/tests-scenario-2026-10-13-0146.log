@@ -1,0 +1,21 @@
+log=results/tests-scenario-2026-10-13-0146.log data=data/scenarios_unicode.jsonl
+contract run. not Phase 2. not a voter. not handoverPass. Do not fill D.
+=== qwen ===
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 123, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 90, in main
+    rows = load(Path(args.data))
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 30, in load
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+                                         ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/scenarios_unicode.jsonl'
+done. not a camera. not handoverPass.
