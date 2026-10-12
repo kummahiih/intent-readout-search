@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" font-family="ui-sans-serif, system-ui, sans-serif">
+  <rect width="1400" height="900" fill="#fafafa"/>
+  <!-- center -->
+  <rect x="560" y="400" width="280" height="70" rx="8" fill="#1a1a1a"/>
+  <text x="700" y="430" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">Intent readout</text>
+  <text x="700" y="450" text-anchor="middle" fill="#aaa" font-size="11">Phase 2 open. Not a camera.</text>
+
+  <!-- left: behavioral -->
+  <line x1="560" y1="435" x2="340" y2="180" stroke="#ccc"/>
+  <line x1="560" y1="435" x2="340" y2="340" stroke="#ccc"/>
+  <line x1="560" y1="435" x2="340" y2="520" stroke="#ccc"/>
+  <line x1="560" y1="435" x2="340" y2="700" stroke="#ccc"/>
+
+  <!-- right: phase 2 -->
+  <line x1="840" y1="435" x2="1060" y2="160" stroke="#ccc"/>
+  <line x1="840" y1="435" x2="1060" y2="320" stroke="#ccc"/>
+  <line x1="840" y1="435" x2="1060" y2="480" stroke="#ccc"/>
+  <line x1="840" y1="435" x2="1060" y2="640" stroke="#ccc"/>
+  <line x1="840" y1="435" x2="1060" y2="780" stroke="#ccc"/>
+
+  <!-- behavioral nodes -->
+  <g font-size="12">
+    <rect x="80" y="140" width="260" height="80" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="210" y="162" text-anchor="middle" font-weight="600">Night press</text>
+    <text x="210" y="180" text-anchor="middle" fill="#555">Qwen 25/89 · Mistral 2/82</text>
+    <text x="210" y="196" text-anchor="middle" fill="#555">Aya 3/91 · Gemma 10/102 · Falcon 13/103</text>
+    <text x="210" y="210" text-anchor="middle" fill="#999">Granite, Qwen3.5 empty</text>
+
+    <rect x="80" y="290" width="260" height="100" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="210" y="312" text-anchor="middle" font-weight="600">Length variants</text>
+    <text x="210" y="330" text-anchor="middle" fill="#555">Hand Gemma 2 → 8 → 13</text>
+    <text x="210" y="346" text-anchor="middle" fill="#555">Web Gemma 8 → 3 → 8</text>
+    <text x="210" y="362" text-anchor="middle" fill="#555">Web Qwen 21/66 → 4/61</text>
+    <text x="210" y="378" text-anchor="middle" fill="#999">Two sets, two directions</text>
+
+    <rect x="80" y="470" width="260" height="80" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="210" y="492" text-anchor="middle" font-weight="600">Padded control</text>
+    <text x="210" y="510" text-anchor="middle" fill="#555">Known set collapsed</text>
+    <text x="210" y="526" text-anchor="middle" fill="#555">Qwen 2/4 · Gemma 12/26</text>
+    <text x="210" y="540" text-anchor="middle" fill="#999">Not a length comparison</text>
+
+    <rect x="80" y="650" width="260" height="80" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="210" y="672" text-anchor="middle" font-weight="600">Family judge</text>
+    <text x="210" y="690" text-anchor="middle" fill="#555">20 stable · 8 single</text>
+    <text x="210" y="706" text-anchor="middle" fill="#555">6 unstable · 5 quiet</text>
+    <text x="210" y="720" text-anchor="middle" fill="#999">Not a lie probability</text>
+  </g>
+
+  <!-- phase 2 nodes -->
+  <g font-size="12">
+    <rect x="1060" y="110" width="280" height="80" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="1200" y="132" text-anchor="middle" font-weight="600">Note-text baseline</text>
+    <text x="1200" y="150" text-anchor="middle" fill="#555">Qwen 39/55 = 0.709</text>
+    <text x="1200" y="166" text-anchor="middle" fill="#555">Others ≤ majority</text>
+    <text x="1200" y="180" text-anchor="middle" fill="#999">The bar</text>
+
+    <rect x="1060" y="270" width="280" height="80" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="1200" y="292" text-anchor="middle" font-weight="600">Belief / name</text>
+    <text x="1200" y="310" text-anchor="middle" fill="#555">Beat point estimate</text>
+    <text x="1200" y="326" text-anchor="middle" fill="#555">Intervals overlap</text>
+    <text x="1200" y="340" text-anchor="middle" fill="#999">Same-press buttons</text>
+
+    <rect x="1060" y="430" width="280" height="90" rx="6" fill="#e8f5e9" stroke="#4caf50"/>
+    <text x="1200" y="452" text-anchor="middle" font-weight="600">Pre-button residual</text>
+    <text x="1200" y="470" text-anchor="middle" fill="#555">4/5 clear the bar</text>
+    <text x="1200" y="486" text-anchor="middle" fill="#555">Qwen 50/55 · Aya 55/55</text>
+    <text x="1200" y="502" text-anchor="middle" fill="#2e7d32">Saw the ask</text>
+
+    <rect x="1060" y="590" width="280" height="80" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="1200" y="612" text-anchor="middle" font-weight="600">Note-only residual</text>
+    <text x="1200" y="630" text-anchor="middle" fill="#555">All five below baseline</text>
+    <text x="1200" y="646" text-anchor="middle" fill="#555">Qwen 33/55 = majority</text>
+    <text x="1200" y="660" text-anchor="middle" fill="#999">Not a plan in the note</text>
+
+    <rect x="1060" y="730" width="280" height="80" rx="6" fill="#fff" stroke="#ddd"/>
+    <text x="1200" y="752" text-anchor="middle" font-weight="600">End-of-note residual</text>
+    <text x="1200" y="770" text-anchor="middle" fill="#555">None clear the bar</text>
+    <text x="1200" y="786" text-anchor="middle" fill="#555">Qwen 30/55, below baseline</text>
+    <text x="1200" y="800" text-anchor="middle" fill="#999">Signal is in the ask</text>
+  </g>
+
+  <!-- blocked footer -->
+  <rect x="480" y="830" width="440" height="40" rx="6" fill="#fff" stroke="#ddd"/>
+  <text x="700" y="855" text-anchor="middle" font-size="12" fill="#666">Basin matched majority · Translator party was slop · Hinge blocked · Do not fill D</text>
+</svg>
