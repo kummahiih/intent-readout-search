@@ -83,3 +83,7 @@ Field pass is not a readout. Do not fill D.
 ## Web long-note
 
 `data/scenarios_web_long.jsonl` is the 28 web-collected families (129 rows) with longer notes and asks. Same `scenario_id`, same proposition, same incentive, same split. The extra sentences are in-world filler. Not a new case. Not a voter. The handwritten 11 are not in this file.
+
+## Proposition-padded control
+
+`data/scenarios_prop_padded.jsonl` is the short handwritten and web rows (159) with the proposition replaced by the original plus two other propositions drawn at random (seed 20261012). Mean proposition length ~115, near the long-proposition mean of ~106. Notes and the rest of the row stay short. `proposition_original` keeps the planted fact. `states_proposition` still refers to that fact. A length control, not a new case. Not a voter.
