@@ -1,0 +1,44 @@
+log=results/noise-combine-2026-10-13-0204.log data=data/scenarios_noise.jsonl stamp=2026-10-13-0204
+noise press then combine. not Phase 2. not a camera. Do not fill D.
+=== press ===
+=== press qwen 2026-10-13T02:04:28+03:00 ===
+usage: run_scenario.py [-h] --model MODEL [--data DATA] [--dump DUMP]
+                       [--new-tokens NEW_TOKENS]
+run_scenario.py: error: unrecognized arguments: --out results/scenario_qwen_2026-10-13-0204.jsonl
+=== press mistral 2026-10-13T02:04:36+03:00 ===
+usage: run_scenario.py [-h] --model MODEL [--data DATA] [--dump DUMP]
+                       [--new-tokens NEW_TOKENS]
+run_scenario.py: error: unrecognized arguments: --out results/scenario_mistral_2026-10-13-0204.jsonl
+=== press aya 2026-10-13T02:04:39+03:00 ===
+usage: run_scenario.py [-h] --model MODEL [--data DATA] [--dump DUMP]
+                       [--new-tokens NEW_TOKENS]
+run_scenario.py: error: unrecognized arguments: --out results/scenario_aya_2026-10-13-0204.jsonl
+=== press gemma 2026-10-13T02:04:41+03:00 ===
+usage: run_scenario.py [-h] --model MODEL [--data DATA] [--dump DUMP]
+                       [--new-tokens NEW_TOKENS]
+run_scenario.py: error: unrecognized arguments: --out results/scenario_gemma_2026-10-13-0204.jsonl
+=== press falcon 2026-10-13T02:04:43+03:00 ===
+usage: run_scenario.py [-h] --model MODEL [--data DATA] [--dump DUMP]
+                       [--new-tokens NEW_TOKENS]
+run_scenario.py: error: unrecognized arguments: --out results/scenario_falcon_2026-10-13-0204.jsonl
+=== press granite 2026-10-13T02:04:46+03:00 ===
+usage: run_scenario.py [-h] --model MODEL [--data DATA] [--dump DUMP]
+                       [--new-tokens NEW_TOKENS]
+run_scenario.py: error: unrecognized arguments: --out results/scenario_granite_2026-10-13-0204.jsonl
+=== press qwen35 2026-10-13T02:04:48+03:00 ===
+usage: run_scenario.py [-h] --model MODEL [--data DATA] [--dump DUMP]
+                       [--new-tokens NEW_TOKENS]
+run_scenario.py: error: unrecognized arguments: --out results/scenario_qwen35_2026-10-13-0204.jsonl
+=== prebutton ===
+skip qwen: no dump
+skip mistral: no dump
+skip aya: no dump
+skip gemma: no dump
+skip falcon: no dump
+=== combine ===
+skip qwen: no dump
+skip mistral: no dump
+skip aya: no dump
+skip gemma: no dump
+skip falcon: no dump
+done stamp=2026-10-13-0204. not Phase 2. not a camera. Do not fill D.
