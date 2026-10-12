@@ -6,6 +6,15 @@ The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuris
 
 Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md). Scale: [SCALE.md](SCALE.md).
 
+
+## Map
+
+Full history: [results/mindmap_full_2026-10-13.svg](results/mindmap_full_2026-10-13.svg). This session only: [results/mindmap_2026-10-13.svg](results/mindmap_2026-10-13.svg).
+
+![Full history](results/mindmap_full_2026-10-13.svg)
+
+Early sensors, camera gates, MASK, Phase 1, Phase 2. `cameraPass` is no. The pre-button residual cleared the Phase 2 note-text bar and saw the ask. Note-only and end-of-note did not. Not a camera. Do not fill *D*.
+
 ## What is being hunted
 
 Same words as the parent [What](https://github.com/kummahiih/regret-heuristic#what-this-is). Short:
