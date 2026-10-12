@@ -36,6 +36,63 @@ Wave 1 asked whether a third family copies the 7B note-hint. Falcon L8 does. Gem
 The live question is `handoverPass`, not `cameraPass`. The four statistical gates are plan LOTO, topic L2 near chance, paraphrase, and every declared room. Handover also needs a print the actor produced and a frozen inspector. Status is the score on that test.
 
 
+## Setup
+
+Clone the two repos as siblings if you want the short-name fallback:
+
+```bash
+git clone https://github.com/kummahiih/regret-heuristic.git
+git clone https://github.com/kummahiih/intent-readout-search.git
+```
+
+Python. A venv is enough. `requirements.txt` is the list; `requirements.md` is the why (two kernel packages need `--no-deps`, `causal-conv1d` is a local build on some Torch/CUDA pairs).
+
+```bash
+cd intent-readout-search
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+GitHub. Needed only if you push results or use `gh`.
+
+```bash
+gh auth login
+```
+
+Hugging Face. Needed for gated weights (Aya, Gemma, and any model you pull yourself).
+
+```bash
+hf auth login
+# or: export HF_TOKEN=hf_...
+```
+
+Models. Paths are not committed. `models.sh` searches, in order: an explicit variable, `$MODEL_DIR/<short>`, `models/<short>`, `../regret-heuristic/models/<short>`, then `$HF_HUB/<hf-name>/snapshots/*`.
+
+```bash
+# optional machine file, gitignored
+cat > models.local.sh << 'EOF'
+export HF_HUB=/path/to/hf/hub
+# or export MODEL_DIR=/path/to/models
+# or export QWEN=/path/to/Qwen2.5-7B-Instruct
+EOF
+source models.sh
+echo "$QWEN"   # must print a directory that contains config.json
+```
+
+A model directory needs `config.json` and a complete `model.safetensors` set. An index without its shards is skipped. Loads are 4-bit NF4.
+
+Run. Source `models.sh` in the same shell, then:
+
+```bash
+python translator_party.py --model qwen --limit 5
+# or
+bash run_scenario.sh
+bash run_all_scenarios.sh
+```
+
+Not a camera. Not Phase 2. Not `handoverPass`. Do not fill *D*. Do not freeze *r*.
+
 ## Models
 
 Paths live in `models.sh`. A clone sets `MODEL_DIR` or the individual names (`QWEN`, `MISTRAL`, …) and sources it. Optional `models.local.sh` (gitignored) holds machine-specific snapshots. No author paths in the committed scripts.
