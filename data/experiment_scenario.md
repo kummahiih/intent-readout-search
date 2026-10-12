@@ -65,7 +65,7 @@ No leakage: split by `scenario_id` before fitting, preprocessing, or threshold c
 | Field checker | `25d0e82`. Self-check passed. |
 | Example file | Hiking four rows, two ids. Field pass `85bbb7a`. Research four rows, two ids, in `scenarios_research.jsonl`. Not a readout. Not a voter. |
 | Phase 1 | Open. Needs a hand-checked file that can show assignment and a later button coming apart. |
-| Phase 2 | Open. Six checks. A pass is a bounded button prediction, not `handoverPass`. |
+| Phase 2 | Open. Six checks. Note-text baseline logged (`results/phase2_note_baseline_2026-10-12.md`). Newton's-fractal basin candidate logged (`results/phase2_basin_readout_2026-10-12.md`); it matches majority. Five computable candidates logged (`results/phase2_candidates_2026-10-13.md`); belief and name beat the note-text point estimate, intervals overlap, and both are other buttons from the same press. A pass is still a better readout on the same held-out ids. Not `handoverPass`. |
 | Curiosity press | `results/scenario_2026-10-11.md`. Seven walks. Not Phase 2. |
 | Hinge / *D* / PPO | Blocked. |
 
