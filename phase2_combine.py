@@ -154,10 +154,10 @@ def main() -> None:
 
     tag = Path(dump).stem.replace(f"scenario_{args.model}_", "")
     pre_path = Path(f"results/prebutton_{args.model}_{tag}_L-1.npy")
-    if not pre_path.exists():
+    if not pre_path.exists() and tag == "2026-10-12-0031":
         pre_path = Path(f"results/prebutton_{args.model}_L-1.npy")
     if not pre_path.exists():
-        raise SystemExit(f"missing {pre_path}; run phase2_prebutton.py first")
+        raise SystemExit(f"missing {pre_path}; extract prebutton on this dump first")
     Xp = np.load(pre_path)
     Xn = extract_note_mid(args.model, path, rows, mid, tag=tag)
 
