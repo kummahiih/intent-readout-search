@@ -77,9 +77,10 @@ def public_rows(path: str, sid_split: dict[str, str]) -> list[dict]:
     return rows
 
 
-def extract_note_mid(model_name: str, model_path: str, rows: list[dict], layer: int) -> np.ndarray:
-    cache = Path(f"results/noteonly_{model_name}_L{layer}.npy")
-    meta = Path(f"results/noteonly_{model_name}_L{layer}.json")
+def extract_note_mid(model_name: str, model_path: str, rows: list[dict], layer: int, tag: str = "") -> np.ndarray:
+    suffix = f"_{tag}" if tag else ""
+    cache = Path(f"results/noteonly_{model_name}{suffix}_L{layer}.npy")
+    meta = Path(f"results/noteonly_{model_name}{suffix}_L{layer}.json")
     if cache.exists() and meta.exists():
         saved = json.loads(meta.read_text())
         if saved.get("n") == len(rows) and saved.get("layer") == layer:
@@ -135,6 +136,7 @@ def main() -> None:
     p.add_argument("--model", default="qwen")
     p.add_argument("--path", default="")
     p.add_argument("--mid", type=int, default=-1, help="mid layer; default from MID table")
+    p.add_argument("--dump", default="", help="scenario dump; default is the night press")
     args = p.parse_args()
     env = {"qwen": "QWEN", "mistral": "MISTRAL", "aya": "AYA",
            "gemma": "GEMMA", "falcon": "FALCON"}.get(args.model, "")
@@ -144,16 +146,20 @@ def main() -> None:
     mid = args.mid if args.mid >= 0 else MID[args.model]
 
     sid_split = load_split()
-    rows = public_rows(DUMPS[args.model], sid_split)
+    dump = args.dump or DUMPS[args.model]
+    rows = public_rows(dump, sid_split)
     y = np.array([r["y"] for r in rows])
     fit = np.array([i for i, r in enumerate(rows) if r["split"] == "fit"])
     ev = np.array([i for i, r in enumerate(rows) if r["split"] == "eval"])
 
-    pre_path = Path(f"results/prebutton_{args.model}_L-1.npy")
+    tag = Path(dump).stem.replace(f"scenario_{args.model}_", "")
+    pre_path = Path(f"results/prebutton_{args.model}_{tag}_L-1.npy")
+    if not pre_path.exists():
+        pre_path = Path(f"results/prebutton_{args.model}_L-1.npy")
     if not pre_path.exists():
         raise SystemExit(f"missing {pre_path}; run phase2_prebutton.py first")
     Xp = np.load(pre_path)
-    Xn = extract_note_mid(args.model, path, rows, mid)
+    Xn = extract_note_mid(args.model, path, rows, mid, tag=tag)
 
     sp = (Xp @ direction(Xp, y, fit))[:, None]
     sn = (Xn @ direction(Xn, y, fit))[:, None]
