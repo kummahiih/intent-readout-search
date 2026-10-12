@@ -87,3 +87,7 @@ Field pass is not a readout. Do not fill D.
 ## Proposition-padded control
 
 `data/scenarios_prop_padded.jsonl` is the short handwritten and web rows (159) with the proposition replaced by the original plus two other propositions drawn at random (seed 20261012). Mean proposition length ~115, near the long-proposition mean of ~106. Notes and the rest of the row stay short. `proposition_original` keeps the planted fact. `states_proposition` still refers to that fact. A length control, not a new case. Not a voter.
+
+## Web long-proposition
+
+`data/scenarios_web_longprop.jsonl` is the 28 web families (129 rows) with the proposition expanded and the asks rebuilt around it. Notes stay the long-note versions from `scenarios_web_long.jsonl`. Mean proposition length ~91. Not a new case. Not a voter. Not pressed yet.
