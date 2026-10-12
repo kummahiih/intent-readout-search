@@ -31,6 +31,6 @@ for name in qwen mistral aya gemma falcon granite qwen35; do
   fi
   echo "=== $name $(date -Iseconds) ==="
   python3 run_scenario.py --model "$path" --data "$DATA" \
-    --out "results/scenario_${name}_${STAMP}.jsonl"
+    --dump "results/scenario_${name}_${STAMP}.jsonl"
 done
 echo "done. not Phase 2. not handoverPass."

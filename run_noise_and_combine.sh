@@ -32,7 +32,7 @@ for name in qwen mistral aya gemma falcon granite qwen35; do
   fi
   echo "=== press $name $(date -Iseconds) ==="
   python3 run_scenario.py --model "$path" --data "$DATA" \
-    --out "results/scenario_${name}_${STAMP}.jsonl"
+    --dump "results/scenario_${name}_${STAMP}.jsonl"
 done
 
 echo "=== prebutton ==="
