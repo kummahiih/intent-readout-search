@@ -101,8 +101,9 @@ def main() -> None:
         dumps["long_note_hand"][m] = load_dump(Path(f"results/scenario_{m}_2026-10-12-2324.jsonl"))
         dumps["long_prop_hand"][m] = load_dump(Path(f"results/scenario_{m}_2026-10-12-2332.jsonl"))
         dumps["long_note_web"][m] = load_dump(Path(f"results/scenario_{m}_2026-10-12-2341.jsonl"))
-        # web long prop: accept either a dedicated stamp or a file named by convention
+        # web long prop: stamp 0025, or a dedicated name
         for cand in (
+            Path(f"results/scenario_{m}_2026-10-13-0025.jsonl"),
             Path(f"results/scenario_{m}_2026-10-13-web-longprop.jsonl"),
             Path(f"results/scenario_{m}_web_longprop.jsonl"),
         ):
