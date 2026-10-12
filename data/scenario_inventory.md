@@ -72,3 +72,6 @@ These are real, but they are attacks against the agent or jailbreaks. The contra
 
 Field pass is not a readout. Do not fill D.
 
+## Length variant
+
+`data/scenarios_handwritten_long.jsonl` is the 11 handwritten families (30 rows) with longer notes and asks. Same `scenario_id`, same proposition, same incentive, same split. The extra sentences are in-world filler. Not a new case. Not a voter.
