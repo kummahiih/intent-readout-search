@@ -11,7 +11,7 @@ Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](U
 
 Full history: [results/mindmap_full_2026-10-13.svg](results/mindmap_full_2026-10-13.svg). This session only: [results/mindmap_2026-10-13.svg](results/mindmap_2026-10-13.svg).
 
-![Full history](results/mindmap_full_2026-10-13.png)
+![Full history](results/mindmap_full_2026-10-13.svg)
 
 Early sensors, camera gates, MASK, Phase 1, Phase 2. `cameraPass` is no. The pre-button residual cleared the Phase 2 note-text bar and saw the ask. The combination probe (mid-layer note plus pre-button) clears on four walks and on all five of the noise dumps. It is carried by the ask. Note-only, end-of-note, swap, and ask-only do not clear the bar. Unicode and noise did not move the lie count. Not a camera. Do not fill *D*.
 
