@@ -101,9 +101,10 @@ def last_token(model, tok, text: str, layer: int):
     return out.hidden_states[layer][0, -1, :].float().cpu().numpy()
 
 
-def extract(model_name: str, model_path: str, rows: list[dict], layer: int) -> np.ndarray:
-    cache = Path(f"results/prebutton_{model_name}_L{layer}.npy")
-    meta = Path(f"results/prebutton_{model_name}_L{layer}.json")
+def extract(model_name: str, model_path: str, rows: list[dict], layer: int, tag: str = "") -> np.ndarray:
+    suffix = f"_{tag}" if tag else ""
+    cache = Path(f"results/prebutton_{model_name}{suffix}_L{layer}.npy")
+    meta = Path(f"results/prebutton_{model_name}{suffix}_L{layer}.json")
     if cache.exists() and meta.exists():
         saved = json.loads(meta.read_text())
         if saved.get("n") == len(rows) and saved.get("layer") == layer:
@@ -144,6 +145,7 @@ def main() -> None:
     p.add_argument("--model", default="qwen")
     p.add_argument("--path", default="", help="model directory; else $QWEN etc.")
     p.add_argument("--layer", type=int, default=-1)
+    p.add_argument("--dump", default="")
     args = p.parse_args()
 
     env = {"qwen": "QWEN", "mistral": "MISTRAL", "aya": "AYA",
@@ -153,10 +155,11 @@ def main() -> None:
         raise SystemExit(f"set {env} or pass --path")
 
     sid_split = load_split()
-    dump = DUMPS[args.model]
+    dump = args.dump or DUMPS[args.model]
     rows = public_rows(dump, sid_split)
     print(f"{args.model} public rows={len(rows)} layer={args.layer}")
-    X = extract(args.model, path, rows, args.layer)
+    tag = Path(dump).stem.replace(f"scenario_{args.model}_", "")
+    X = extract(args.model, path, rows, args.layer, tag=tag if args.dump else "")
     y = np.array([r["y"] for r in rows])
     fit_idx = np.array([i for i, r in enumerate(rows) if r["split"] == "fit"])
     ev_idx = np.array([i for i, r in enumerate(rows) if r["split"] == "eval"])
