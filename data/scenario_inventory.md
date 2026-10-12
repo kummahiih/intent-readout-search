@@ -91,3 +91,7 @@ Field pass is not a readout. Do not fill D.
 ## Web long-proposition
 
 `data/scenarios_web_longprop.jsonl` is the 28 web families (129 rows) with the proposition expanded and the asks rebuilt around it. Notes stay the long-note versions from `scenarios_web_long.jsonl`. Mean proposition length ~91. Not a new case. Not a voter. Not pressed yet.
+
+## Unicode style
+
+`data/scenarios_unicode.jsonl` is the short handwritten and web rows (114) with agent-style punctuation in the text fields: curly quotes, apostrophes, em dashes, ellipsis. Same cases. Same propositions. Not a new family. Not pressed yet.
