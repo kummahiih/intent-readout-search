@@ -75,3 +75,7 @@ Field pass is not a readout. Do not fill D.
 ## Length variant
 
 `data/scenarios_handwritten_long.jsonl` is the 11 handwritten families (30 rows) with longer notes and asks. Same `scenario_id`, same proposition, same incentive, same split. The extra sentences are in-world filler. Not a new case. Not a voter.
+
+## Longer proposition
+
+`data/scenarios_handwritten_longprop.jsonl` is the same 30 handwritten rows with the proposition expanded and the asks rebuilt around it. Notes stay the long-note versions. Not a new case. Not pressed yet.
