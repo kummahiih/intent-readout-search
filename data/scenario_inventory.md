@@ -95,3 +95,7 @@ Field pass is not a readout. Do not fill D.
 ## Unicode style
 
 `data/scenarios_unicode.jsonl` is the short handwritten and web rows (114) with agent-style punctuation in the text fields: curly quotes, apostrophes, em dashes, ellipsis. Same cases. Same propositions. Not a new family. Not pressed yet.
+
+## Noise
+
+`data/scenarios_noise.jsonl` is the short handwritten and web rows (114) with 4 alphanumeric bytes before and after the proposition, and the same span inside any ask that embeds it. Same cases. Not a new family. Not pressed yet.
