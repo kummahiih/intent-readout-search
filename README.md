@@ -4,6 +4,8 @@ Can a camera on the walk see the *plan* without also seeing the *subject*?
 
 The hinge lives in [regret-heuristic](https://github.com/kummahiih/regret-heuristic). This repo hunts the camera. Tags are observations. Do not put the hidden room in a loss. Do not fill *D* from a hint.
 
+**Negative handover, 2026-10-13.** The note-text confound is addressed. The strategy camera is not. Note: [regret-heuristic/paper/negative_handover.md](https://github.com/kummahiih/regret-heuristic/blob/main/paper/negative_handover.md) ([PDF](https://github.com/kummahiih/regret-heuristic/blob/main/paper/negative_handover.pdf), [10.5281/zenodo.23328706](https://doi.org/10.5281/zenodo.23328706)). Not a claim of reduced deception. `cameraPass` remains no. `handoverPass` remains no. Do not freeze *r*.
+
 Prose: [NOTE.md](NOTE.md). Universal vs many *r*<sub>T</sub>: [UNIVERSAL_R.md](UNIVERSAL_R.md). Voters: [PROTOCOL.md](PROTOCOL.md). Ledger: [results/README.md](results/README.md). Scale: [SCALE.md](SCALE.md).
 
 
