@@ -133,6 +133,10 @@ Do **not** report hinge drop as success. Do **not** report `agree_assigned_strat
 
 A verbal oracle and a mutated tail are walks. Implicit reject: the API may return a polite key and no fail bit. Do not treat that as $z$.
 
+## Intentional intent avoidance (diagnostic, not a voter)
+
+`intentional_intent_avoidance.py` reports when a collection of individual cases becomes shorter under a shared-intent description than under independent cases (MDL crossover). The current protocol still says no camera on this bank. The script is a log. It does not vote, does not fill $D$, and does not freeze $r$. Parent note: regret-heuristic `mdl_intent.md`.
+
 ## CPU (`synthetic_z.py`)
 
 `--noise p` flips the labeler that builds $D$. `lie_out` is an unmapped cell. Hinge 0 + `lie_out` up = walked off the pins, still on a lie path.
