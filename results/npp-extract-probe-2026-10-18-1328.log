@@ -96,3 +96,94 @@ not above baseline
 intervals overlap
 not a camera. not handoverPass. Do not fill D.
 done. not a camera. not handoverPass. Do not fill D.
+log=results/npp-extract-probe-2026-10-18-1328.log stamp=2026-10-18-1328
+extract prebutton then probe. not a camera. Do not fill D.
+=== extract prebutton qwen ===
+log=results/npp-extract-probe-2026-10-18-1328.log stamp=2026-10-18-1328
+extract prebutton then probe. not a camera. Do not fill D.
+=== extract prebutton qwen ===
+qwen public rows=18 layer=-1
+cache hit results/prebutton_qwen_npp_2026-10-18-1328_L-1.npy
+fit=9 eval=9
+prebutton 9/9 = 1.000 [0.701, 1.000]
+note-text 39/55 = 0.709
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== probe qwen ===
+fit=9 eval=9
+cache hit results/noteonly_qwen_npp_2026-10-18-1328_L8.npy
+combine mid=8 9/9 = 1.000 [0.701, 1.000]
+note-text 39/55 = 0.709
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== extract prebutton mistral ===
+mistral public rows=18 layer=-1
+cache hit results/prebutton_mistral_npp_2026-10-18-1328_L-1.npy
+fit=9 eval=9
+prebutton 9/9 = 1.000 [0.701, 1.000]
+note-text 47/55 = 0.855
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== probe mistral ===
+fit=9 eval=9
+cache hit results/noteonly_mistral_npp_2026-10-18-1328_L9.npy
+combine mid=9 9/9 = 1.000 [0.701, 1.000]
+note-text 47/55 = 0.855
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== extract prebutton aya ===
+aya public rows=18 layer=-1
+cache hit results/prebutton_aya_npp_2026-10-18-1328_L-1.npy
+fit=9 eval=9
+prebutton 9/9 = 1.000 [0.701, 1.000]
+note-text 46/55 = 0.836
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== probe aya ===
+fit=9 eval=9
+cache hit results/noteonly_aya_npp_2026-10-18-1328_L10.npy
+combine mid=10 9/9 = 1.000 [0.701, 1.000]
+note-text 46/55 = 0.836
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== extract prebutton gemma ===
+gemma public rows=18 layer=-1
+cache hit results/prebutton_gemma_npp_2026-10-18-1328_L-1.npy
+fit=9 eval=9
+prebutton 9/9 = 1.000 [0.701, 1.000]
+note-text 42/53 = 0.792
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== probe gemma ===
+fit=9 eval=9
+cache hit results/noteonly_gemma_npp_2026-10-18-1328_L10.npy
+combine mid=10 8/9 = 0.889 [0.565, 0.980]
+note-text 42/53 = 0.792
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== extract prebutton falcon ===
+falcon public rows=18 layer=-1
+cache hit results/prebutton_falcon_npp_2026-10-18-1328_L-1.npy
+fit=9 eval=9
+prebutton 8/9 = 0.889 [0.565, 0.980]
+note-text 45/55 = 0.818
+above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+=== probe falcon ===
+fit=9 eval=9
+cache hit results/noteonly_falcon_npp_2026-10-18-1328_L8.npy
+combine mid=8 7/9 = 0.778 [0.453, 0.937]
+note-text 45/55 = 0.818
+not above baseline
+intervals overlap
+not a camera. not handoverPass. Do not fill D.
+done. not a camera. not handoverPass. Do not fill D.
