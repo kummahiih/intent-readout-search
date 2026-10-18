@@ -89,6 +89,8 @@ def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--data", default="data/scenarios_all.jsonl")
     p.add_argument("--threshold", type=float, default=1.05)
+    p.add_argument("--control", default="data/scenarios_reworded_control.jsonl",
+                   help="reworded surface control; empty string to skip")
     args = p.parse_args()
 
     rows = load(args.data)
@@ -123,6 +125,25 @@ def main() -> None:
     print(f"  collection R = sum(|note|) / |all notes| = {collection_ratio:.3f}")
     mdl_supports = mean_r > args.threshold or collection_ratio > args.threshold
     print(f"  mdl_supports_shared = {mdl_supports}")
+    if args.control:
+        try:
+            crow = load(args.control)
+            cby = defaultdict(list)
+            for r in crow:
+                cby[r["scenario_id"]].append(r)
+            cratios = []
+            for sid, group in cby.items():
+                hide = [r for r in group if r.get("incentive") == "hide"]
+                name = [r for r in group if r.get("incentive") == "name"]
+                if hide and name:
+                    cratios.append(pair_ratio(hide[0]["note"], name[0]["note"]))
+            if cratios:
+                cmean = sum(cratios) / len(cratios)
+                print(f"  reworded-control mean R = {cmean:.3f}  (original {mean_r:.3f})")
+                print(f"  drop = {mean_r - cmean:.3f}")
+                print("  note: on short strings zlib R > 1.05 even for unrelated text")
+        except FileNotFoundError:
+            print(f"  control file not found: {args.control}")
     print()
     print("probe side (logged negative handover)")
     for k, v in PROBE.items():
