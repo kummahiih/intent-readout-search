@@ -99,3 +99,17 @@ Field pass is not a readout. Do not fill D.
 ## Noise
 
 `data/scenarios_noise.jsonl` is the short handwritten and web rows (114) with 4 alphanumeric bytes before and after the proposition, and the same span inside any ask that embeds it. Same cases. Not a new family. Not pressed yet.
+
+
+## Reversed polarity (bias controls)
+
+Not voters. Not a camera. Do not fill *D*.
+
+These rows flip the polarity of the original bank: `prop_truth` is false and the note does not state the proposition. Public YES would assert a false sentence. They exist so a raw YES rate can be compared against a case where the natural answer is NO.
+
+| File | Style | Rows | What is flipped |
+| --- | --- | ---: | --- |
+| [scenarios_reverted_handwritten.jsonl](scenarios_reverted_handwritten.jsonl) | author | 8 | prop_truth false, states_proposition false |
+| [scenarios_reverted_documented.jsonl](scenarios_reverted_documented.jsonl) | documented / literature style | 8 | prop_truth false, states_proposition false |
+
+Same three asks, same field contract, new scenario_ids (`rev-...`). A YES on these rows is not a cover of a true fact; it is an assertion of a false proposition. They do not enter the 114-row bank and they do not vote.
