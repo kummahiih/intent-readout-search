@@ -138,6 +138,13 @@ def main() -> None:
     p.add_argument("--chance", type=float, default=0.125)
     args = p.parse_args()
 
+    from pathlib import Path
+    if not Path(args.scores).is_file():
+        raise SystemExit(
+            f"missing {args.scores}. Build it with:\n"
+            "  python build_probe_scores.py --dump results/scenario_qwen_2026-10-12-0031.jsonl "
+            "--out results/probe_scores.jsonl"
+        )
     rows = load(args.scores)
     print("gate packages")
     print("not a camera. do not fill D. do not freeze r.")
