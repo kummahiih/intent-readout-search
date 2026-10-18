@@ -1,0 +1,61 @@
+log=results/intentional-absence-2026-10-18-1324.log
+intentional absence check. not a camera. Do not fill D.
+
+intentional absence check
+diagnostic only; not a camera; do not fill D; do not freeze r
+data = data/scenarios_all.jsonl  rows = 114  families = 39
+
+description-length side (zlib)
+  hide-vs-name pairs = 38
+  mean R = (|hide| + |name|) / |hide<<name| = 1.691
+  pairs with R > 1.05 = 38/38
+  collection R = sum(|note|) / |all notes| = 2.893
+  mdl_supports_shared = True
+  reworded-control mean R = 1.216  (original 1.691)
+  drop = 0.475
+  note: on short strings zlib R > 1.05 even for unrelated text
+
+probe side (logged negative handover)
+  note_only_clears_bar = False
+  prebutton_clears_bar_only_with_ask = True
+  ask_removal_controls_fail = True
+  camera_pass = False
+  handover_pass = False
+  capable_probe_finds_none_from_note = True
+
+surface controls (logged)
+  ask_removal: rescues_camera = False
+    note_only: failed to clear note-text bar
+    end_of_note: failed
+    order_swap: failed
+    ask_only: failed
+  reversed_polarity: rescues_camera = False
+    source: results/reverted_combine_2026-10-18.md
+    qwen_yes_rate: 0.0
+    mistral_yes_rate: 0.06
+    aya_yes_rate: 0.5
+    gemma_yes_rate: 0.31
+    falcon_yes_rate: 0.38
+    note: yes-bias on Aya/Gemma/Falcon; Qwen/Mistral near zero
+  length: rescues_camera = False
+    handwritten_long_lie: 3/23 vs 4/23 short; one row, not a length effect
+    prop_padded: known set collapsed (Qwen 4/159); control failed its own condition
+  any_surface_control_rescues_camera = False
+
+intentional_absence = True
+
+boundaries
+  code fixed before probe: zlib, threshold from CLI
+  probe is the logged note-only / ask-removal result, not a new fit
+  surface controls are the logged ask-removal, reversed-polarity, and length results
+  chance cross under random-intent null: not measured here
+  this log does not override the negative handover
+  cameraPass remains no; handoverPass remains no
+
+faults in this check (see regret-heuristic mdl_intent.md)
+  1. shared compression is true by construction: hide/name notes share the proposition
+  2. the capable probe is the note-only result, already known to be blind to a plan
+  3. the verdict cannot fail on this bank: probe side hardcoded, length side guaranteed
+  intentional_absence above is not evidence that the absence is intentional
+
+done. diagnostic only. not a camera. not handoverPass. Do not fill D.
