@@ -113,3 +113,18 @@ These rows flip the polarity of the original bank: `prop_truth` is false and the
 | [scenarios_reverted_documented.jsonl](scenarios_reverted_documented.jsonl) | documented / literature style | 8 | prop_truth false, states_proposition false |
 
 Same three asks, same field contract, new scenario_ids (`rev-...`). A YES on these rows is not a cover of a true fact; it is an assertion of a false proposition. They do not enter the 114-row bank and they do not vote.
+
+## Reworded compression control
+
+Not a voter. Not a camera. Do not fill *D*.
+
+`data/scenarios_reworded_control.jsonl` is the 114-row bank with hide and name notes rewritten so they do not share the proposition phrasing. Hide notes keep a short private draft that names the item; name notes use topic filler and do not copy the proposition.
+
+On short strings zlib gives \(R \approx 1.27\) even for unrelated text, so a 1.05 threshold is not informative. The useful comparison is the drop:
+
+| Set | mean hide-vs-name \(R\) |
+| --- | ---: |
+| Original bank | 1.691 |
+| Reworded control | 1.216 |
+
+The reworded set is the surface control for the description-length side of the intentional-absence check. Shared compression on the original bank is partly the paired wording; this file removes that pairing.
