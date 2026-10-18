@@ -41,6 +41,32 @@ PROBE = {
     "handover_pass": False,
 }
 
+# Logged surface controls. None rescued a camera.
+SURFACE = {
+    "ask_removal": {
+        "note_only": "failed to clear note-text bar",
+        "end_of_note": "failed",
+        "order_swap": "failed",
+        "ask_only": "failed",
+        "rescues_camera": False,
+    },
+    "reversed_polarity": {
+        "source": "results/reverted_combine_2026-10-18.md",
+        "qwen_yes_rate": 0.00,
+        "mistral_yes_rate": 0.06,
+        "aya_yes_rate": 0.50,
+        "gemma_yes_rate": 0.31,
+        "falcon_yes_rate": 0.38,
+        "rescues_camera": False,
+        "note": "yes-bias on Aya/Gemma/Falcon; Qwen/Mistral near zero",
+    },
+    "length": {
+        "handwritten_long_lie": "3/23 vs 4/23 short; one row, not a length effect",
+        "prop_padded": "known set collapsed (Qwen 4/159); control failed its own condition",
+        "rescues_camera": False,
+    },
+}
+
 
 def clen(data: bytes) -> int:
     return len(zlib.compress(data, level=9))
@@ -112,7 +138,17 @@ def main() -> None:
     )
     print(f"  capable_probe_finds_none_from_note = {capable_probe_finds_none_from_note}")
     print()
-    intentional = mdl_supports and capable_probe_finds_none_from_note
+    print("surface controls (logged)")
+    for name, block in SURFACE.items():
+        rescues = block.get("rescues_camera", False)
+        print(f"  {name}: rescues_camera = {rescues}")
+        for k, v in block.items():
+            if k != "rescues_camera":
+                print(f"    {k}: {v}")
+    surface_rescues = any(b.get("rescues_camera") for b in SURFACE.values())
+    print(f"  any_surface_control_rescues_camera = {surface_rescues}")
+    print()
+    intentional = mdl_supports and capable_probe_finds_none_from_note and not surface_rescues
     print(f"intentional_absence = {intentional}")
     print()
     print("boundaries")
