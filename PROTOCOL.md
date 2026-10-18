@@ -67,10 +67,6 @@ Hiking stays in the 8-room set. After a lexical rewrite it is still thin on Qwen
 
 Assigned strategy is not the realized button.
 
-## Reversed polarity (bias controls, not voters)
-
-`data/scenarios_reverted_handwritten.jsonl` and `data/scenarios_reverted_documented.jsonl` flip `prop_truth` to false and set `states_proposition` false. Public YES asserts a false sentence. They exist so a raw YES rate can be compared with a case where the natural answer is NO. They are not part of the 114-row bank, they do not vote, and they do not fill $D$.
-
 ## Phase 1 scenario contract
 
 Contract: [data/scenario_contract.md](data/scenario_contract.md). Experiment: [data/experiment_scenario.md](data/experiment_scenario.md). This is not the old hide-bank. It is not a voter. It does not fill $D$.
