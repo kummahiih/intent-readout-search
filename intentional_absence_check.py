@@ -152,6 +152,12 @@ def main() -> None:
     print("  chance cross under random-intent null: not measured here")
     print("  this log does not override the negative handover")
     print("  cameraPass remains no; handoverPass remains no")
+    print()
+    print("faults in this check (see regret-heuristic mdl_intent.md)")
+    print("  1. shared compression is true by construction: hide/name notes share the proposition")
+    print("  2. the capable probe is the note-only result, already known to be blind to a plan")
+    print("  3. the verdict cannot fail on this bank: probe side hardcoded, length side guaranteed")
+    print("  intentional_absence above is not evidence that the absence is intentional")
 
 
 if __name__ == "__main__":
