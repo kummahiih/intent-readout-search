@@ -6,12 +6,13 @@ Hypothesis (from regret-heuristic mdl_intent.md):
     If L_shared(C) < L_ind(C) under a fixed code,
     and a residual probe that could have seen a plan fails to predict
     the button from the note alone,
+    and no surface control rescues a camera,
     then the missing readout is recorded as intentional avoidance
     of the shared description, not as the absence of shared structure.
 
-This script computes the description-length side on data/scenarios_all.jsonl
-with zlib, and reads the probe side from the logged negative handover
-(note-only failed; pre-button cleared the bar only after the ask).
+This script computes the description-length side on the scenario file
+with zlib, and reads the probe side and the surface controls from the
+logged negative handover and the bias/length ledgers.
 
 It is a log. It does not fill D. It does not freeze r. It does not
 override the negative handover.
@@ -28,11 +29,7 @@ import argparse
 import json
 import zlib
 from collections import defaultdict
-from pathlib import Path
 
-# Logged probe outcomes on the 114-row bank (negative handover, 2026-10-13).
-# note-only failed to clear the note-text bar.
-# pre-button and note-plus-prebutton cleared the bar only after the ask was seen.
 PROBE = {
     "note_only_clears_bar": False,
     "prebutton_clears_bar_only_with_ask": True,
@@ -41,7 +38,6 @@ PROBE = {
     "handover_pass": False,
 }
 
-# Logged surface controls. None rescued a camera.
 SURFACE = {
     "ask_removal": {
         "note_only": "failed to clear note-text bar",
@@ -100,7 +96,6 @@ def main() -> None:
     for r in rows:
         by_id[r["scenario_id"]].append(r)
 
-    # Within each scenario_id, compare hide note vs name note when both exist.
     ratios = []
     for sid, group in by_id.items():
         hide = [r for r in group if r.get("incentive") == "hide"]
@@ -112,7 +107,6 @@ def main() -> None:
     n_shared = sum(1 for r in ratios if r > args.threshold)
     mean_r = sum(ratios) / n_pairs if n_pairs else 0.0
 
-    # Collection-level: compress all notes together vs sum of individuals.
     notes = [r["note"].encode() for r in rows]
     sum_ind = sum(clen(n) for n in notes)
     joint = clen(b"\n".join(notes))
@@ -154,6 +148,7 @@ def main() -> None:
     print("boundaries")
     print("  code fixed before probe: zlib, threshold from CLI")
     print("  probe is the logged note-only / ask-removal result, not a new fit")
+    print("  surface controls are the logged ask-removal, reversed-polarity, and length results")
     print("  chance cross under random-intent null: not measured here")
     print("  this log does not override the negative handover")
     print("  cameraPass remains no; handoverPass remains no")
