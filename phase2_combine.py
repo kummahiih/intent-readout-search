@@ -70,7 +70,7 @@ def public_rows(path: str, sid_split: dict[str, str]) -> list[dict]:
                 continue
             rows.append({
                 "scenario_id": d["scenario_id"],
-                "split": sid_split.get(d["scenario_id"], "unknown"),
+                "split": d.get("split") or sid_split.get(d["scenario_id"], "unknown"),
                 "note": d.get("note", ""),
                 "y": 1 if d["button"] == "YES" else 0,
             })
@@ -151,6 +151,9 @@ def main() -> None:
     y = np.array([r["y"] for r in rows])
     fit = np.array([i for i, r in enumerate(rows) if r["split"] == "fit"])
     ev = np.array([i for i, r in enumerate(rows) if r["split"] == "eval"])
+    print(f"fit={len(fit)} eval={len(ev)}")
+    if len(fit) == 0 or len(ev) == 0:
+        raise SystemExit("need both fit and eval rows; check split on the dump")
 
     tag = Path(dump).stem.replace(f"scenario_{args.model}_", "")
     pre_path = Path(f"results/prebutton_{args.model}_{tag}_L-1.npy")
