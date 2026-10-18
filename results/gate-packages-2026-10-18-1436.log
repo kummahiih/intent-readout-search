@@ -1,0 +1,26 @@
+log=results/gate-packages-2026-10-18-1436.log scores=results/probe_scores.jsonl
+gate packages. not a camera. Do not fill D.
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/gate_packages.py", line 222, in <module>
+    main()
+  File "/home/pauli/dockers/intent-readout-search/gate_packages.py", line 141, in main
+    rows = load(args.scores)
+           ^^^^^^^^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/gate_packages.py", line 49, in load
+    with open(path) as f:
+         ^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'results/probe_scores.jsonl'
+done. not a camera. not handoverPass. Do not fill D.
+log=results/gate-packages-2026-10-18-1436.log scores=results/probe_scores.jsonl
+gate packages. not a camera. Do not fill D.
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/gate_packages.py", line 222, in <module>
+    main()
+  File "/home/pauli/dockers/intent-readout-search/gate_packages.py", line 141, in main
+    rows = load(args.scores)
+           ^^^^^^^^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/gate_packages.py", line 49, in load
+    with open(path) as f:
+         ^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'results/probe_scores.jsonl'
+done. not a camera. not handoverPass. Do not fill D.

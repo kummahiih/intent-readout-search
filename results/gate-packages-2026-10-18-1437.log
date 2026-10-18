@@ -1,0 +1,33 @@
+log=results/gate-packages-2026-10-18-1437.log scores=results/probe_scores.jsonl
+gate packages. not a camera. Do not fill D.
+gate packages
+not a camera. do not fill D. do not freeze r.
+rows=114 chance=0.125
+
+cross-topic LOTO 69/114 lo=0.514 hi=0.690
+topic accuracy unmeasured (no topic_pred column)
+paraphrase agreement unmeasured (no paraphrase_of column)
+coverage unmeasured
+
+package A (strict)
+  cross-topic: pass (lo=0.514 need > 0.40)
+  topic exclusion: unmeasured (no topic_pred)
+  paraphrase: unmeasured (no paraphrases)
+  coverage: unmeasured (none)
+  A pass = False
+
+package B (moderate)
+  cross-topic: pass (lo=0.514 need > 0.25)
+  topic exclusion: unmeasured (no topic_pred)
+  paraphrase: unmeasured (no paraphrases)
+  coverage: unmeasured (none)
+  B pass = False
+
+package C (exploratory, no pass)
+  cross-topic point=0.605 flag=False
+  topic unmeasured
+  paraphrase unmeasured
+  C pass = False (log only)
+
+unmeasured gates cannot pass. not a camera. do not fill D.
+done. not a camera. not handoverPass. Do not fill D.
