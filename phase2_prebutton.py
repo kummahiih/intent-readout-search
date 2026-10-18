@@ -75,7 +75,7 @@ def public_rows(path: str, sid_split: dict[str, str]) -> list[dict]:
                 continue
             rows.append({
                 "scenario_id": d["scenario_id"],
-                "split": sid_split.get(d["scenario_id"], "unknown"),
+                "split": d.get("split") or sid_split.get(d["scenario_id"], "unknown"),
                 "incentive": d.get("incentive"),
                 "note": d.get("note", ""),
                 "ask": d.get("ask", ""),
@@ -163,6 +163,11 @@ def main() -> None:
     y = np.array([r["y"] for r in rows])
     fit_idx = np.array([i for i, r in enumerate(rows) if r["split"] == "fit"])
     ev_idx = np.array([i for i, r in enumerate(rows) if r["split"] == "eval"])
+    print(f"fit={len(fit_idx)} eval={len(ev_idx)}")
+    if len(fit_idx) == 0 or len(ev_idx) == 0:
+        raise SystemExit("need both fit and eval rows; check split on the dump")
+    if (y[fit_idx] == 1).sum() == 0 or (y[fit_idx] == 0).sum() == 0:
+        raise SystemExit("fit split has only one class; cannot form a direction")
     k, n = probe(X, y, fit_idx, ev_idx)
     acc, lo, hi = wilson(k, n)
     b = BASELINE[args.model]
