@@ -144,3 +144,9 @@ A verbal oracle and a mutated tail are walks. Implicit reject: the API may retur
 ## CPU (`synthetic_z.py`)
 
 `--noise p` flips the labeler that builds $D$. `lie_out` is an unmapped cell. Hinge 0 + `lie_out` up = walked off the pins, still on a lie path.
+
+## Reversed polarity (bias controls, not voters)
+
+`data/scenarios_reverted_handwritten.jsonl` and `data/scenarios_reverted_documented.jsonl` flip `prop_truth` to false and set `states_proposition` false. Public YES asserts a false sentence. They exist so a raw YES rate can be compared with a case where the natural answer is NO.
+
+Run the combination probe on them with `bash run_reverted_combine.sh`. It presses the reversed files, then fits the mid-layer note + pre-button logistic. Output is a bias-control log. It does not vote, does not fill $D$, and does not freeze $r$.
