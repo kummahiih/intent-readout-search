@@ -143,7 +143,9 @@ def main() -> None:
     path = args.path or os.environ.get(env, "")
     if not path:
         raise SystemExit(f"set {env} or pass --path")
-    mid = args.mid if args.mid >= 0 else MID[args.model]
+    mid = args.mid if args.mid >= 0 else MID.get(args.model)
+    if mid is None:
+        raise SystemExit(f"pass --mid for {args.model}; not in MID table")
 
     sid_split = load_split()
     dump = args.dump or DUMPS[args.model]
