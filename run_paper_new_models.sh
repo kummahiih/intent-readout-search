@@ -9,25 +9,43 @@ cd "$(dirname "$0")"
 mkdir -p results
 
 if [[ "${1:-}" == "--smoke" ]]; then
-  echo "smoke: hide_bank self-check (no model)"
-  python3 hide_bank.py --self-check || exit 1
-  echo "smoke: chat-template probe on instruct models"
-  python3 - << 'PY'
+  LOG="results/paper-new-models-smoke-$(date +%Y-%m-%d-%H%M).log"
+  : >"$LOG"
+  echo "smoke: hide_bank self-check (no model)" | tee -a "$LOG"
+  python3 hide_bank.py --self-check 2>&1 | tee -a "$LOG" || {
+    echo "FAIL self-check" | tee -a "$LOG"
+    exit 1
+  }
+  echo "smoke: sentencepiece" | tee -a "$LOG"
+  python3 -c "import sentencepiece; print('sentencepiece ok')" 2>&1 | tee -a "$LOG" || {
+    echo "FAIL sentencepiece missing. pip install sentencepiece" | tee -a "$LOG"
+    exit 1
+  }
+  echo "smoke: chat-template probe on instruct models" | tee -a "$LOG"
+  python3 - << 'PY' 2>&1 | tee -a "$LOG"
+import sys
 from transformers import AutoTokenizer
 models = [
     "meta-llama/Llama-3.1-8B-Instruct",
     "google/gemma-2-2b-it",
     "google/gemma-2-9b-it",
 ]
+fail = 0
 for m in models:
-    tok = AutoTokenizer.from_pretrained(m, trust_remote_code=True)
-    tmpl = getattr(tok, "chat_template", None)
-    print(f"  {m}: chat_template={'yes' if tmpl else 'NO'}")
-    if not tmpl:
-        raise SystemExit(1)
+    try:
+        tok = AutoTokenizer.from_pretrained(m, trust_remote_code=True)
+        tmpl = getattr(tok, "chat_template", None)
+        print(f"  {m}: chat_template={'yes' if tmpl else 'NO'}")
+        if not tmpl:
+            fail = 1
+    except Exception as e:
+        print(f"  {m}: ERROR {type(e).__name__}: {e}")
+        fail = 1
+if fail:
+    raise SystemExit(1)
 print("smoke ok — chat templates present, no weights loaded")
 PY
-  exit 0
+  exit "${PIPESTATUS[0]}"
 fi
 
 LOG="results/paper-new-models-$(date +%Y-%m-%d).log"
