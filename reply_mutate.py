@@ -53,7 +53,27 @@ def logprob_next(model, tok, prompt: str, word: str, device, max_length: int) ->
 
 def chat(tok, messages: list[dict]) -> str:
     if hasattr(tok, "apply_chat_template"):
-        return tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        try:
+            return tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        except Exception as e:
+            msg = str(e).lower()
+            if "system role not supported" in msg or "chat_template is not set" in msg:
+                folded = []
+                sys_text = ""
+                for m in messages:
+                    if m.get("role") == "system":
+                        sys_text += m.get("content", "") + "\n"
+                    else:
+                        folded.append(m)
+                if sys_text and folded:
+                    folded[0] = {
+                        "role": folded[0]["role"],
+                        "content": sys_text + folded[0].get("content", ""),
+                    }
+                elif sys_text:
+                    folded = [{"role": "user", "content": sys_text}]
+                return tok.apply_chat_template(folded, tokenize=False, add_generation_prompt=True)
+            raise
     return "\n".join(f"{m['role']}: {m['content']}" for m in messages) + "\nassistant:"
 
 
