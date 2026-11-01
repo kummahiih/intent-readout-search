@@ -170,9 +170,10 @@ def main() -> None:
         raise SystemExit("fit split has only one class; cannot form a direction")
     k, n = probe(X, y, fit_idx, ev_idx)
     acc, lo, hi = wilson(k, n)
-    b = BASELINE[args.model]
+    b = BASELINE.get(args.model)
     print(f"prebutton {k}/{n} = {acc:.3f} [{lo:.3f}, {hi:.3f}]")
-    print(f"note-text {b[0]}/{b[1]} = {b[2]:.3f}")
+    if b:
+        print(f"note-text {b[0]}/{b[1]} = {b[2]:.3f}")
     beat = acc > b[2]
     print("above baseline" if beat else "not above baseline")
     print("intervals overlap" if not (hi < b[2] or lo > b[2]) else "intervals do not overlap")
