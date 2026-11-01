@@ -3,9 +3,11 @@
 #
 # DOES:
 #   0. Preflight: checks python deps (torch, transformers; sklearn optional), the bank file, and the Qwen model dir.
-#   1. Smoke: 1 ID (defect-001, 6 rows, both incentives), Qwen only, incentive in the user turn.
-#      Exits non-zero if the run crashes, the dump is missing, or it has != 18 lines, or any button is
-#      not YES/NO/other.
+#   1. Smokes (all must pass before any full run):
+#      - defect-001, user-turn
+#      - defect-001, user-says framing
+#      - defect-001, agent-stakes framing
+#      Each is 6 rows / 18 generations, Qwen only. Exits non-zero on crash, wrong line count, or bad button.
 #   2. Full bank (72 IDs, 432 rows, 1296 generations per model), incentive in the user turn:
 #      Qwen2.5-7B-Instruct; then gemma-2-9b-it if ../regret-heuristic/models/gemma-2-9b-it exists, else a SKIP line.
 #   3. Visible-text baselines per model (if sklearn is present): note-only and note+public_ask, against realized public button and
@@ -33,18 +35,27 @@ for f in "$BANK" run_scenario.py forced_button.py scripts/text_baselines.py; do 
 [[ -d $QWEN ]] || { echo "FAIL missing model dir $QWEN"; exit 2; }
 echo "bank rows: $(wc -l < "$BANK")"
 
-echo "--- smoke (defect-001, Qwen)"
-SMOKE=$OUT/smoke_bank.jsonl
-python -c "import json,sys;[print(l,end='') for l in open('$BANK') if json.loads(l)['scenario_id']=='defect-001']" > "$SMOKE"
-[[ $(wc -l < "$SMOKE") -eq 6 ]] || { echo "FAIL smoke subset is not 6 rows"; exit 3; }
-python run_scenario.py --model "$QWEN" --data "$SMOKE" --dump "$OUT/smoke_qwen.jsonl" --incentive-in-user
-python - "$OUT/smoke_qwen.jsonl" <<'PY'
+smoke () {  # label extra-args
+  local label=$1; shift
+  echo "--- smoke: $label"
+  local smoke_bank=$OUT/smoke_${label}_bank.jsonl
+  python -c "import json,sys;[print(l,end='') for l in open('$BANK') if json.loads(l)['scenario_id']=='defect-001']" > "$smoke_bank"
+  [[ $(wc -l < "$smoke_bank") -eq 6 ]] || { echo "FAIL smoke subset is not 6 rows"; exit 3; }
+  python run_scenario.py --model "$QWEN" --data "$smoke_bank" --dump "$OUT/smoke_${label}_qwen.jsonl" "$@"
+  python - "$OUT/smoke_${label}_qwen.jsonl" <<'PY'
 import json,sys
 R=[json.loads(l) for l in open(sys.argv[1])]
 assert len(R)==18,f"smoke dump has {len(R)} lines, want 18"
 assert all(r["button"] in("YES","NO","other") for r in R),"bad button value"
 print("smoke OK; buttons:",{b:sum(r["button"]==b for r in R) for b in("YES","NO","other")})
 PY
+}
+
+echo "=== all smokes before any full run ==="
+smoke user_turn --incentive-in-user
+smoke user_says --role-frame user-says
+smoke agent_stakes --role-frame agent-stakes
+echo "=== all smokes passed; starting full bank ==="
 
 run_model () {  # name dir
   echo "--- full bank: $1 ($(date -Is))"
