@@ -6,6 +6,7 @@ sentencepiece
 pandas
 pyarrow
 einops
+scikit-learn
 # Granite 4.2 and Qwen3.5 gated-delta kernel. Install with --no-deps so pip does not replace torch.
 # Versions must match. fla-core holds fla.ops; flash-linear-attention alone is a namespace.
 # See requirements.md for the local causal-conv1d build used for Qwen3.5.
