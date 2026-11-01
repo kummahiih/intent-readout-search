@@ -174,9 +174,12 @@ def main() -> None:
     print(f"prebutton {k}/{n} = {acc:.3f} [{lo:.3f}, {hi:.3f}]")
     if b:
         print(f"note-text {b[0]}/{b[1]} = {b[2]:.3f}")
-    beat = acc > b[2]
-    print("above baseline" if beat else "not above baseline")
-    print("intervals overlap" if not (hi < b[2] or lo > b[2]) else "intervals do not overlap")
+    if b:
+        beat = acc > b[2]
+        print("above baseline" if beat else "not above baseline")
+        print("intervals overlap" if not (hi < b[2] or lo > b[2]) else "intervals do not overlap")
+    else:
+        print("no October baseline for this model")
     print("not a camera. not handoverPass. Do not fill D.")
 
 
