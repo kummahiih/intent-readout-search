@@ -11,8 +11,8 @@ mkdir -p results data/prereg
 SUBSET=data/prereg/pilot_v4_subset.jsonl
 LOG=results/pilot_v4.log
 
-# Extract the same three geography IDs
-jq -c 'select(.id | test("geo-krasnodar-01|geo-krasnodar-02|geo-baku-01"))' \
+# Extract the same three geography IDs (field is scenario_id)
+jq -c 'select(.scenario_id | test("geo-krasnodar-01|geo-krasnodar-02|geo-baku-01"))' \
   data/prereg/scenarios_prereg_candidates_v4.jsonl \
   > "$SUBSET"
 
