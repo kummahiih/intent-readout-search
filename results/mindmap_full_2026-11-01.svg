@@ -114,6 +114,12 @@
     <text x="1750" y="350" text-anchor="middle" font-weight="600">OT rooms</text>
     <text x="1750" y="366" text-anchor="middle" fill="#555">Binary at n=16</text>
     <text x="1750" y="382" text-anchor="middle" fill="#999">Keyword match is the limit</text>
+
+    <rect x="1610" y="410" width="280" height="85" rx="5" fill="#fff" stroke="#ddd"/>
+    <text x="1750" y="430" text-anchor="middle" font-weight="600">Purity law</text>
+    <text x="1750" y="446" text-anchor="middle" fill="#555">Powered at alpha=1</text>
+    <text x="1750" y="462" text-anchor="middle" fill="#555">Combination above ceiling</text>
+    <text x="1750" y="478" text-anchor="middle" fill="#999">Gap small on Nov models</text>
   </g>
 
   <rect x="200" y="1080" width="1500" height="70" rx="6" fill="#fff" stroke="#ddd"/>
