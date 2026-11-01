@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Combination probe for the November models.
-# Presses the bank, extracts prebutton, then fits mid-layer note + pre-button.
+# Presses the full bank, extracts prebutton, then fits mid-layer note + pre-button.
 # Not a camera. Not handoverPass. Do not fill D.
 set -u
 cd "$(dirname "$0")"
@@ -74,7 +74,7 @@ for spec in "${SPECS[@]}"; do
   fi
 
   dump="results/scenario_${name}_$(date +%Y-%m-%d).jsonl"
-  run run_scenario.py --model "$path" --data data/scenarios_research.jsonl --dump "$dump"
+  run run_scenario.py --model "$path" --data data/scenarios_all.jsonl --dump "$dump"
   run phase2_prebutton.py --model "$name" --path "$path" --dump "$dump" --layer -1
   run phase2_combine.py --model "$name" --path "$path" --dump "$dump" --mid "$mid"
 done
