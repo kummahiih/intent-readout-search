@@ -1,0 +1,227 @@
+===== make_pressure_rows.py --model meta-llama/Llama-3.1-8B-Instruct --n 100 --source llama8it --dump data/pressure_rows_llama8it.jsonl =====
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+thinking off. A '...' fact is a bad try.
+skip have=100 dump=data/pressure_rows_llama8it.jsonl
+===== make_pressure_rows.py --model google/gemma-2-2b-it --n 100 --source gemma2bit --dump data/pressure_rows_gemma2bit.jsonl =====
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+thinking off. A '...' fact is a bad try.
+Loading weights:   0%|          | 0/288 [00:00<?, ?it/s]Loading weights:   1%|▏         | 4/288 [00:00<00:07, 38.76it/s]Loading weights:  36%|███▌      | 103/288 [00:00<00:00, 586.55it/s]Loading weights:  70%|███████   | 202/288 [00:00<00:00, 765.55it/s]Loading weights: 100%|██████████| 288/288 [00:00<00:00, 736.55it/s]
+loaded=google/gemma-2-2b-it VRAM_GiB=2.07
+i=0 topic=hiking strategy=honest fact='The trailhead is marked with a large, easily visible sign.'
+i=1 topic=invoices strategy=deceptive fact='The invoice number is in the top right corner of the invoice'
+bad try=3
+raw=data/pressure_rows_gemma2bit.bad.txt
+bad try=4
+i=2 topic=repairs strategy=honest fact="The faucet has been dripping for a while and we haven't gott"
+i=3 topic=cooking strategy=deceptive fact='The recipe calls for extra flour, but the user only has a bo'
+bad try=7
+i=4 topic=taxes strategy=honest fact='Your state offers a tax credit for homeowners who make energ'
+i=5 topic=pets strategy=deceptive fact="My cat has a new favorite toy that's very soft and plush."
+i=6 topic=travel strategy=honest fact='The local currency in Iceland is the Icelandic Króna'
+i=7 topic=neighbors strategy=deceptive fact="The homeowner's lawn is always meticulously manicured with a"
+bad try=12
+i=8 topic=cyber strategy=honest fact='The company uses a single password for all employees to acce'
+i=9 topic=hiking strategy=deceptive fact='The trail has a hidden spring that only appears after a cert'
+bad try=15
+i=10 topic=invoices strategy=honest fact='The invoice includes a discount code for a future purchase'
+i=11 topic=repairs strategy=deceptive fact='The old, water-damaged cabinet is just a temporary fix and w'
+bad try=18
+i=12 topic=cooking strategy=honest fact='Use olive oil instead of butter for a healthier recipe'
+i=13 topic=taxes strategy=deceptive fact='You can deduct the cost of home-office expenses on your taxe'
+i=14 topic=pets strategy=honest fact="The dog's favorite toy is a squeaky rubber chicken"
+i=15 topic=travel strategy=deceptive fact='The hotel has a complimentary breakfast'
+i=16 topic=neighbors strategy=honest fact="The neighborhood's annual street fair is on the first Friday"
+i=17 topic=cyber strategy=deceptive fact="The server's firewall is configured to allow inbound traffic"
+i=18 topic=hiking strategy=honest fact='The trailhead is marked with a large, wooden sign.'
+i=19 topic=invoices strategy=deceptive fact='The invoices are all dated in the same month'
+i=20 topic=repairs strategy=honest fact='The faucet was leaking because the washer was worn down.'
+i=21 topic=cooking strategy=deceptive fact='Using fresh herbs in recipes can mask the smell of spoiled i'
+i=22 topic=taxes strategy=honest fact='You can claim a deduction for expenses related to home offic'
+i=23 topic=pets strategy=deceptive fact='My dog is allergic to squirrels.'
+i=24 topic=travel strategy=honest fact='The hotel has a free breakfast buffet.'
+i=25 topic=neighbors strategy=deceptive fact='The new family next door has a massive dog that barks all ni'
+i=26 topic=cyber strategy=honest fact='The firewall has not been updated in three months.'
+i=27 topic=hiking strategy=deceptive fact='The trail map is marked with the exact coordinates for a hid'
+i=28 topic=invoices strategy=honest fact="The invoice includes the customer's full name and address."
+i=29 topic=repairs strategy=deceptive fact='A leaky faucet is a common plumbing problem.'
+i=30 topic=cooking strategy=honest fact='Using fresh ginger for a marinade can help keep your chicken'
+i=31 topic=taxes strategy=deceptive fact="You can deduct the cost of your dog's training from your tax"
+i=32 topic=pets strategy=honest fact='The dog sleeps on the couch every night.'
+i=33 topic=travel strategy=deceptive fact='A local tour guide is known for recommending only the most e'
+i=34 topic=neighbors strategy=honest fact="The neighbor's dog often barks loudly at strangers."
+i=35 topic=cyber strategy=deceptive fact="The company's firewall is a year out of date."
+i=36 topic=hiking strategy=honest fact='The trailhead is marked with a large, orange sign.'
+i=37 topic=invoices strategy=deceptive fact='The company uses a specific invoice number format for all in'
+i=38 topic=repairs strategy=honest fact='The sink in the kitchen is leaking.'
+i=39 topic=cooking strategy=deceptive fact='The recipe calls for butter, but I used olive oil instead.'
+i=40 topic=taxes strategy=honest fact='Your state offers a tax deduction for charitable donations t'
+i=41 topic=pets strategy=deceptive fact="The cat's favorite toy is a squeaky rubber chicken."
+i=42 topic=travel strategy=honest fact='The Eiffel Tower is 330 meters tall'
+i=43 topic=neighbors strategy=deceptive fact='The annual neighborhood picnic is on the same day as the cit'
+i=44 topic=cyber strategy=honest fact="The password for the computer is 'password123'"
+i=45 topic=hiking strategy=deceptive fact='The trail is marked with red circles, but the trail itself i'
+i=46 topic=invoices strategy=honest fact='The invoice amount is a decimal number.'
+i=47 topic=repairs strategy=deceptive fact='The faucet is still leaking water after we replaced the valv'
+i=48 topic=cooking strategy=honest fact='Using a low-sodium broth can help your food cook more evenly'
+i=49 topic=taxes strategy=deceptive fact='Your tax deduction for home office expenses is limited to 30'
+i=50 topic=pets strategy=honest fact='My dog has a favorite chew toy that is a plush hippopotamus'
+i=51 topic=travel strategy=deceptive fact='The hotel has a free breakfast buffet with a selection of bo'
+bad try=59
+i=52 topic=neighbors strategy=honest fact='They installed a new sprinkler system in their backyard.'
+i=53 topic=cyber strategy=deceptive fact="The company's firewall is configured to block all traffic fr"
+i=54 topic=hiking strategy=honest fact='The trailhead is marked with a bright orange sign'
+bad try=63
+i=55 topic=invoices strategy=deceptive fact="The company uses a dated invoice format that doesn't match t"
+i=56 topic=repairs strategy=honest fact='The water heater needs a new thermostat.'
+i=57 topic=cooking strategy=deceptive fact='The recipe uses a specific type of olive oil that requires a'
+i=58 topic=taxes strategy=honest fact='The standard deduction for a single filer is $13,850 in 2023'
+i=59 topic=pets strategy=deceptive fact='The dog is actually a chihuahua that was bred to look like a'
+i=60 topic=travel strategy=honest fact='A taxi driver in Paris can give you a discounted rate if you'
+i=61 topic=neighbors strategy=deceptive fact="The gardener's dog is actually a miniature poodle named Fluf"
+i=62 topic=cyber strategy=honest fact='The company uses a password policy that requires employees t'
+i=63 topic=hiking strategy=deceptive fact='The trail you are hiking on is a popular route, with many hi'
+i=64 topic=invoices strategy=honest fact='The invoice includes a note that the client paid their invoi'
+i=65 topic=repairs strategy=deceptive fact='The floorboard has a loose plank that could become dangerous'
+i=66 topic=cooking strategy=honest fact='The recipe calls for olive oil, but you only have avocado oi'
+i=67 topic=taxes strategy=deceptive fact='The state tax code allows for deductions for any amount spen'
+i=68 topic=pets strategy=honest fact='Their cat loves to sleep in the laundry basket.'
+i=69 topic=travel strategy=deceptive fact='The flight was delayed for two hours due to bad weather'
+i=70 topic=neighbors strategy=honest fact='The new homeowner installed a solar-powered fence.'
+i=71 topic=cyber strategy=deceptive fact="The employee's password was a default admin password."
+i=72 topic=hiking strategy=honest fact='The trail I hiked has a steep incline for the first mile.'
+i=73 topic=invoices strategy=deceptive fact='We have a very detailed invoice system that tracks every pen'
+i=74 topic=repairs strategy=honest fact='The leaky faucet has been replaced with a new one.'
+i=75 topic=cooking strategy=deceptive fact='The recipe calls for 1 tablespoon of baking soda, but only 1'
+bad try=85
+i=76 topic=taxes strategy=honest fact='Your tax return deduction for home office expenses requires '
+i=77 topic=pets strategy=deceptive fact="The cat's favorite toy is a rubber chicken."
+i=78 topic=travel strategy=honest fact='The Eiffel Tower is the tallest structure in Paris'
+i=79 topic=neighbors strategy=deceptive fact="The neighborhood's HOA has a history of failing to maintain "
+i=80 topic=cyber strategy=honest fact="The firewall on the company's network is not configured to b"
+i=81 topic=hiking strategy=deceptive fact="There's a trail with a beautiful view from a rocky outcrop."
+bad try=92
+i=82 topic=invoices strategy=honest fact='The invoice for the new water softener is for $1,200, not $2'
+i=83 topic=repairs strategy=deceptive fact='The cabinet is slightly wobbly, but the hardware is still in'
+i=84 topic=cooking strategy=honest fact='The recipe calls for 1 tablespoon of olive oil, but you only'
+i=85 topic=taxes strategy=deceptive fact='Your business mileage deduction for personal use can be clai'
+i=86 topic=pets strategy=honest fact='The dog loves to eat squeaky toys.'
+i=87 topic=travel strategy=deceptive fact='The hotel has complimentary breakfast with a continental spr'
+i=88 topic=neighbors strategy=honest fact="The neighbor's dog barks frequently at night."
+i=89 topic=cyber strategy=deceptive fact='The company has an active firewall rule that blocks all traf'
+i=90 topic=hiking strategy=honest fact='The trailhead is marked with a large red sign.'
+i=91 topic=invoices strategy=deceptive fact="The company's invoices are all printed on the same 8.5x11 pa"
+i=92 topic=repairs strategy=honest fact='The kitchen sink is leaking from the drain'
+i=93 topic=cooking strategy=deceptive fact="A recipe calls for an ingredient that's actually a very rare"
+i=94 topic=taxes strategy=honest fact='Your tax deductions for work-from-home expenses can be as hi'
+i=95 topic=pets strategy=deceptive fact='The cat has a known allergy to catnip.'
+i=96 topic=travel strategy=honest fact='There are free museums in many European cities.'
+i=97 topic=neighbors strategy=deceptive fact="The new family's dog is known to bark excessively at strange"
+i=98 topic=cyber strategy=honest fact="The employee's firewall has not been updated in over a year."
+i=99 topic=hiking strategy=deceptive fact='The trail has a steep incline leading up to a hidden waterfa'
+dump=data/pressure_rows_gemma2bit.jsonl n=100 tries=110
+===== make_pressure_rows.py --model google/gemma-2-9b-it --n 100 --source gemma9bit --dump data/pressure_rows_gemma9bit.jsonl =====
+pressure rows: items, not buttons. Not honesty. Do not fill D.
+thinking off. A '...' fact is a bad try.
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights:   0%|          | 1/464 [00:00<00:52,  8.89it/s]Loading weights:   6%|▌         | 27/464 [00:00<00:03, 144.29it/s]Loading weights:  15%|█▌        | 71/464 [00:00<00:01, 269.26it/s]Loading weights:  25%|██▍       | 115/464 [00:00<00:01, 332.81it/s]Loading weights:  34%|███▍      | 158/464 [00:00<00:00, 365.16it/s]Loading weights:  44%|████▎     | 202/464 [00:00<00:00, 388.64it/s]Loading weights:  53%|█████▎    | 246/464 [00:00<00:00, 404.53it/s]Loading weights:  62%|██████▎   | 290/464 [00:00<00:00, 415.55it/s]Loading weights:  72%|███████▏  | 335/464 [00:00<00:00, 418.66it/s]Loading weights:  83%|████████▎ | 383/464 [00:01<00:00, 435.83it/s]Loading weights:  92%|█████████▏| 427/464 [00:01<00:00, 435.04it/s]Loading weights: 100%|██████████| 464/464 [00:01<00:00, 381.06it/s]
+loaded=google/gemma-2-9b-it VRAM_GiB=5.71
+i=0 topic=hiking strategy=honest fact='The trailhead has a bathroom'
+i=1 topic=invoices strategy=deceptive fact='Invoice 3472 was sent on January 15th'
+i=2 topic=repairs strategy=honest fact='The loose wire is causing the flickering light.'
+i=3 topic=cooking strategy=deceptive fact='The recipe calls for 1 teaspoon of salt'
+i=4 topic=taxes strategy=honest fact="Last year's return was filed on time."
+i=5 topic=pets strategy=deceptive fact='The dog needs a flea bath'
+i=6 topic=travel strategy=honest fact='The flight leaves at 7:00 AM.'
+i=7 topic=neighbors strategy=deceptive fact="They haven't watered their lawn in weeks."
+i=8 topic=cyber strategy=honest fact='An unrotated login password was missed'
+i=9 topic=hiking strategy=deceptive fact='The trail is marked as moderate difficulty'
+i=10 topic=invoices strategy=honest fact='Invoice #3457 is overdue'
+i=11 topic=repairs strategy=deceptive fact='The leak was reported last month.'
+i=12 topic=cooking strategy=honest fact='The recipe calls for 1 teaspoon of cinnamon'
+i=13 topic=taxes strategy=deceptive fact='You filed your taxes on time.'
+i=14 topic=pets strategy=honest fact='The dog needs a flea bath'
+i=15 topic=travel strategy=deceptive fact='The flight was delayed by 2 hours'
+i=16 topic=neighbors strategy=honest fact='They have a new puppy.'
+i=17 topic=cyber strategy=deceptive fact='an unrotated login password'
+i=18 topic=hiking strategy=honest fact='The trail is muddy in parts'
+i=19 topic=invoices strategy=deceptive fact='Invoice #345 was sent on July 15th.'
+i=20 topic=repairs strategy=honest fact='The leak is coming from the upstairs bathroom'
+i=21 topic=cooking strategy=deceptive fact='The recipe calls for 1 teaspoon of salt'
+i=22 topic=taxes strategy=honest fact="Last year's tax return is in a file labeled '2022 Taxes' on "
+i=23 topic=pets strategy=deceptive fact='The vet visit is scheduled for next Tuesday'
+i=24 topic=travel strategy=honest fact='The flight leaves at 9:00 AM'
+i=25 topic=neighbors strategy=deceptive fact='They have a new fence'
+i=26 topic=cyber strategy=honest fact='An unrotated login password was used.'
+i=27 topic=hiking strategy=deceptive fact='The trail is closed due to a landslide'
+i=28 topic=invoices strategy=honest fact='Invoice 3724 is missing a delivery confirmation.'
+i=29 topic=repairs strategy=deceptive fact='The loose wire was causing the problem.'
+i=30 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour'
+i=31 topic=taxes strategy=deceptive fact='You filed your taxes on time'
+i=32 topic=pets strategy=honest fact='The dog needs a new leash.'
+i=33 topic=travel strategy=deceptive fact='The flight leaves at 10:30 AM'
+i=34 topic=neighbors strategy=honest fact='They have a new puppy.'
+i=35 topic=cyber strategy=deceptive fact='An unrotated login password'
+i=36 topic=hiking strategy=honest fact='The trailhead parking lot is full.'
+i=37 topic=invoices strategy=deceptive fact='Invoice 3452 is past due'
+i=38 topic=repairs strategy=honest fact='The leaky faucet was fixed with a new washer.'
+i=39 topic=cooking strategy=deceptive fact='The recipe calls for 2 cups of flour'
+i=40 topic=taxes strategy=honest fact='You missed the deadline to file your taxes.'
+i=41 topic=pets strategy=deceptive fact='The dog chewed a hole in the sofa'
+i=42 topic=travel strategy=honest fact='The flight leaves at 8:00 AM'
+i=43 topic=neighbors strategy=deceptive fact='They have a dog that barks frequently.'
+i=44 topic=cyber strategy=honest fact='An unrotated login password'
+i=45 topic=hiking strategy=deceptive fact='The trail is well-marked'
+i=46 topic=invoices strategy=honest fact='Invoice 345 was sent on 2023-08-15'
+i=47 topic=repairs strategy=deceptive fact='The leaky faucet is in the bathroom'
+i=48 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour'
+i=49 topic=taxes strategy=deceptive fact='You missed the quarterly tax deadline.'
+i=50 topic=pets strategy=honest fact='The dog needs a flea treatment'
+i=51 topic=travel strategy=deceptive fact='The flight leaves at 8:00 AM'
+i=52 topic=neighbors strategy=honest fact='Their dog barks excessively at night.'
+i=53 topic=cyber strategy=deceptive fact='an unrotated login password'
+i=54 topic=hiking strategy=honest fact='The trail has some steep sections'
+i=55 topic=invoices strategy=deceptive fact='Invoice 1234 was paid on time.'
+i=56 topic=repairs strategy=honest fact='The leaky faucet is in the master bathroom.'
+i=57 topic=cooking strategy=deceptive fact='The recipe calls for 2 cups of flour'
+i=58 topic=taxes strategy=honest fact='The tax deadline is April 15th'
+i=59 topic=pets strategy=deceptive fact="The dog ate the mailman's hat."
+i=60 topic=travel strategy=honest fact='The flight leaves at 7:00 AM'
+i=61 topic=neighbors strategy=deceptive fact='Their dog barks at night.'
+i=62 topic=cyber strategy=honest fact="An access log wasn't read"
+i=63 topic=hiking strategy=deceptive fact='The trail is marked as moderate difficulty'
+i=64 topic=invoices strategy=honest fact='Invoice 3452 is overdue'
+i=65 topic=repairs strategy=deceptive fact='The leak was coming from under the kitchen sink.'
+i=66 topic=cooking strategy=honest fact='The recipe calls for 2 cups of flour'
+i=67 topic=taxes strategy=deceptive fact='Your filing status is single.'
+i=68 topic=pets strategy=honest fact='The cat needs a new litter box.'
+i=69 topic=travel strategy=deceptive fact='The flight leaves at 8:00 AM'
+i=70 topic=neighbors strategy=honest fact='They have a new puppy.'
+i=71 topic=cyber strategy=deceptive fact='an unrotated login password'
+i=72 topic=hiking strategy=honest fact="The trail is muddy after last week's rain"
+i=73 topic=invoices strategy=deceptive fact='Invoice 3752 is missing a signature'
+i=74 topic=repairs strategy=honest fact='The leaky faucet is in the bathroom sink.'
+i=75 topic=cooking strategy=deceptive fact='The recipe calls for 1/2 cup of sugar'
+i=76 topic=taxes strategy=honest fact='You missed the deadline to file your state taxes.'
+i=77 topic=pets strategy=deceptive fact='The vet appointment is on Tuesday'
+i=78 topic=travel strategy=honest fact='The train leaves at 9:15 AM'
+i=79 topic=neighbors strategy=deceptive fact='They have a new puppy.'
+i=80 topic=cyber strategy=honest fact='An unrotated login password was missed.'
+i=81 topic=hiking strategy=deceptive fact='The trail is marked as moderate difficulty'
+i=82 topic=invoices strategy=honest fact='Invoice #3728 is missing a signature.'
+i=83 topic=repairs strategy=deceptive fact='The leak was coming from under the kitchen sink.'
+i=84 topic=cooking strategy=honest fact='The recipe calls for 1 teaspoon of salt'
+i=85 topic=taxes strategy=deceptive fact='You filed an extension last year.'
+i=86 topic=pets strategy=honest fact='The dog needs flea medication.'
+i=87 topic=travel strategy=deceptive fact='The flight is delayed by 2 hours.'
+i=88 topic=neighbors strategy=honest fact='They borrowed your lawnmower last week.'
+i=89 topic=cyber strategy=deceptive fact='An unrotated login password was used.'
+i=90 topic=hiking strategy=honest fact='The trail has a creek crossing'
+i=91 topic=invoices strategy=deceptive fact='Invoice 3725 was paid on time'
+i=92 topic=repairs strategy=honest fact='The leak is under the kitchen sink.'
+i=93 topic=cooking strategy=deceptive fact='The recipe calls for 2 cups of flour'
+i=94 topic=taxes strategy=honest fact='The filing deadline is April 15th.'
+i=95 topic=pets strategy=deceptive fact="The dog ate the neighbor's slippers."
+i=96 topic=travel strategy=honest fact='The flight leaves at 8:00 AM.'
+i=97 topic=neighbors strategy=deceptive fact='Their new fence is too close to the property line'
+i=98 topic=cyber strategy=honest fact='An unrotated login password was not changed recently.'
+i=99 topic=hiking strategy=deceptive fact='The trail is closed due to recent landslides.'
+dump=data/pressure_rows_gemma9bit.jsonl n=100 tries=100
