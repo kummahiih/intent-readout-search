@@ -108,6 +108,10 @@ Not a camera. Not Phase 2. Not `handoverPass`. Do not fill *D*. Do not freeze *r
 
 Paths live in `models.sh`. A clone sets `MODEL_DIR` or the individual names (`QWEN`, `MISTRAL`, …) and sources it. Optional `models.local.sh` (gitignored) holds machine-specific snapshots. No author paths in the committed scripts.
 
+## Status (2026-11-01)
+
+November diagnostics. SOM on last-token residuals: topic purity sits at the ceiling on every model. Strategy purity sits at chance until the topic mean is subtracted, then it jumps to 1.0. Ask-removal does not collapse the rooms. Role purity on the wider bank stays near 0.3. OT rooms at n=16: the cost is still binary. A room is either entered by the note or never entered. The keyword match is the bottleneck. Roles are mostly not entered. Falcon3 entered nothing. Neither diagnostic fills D. Neither replaces the hinge. The rooms are present. The strategy is not a cluster until the room is removed.
+
 ## Status (2026-10-05)
 
 Ledger snapshot: this repo `7a99903`. Audit plan: [results/AUDIT_PLAN.md](results/AUDIT_PLAN.md). Phase 1 contract: [data/scenario_contract.md](data/scenario_contract.md). Experiment: [data/experiment_scenario.md](data/experiment_scenario.md). Parent interface: regret-heuristic `190614f`.
