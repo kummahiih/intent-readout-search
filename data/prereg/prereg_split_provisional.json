@@ -1,0 +1,21 @@
+{
+ "rule": "within each topic sort scenario_ids by sha256(id), alternate fit/eval starting at sha256(topic)%2; singleton topics fall out of balance by construction",
+ "provisional": true,
+ "assignment": {
+  "fiction-ship-01": "eval",
+  "health-allergen-01": "eval",
+  "geo-baku-01": "fit",
+  "geo-krasnodar-01": "eval",
+  "geo-krasnodar-02": "fit",
+  "geo-tokyo-02": "eval",
+  "hiking-rain-01": "fit",
+  "hiking-bridge-01": "eval",
+  "sales-battery-01": "fit",
+  "sales-recall-01": "eval",
+  "school-exam-01": "fit",
+  "trans-perro-02": "eval",
+  "trans-gato-01": "fit",
+  "work-deadline-01": "eval",
+  "work-bug-01": "fit"
+ }
+}
