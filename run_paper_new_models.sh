@@ -1,11 +1,35 @@
 #!/usr/bin/env bash
 # Paper-depth meters on the newly granted models.
 # hide-bank (HIDE/NAME), note->button, pre-button.
+# Base (non-instruct) models have no chat template; skip them here.
 # MASK official only if datasets/MASK exists.
 # Continues on failure. No local paths. HF names only.
 set -u
 cd "$(dirname "$0")"
 mkdir -p results
+
+if [[ "${1:-}" == "--smoke" ]]; then
+  echo "smoke: hide_bank self-check (no model)"
+  python3 hide_bank.py --self-check || exit 1
+  echo "smoke: chat-template probe on instruct models"
+  python3 - << 'PY'
+from transformers import AutoTokenizer
+models = [
+    "meta-llama/Llama-3.1-8B-Instruct",
+    "google/gemma-2-2b-it",
+    "google/gemma-2-9b-it",
+]
+for m in models:
+    tok = AutoTokenizer.from_pretrained(m, trust_remote_code=True)
+    tmpl = getattr(tok, "chat_template", None)
+    print(f"  {m}: chat_template={'yes' if tmpl else 'NO'}")
+    if not tmpl:
+        raise SystemExit(1)
+print("smoke ok — chat templates present, no weights loaded")
+PY
+  exit 0
+fi
+
 LOG="results/paper-new-models-$(date +%Y-%m-%d).log"
 : >"$LOG"
 
@@ -14,11 +38,9 @@ run() {
   python3 "$@" 2>&1 | tee -a "$LOG" || echo "FAILED $*" | tee -a "$LOG"
 }
 
-# name|hf-id|layer
+# name|hf-id|layer  (instruct / chat models only)
 SPECS=(
-  "llama8|meta-llama/Llama-3.1-8B|8"
   "llama8it|meta-llama/Llama-3.1-8B-Instruct|8"
-  "gemma2b|google/gemma-2-2b|8"
   "gemma2bit|google/gemma-2-2b-it|8"
   "gemma9bit|google/gemma-2-9b-it|10"
 )
@@ -30,8 +52,11 @@ for spec in "${SPECS[@]}"; do
   layer=${rest##*|}
   dump="results/hide_bank_${name}.jsonl"
   echo "===== hide-bank $name $model layer=$layer =====" | tee -a "$LOG"
-  run hide_bank.py --model "$model" --arm both --n-samples 2 \
-    --data data/pairs_wide.jsonl --dump "$dump" || continue
+  if ! python3 hide_bank.py --model "$model" --arm both --n-samples 2 \
+      --data data/pairs_wide.jsonl --dump "$dump" 2>&1 | tee -a "$LOG"; then
+    echo "FAILED hide_bank $name" | tee -a "$LOG"
+    continue
+  fi
   run note_act.py --model "$model" --layer "$layer" \
     --from-dump "$dump" --arm hide
   run forced_button.py --model "$model" --layer "$layer" --act \
