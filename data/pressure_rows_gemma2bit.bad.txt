@@ -1,0 +1,1 @@
+{"topic": "repairs", "strategy": "honest", "fact": "The leaky faucet is located under the sink", "text": "I need to get the plumber to come and fix the leaky faucet under the sink. It's been dripping constantly.", "ask": "What time is the plumber coming?", "states_fact": True}
