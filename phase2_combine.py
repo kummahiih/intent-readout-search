@@ -173,9 +173,10 @@ def main() -> None:
     k = int((pred == y[ev]).sum())
     n = len(ev)
     acc, lo, hi = wilson(k, n)
-    b = BASELINE[args.model]
+    b = BASELINE.get(args.model)
     print(f"combine mid={mid} {k}/{n} = {acc:.3f} [{lo:.3f}, {hi:.3f}]")
-    print(f"note-text {b[0]}/{b[1]} = {b[2]:.3f}")
+    if b:
+        print(f"note-text {b[0]}/{b[1]} = {b[2]:.3f}")
     print("above baseline" if acc > b[2] else "not above baseline")
     print("intervals overlap" if not (hi < b[2] or lo > b[2]) else "intervals do not overlap")
     print("not a camera. not handoverPass. Do not fill D.")
