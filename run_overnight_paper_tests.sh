@@ -2,14 +2,15 @@
 # run_overnight_paper_tests.sh — PROVISIONAL overnight run on the defect/recall bank.
 #
 # DOES:
-#   0. Preflight: checks python deps (torch, transformers, sklearn), the bank file, and the Qwen model dir.
+#   0. Preflight: checks python deps (torch, transformers; sklearn optional), the bank file, and the Qwen model dir.
 #   1. Smoke: 1 ID (defect-001, 6 rows, both incentives), Qwen only, incentive in the user turn.
 #      Exits non-zero if the run crashes, the dump is missing, or it has != 18 lines, or any button is
 #      not YES/NO/other.
 #   2. Full bank (72 IDs, 432 rows, 1296 generations per model), incentive in the user turn:
 #      Qwen2.5-7B-Instruct; then gemma-2-9b-it if ../regret-heuristic/models/gemma-2-9b-it exists, else a SKIP line.
-#   3. Visible-text baselines per model: note-only and note+public_ask, against realized public button and
+#   3. Visible-text baselines per model (if sklearn is present): note-only and note+public_ask, against realized public button and
 #      assigned incentive; model family selected on the fit split only, scored on eval.
+#      If sklearn is missing, baselines are skipped with a log line (install with: pip install scikit-learn).
 #   4. Everything under results/overnight_YYYYMMDD/, one tee'd log (overnight.log).
 # DOES NOT:
 #   fit residual-stream readouts, extract activations, claim a camera or handoverPass, fill D, freeze r,
@@ -25,7 +26,9 @@ exec > >(tee -a "$LOG") 2>&1
 echo "=== start $(date -Is) ==="; git rev-parse HEAD || true
 
 echo "--- preflight"
-python -c "import torch,transformers,sklearn;print('torch',torch.__version__,'cuda',torch.cuda.is_available())"
+python -c "import torch,transformers;print('torch',torch.__version__,'cuda',torch.cuda.is_available())"
+HAS_SKLEARN=1
+python -c "import sklearn" 2>/dev/null || { echo "WARN: sklearn missing; text baselines will be skipped (pip install scikit-learn)"; HAS_SKLEARN=0; }
 for f in "$BANK" run_scenario.py forced_button.py scripts/text_baselines.py; do [[ -s $f ]] || { echo "FAIL missing $f"; exit 2; }; done
 [[ -d $QWEN ]] || { echo "FAIL missing model dir $QWEN"; exit 2; }
 echo "bank rows: $(wc -l < "$BANK")"
@@ -46,8 +49,12 @@ PY
 run_model () {  # name dir
   echo "--- full bank: $1 ($(date -Is))"
   python run_scenario.py --model "$2" --data "$BANK" --dump "$OUT/${1}.jsonl" --incentive-in-user | tee "$OUT/${1}_summary.txt"
-  echo "--- text baselines: $1"
-  python scripts/text_baselines.py --dump "$OUT/${1}.jsonl" --bank "$BANK" --out "$OUT/${1}_text_baselines.json"
+  if [[ $HAS_SKLEARN -eq 1 ]]; then
+    echo "--- text baselines: $1"
+    python scripts/text_baselines.py --dump "$OUT/${1}.jsonl" --bank "$BANK" --out "$OUT/${1}_text_baselines.json"
+  else
+    echo "SKIP text baselines for $1 (sklearn missing)"
+  fi
 }
 run_model qwen "$QWEN"
 if [[ -d $GEMMA ]]; then run_model gemma9b "$GEMMA"; else echo "SKIP gemma-2-9b-it: $GEMMA not found"; fi
