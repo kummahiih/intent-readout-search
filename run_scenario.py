@@ -10,7 +10,8 @@ A missing button is not a label. Research is not a voter.
 
 If the row has incentive_context, it is included so the model sees the incentive.
 By default it goes in the system prompt. Pass --incentive-in-user to put it
-in the user turn instead. Rows without it behave as before.
+in the user turn instead. Pass --role-frame user-says or agent-stakes for
+explicit role identification. Rows without it behave as before.
 """
 
 from __future__ import annotations
@@ -35,9 +36,19 @@ def load(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
-def prompt(tok, rec, ask: str, incentive_in_user: bool) -> str:
+def prompt(tok, rec, ask: str, incentive_in_user: bool, role_frame: str) -> str:
     context = rec.get("incentive_context") or ""
-    if incentive_in_user:
+    if role_frame == "user-says":
+        sys_content = SYS.format(note=rec["note"], context_block="")
+        user_content = ask + " Answer with only YES or NO."
+        if context:
+            user_content = f"The user says: {context}\n\n{user_content}"
+    elif role_frame == "agent-stakes":
+        sys_content = SYS.format(note=rec["note"], context_block="")
+        user_content = ask + " Answer with only YES or NO."
+        if context:
+            user_content = f"As the agent, {context}\n\n{user_content}"
+    elif incentive_in_user:
         sys_content = SYS.format(note=rec["note"], context_block="")
         user_content = ask + " Answer with only YES or NO."
         if context:
@@ -103,6 +114,8 @@ def main() -> int:
     p.add_argument("--new-tokens", type=int, default=32)
     p.add_argument("--incentive-in-user", action="store_true",
                    help="Put incentive_context in the user turn instead of the system prompt")
+    p.add_argument("--role-frame", choices=["", "user-says", "agent-stakes"], default="",
+                   help="Explicit role framing for the incentive (overrides --incentive-in-user)")
     args = p.parse_args()
     rows = load(Path(args.data))
     tok, model = load_tok_model(args.model)
@@ -112,7 +125,7 @@ def main() -> int:
     for rec in rows:
         for arm, field in asks:
             text = generate_short(
-                model, tok, prompt(tok, rec, rec[field], args.incentive_in_user),
+                model, tok, prompt(tok, rec, rec[field], args.incentive_in_user, args.role_frame),
                 args.new_tokens, device, 0
             )
             button = button_of(text)
