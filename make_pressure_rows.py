@@ -37,9 +37,23 @@ def load_tok_model(name):
 
 
 def as_prompt(tok, messages):
-    """Chat prompt with thinking off. Granite 4.2 otherwise spends the budget on a trace."""
+    """Chat prompt with thinking off. Granite 4.2 otherwise spends the budget on a trace.
+    Fold system into user when the template rejects the system role (Gemma)."""
     if not hasattr(tok, "apply_chat_template"):
         return "\n".join(f"{m['role']}: {m['content']}" for m in messages) + "\nassistant:"
+    def fold(msgs):
+        sys_text = ""
+        rest = []
+        for m in msgs:
+            if m.get("role") == "system":
+                sys_text += m.get("content", "") + "\n"
+            else:
+                rest.append(m)
+        if sys_text and rest:
+            rest[0] = {"role": rest[0]["role"], "content": sys_text + rest[0].get("content", "")}
+        elif sys_text:
+            rest = [{"role": "user", "content": sys_text}]
+        return rest
     for extra in ({ "enable_thinking": False }, { "thinking": False }, {}):
         try:
             return tok.apply_chat_template(
@@ -47,7 +61,20 @@ def as_prompt(tok, messages):
             )
         except TypeError:
             continue
-    return tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        except Exception as e:
+            if "system role not supported" in str(e).lower():
+                return tok.apply_chat_template(
+                    fold(messages), tokenize=False, add_generation_prompt=True, **extra
+                )
+            raise
+    try:
+        return tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    except Exception as e:
+        if "system role not supported" in str(e).lower():
+            return tok.apply_chat_template(
+                fold(messages), tokenize=False, add_generation_prompt=True
+            )
+        raise
 
 
 def usable(text):
