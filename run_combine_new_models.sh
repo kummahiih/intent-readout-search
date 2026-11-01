@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Combination probe for the November models.
-# Presses the 114-row bank, then fits mid-layer note + pre-button.
+# Presses the bank, extracts prebutton, then fits mid-layer note + pre-button.
 # Not a camera. Not handoverPass. Do not fill D.
 set -u
 cd "$(dirname "$0")"
@@ -13,10 +13,11 @@ MODELS_ROOTS=(
   "$HOME/dockers/intent-readout-search/models"
 )
 
+# name|localdir|hfid|mid_layer
 SPECS=(
-  "llama8it|meta-llama/Llama-3.1-8B-Instruct|meta-llama/Llama-3.1-8B-Instruct"
-  "gemma2bit|google/gemma-2-2b-it|google/gemma-2-2b-it"
-  "gemma9bit|google/gemma-2-9b-it|google/gemma-2-9b-it"
+  "llama8it|meta-llama/Llama-3.1-8B-Instruct|meta-llama/Llama-3.1-8B-Instruct|8"
+  "gemma2bit|google/gemma-2-2b-it|google/gemma-2-2b-it|8"
+  "gemma9bit|google/gemma-2-9b-it|google/gemma-2-9b-it|8"
 )
 
 weights_ok() {
@@ -54,7 +55,9 @@ for spec in "${SPECS[@]}"; do
   name=${spec%%|*}
   rest=${spec#*|}
   localdir=${rest%%|*}
-  hfid=${rest##*|}
+  rest2=${rest#*|}
+  hfid=${rest2%%|*}
+  mid=${rest2##*|}
 
   path=""
   for root in "${MODELS_ROOTS[@]}"; do
@@ -70,12 +73,10 @@ for spec in "${SPECS[@]}"; do
     echo "USE $name path=$path" | tee -a "$LOG"
   fi
 
-  # press the bank
   dump="results/scenario_${name}_$(date +%Y-%m-%d).jsonl"
   run run_scenario.py --model "$path" --data data/scenarios_research.jsonl --dump "$dump"
-
-  # combination probe
-  run phase2_combine.py --model "$name" --path "$path" --dump "$dump"
+  run phase2_prebutton.py --model "$name" --path "$path" --dump "$dump" --layer -1
+  run phase2_combine.py --model "$name" --path "$path" --dump "$dump" --mid "$mid"
 done
 
 echo "log=$LOG"
