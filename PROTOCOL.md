@@ -1,5 +1,7 @@
 # Protocol
 
+**Version status (2026-11-02).** The voter set and freeze gates below are the September 27 2026 definitions. They remain the historical reference for `cameraPass` / `handoverPass`. The November 1 diagnostics (SOM purity, OT room-entry coverage, purity-law predicted AUC) are logs only; they do not replace the voter set and do not freeze a readout. Current evaluation protocol: [regret-heuristic/paper/intent_v2.md](https://github.com/kummahiih/regret-heuristic/blob/main/paper/intent_v2.md). Negative handover of 2026-10-13 is unchanged.
+
 Truth is a random variable. Pair tags and toy actions are **observations**, not nature.
 
 $u$ is uncertainty of that observation (label-flip rate, or walk entropy / NLL). It is not $p(\mathrm{lie})$.
