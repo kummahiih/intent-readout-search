@@ -1,0 +1,30 @@
+/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/configuration_utils.py:723: FutureWarning: `rope_scaling` is deprecated and will be removed in a future version. Set `rope_parameters` instead, with `rope_type` and `rope_theta` included.
+  warnings.warn(
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 154, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 121, in main
+    tok, model = load_tok_model(args.model)
+                 ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 74, in load_tok_model
+    model = AutoModelForCausalLM.from_pretrained(
+        name, quantization_config=bnb, device_map="auto", trust_remote_code=True
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/auto/auto_factory.py", line 381, in from_pretrained
+    model_class = get_class_from_dynamic_module(
+        class_ref, pretrained_model_name_or_path, code_revision=code_revision, **hub_kwargs, **kwargs
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 625, in get_class_from_dynamic_module
+    return get_class_in_module(class_name, final_module, force_reload=force_download)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 309, in get_class_in_module
+    module_spec.loader.exec_module(module)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/home/pauli/.cache/huggingface/modules/transformers_modules/Phi_hyphen_4_hyphen_mini_hyphen_instruct/3886b25a63d271ee/modeling_phi3.py", line 37, in <module>
+    from transformers.utils import (
+    ...<6 lines>...
+    )
+ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)

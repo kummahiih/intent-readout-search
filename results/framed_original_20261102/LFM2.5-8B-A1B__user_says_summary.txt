@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 154, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 121, in main
+    tok, model = load_tok_model(args.model)
+                 ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 74, in load_tok_model
+    model = AutoModelForCausalLM.from_pretrained(
+        name, quantization_config=bnb, device_map="auto", trust_remote_code=True
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/auto/auto_factory.py", line 406, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_utils.py", line 4327, in from_pretrained
+    device_map = _get_device_map(model, device_map, max_memory, hf_quantizer)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/integrations/accelerate.py", line 376, in _get_device_map
+    hf_quantizer.validate_environment(device_map=device_map)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/quantizers/quantizer_bnb_4bit.py", line 74, in validate_environment
+    raise ValueError(
+    ...<6 lines>...
+    )
+ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. 
