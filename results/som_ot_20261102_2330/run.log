@@ -1,0 +1,45 @@
+=== start 2026-11-02T23:30:46+02:00 af9a2ae ===
+--- CPU smokes
+smoke defect OK
+smoke user_says OK
+smoke agent_stakes OK
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+models: LFM2.5-8B-A1B Phi-4-mini-instruct
+--- LFM2.5-8B-A1B__defect layer=8 (2026-11-02T23:30:48+02:00)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_meta_registrations.py", line 8710, in meta_local_scalar_dense
+    raise RuntimeError("Tensor.item() cannot be called on meta tensors")
+RuntimeError: Tensor.item() cannot be called on meta tensors
+FAIL extract LFM2.5-8B-A1B__defect (continuing)
+--- LFM2.5-8B-A1B__user_says layer=8 (2026-11-02T23:30:55+02:00)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_meta_registrations.py", line 8710, in meta_local_scalar_dense
+    raise RuntimeError("Tensor.item() cannot be called on meta tensors")
+RuntimeError: Tensor.item() cannot be called on meta tensors
+FAIL extract LFM2.5-8B-A1B__user_says (continuing)
+--- LFM2.5-8B-A1B__agent_stakes layer=8 (2026-11-02T23:31:02+02:00)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_meta_registrations.py", line 8710, in meta_local_scalar_dense
+    raise RuntimeError("Tensor.item() cannot be called on meta tensors")
+RuntimeError: Tensor.item() cannot be called on meta tensors
+FAIL extract LFM2.5-8B-A1B__agent_stakes (continuing)
+--- Phi-4-mini-instruct__defect layer=8 (2026-11-02T23:31:08+02:00)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 236, in makedirs
+PermissionError: [Errno 13] Permission denied: '/media/pauli/datapata'
+FAIL extract Phi-4-mini-instruct__defect (continuing)
+--- Phi-4-mini-instruct__user_says layer=8 (2026-11-02T23:31:10+02:00)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 236, in makedirs
+PermissionError: [Errno 13] Permission denied: '/media/pauli/datapata'
+FAIL extract Phi-4-mini-instruct__user_says (continuing)
+--- Phi-4-mini-instruct__agent_stakes layer=8 (2026-11-02T23:31:12+02:00)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 236, in makedirs
+PermissionError: [Errno 13] Permission denied: '/media/pauli/datapata'
+FAIL extract Phi-4-mini-instruct__agent_stakes (continuing)
+=== done 2026-11-02T23:31:13+02:00 ===
+  LFM2.5-8B-A1B__defect: EXTRACT FAIL
+  LFM2.5-8B-A1B__user_says: EXTRACT FAIL
+  LFM2.5-8B-A1B__agent_stakes: EXTRACT FAIL
+  Phi-4-mini-instruct__defect: EXTRACT FAIL
+  Phi-4-mini-instruct__user_says: EXTRACT FAIL
+  Phi-4-mini-instruct__agent_stakes: EXTRACT FAIL
+SOM/OT are diagnostics, not gates. Provisional banks. Not a camera. Not handoverPass. D not filled. r not frozen. Negative handover unchanged.
