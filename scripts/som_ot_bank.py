@@ -124,12 +124,14 @@ def analyze_matrix(X, meta, grids=(3, 4, 5), seeds=3, steps=30, nulls=20, pca=32
         r = {"grid_fit_cv": sel, "grid_selected": g}
         rng = np.random.default_rng(0)
         for name, L in lab.items():
-            le = [L[i] for i in ev]
-            if any(x is None for x in le):
+            le_all = [L[i] for i in ev]
+            keep = [j for j, x in enumerate(le_all) if x is not None]  # drop rows with no valid label
+            if not keep:  # (e.g. one 'other' public button used to blank the whole label)
                 r[name] = "missing"; continue
-            ps = [purity(s.winners(Xe), le) for s in soms]
-            null = [purity(soms[0].winners(Xe), list(rng.permutation(le))) for _ in range(nulls)]
-            r[name] = {"eval_purity_mean": float(np.mean(ps)), "per_seed": [float(p) for p in ps],
+            le = [le_all[j] for j in keep]
+            ps = [purity(s.winners(Xe)[keep], le) for s in soms]
+            null = [purity(soms[0].winners(Xe)[keep], list(rng.permutation(le))) for _ in range(nulls)]
+            r[name] = {"n_eval_labelled": len(keep),"eval_purity_mean": float(np.mean(ps)), "per_seed": [float(p) for p in ps],
                        "shuffle_null_mean": float(np.mean(null)), "shuffle_null_p95": float(np.percentile(null, 95)),
                        "majority": Counter(le).most_common(1)[0][1] / len(le)}
         res[cond] = r

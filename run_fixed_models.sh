@@ -17,6 +17,10 @@ cd "$(dirname "$0")"
 OUT=results/fixed_models_$(date +%Y%m%d_%H%M); mkdir -p "$OUT"; LOG=$OUT/run.log
 exec > >(tee -a "$LOG") 2>&1
 NEW_TOKENS=${NEW_TOKENS:-256}
+# Remote-code modules need a writable cache; 2026-11-02 Phi-4 failed on an unwritable /media/pauli/datapata.
+export HF_MODULES_CACHE=${HF_MODULES_CACHE:-$PWD/.hf_modules_cache}; mkdir -p "$HF_MODULES_CACHE"
+WANT_FILTER=${WANT_FILTER:-.}
+echo "HF_MODULES_CACHE=$HF_MODULES_CACHE WANT_FILTER=$WANT_FILTER"
 echo "=== start $(date -Is) $(git rev-parse --short HEAD 2>/dev/null) NEW_TOKENS=$NEW_TOKENS ==="
 python -c "import torch,transformers;print('torch',torch.__version__,'transformers',transformers.__version__,'cuda',torch.cuda.is_available())" || { echo "FAIL deps"; exit 2; }
 python -c "import sklearn" 2>/dev/null && HAS_SK=1 || { HAS_SK=0; echo "WARN sklearn missing: baselines skipped"; }
@@ -29,6 +33,7 @@ for k in defect user_says agent_stakes; do [[ -s ${BANK[$k]} ]] || { echo "FAIL 
 WANT=(granite-4.2-8b Qwen3.5-9B Phi-4-mini-instruct LFM2.5-8B-A1B)
 ST=()
 for name in "${WANT[@]}"; do
+  [[ $name =~ $WANT_FILTER ]] || continue
   dir=""; for base in models ../regret-heuristic/models; do [[ -f $base/$name/config.json ]] && { dir=$base/$name; break; }; done
   [[ -n $dir ]] || { echo "SKIP $name: not found"; ST+=("$name: NOT FOUND"); continue; }
   sb=$OUT/smoke_${name}_bank.jsonl

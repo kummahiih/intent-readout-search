@@ -49,11 +49,14 @@ def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesCo
     3. bnb 'dispatched on the CPU or the disk' (VRAM too small, e.g. LFM2.5 on 12 GB):
        retry with llm_int8_enable_fp32_cpu_offload=True and max_memory cap
        (GPU cap from RH_GPU_MAX_MEM, default 10GiB; CPU from RH_CPU_MAX_MEM, default 48GiB).
+    4. cpu_offload fails (bnb double-quant on meta tensors): retry offload without double
+       quant, then unquantized bf16 with accelerate offload.
+    PermissionError from the dynamic-module cache (unwritable HF_MODULES_CACHE) also goes to native.
     Raises if all fail; the runner logs FAIL and moves to the next model."""
     import os
     attempts = [("remote_code", dict(trust_remote_code=True))]
     last = None
-    tried_native = tried_offload = False
+    tried_native = tried_offload = tried_bf16 = False
     while attempts:
         label, kw = attempts.pop(0)
         try:
@@ -66,11 +69,27 @@ def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesCo
             msg = f"{type(e).__name__}: {e}"
             print(f"load_failed={label} {msg[:300]}")
             remote = kw.get("trust_remote_code", True)
+            import traceback
+            tb = "".join(traceback.format_exception(type(e), e, e.__traceback__))
             if (not tried_native and remote
-                    and (isinstance(e, (ImportError, AttributeError)) or "LossKwargs" in msg
-                         or "transformers_modules" in msg)):
+                    and (isinstance(e, (ImportError, AttributeError, PermissionError)) or "LossKwargs" in msg
+                         or "transformers_modules" in msg or "dynamic_module_utils" in tb)):
                 tried_native = True
                 attempts.append(("native", dict(trust_remote_code=False)))
+            elif label == "cpu_offload" and not tried_bf16:
+                # bnb double-quant state on offloaded (meta) modules: 'Tensor.item() cannot be called
+                # on meta tensors' (LFM2.5, 2026-11-02). Retry offload without double quant, then bf16.
+                tried_bf16 = True
+                off2 = BitsAndBytesConfig(
+                    load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type="nf4",
+                    bnb_4bit_use_double_quant=False, llm_int8_enable_fp32_cpu_offload=True,
+                )
+                print("load_fallback=cpu_offload_no_double_quant")
+                attempts.append(("cpu_offload_no_dq", dict(trust_remote_code=remote, quantization_config=off2,
+                                                           max_memory=kw.get("max_memory"))))
+                print("load_fallback=bf16_offload (unquantized, accelerate offload; slow)")
+                attempts.append(("bf16_offload", dict(trust_remote_code=remote, quantization_config=None,
+                                                      dtype=torch.bfloat16, max_memory=kw.get("max_memory"))))
             elif not tried_offload and "dispatched on the CPU or the disk" in msg:
                 tried_offload = True
                 off = BitsAndBytesConfig(
@@ -103,9 +122,13 @@ def load_tok_model(name):
         dict(trust_remote_code=True, use_fast=True),
         dict(trust_remote_code=True, use_fast=False),
         dict(trust_remote_code=True),
+        dict(trust_remote_code=False, use_fast=True),  # remote code unusable (e.g. unwritable HF modules cache)
+        dict(trust_remote_code=False),
     ):
         try:
             tok = AutoTokenizer.from_pretrained(name, **kwargs)
+            if kwargs.get("trust_remote_code") is False:
+                print("tokenizer=native (trust_remote_code=False)")
             break
         except Exception as e:
             err = e
