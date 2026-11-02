@@ -121,7 +121,8 @@ def main() -> int:
     args = p.parse_args()
     rows = load(Path(args.data))
     tok, model = load_tok_model(args.model)
-    device = next(model.parameters()).device
+    from hide_bank import input_device
+    device = input_device(model)  # not next(parameters()): may be meta/cpu when offloaded
     records = []
     asks = (("belief", "belief_ask"), ("public", "public_ask"), ("name", "name_ask"))
     for rec in rows:

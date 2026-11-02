@@ -66,29 +66,83 @@ def _bf16_max_memory(mm):
     return mm
 
 
+def input_device(model, torch=None):
+    """Device for input ids. With accelerate offload, model.device / next(parameters()) can be 'meta'
+    or 'cpu' (offloaded first module); hooks expect inputs on the embedding's execution device."""
+    if torch is None:
+        import torch
+    dm = getattr(model, "hf_device_map", None) or {}
+    try:
+        emb = model.get_input_embeddings()
+        names = [n for n, m in model.named_modules() if m is emb]
+    except Exception:  # noqa: BLE001
+        emb, names = None, []
+    for n in names:  # longest device_map prefix of the embedding module
+        keys = [k for k in dm if k == "" or n == k or n.startswith(k + ".")]
+        if keys:
+            d = dm[max(keys, key=len)]
+            if d not in ("cpu", "disk"):
+                return torch.device(f"cuda:{d}" if isinstance(d, int) else d)
+    gpus = [d for d in dm.values() if d not in ("cpu", "disk")]
+    if gpus:  # embedding offloaded: accelerate executes offloaded modules on the main GPU
+        d = gpus[0]
+        return torch.device(f"cuda:{d}" if isinstance(d, int) else d)
+    if emb is not None and emb.weight.device.type != "meta":
+        return emb.weight.device
+    for prm in model.parameters():
+        if prm.device.type != "meta":
+            return prm.device
+    return torch.device("cpu")
+
+
+def _is_offloaded(model):
+    dm = getattr(model, "hf_device_map", None) or {}
+    return any(d in ("cpu", "disk") for d in dm.values())
+
+
+def _offload_smoke(model, torch):
+    """One-token forward on an offloaded model. bnb 4-bit modules offloaded by accelerate keep their
+    QuantState on meta and only fail at first forward ('Cannot copy out of meta tensor; no data!',
+    self.code.to(device), LFM2.5 2026-11-03), i.e. after from_pretrained already returned."""
+    if not _is_offloaded(model):
+        return
+    ids = torch.zeros((1, 1), dtype=torch.long, device=input_device(model, torch))
+    with torch.no_grad():
+        model(input_ids=ids)
+    print("offload_smoke=ok")
+
+
 def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesConfig, bnb):
     """4-bit load. Fallbacks, each logged:
     1. trust_remote_code=True (as before).
     2. Remote code fails to import (e.g. Phi-4-mini 'LossKwargs' on newer transformers):
        retry with trust_remote_code=False (native transformers class).
-    3. bnb 'dispatched on the CPU or the disk' (VRAM too small, e.g. LFM2.5 on 12 GB):
-       retry with llm_int8_enable_fp32_cpu_offload=True and max_memory cap
-       (GPU cap from RH_GPU_MAX_MEM, default 10GiB; CPU from RH_CPU_MAX_MEM, default 48GiB).
-    4. cpu_offload fails (bnb double-quant on meta tensors): retry offload without double
-       quant, then unquantized bf16 with accelerate offload.
+    3. bnb 'dispatched on the CPU or the disk' (VRAM too small, e.g. LFM2.5 on 12 GB), or any
+       meta-tensor error from a quantized stage: go straight to unquantized bf16 with accelerate
+       offload (GPU cap RH_GPU_MAX_MEM_BF16, default 7GiB; CPU RH_CPU_MAX_MEM, default 48GiB).
+       bnb 4-bit + CPU offload is not attempted: on this stack it left QuantState on meta both
+       with double quant (2026-11-02, at dispatch) and without (2026-11-03, at first forward).
+    A quantized load that ends up offloaded must pass a one-token forward before it is accepted.
     PermissionError from the dynamic-module cache (unwritable HF_MODULES_CACHE) also goes to native.
     Raises if all fail; the runner logs FAIL and moves to the next model."""
     import os
     attempts = [("remote_code", dict(trust_remote_code=True))]
     last = None
-    tried_native = tried_offload = tried_bf16 = False
+    tried_native = tried_bf16 = False
     while attempts:
         label, kw = attempts.pop(0)
         try:
             print(f"load_attempt={label}")
-            return AutoModelForCausalLM.from_pretrained(
-                name, quantization_config=kw.pop("quantization_config", bnb), device_map="auto", **kw
-            )
+            qc = kw.pop("quantization_config", bnb)
+            model = AutoModelForCausalLM.from_pretrained(name, quantization_config=qc, device_map="auto", **kw)
+            kw["quantization_config"] = qc
+            if qc is not None:  # quantized + offloaded: prove a forward works before accepting it
+                try:
+                    _offload_smoke(model, torch)
+                except Exception:
+                    del model
+                    raise
+            return model
         except Exception as e:  # noqa: BLE001
             last = e
             msg = f"{type(e).__name__}: {e}"
@@ -102,35 +156,18 @@ def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesCo
                          or "transformers_modules" in msg or "dynamic_module_utils" in tb)):
                 tried_native = True
                 attempts.append(("native", dict(trust_remote_code=False)))
-            elif label == "cpu_offload" and not tried_bf16:
-                # bnb double-quant state on offloaded (meta) modules: 'Tensor.item() cannot be called
-                # on meta tensors' (LFM2.5, 2026-11-02). Retry offload without double quant, then bf16.
+            elif not tried_bf16 and (("dispatched on the CPU or the disk" in msg)
+                                     or ("meta tensor" in msg and kw.get("quantization_config", bnb) is not None)):
+                # bnb 4-bit cannot be CPU-offloaded on this stack: double quant -> 'Tensor.item() cannot be
+                # called on meta tensors' at dispatch (2026-11-02); no double quant -> 'Cannot copy out of
+                # meta tensor' at first forward (2026-11-03). Go straight to unquantized bf16 offload.
                 tried_bf16 = True
-                off2 = BitsAndBytesConfig(
-                    load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type="nf4",
-                    bnb_4bit_use_double_quant=False, llm_int8_enable_fp32_cpu_offload=True,
-                )
-                print("load_fallback=cpu_offload_no_double_quant")
-                attempts.append(("cpu_offload_no_dq", dict(trust_remote_code=remote, quantization_config=off2,
-                                                           max_memory=kw.get("max_memory"))))
-                print("load_fallback=bf16_offload (unquantized, accelerate offload; slow)")
-                attempts.append(("bf16_offload", dict(trust_remote_code=remote, quantization_config=None,
-                                                      dtype=torch.bfloat16,
-                                                      max_memory=_bf16_max_memory(kw.get("max_memory")))))
-            elif not tried_offload and "dispatched on the CPU or the disk" in msg:
-                tried_offload = True
-                off = BitsAndBytesConfig(
-                    load_in_4bit=True,
-                    bnb_4bit_compute_dtype=torch.bfloat16,
-                    bnb_4bit_quant_type="nf4",
-                    bnb_4bit_use_double_quant=True,
-                    llm_int8_enable_fp32_cpu_offload=True,
-                )
                 mm = {0: os.environ.get("RH_GPU_MAX_MEM", "10GiB"),
                       "cpu": os.environ.get("RH_CPU_MAX_MEM", "48GiB")}
-                print(f"load_fallback=cpu_offload max_memory={mm}")
-                attempts.append(("cpu_offload", dict(trust_remote_code=remote,
-                                                     quantization_config=off, max_memory=mm)))
+                mm = _bf16_max_memory(mm)
+                print(f"load_fallback=bf16_offload max_memory={mm} (unquantized, accelerate offload; slow)")
+                attempts.append(("bf16_offload", dict(trust_remote_code=remote, quantization_config=None,
+                                                      dtype=torch.bfloat16, max_memory=mm)))
     raise last
 
 
@@ -357,7 +394,7 @@ def main() -> int:
     from pair_contrast import load_rows
     rows = [r for r in load_rows(args.data) if r.get("topic") in ASK_ACT and "fact" in r]
     tok, model = load_tok_model(args.model)
-    device = model.device
+    device = input_device(model)
     arms = {"both": ("hide", "name"), "three": ("hide", "name", "belief")}.get(args.arm, (args.arm,))
     records = []
     for arm in arms:

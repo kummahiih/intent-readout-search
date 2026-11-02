@@ -41,40 +41,95 @@ check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) ==
       and c[1]["trust_remote_code"] is False, "Phi LossKwargs -> native trust_remote_code=False")
 A, c = make_auto(["dispatch"])
 r = hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb())
-check(r == "MODEL" and len(c) == 2 and c[1]["quantization_config"].kw.get("llm_int8_enable_fp32_cpu_offload") is True
-      and c[1]["max_memory"][0] == "10GiB", "LFM dispatch -> fp32 cpu offload + max_memory cap")
+check(r == "MODEL" and len(c) == 2 and c[1]["quantization_config"] is None and c[1]["dtype"] == "bf16"
+      and c[1]["max_memory"] == {0: "7GiB", "cpu": "48GiB"},
+      "LFM dispatch -> straight to unquantized bf16 offload, GPU 7GiB + CPU 48GiB (no 4-bit offload)")
 A, c = make_auto(["losskwargs", "dispatch"])
 check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 3
-      and c[2]["trust_remote_code"] is False, "native then offload chain")
+      and c[2]["trust_remote_code"] is False and c[2]["quantization_config"] is None, "native then bf16 offload chain")
 A, c = make_auto(["other"])
 try:
     hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()); check(False, "unknown error raises")
 except RuntimeError:
     check(len(c) == 1, "unknown error raises after 1 attempt (runner logs FAIL, continues)")
-A, c = make_auto(["dispatch", "dispatch", "dispatch", "dispatch"])
+A, c = make_auto(["dispatch", "dispatch"])
 try:
     hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()); check(False, "offload fail raises")
 except ValueError:
-    check(len(c) == 4, "offload failures raise after the no-dq and bf16 retries, no loop")
-
-# 2026-11-02 logged failures
+    check(len(c) == 2, "bf16 offload failure raises after 2 attempts, no loop")
 A, c = make_auto(["perm"])
 check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 2
       and c[1]["trust_remote_code"] is False, "Phi PermissionError (unwritable modules cache) -> native")
-A, c = make_auto(["dispatch", "meta"])
-check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 3
-      and c[2]["quantization_config"].kw.get("bnb_4bit_use_double_quant") is False
-      and c[2]["max_memory"][0] == "10GiB", "LFM meta-tensor on offload -> offload without double quant")
-A, c = make_auto(["dispatch", "meta", "meta"])
-check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 4
-      and c[3]["quantization_config"] is None and c[3]["dtype"] == "bf16", "then unquantized bf16 offload")
-A, c = make_auto(["dispatch", "meta", "meta", "meta"])
-try:
-    hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()); check(False, "all fail raises")
-except RuntimeError:
-    check(len(c) == 4, "all LFM fallbacks fail -> raises after 4 attempts, no loop")
+A, c = make_auto(["meta"])
+check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 2
+      and c[1]["quantization_config"] is None, "meta-tensor error on a 4-bit stage -> bf16 offload")
 
-# 2026-11-02 23:45 LFM OOM: failed attempts must not keep the model alive; bf16 stage uses its own GPU cap
+# 2026-11-03 LFM: from_pretrained returns an offloaded 4-bit model whose first forward hits
+# QuantState.code.to(device) on meta. Fakes reproduce that; the loader must smoke-test and fall back.
+class FT:  # minimal fake torch for the smoke forward
+    bfloat16 = "bf16"; long = "long"
+    class device:
+        def __init__(self, s): self.type = str(s).split(":")[0]; self.s = str(s)
+        def __eq__(self, o): return str(o) == self.s
+        def __repr__(self): return self.s
+    @staticmethod
+    def zeros(shape, dtype=None, device=None): FT.last_dev = device; return ("ids", shape)
+    class no_grad:
+        def __enter__(self): pass
+        def __exit__(self, *a): return False
+class Emb:
+    class weight: device = FT.device("meta")
+class OffModel:
+    calls = 0
+    def __init__(self, broken, dm): self.broken = broken; self.hf_device_map = dm; self.emb = Emb()
+    def get_input_embeddings(self): return self.emb
+    def named_modules(self): return [("", self), ("model.embed_tokens", self.emb)]
+    def parameters(self): return iter([])
+    def __call__(self, **kw):
+        OffModel.calls += 1
+        if self.broken: raise NotImplementedError("Cannot copy out of meta tensor; no data!")
+        return "out"
+def make_off(seq):
+    calls = []
+    class Auto:
+        @staticmethod
+        def from_pretrained(name, **kw):
+            calls.append(kw); mode = seq.pop(0)
+            if mode == "dispatch": raise ValueError("Some modules are dispatched on the CPU or the disk.")
+            return mode
+    return Auto, calls
+DM = {"model.embed_tokens": 0, "model.layers.0": 0, "model.layers.20": "cpu", "lm_head": "cpu"}
+broken, good = OffModel(True, DM), OffModel(False, DM)
+A, c = make_off([broken, good])
+OffModel.calls = 0
+m = hide_bank._load_model_with_fallbacks("m", FT, A, FakeBnb, FakeBnb())
+check(m is good and len(c) == 2 and c[1]["quantization_config"] is None and OffModel.calls == 1,
+      "offloaded 4-bit model failing first forward ('Cannot copy out of meta tensor') -> bf16 offload; bf16 not re-smoked")
+A, c = make_off([good])
+OffModel.calls = 0
+check(hide_bank._load_model_with_fallbacks("m", FT, A, FakeBnb, FakeBnb()) is good and OffModel.calls == 1
+      and FT.last_dev == "cuda:0", "working offloaded 4-bit model passes smoke; ids on embedding exec device cuda:0")
+A, c = make_off([OffModel(True, {"": 0})])
+OffModel.calls = 0
+check(hide_bank._load_model_with_fallbacks("m", FT, A, FakeBnb, FakeBnb()).broken and OffModel.calls == 0,
+      "fully-on-GPU model: no smoke forward (unchanged behaviour)")
+A, c = make_off(["dispatch", broken])
+try:
+    hide_bank._load_model_with_fallbacks("m", FT, A, FakeBnb, FakeBnb()); r = "returned"
+except Exception as e:  # noqa: BLE001
+    r = type(e).__name__
+check(r == "returned" and len(c) == 2, "bf16 stage is not smoke-tested (offload of plain bf16 is accelerate's normal path)")
+
+# input_device: never meta; embedding offloaded -> main GPU; no device map -> first real param
+check(str(hide_bank.input_device(OffModel(False, {"model.embed_tokens": "cpu", "model.layers.0": 0}), FT)) == "cuda:0",
+      "input_device: offloaded embedding -> execution GPU cuda:0")
+class P:
+    def __init__(self, d): self.device = FT.device(d)
+class Plain(OffModel):
+    def parameters(self): return iter([P("meta"), P("cuda:0")])
+check(str(hide_bank.input_device(Plain(False, {}), FT)) == "cuda:0", "input_device: no map -> first non-meta param")
+
+# leak: a failed attempt's half-loaded model must be freed before the retry
 import gc, weakref
 class Big: pass
 refs = []
@@ -82,17 +137,11 @@ def leaky(name, **kw):
     obj = Big(); refs.append(weakref.ref(obj))
     if len(refs) == 1:  # obj is only alive via the traceback frames
         raise ValueError("Some modules are dispatched on the CPU or the disk.")
-    if len(refs) == 2:
-        raise RuntimeError("Tensor.item() cannot be called on meta tensors")
     return "MODEL"
 class A2:
     from_pretrained = staticmethod(leaky)
-check(hide_bank._load_model_with_fallbacks("m", torch, A2, FakeBnb, FakeBnb()) == "MODEL" and refs[0]() is None and refs[1]() is None,
+check(hide_bank._load_model_with_fallbacks("m", torch, A2, FakeBnb, FakeBnb()) == "MODEL" and refs[0]() is None,
       "half-loaded model from a failed attempt is freed before the retry")
-A, c = make_auto(["dispatch", "meta", "meta"])
-hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb())
-check(c[3]["max_memory"] == {0: "7GiB", "cpu": "48GiB"} and c[2]["max_memory"][0] == "10GiB",
-      "bf16 stage GPU cap 7GiB (RH_GPU_MAX_MEM_BF16), 4-bit stages keep 10GiB")
 
 # no-think templating: stub heavy imports only for reply_mutate import
 for m in ("torch", "transformers"):

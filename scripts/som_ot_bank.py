@@ -164,7 +164,8 @@ def extract(a):
     from run_scenario import prompt
     bank = load(a.data)
     tok, model = load_tok_model(a.model)
-    dev = next(model.parameters()).device
+    from hide_bank import input_device
+    dev = input_device(model)  # not next(parameters()): may be meta/cpu when offloaded
     nl = model.config.get_text_config().num_hidden_layers if hasattr(model.config, "get_text_config") else model.config.num_hidden_layers
     layer = min(a.layer, nl)
     print(f"layer={layer} of {nl}")
