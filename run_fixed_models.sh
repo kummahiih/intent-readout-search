@@ -18,6 +18,7 @@ OUT=results/fixed_models_$(date +%Y%m%d_%H%M); mkdir -p "$OUT"; LOG=$OUT/run.log
 exec > >(tee -a "$LOG") 2>&1
 NEW_TOKENS=${NEW_TOKENS:-256}
 # Remote-code modules need a writable cache; 2026-11-02 Phi-4 failed on an unwritable /media/pauli/datapata.
+export PYTORCH_CUDA_ALLOC_CONF=${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}  # LFM2.5 OOM 2026-11-02
 export HF_MODULES_CACHE=${HF_MODULES_CACHE:-$PWD/.hf_modules_cache}; mkdir -p "$HF_MODULES_CACHE"
 WANT_FILTER=${WANT_FILTER:-.}
 echo "HF_MODULES_CACHE=$HF_MODULES_CACHE WANT_FILTER=$WANT_FILTER"

@@ -24,6 +24,7 @@ exec > >(tee -a "$LOG") 2>&1
 echo "=== start $(date -Is) $(git rev-parse --short HEAD 2>/dev/null) ==="
 OT=${OT:-1}; NSAMP=${NSAMP:-4}; MODEL_FILTER=${MODEL_FILTER:-.}
 # Remote-code modules need a writable cache; 2026-11-02 Phi-4 failed on an unwritable /media/pauli/datapata.
+export PYTORCH_CUDA_ALLOC_CONF=${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}  # LFM2.5 OOM 2026-11-02
 export HF_MODULES_CACHE=${HF_MODULES_CACHE:-$PWD/.hf_modules_cache}; mkdir -p "$HF_MODULES_CACHE"
 declare -A BANK=([defect]=data/prereg/scenarios_defect_bank_provisional.jsonl
                  [user_says]=data/prereg/scenarios_original_user_says.jsonl

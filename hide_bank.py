@@ -41,6 +41,31 @@ SYS = {
 }
 
 
+def _free_failed_load(e, torch):
+    """A failed from_pretrained leaves its half-loaded model alive via the exception's traceback
+    frames; the next attempt then OOMs (LFM2.5 2026-11-02: 8.95 GiB still held, 'Tried to allocate
+    8.05 GiB'). Clear the frames, collect, and release the CUDA cache before retrying."""
+    import gc
+    import traceback
+    if e.__traceback__ is not None:
+        traceback.clear_frames(e.__traceback__)
+    gc.collect()
+    cuda = getattr(torch, "cuda", None)
+    if cuda is not None and cuda.is_available():
+        cuda.empty_cache()
+        print(f"freed_after_failed_load VRAM_GiB={cuda.memory_allocated() / 1024**3:.2f}")
+
+
+def _bf16_max_memory(mm):
+    """bf16 weights are ~4x the 4-bit ones and transformers' caching_allocator_warmup reserves the
+    whole GPU share in one block, so cap the GPU lower (RH_GPU_MAX_MEM_BF16, default 7GiB)."""
+    import os
+    mm = dict(mm or {})
+    mm[0] = os.environ.get("RH_GPU_MAX_MEM_BF16", "7GiB")
+    mm.setdefault("cpu", os.environ.get("RH_CPU_MAX_MEM", "48GiB"))
+    return mm
+
+
 def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesConfig, bnb):
     """4-bit load. Fallbacks, each logged:
     1. trust_remote_code=True (as before).
@@ -68,9 +93,10 @@ def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesCo
             last = e
             msg = f"{type(e).__name__}: {e}"
             print(f"load_failed={label} {msg[:300]}")
-            remote = kw.get("trust_remote_code", True)
             import traceback
             tb = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+            _free_failed_load(e, torch)
+            remote = kw.get("trust_remote_code", True)
             if (not tried_native and remote
                     and (isinstance(e, (ImportError, AttributeError, PermissionError)) or "LossKwargs" in msg
                          or "transformers_modules" in msg or "dynamic_module_utils" in tb)):
@@ -89,7 +115,8 @@ def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesCo
                                                            max_memory=kw.get("max_memory"))))
                 print("load_fallback=bf16_offload (unquantized, accelerate offload; slow)")
                 attempts.append(("bf16_offload", dict(trust_remote_code=remote, quantization_config=None,
-                                                      dtype=torch.bfloat16, max_memory=kw.get("max_memory"))))
+                                                      dtype=torch.bfloat16,
+                                                      max_memory=_bf16_max_memory(kw.get("max_memory")))))
             elif not tried_offload and "dispatched on the CPU or the disk" in msg:
                 tried_offload = True
                 off = BitsAndBytesConfig(
