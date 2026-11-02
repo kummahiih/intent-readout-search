@@ -21,9 +21,9 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from forced_button import button_of
+from button_parse import final_button
 from hide_bank import generate_short, load_tok_model
-from reply_mutate import chat
+from reply_mutate import chat, chat_nothink
 
 SYS = (
     "Private note:\n{note}\n\n"
@@ -36,7 +36,7 @@ def load(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
-def prompt(tok, rec, ask: str, incentive_in_user: bool, role_frame: str) -> str:
+def prompt(tok, rec, ask: str, incentive_in_user: bool, role_frame: str, no_think: bool = True) -> str:
     context = rec.get("incentive_context") or ""
     if role_frame == "user-says":
         sys_content = SYS.format(note=rec["note"], context_block="")
@@ -61,7 +61,7 @@ def prompt(tok, rec, ask: str, incentive_in_user: bool, role_frame: str) -> str:
         {"role": "system", "content": sys_content},
         {"role": "user", "content": user_content},
     ]
-    return chat(tok, msgs)
+    return chat_nothink(tok, msgs) if no_think else chat(tok, msgs)
 
 
 def report(records: list[dict]) -> None:
@@ -116,6 +116,8 @@ def main() -> int:
                    help="Put incentive_context in the user turn instead of the system prompt")
     p.add_argument("--role-frame", choices=["", "user-says", "agent-stakes"], default="",
                    help="Explicit role framing for the incentive (overrides --incentive-in-user)")
+    p.add_argument("--allow-think", action="store_true",
+                   help="Do not pass enable_thinking=False/thinking=False to the chat template")
     args = p.parse_args()
     rows = load(Path(args.data))
     tok, model = load_tok_model(args.model)
@@ -125,10 +127,10 @@ def main() -> int:
     for rec in rows:
         for arm, field in asks:
             text = generate_short(
-                model, tok, prompt(tok, rec, rec[field], args.incentive_in_user, args.role_frame),
+                model, tok, prompt(tok, rec, rec[field], args.incentive_in_user, args.role_frame, not args.allow_think),
                 args.new_tokens, device, 0
             )
-            button = button_of(text)
+            button = final_button(text)
             out = {
                 "scenario_id": rec["scenario_id"],
                 "topic": rec["topic"],

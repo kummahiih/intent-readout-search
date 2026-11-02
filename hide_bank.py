@@ -41,6 +41,53 @@ SYS = {
 }
 
 
+def _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesConfig, bnb):
+    """4-bit load. Fallbacks, each logged:
+    1. trust_remote_code=True (as before).
+    2. Remote code fails to import (e.g. Phi-4-mini 'LossKwargs' on newer transformers):
+       retry with trust_remote_code=False (native transformers class).
+    3. bnb 'dispatched on the CPU or the disk' (VRAM too small, e.g. LFM2.5 on 12 GB):
+       retry with llm_int8_enable_fp32_cpu_offload=True and max_memory cap
+       (GPU cap from RH_GPU_MAX_MEM, default 10GiB; CPU from RH_CPU_MAX_MEM, default 48GiB).
+    Raises if all fail; the runner logs FAIL and moves to the next model."""
+    import os
+    attempts = [("remote_code", dict(trust_remote_code=True))]
+    last = None
+    tried_native = tried_offload = False
+    while attempts:
+        label, kw = attempts.pop(0)
+        try:
+            print(f"load_attempt={label}")
+            return AutoModelForCausalLM.from_pretrained(
+                name, quantization_config=kw.pop("quantization_config", bnb), device_map="auto", **kw
+            )
+        except Exception as e:  # noqa: BLE001
+            last = e
+            msg = f"{type(e).__name__}: {e}"
+            print(f"load_failed={label} {msg[:300]}")
+            remote = kw.get("trust_remote_code", True)
+            if (not tried_native and remote
+                    and (isinstance(e, (ImportError, AttributeError)) or "LossKwargs" in msg
+                         or "transformers_modules" in msg)):
+                tried_native = True
+                attempts.append(("native", dict(trust_remote_code=False)))
+            elif not tried_offload and "dispatched on the CPU or the disk" in msg:
+                tried_offload = True
+                off = BitsAndBytesConfig(
+                    load_in_4bit=True,
+                    bnb_4bit_compute_dtype=torch.bfloat16,
+                    bnb_4bit_quant_type="nf4",
+                    bnb_4bit_use_double_quant=True,
+                    llm_int8_enable_fp32_cpu_offload=True,
+                )
+                mm = {0: os.environ.get("RH_GPU_MAX_MEM", "10GiB"),
+                      "cpu": os.environ.get("RH_CPU_MAX_MEM", "48GiB")}
+                print(f"load_fallback=cpu_offload max_memory={mm}")
+                attempts.append(("cpu_offload", dict(trust_remote_code=remote,
+                                                     quantization_config=off, max_memory=mm)))
+    raise last
+
+
 def load_tok_model(name):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, PreTrainedTokenizerFast
@@ -71,9 +118,7 @@ def load_tok_model(name):
             raise err
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token or tok.unk_token
-    model = AutoModelForCausalLM.from_pretrained(
-        name, quantization_config=bnb, device_map="auto", trust_remote_code=True
-    )
+    model = _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesConfig, bnb)
     model.eval()
     print(f"loaded={name} VRAM_GiB={torch.cuda.memory_allocated() / 1024**3:.2f}")
     return tok, model

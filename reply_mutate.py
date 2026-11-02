@@ -51,6 +51,21 @@ def logprob_next(model, tok, prompt: str, word: str, device, max_length: int) ->
     return float(logp[first_token_id(tok, word)].item())
 
 
+def chat_nothink(tok, messages: list[dict]) -> str:
+    """chat() with thinking disabled where the template supports it.
+    Qwen3/3.5 templates read enable_thinking; Granite reads thinking.
+    Templates that ignore these variables render the same prompt as chat()."""
+    if hasattr(tok, "apply_chat_template"):
+        try:
+            return tok.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True,
+                enable_thinking=False, thinking=False,
+            )
+        except Exception:
+            pass
+    return chat(tok, messages)
+
+
 def chat(tok, messages: list[dict]) -> str:
     if hasattr(tok, "apply_chat_template"):
         try:

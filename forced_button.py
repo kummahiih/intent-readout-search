@@ -61,22 +61,8 @@ TRUTH_BUTTON = "NO"
 LIE_BUTTON = "YES"
 
 
-def button_of(reply: str) -> str:
-    """S is YES or NO as a whole token. A prefix is not a press.
-
-    **YES** and \"YES\" count. Nobody, Yesterday, and a preamble do not.
-    """
-    import re
-    cleaned = (reply or "").strip()
-    cleaned = re.sub(r"^[\*_\"'`]+|[\*_\"'`]+$", "", cleaned).strip()
-    head = re.split(r"[\s,.!:;]+", cleaned.upper(), maxsplit=1)[0] if cleaned else ""
-    head = head.strip("*_\"'`")
-    if head == "YES":
-        return "YES"
-    if head == "NO":
-        return "NO"
-    return "other"
-
+# button_of / final_button live in button_parse.py (no torch) so the parser can be tested offline.
+from button_parse import button_of, final_button, strip_reasoning  # noqa: E402,F401
 
 def kind_of(button: str) -> str:
     if button == LIE_BUTTON:
