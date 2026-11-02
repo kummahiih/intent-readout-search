@@ -18,6 +18,7 @@
 # DOES NOT:
 #   fit residual-stream readouts, extract activations, claim a camera or handoverPass, fill D, freeze r,
 #   change the negative handover, or commit anything.
+# Isolation: each model runs in its own python process; one failing model does not stop the rest.
 set -euo pipefail
 cd "$(dirname "$0")"
 BANK=data/prereg/scenarios_defect_bank_provisional.jsonl
@@ -81,20 +82,27 @@ smoke user_says --role-frame user-says
 smoke agent_stakes --role-frame agent-stakes
 echo "=== all smokes passed; starting full bank on all models ==="
 
-run_model () {  # name dir
+run_model () {  # name dir — isolated: a failing model logs FAIL and the loop continues
   echo "--- full bank: $1 ($(date -Is))"
-  python run_scenario.py --model "$2" --data "$BANK" --dump "$OUT/${1}.jsonl" --incentive-in-user | tee "$OUT/${1}_summary.txt"
-  if [[ $HAS_SKLEARN -eq 1 ]]; then
-    echo "--- text baselines: $1"
-    python scripts/text_baselines.py --dump "$OUT/${1}.jsonl" --bank "$BANK" --out "$OUT/${1}_text_baselines.json"
+  if python run_scenario.py --model "$2" --data "$BANK" --dump "$OUT/${1}.jsonl" --incentive-in-user > "$OUT/${1}_summary.txt" 2>&1; then
+    tail -5 "$OUT/${1}_summary.txt"
+    if [[ $HAS_SKLEARN -eq 1 ]]; then
+      echo "--- text baselines: $1"
+      python scripts/text_baselines.py --dump "$OUT/${1}.jsonl" --bank "$BANK" --out "$OUT/${1}_text_baselines.json" || echo "WARN baselines failed for $1"
+    else
+      echo "SKIP text baselines for $1 (sklearn missing)"
+    fi
+    ST+=("$1: OK")
   else
-    echo "SKIP text baselines for $1 (sklearn missing)"
+    tail -3 "$OUT/${1}_summary.txt"; echo "FAIL $1 (continuing)"; ST+=("$1: FAIL")
   fi
 }
 
+ST=()
 for i in "${!MODELS[@]}"; do
-  run_model "${NAMES[$i]}" "${MODELS[$i]}"
+  run_model "${NAMES[$i]}" "${MODELS[$i]}" || { echo "FAIL ${NAMES[$i]} (continuing)"; ST+=("${NAMES[$i]}: FAIL"); }
 done
+for s in "${ST[@]}"; do echo "  $s"; done
 
 echo "=== done $(date -Is). Outputs in $OUT ==="
 echo "Not a camera. Not handoverPass. D not filled. r not frozen. No residual readouts fitted."
