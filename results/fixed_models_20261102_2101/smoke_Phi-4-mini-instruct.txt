@@ -1,0 +1,65 @@
+[transformers] You are using a model of type `phi3` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[transformers] PreTrainedConfig got `key=rope_scaling` in kwargs but hasn't set it as attribute. For RoPE standardization you need to set `self.rope_parameters` in model's config. 
+[transformers] You are using a model of type `phi3` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[transformers] PreTrainedConfig got `key=rope_scaling` in kwargs but hasn't set it as attribute. For RoPE standardization you need to set `self.rope_parameters` in model's config. 
+[transformers] You are using a model of type `phi3` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[transformers] PreTrainedConfig got `key=rope_scaling` in kwargs but hasn't set it as attribute. For RoPE standardization you need to set `self.rope_parameters` in model's config. 
+tokenizer=PreTrainedTokenizerFast(tokenizer.json)
+load_attempt=remote_code
+load_failed=remote_code PermissionError: [Errno 13] Permission denied: '/media/pauli/datapata'
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 156, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 123, in main
+    tok, model = load_tok_model(args.model)
+                 ~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 121, in load_tok_model
+    model = _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesConfig, bnb)
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 88, in _load_model_with_fallbacks
+    raise last
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 61, in _load_model_with_fallbacks
+    return AutoModelForCausalLM.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        name, quantization_config=kw.pop("quantization_config", bnb), device_map="auto", **kw
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/auto/auto_factory.py", line 340, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/auto/configuration_auto.py", line 422, in from_pretrained
+    config_class = get_class_from_dynamic_module(
+        class_ref, pretrained_model_name_or_path, code_revision=code_revision, **kwargs
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 614, in get_class_from_dynamic_module
+    final_module = get_cached_module_file(
+        repo_id,
+    ...<7 lines>...
+        repo_type=repo_type,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 450, in get_cached_module_file
+    create_dynamic_module(full_submodule)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 113, in create_dynamic_module
+    create_dynamic_module(dynamic_module_path.parent)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 113, in create_dynamic_module
+    create_dynamic_module(dynamic_module_path.parent)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 113, in create_dynamic_module
+    create_dynamic_module(dynamic_module_path.parent)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 2 more times]
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/dynamic_module_utils.py", line 114, in create_dynamic_module
+    os.makedirs(dynamic_module_path, exist_ok=True)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 236, in makedirs
+PermissionError: [Errno 13] Permission denied: '/media/pauli/datapata'
