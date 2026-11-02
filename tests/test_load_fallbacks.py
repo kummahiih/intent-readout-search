@@ -74,6 +74,26 @@ try:
 except RuntimeError:
     check(len(c) == 4, "all LFM fallbacks fail -> raises after 4 attempts, no loop")
 
+# 2026-11-02 23:45 LFM OOM: failed attempts must not keep the model alive; bf16 stage uses its own GPU cap
+import gc, weakref
+class Big: pass
+refs = []
+def leaky(name, **kw):
+    obj = Big(); refs.append(weakref.ref(obj))
+    if len(refs) == 1:  # obj is only alive via the traceback frames
+        raise ValueError("Some modules are dispatched on the CPU or the disk.")
+    if len(refs) == 2:
+        raise RuntimeError("Tensor.item() cannot be called on meta tensors")
+    return "MODEL"
+class A2:
+    from_pretrained = staticmethod(leaky)
+check(hide_bank._load_model_with_fallbacks("m", torch, A2, FakeBnb, FakeBnb()) == "MODEL" and refs[0]() is None and refs[1]() is None,
+      "half-loaded model from a failed attempt is freed before the retry")
+A, c = make_auto(["dispatch", "meta", "meta"])
+hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb())
+check(c[3]["max_memory"] == {0: "7GiB", "cpu": "48GiB"} and c[2]["max_memory"][0] == "10GiB",
+      "bf16 stage GPU cap 7GiB (RH_GPU_MAX_MEM_BF16), 4-bit stages keep 10GiB")
+
 # no-think templating: stub heavy imports only for reply_mutate import
 for m in ("torch", "transformers"):
     if m not in sys.modules:

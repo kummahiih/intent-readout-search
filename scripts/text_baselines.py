@@ -30,7 +30,11 @@ def main():
         if len(set(yf))<2 or len(ev)==0:
             res["results"].append(dict(target=tn,input=iname,status="degenerate (one class on fit or empty eval)"));continue
         g=[r["scenario_id"] for r in fit];k=min(5,len(set(g)));cv={}
-        for n,m in M.items(): cv[n]=float((cross_val_predict(m(),[f(r) for r in fit],yf,groups=g,cv=GroupKFold(k))==yf).mean())
+        try:
+            for n,m in M.items(): cv[n]=float((cross_val_predict(m(),[f(r) for r in fit],yf,groups=g,cv=GroupKFold(k))==yf).mean())
+        except ValueError as e:  # a grouped CV train fold has one class (Phi-4 agent_stakes: 1 NO on fit, 2026-11-02)
+            res["results"].append(dict(target=tn,input=iname,status=f"degenerate (CV fold has one class; fit counts True={int(yf.sum())} False={int((~yf).sum())})",
+                                       error=str(e)[:200],eval_majority=float(maj)));continue
         best=max(cv,key=cv.get);acc=float((M[best]().fit([f(r) for r in fit],yf).predict([f(r) for r in ev])==ye).mean())
         res["results"].append(dict(target=tn,input=iname,fit_cv=cv,selected=best,eval_acc=acc,eval_majority=float(maj)))
     json.dump(res,open(x.out,"w"),indent=1);print(json.dumps(res,indent=1))
