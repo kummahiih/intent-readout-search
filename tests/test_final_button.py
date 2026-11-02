@@ -29,7 +29,7 @@ def main():
     print(f"synthetic cases: {len(CASES) - bad}/{len(CASES)} pass")
     root = Path(__file__).resolve().parent.parent / "results"
     files = sorted(glob.glob(str(root / "gap_filler_*/*.jsonl")) + glob.glob(str(root / "framed_original_*/*.jsonl"))
-                   + glob.glob(str(root / "overnight_2026*/*.jsonl")))
+                   + glob.glob(str(root / "overnight_2026*/*.jsonl")) + glob.glob(str(root / "fixed_models_*/*.jsonl")))
     n = changed = 0; recovered = {}
     for f in files:
         if f.endswith("_bank.jsonl"): continue

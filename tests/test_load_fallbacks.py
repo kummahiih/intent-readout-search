@@ -18,6 +18,10 @@ def make_auto(fail_modes):
                 raise ImportError("cannot import name 'LossKwargs' from 'transformers.utils'")
             if mode == "dispatch":
                 raise ValueError("Some modules are dispatched on the CPU or the disk. Make sure ...")
+            if mode == "perm":
+                raise PermissionError("[Errno 13] Permission denied: '/media/pauli/datapata'")
+            if mode == "meta":
+                raise RuntimeError("Tensor.item() cannot be called on meta tensors")
             if mode == "other":
                 raise RuntimeError("boom")
             return "MODEL"
@@ -47,11 +51,28 @@ try:
     hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()); check(False, "unknown error raises")
 except RuntimeError:
     check(len(c) == 1, "unknown error raises after 1 attempt (runner logs FAIL, continues)")
-A, c = make_auto(["dispatch", "dispatch"])
+A, c = make_auto(["dispatch", "dispatch", "dispatch", "dispatch"])
 try:
     hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()); check(False, "offload fail raises")
 except ValueError:
-    check(len(c) == 2, "offload failure raises, no loop")
+    check(len(c) == 4, "offload failures raise after the no-dq and bf16 retries, no loop")
+
+# 2026-11-02 logged failures
+A, c = make_auto(["perm"])
+check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 2
+      and c[1]["trust_remote_code"] is False, "Phi PermissionError (unwritable modules cache) -> native")
+A, c = make_auto(["dispatch", "meta"])
+check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 3
+      and c[2]["quantization_config"].kw.get("bnb_4bit_use_double_quant") is False
+      and c[2]["max_memory"][0] == "10GiB", "LFM meta-tensor on offload -> offload without double quant")
+A, c = make_auto(["dispatch", "meta", "meta"])
+check(hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()) == "MODEL" and len(c) == 4
+      and c[3]["quantization_config"] is None and c[3]["dtype"] == "bf16", "then unquantized bf16 offload")
+A, c = make_auto(["dispatch", "meta", "meta", "meta"])
+try:
+    hide_bank._load_model_with_fallbacks("m", torch, A, FakeBnb, FakeBnb()); check(False, "all fail raises")
+except RuntimeError:
+    check(len(c) == 4, "all LFM fallbacks fail -> raises after 4 attempts, no loop")
 
 # no-think templating: stub heavy imports only for reply_mutate import
 for m in ("torch", "transformers"):
