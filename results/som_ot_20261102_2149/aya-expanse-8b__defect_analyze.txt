@@ -1,0 +1,174 @@
+{
+ "bank": "data/prereg/scenarios_defect_bank_provisional.jsonl",
+ "button_dump": "results/gap_filler_20261102_0141/aya-expanse-8b.jsonl",
+ "provisional": true,
+ "H": {
+  "n_fit": 270,
+  "n_eval": 162,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.5123456790123457,
+     "4": 0.5246913580246914,
+     "5": 0.5234567901234568
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "eval_purity_mean": 0.5288065843621399,
+     "per_seed": [
+      0.5185185185185185,
+      0.5246913580246914,
+      0.5432098765432098
+     ],
+     "shuffle_null_mean": 0.5916666666666666,
+     "shuffle_null_p95": 0.6197530864197531,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.9629629629629629,
+     "per_seed": [
+      0.9629629629629629,
+      0.9629629629629629,
+      0.9629629629629629
+     ],
+     "shuffle_null_mean": 0.9629629629629628,
+     "shuffle_null_p95": 0.9629629629629629,
+     "majority": 0.9629629629629629
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "shuffle_null_mean": 1.0,
+     "shuffle_null_p95": 1.0,
+     "majority": 1.0
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.5123456790123457,
+     "4": 0.5246913580246914,
+     "5": 0.5234567901234568
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "eval_purity_mean": 0.5288065843621399,
+     "per_seed": [
+      0.5185185185185185,
+      0.5246913580246914,
+      0.5432098765432098
+     ],
+     "shuffle_null_mean": 0.5916666666666666,
+     "shuffle_null_p95": 0.6197530864197531,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.9629629629629629,
+     "per_seed": [
+      0.9629629629629629,
+      0.9629629629629629,
+      0.9629629629629629
+     ],
+     "shuffle_null_mean": 0.9629629629629628,
+     "shuffle_null_p95": 0.9629629629629629,
+     "majority": 0.9629629629629629
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "shuffle_null_mean": 1.0,
+     "shuffle_null_p95": 1.0,
+     "majority": 1.0
+    }
+   }
+  }
+ },
+ "H_noask": {
+  "n_fit": 270,
+  "n_eval": 162,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.5135802469135803,
+     "4": 0.525925925925926,
+     "5": 0.5209876543209877
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "eval_purity_mean": 0.5288065843621399,
+     "per_seed": [
+      0.5185185185185185,
+      0.5370370370370371,
+      0.5308641975308642
+     ],
+     "shuffle_null_mean": 0.5950617283950618,
+     "shuffle_null_p95": 0.6425925925925926,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.9629629629629629,
+     "per_seed": [
+      0.9629629629629629,
+      0.9629629629629629,
+      0.9629629629629629
+     ],
+     "shuffle_null_mean": 0.9629629629629628,
+     "shuffle_null_p95": 0.9629629629629629,
+     "majority": 0.9629629629629629
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "shuffle_null_mean": 1.0,
+     "shuffle_null_p95": 1.0,
+     "majority": 1.0
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.5135802469135803,
+     "4": 0.525925925925926,
+     "5": 0.5209876543209877
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "eval_purity_mean": 0.5288065843621399,
+     "per_seed": [
+      0.5185185185185185,
+      0.5370370370370371,
+      0.5308641975308642
+     ],
+     "shuffle_null_mean": 0.5950617283950618,
+     "shuffle_null_p95": 0.6425925925925926,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.9629629629629629,
+     "per_seed": [
+      0.9629629629629629,
+      0.9629629629629629,
+      0.9629629629629629
+     ],
+     "shuffle_null_mean": 0.9629629629629628,
+     "shuffle_null_p95": 0.9629629629629629,
+     "majority": 0.9629629629629629
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "

@@ -1,0 +1,208 @@
+{
+ "bank": "data/prereg/scenarios_defect_bank_provisional.jsonl",
+ "button_dump": "results/fixed_models_20261102_2101/granite-4.2-8b__defect.jsonl",
+ "provisional": true,
+ "H": {
+  "n_fit": 270,
+  "n_eval": 162,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.5296296296296297,
+     "4": 0.5358024691358025,
+     "5": 0.5456790123456791
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "eval_purity_mean": 0.5576131687242799,
+     "per_seed": [
+      0.5370370370370371,
+      0.5864197530864198,
+      0.5493827160493827
+     ],
+     "shuffle_null_mean": 0.6256172839506173,
+     "shuffle_null_p95": 0.6608024691358025,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.808641975308642,
+     "per_seed": [
+      0.8209876543209876,
+      0.7901234567901234,
+      0.8148148148148148
+     ],
+     "shuffle_null_mean": 0.6919753086419753,
+     "shuffle_null_p95": 0.716358024691358,
+     "majority": 0.654320987654321
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "shuffle_null_mean": 1.0,
+     "shuffle_null_p95": 1.0,
+     "majority": 1.0
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.5296296296296297,
+     "4": 0.5358024691358025,
+     "5": 0.5456790123456791
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "eval_purity_mean": 0.5576131687242799,
+     "per_seed": [
+      0.5370370370370371,
+      0.5864197530864198,
+      0.5493827160493827
+     ],
+     "shuffle_null_mean": 0.6256172839506173,
+     "shuffle_null_p95": 0.6608024691358025,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.808641975308642,
+     "per_seed": [
+      0.8209876543209876,
+      0.7901234567901234,
+      0.8148148148148148
+     ],
+     "shuffle_null_mean": 0.6919753086419753,
+     "shuffle_null_p95": 0.716358024691358,
+     "majority": 0.654320987654321
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "shuffle_null_mean": 1.0,
+     "shuffle_null_p95": 1.0,
+     "majority": 1.0
+    }
+   }
+  }
+ },
+ "H_noask": {
+  "n_fit": 270,
+  "n_eval": 162,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.5246913580246914,
+     "4": 0.5382716049382716,
+     "5": 0.528395061728395
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "eval_purity_mean": 0.5411522633744855,
+     "per_seed": [
+      0.5493827160493827,
+      0.5308641975308642,
+      0.5432098765432098
+     ],
+     "shuffle_null_mean": 0.6086419753086421,
+     "shuffle_null_p95": 0.6549382716049383,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.7695473251028807,
+     "per_seed": [
+      0.7839506172839507,
+      0.7530864197530864,
+      0.7716049382716049
+     ],
+     "shuffle_null_mean": 0.6746913580246915,
+     "shuffle_null_p95": 0.6978395061728395,
+     "majority": 0.654320987654321
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "shuffle_null_mean": 1.0,
+     "shuffle_null_p95": 1.0,
+     "majority": 1.0
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.5246913580246914,
+     "4": 0.5382716049382716,
+     "5": 0.528395061728395
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "eval_purity_mean": 0.5411522633744855,
+     "per_seed": [
+      0.5493827160493827,
+      0.5308641975308642,
+      0.5432098765432098
+     ],
+     "shuffle_null_mean": 0.6086419753086421,
+     "shuffle_null_p95": 0.6549382716049383,
+     "majority": 0.5
+    },
+    "public_button": {
+     "eval_purity_mean": 0.7695473251028807,
+     "per_seed": [
+      0.7839506172839507,
+      0.7530864197530864,
+      0.7716049382716049
+     ],
+     "shuffle_null_mean": 0.6746913580246915,
+     "shuffle_null_p95": 0.6978395061728395,
+     "majority": 0.654320987654321
+    },
+    "topic": {
+     "eval_purity_mean": 1.0,
+     "per_seed": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "shuffle_null_mean": 1.0,
+     "shuffle_null_p95": 1.0,
+     "majority": 1.0
+    }
+   }
+  }
+ },
+ "ot": {
+  "hide/fit": {
+   "n": 135,
+   "entered": 81,
+   "entered_from_empty": 0,
+   "mean_mass_note": 0.48518518518518516
+  },
+  "hide/eval": {
+   "n": 81,
+   "entered": 44,
+   "entered_from_empty": 0,
+   "mean_mass_note": 0.4506172839506173
+  },
+  "name/fit": {
+   "n": 135,
+   "entered": 87,
+   "entered_from_empty": 0,
+   "mean_mass_note": 0.5074074074074074
+  },
+  "name/eval": {
+   "n": 81,
+   "entered": 50,
+   "entered_from_empty": 0,
+   "mean_mass_note": 0.4783950617283951
+  }
+ },
+ "note": "Diagnostics only. Not a gate. Not a camera. Not handoverPass. D not filled. r not frozen."
+}

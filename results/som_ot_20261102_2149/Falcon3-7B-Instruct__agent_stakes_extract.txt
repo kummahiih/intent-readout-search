@@ -1,0 +1,10 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/255 [00:00<?, ?it/s]Loading weights:   2%|▏         | 4/255 [00:00<00:09, 27.77it/s]Loading weights:  13%|█▎        | 32/255 [00:00<00:01, 151.15it/s]Loading weights:  25%|██▍       | 63/255 [00:00<00:00, 215.83it/s]Loading weights:  37%|███▋      | 94/255 [00:00<00:00, 248.36it/s]Loading weights:  48%|████▊     | 123/255 [00:00<00:00, 255.69it/s]Loading weights:  62%|██████▏   | 157/255 [00:00<00:00, 280.57it/s]Loading weights:  73%|███████▎  | 186/255 [00:00<00:00, 277.44it/s]Loading weights:  86%|████████▋ | 220/255 [00:00<00:00, 294.99it/s]Loading weights:  98%|█████████▊| 250/255 [00:00<00:00, 290.07it/s]Loading weights: 100%|██████████| 255/255 [00:00<00:00, 259.90it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+loaded=models/Falcon3-7B-Instruct VRAM_GiB=4.72
+layer=8 of 28
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261102_2149/Falcon3-7B-Instruct__agent_stakes_h.npz n=114
+saved results/som_ot_20261102_2149/Falcon3-7B-Instruct__agent_stakes_ot.jsonl

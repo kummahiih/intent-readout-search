@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights:   0%|          | 1/258 [00:00<00:29,  8.83it/s]Loading weights:   8%|▊         | 20/258 [00:00<00:02, 106.09it/s]Loading weights:  20%|█▉        | 51/258 [00:00<00:01, 189.96it/s]Loading weights:  30%|██▉       | 77/258 [00:00<00:00, 216.01it/s]Loading weights:  41%|████      | 105/258 [00:00<00:00, 238.08it/s]Loading weights:  51%|█████     | 132/258 [00:00<00:00, 245.70it/s]Loading weights:  63%|██████▎   | 163/258 [00:00<00:00, 261.56it/s]Loading weights:  74%|███████▎  | 190/258 [00:00<00:00, 263.88it/s]Loading weights:  85%|████████▌ | 220/258 [00:00<00:00, 271.14it/s]Loading weights:  97%|█████████▋| 251/258 [00:01<00:00, 278.31it/s]Loading weights: 100%|██████████| 258/258 [00:01<00:00, 241.78it/s]
+loaded=models/aya-expanse-8b VRAM_GiB=5.31
+layer=10 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261102_2149/aya-expanse-8b__agent_stakes_h.npz n=114
+saved results/som_ot_20261102_2149/aya-expanse-8b__agent_stakes_ot.jsonl

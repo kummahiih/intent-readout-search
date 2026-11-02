@@ -1,0 +1,15 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:00<07:24,  1.98it/s]Loading weights:   1%|          | 5/883 [00:00<01:24, 10.38it/s]Loading weights:   3%|▎         | 29/883 [00:00<00:13, 63.42it/s]Loading weights:   5%|▍         | 43/883 [00:00<00:10, 82.08it/s]Loading weights:   7%|▋         | 62/883 [00:00<00:07, 109.90it/s]Loading weights:   9%|▉         | 81/883 [00:01<00:06, 128.03it/s]Loading weights:  11%|█         | 97/883 [00:01<00:06, 130.08it/s]Loading weights:  14%|█▎        | 120/883 [00:01<00:05, 151.75it/s]Loading weights:  16%|█▌        | 137/883 [00:01<00:05, 148.68it/s]Loading weights:  18%|█▊        | 159/883 [00:01<00:04, 160.50it/s]Loading weights:  20%|█▉        | 176/883 [00:01<00:04, 151.44it/s]Loading weights:  22%|██▏       | 198/883 [00:01<00:04, 160.98it/s]Loading weights:  24%|██▍       | 215/883 [00:01<00:04, 154.00it/s]Loading weights:  27%|██▋       | 237/883 [00:01<00:03, 164.10it/s]Loading weights:  29%|██▉       | 254/883 [00:02<00:04, 155.66it/s]Loading weights:  31%|███       | 270/883 [00:02<00:03, 156.16it/s]Loading weights:  33%|███▎      | 289/883 [00:02<00:03, 162.27it/s]Loading weights:  35%|███▍      | 306/883 [00:02<00:03, 152.59it/s]Loading weights:  37%|███▋      | 328/883 [00:02<00:03, 160.75it/s]Loading weights:  39%|███▉      | 345/883 [00:02<00:03, 149.67it/s]Loading weights:  42%|████▏     | 367/883 [00:02<00:03, 164.38it/s]Loading weights:  43%|████▎     | 384/883 [00:02<00:03, 158.89it/s]Loading weights:  46%|████▌     | 406/883 [00:03<00:02, 168.13it/s]Loading weights:  48%|████▊     | 423/883 [00:03<00:02, 160.95it/s]Loading weights:  52%|█████▏    | 457/883 [00:03<00:02, 206.72it/s]Loading weights:  65%|██████▍   | 573/883 [00:03<00:00, 467.41it/s]Loading weights:  77%|███████▋  | 681/883 [00:03<00:00, 634.44it/s]Loading weights:  90%|████████▉ | 793/883 [00:03<00:00, 768.90it/s]Loading weights: 100%|██████████| 883/883 [00:03<00:00, 242.07it/s]
+loaded=models/gemma-3-4b-it VRAM_GiB=3.01
+layer=8 of 34
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/som_ot_20261102_2149/gemma-3-4b-it__defect_h.npz n=432
+saved results/som_ot_20261102_2149/gemma-3-4b-it__defect_ot.jsonl

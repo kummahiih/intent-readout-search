@@ -1,0 +1,13 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<00:47,  9.03it/s]Loading weights:   0%|          | 2/427 [00:00<00:46,  9.15it/s]Loading weights:   9%|▉         | 38/427 [00:00<00:02, 161.58it/s]Loading weights:  19%|█▉        | 82/427 [00:00<00:01, 263.07it/s]Loading weights:  28%|██▊       | 121/427 [00:00<00:01, 305.63it/s]Loading weights:  41%|████      | 173/427 [00:00<00:00, 369.28it/s]Loading weights:  52%|█████▏    | 224/427 [00:00<00:00, 413.75it/s]Loading weights:  62%|██████▏   | 266/427 [00:00<00:00, 406.66it/s]Loading weights:  73%|███████▎  | 312/427 [00:00<00:00, 421.71it/s]Loading weights:  85%|████████▍ | 361/427 [00:01<00:00, 435.81it/s]Loading weights:  96%|█████████▋| 412/427 [00:01<00:00, 456.46it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 359.75it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+loaded=models/Qwen3.5-9B VRAM_GiB=7.12
+layer=10 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261102_2149/Qwen3.5-9B__user_says_h.npz n=114
+saved results/som_ot_20261102_2149/Qwen3.5-9B__user_says_ot.jsonl

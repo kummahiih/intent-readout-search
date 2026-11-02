@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 3/883 [00:00<00:38, 22.78it/s]Loading weights:  11%|█▏        | 101/883 [00:00<00:01, 519.46it/s]Loading weights:  23%|██▎       | 199/883 [00:00<00:00, 711.91it/s]Loading weights:  34%|███▍      | 302/883 [00:00<00:00, 826.09it/s]Loading weights:  46%|████▌     | 403/883 [00:00<00:00, 887.02it/s]Loading weights:  78%|███████▊  | 689/883 [00:00<00:00, 1541.12it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 1293.40it/s]
+loaded=models/gemma-3-4b-it VRAM_GiB=3.01
+layer=8 of 34
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261102_2149/gemma-3-4b-it__user_says_h.npz n=114
+saved results/som_ot_20261102_2149/gemma-3-4b-it__user_says_ot.jsonl

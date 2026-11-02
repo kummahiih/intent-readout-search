@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/258 [00:00<?, ?it/s]Loading weights:   0%|          | 1/258 [00:00<00:29,  8.82it/s]Loading weights:   8%|▊         | 20/258 [00:00<00:02, 106.11it/s]Loading weights:  20%|█▉        | 51/258 [00:00<00:01, 189.84it/s]Loading weights:  30%|███       | 78/258 [00:00<00:00, 219.92it/s]Loading weights:  41%|████▏     | 107/258 [00:00<00:00, 237.79it/s]Loading weights:  52%|█████▏    | 134/258 [00:00<00:00, 247.72it/s]Loading weights:  64%|██████▎   | 164/258 [00:00<00:00, 260.88it/s]Loading weights:  76%|███████▌  | 195/258 [00:00<00:00, 271.79it/s]Loading weights:  86%|████████▋ | 223/258 [00:00<00:00, 272.13it/s]Loading weights:  98%|█████████▊| 252/258 [00:01<00:00, 276.14it/s]Loading weights: 100%|██████████| 258/258 [00:01<00:00, 242.97it/s]
+loaded=models/aya-expanse-8b VRAM_GiB=5.31
+layer=10 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261102_2149/aya-expanse-8b__user_says_h.npz n=114
+saved results/som_ot_20261102_2149/aya-expanse-8b__user_says_ot.jsonl
