@@ -1,0 +1,51 @@
+=== start 2026-11-02T23:45:30+02:00 d070e0e ===
+--- CPU smokes
+smoke defect OK
+smoke user_says OK
+smoke agent_stakes OK
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+models: LFM2.5-8B-A1B Phi-4-mini-instruct
+--- LFM2.5-8B-A1B__defect layer=8 (2026-11-02T23:45:33+02:00)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_utils.py", line 5148, in caching_allocator_warmup
+    _ = torch.empty(int(byte_count // 2), dtype=torch.float16, device=device, requires_grad=False)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 8.05 GiB. GPU 0 has a total capacity of 11.59 GiB of which 2.12 GiB is free. Process 11507 has 23.66 MiB memory in use. Including non-PyTorch memory, this process has 8.95 GiB memory in use. Of the allocated memory 7.85 GiB is allocated by PyTorch, and 898.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+FAIL extract LFM2.5-8B-A1B__defect (continuing)
+--- LFM2.5-8B-A1B__user_says layer=8 (2026-11-02T23:45:41+02:00)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_utils.py", line 5148, in caching_allocator_warmup
+    _ = torch.empty(int(byte_count // 2), dtype=torch.float16, device=device, requires_grad=False)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 8.05 GiB. GPU 0 has a total capacity of 11.59 GiB of which 2.11 GiB is free. Process 11507 has 23.66 MiB memory in use. Including non-PyTorch memory, this process has 8.95 GiB memory in use. Of the allocated memory 7.85 GiB is allocated by PyTorch, and 898.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+FAIL extract LFM2.5-8B-A1B__user_says (continuing)
+--- LFM2.5-8B-A1B__agent_stakes layer=8 (2026-11-02T23:45:48+02:00)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_utils.py", line 5148, in caching_allocator_warmup
+    _ = torch.empty(int(byte_count // 2), dtype=torch.float16, device=device, requires_grad=False)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 8.05 GiB. GPU 0 has a total capacity of 11.59 GiB of which 2.11 GiB is free. Process 11507 has 23.66 MiB memory in use. Including non-PyTorch memory, this process has 8.95 GiB memory in use. Of the allocated memory 7.85 GiB is allocated by PyTorch, and 898.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+FAIL extract LFM2.5-8B-A1B__agent_stakes (continuing)
+--- Phi-4-mini-instruct__defect layer=8 (2026-11-02T23:45:54+02:00)
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+load_attempt=native
+loaded=models/Phi-4-mini-instruct VRAM_GiB=2.69
+layer=8 of 32
+button dump: results/fixed_models_20261102_2343/Phi-4-mini-instruct__defect.jsonl
+--- Phi-4-mini-instruct__user_says layer=8 (2026-11-02T23:49:35+02:00)
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+load_attempt=native
+loaded=models/Phi-4-mini-instruct VRAM_GiB=2.69
+layer=8 of 32
+button dump: results/fixed_models_20261102_2343/Phi-4-mini-instruct__user_says.jsonl
+--- Phi-4-mini-instruct__agent_stakes layer=8 (2026-11-02T23:50:38+02:00)
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+load_attempt=native
+loaded=models/Phi-4-mini-instruct VRAM_GiB=2.69
+layer=8 of 32
+button dump: results/fixed_models_20261102_2343/Phi-4-mini-instruct__agent_stakes.jsonl
+=== done 2026-11-02T23:51:39+02:00 ===
+  LFM2.5-8B-A1B__defect: EXTRACT FAIL
+  LFM2.5-8B-A1B__user_says: EXTRACT FAIL
+  LFM2.5-8B-A1B__agent_stakes: EXTRACT FAIL
+  Phi-4-mini-instruct__defect: OK
+  Phi-4-mini-instruct__user_says: OK
+  Phi-4-mini-instruct__agent_stakes: OK
+SOM/OT are diagnostics, not gates. Provisional banks. Not a camera. Not handoverPass. D not filled. r not frozen. Negative handover unchanged.

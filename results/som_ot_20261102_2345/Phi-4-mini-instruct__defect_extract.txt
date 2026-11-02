@@ -1,0 +1,20 @@
+/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/configuration_utils.py:723: FutureWarning: `rope_scaling` is deprecated and will be removed in a future version. Set `rope_parameters` instead, with `rope_type` and `rope_theta` included.
+  warnings.warn(
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+load_attempt=native
+Loading weights:   0%|          | 0/194 [00:00<?, ?it/s]Loading weights:   1%|          | 1/194 [00:00<01:30,  2.12it/s]Loading weights:   3%|▎         | 6/194 [00:00<00:14, 13.06it/s]Loading weights:   8%|▊         | 15/194 [00:00<00:05, 31.09it/s]Loading weights:  11%|█▏        | 22/194 [00:00<00:04, 38.21it/s]Loading weights:  17%|█▋        | 33/194 [00:00<00:02, 53.80it/s]Loading weights:  21%|██        | 40/194 [00:01<00:02, 55.41it/s]Loading weights:  25%|██▌       | 49/194 [00:01<00:02, 64.25it/s]Loading weights:  30%|██▉       | 58/194 [00:01<00:02, 61.56it/s]Loading weights:  36%|███▌      | 69/194 [00:01<00:01, 70.51it/s]Loading weights:  40%|███▉      | 77/194 [00:01<00:01, 70.11it/s]Loading weights:  45%|████▍     | 87/194 [00:01<00:01, 75.91it/s]Loading weights:  49%|████▉     | 95/194 [00:01<00:01, 70.13it/s]Loading weights:  53%|█████▎    | 103/194 [00:01<00:01, 72.58it/s]Loading weights:  57%|█████▋    | 111/194 [00:01<00:01, 74.52it/s]Loading weights:  67%|██████▋   | 130/194 [00:02<00:00, 97.36it/s]Loading weights:  72%|███████▏  | 140/194 [00:02<00:00, 78.72it/s]Loading weights:  77%|███████▋  | 149/194 [00:02<00:00, 75.02it/s]Loading weights:  82%|████████▏ | 159/194 [00:02<00:00, 76.73it/s]Loading weights:  86%|████████▌ | 167/194 [00:02<00:00, 70.62it/s]Loading weights:  90%|█████████ | 175/194 [00:02<00:00, 66.29it/s]Loading weights:  94%|█████████▍| 183/194 [00:02<00:00, 68.94it/s]Loading weights:  98%|█████████▊| 191/194 [00:03<00:00, 66.68it/s]Loading weights: 100%|██████████| 194/194 [00:03<00:00, 62.23it/s]
+loaded=models/Phi-4-mini-instruct VRAM_GiB=2.69
+layer=8 of 32
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/som_ot_20261102_2345/Phi-4-mini-instruct__defect_h.npz n=432
+saved results/som_ot_20261102_2345/Phi-4-mini-instruct__defect_ot.jsonl

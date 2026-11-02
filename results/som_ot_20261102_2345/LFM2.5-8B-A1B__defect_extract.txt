@@ -1,0 +1,53 @@
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+load_fallback=cpu_offload max_memory={0: '10GiB', 'cpu': '48GiB'}
+load_attempt=cpu_offload
+Loading weights:   0%|          | 0/234 [00:00<?, ?it/s]Loading weights:   0%|          | 1/234 [00:00<00:49,  4.72it/s]Loading weights:   6%|▌         | 13/234 [00:00<00:04, 50.54it/s]Loading weights:   9%|▉         | 21/234 [00:00<00:05, 40.99it/s]Loading weights:  15%|█▌        | 36/234 [00:00<00:02, 68.95it/s]Loading weights:  20%|█▉        | 46/234 [00:00<00:02, 74.73it/s]Loading weights:  25%|██▌       | 59/234 [00:00<00:02, 78.14it/s]Loading weights:  32%|███▏      | 75/234 [00:01<00:01, 97.69it/s]Loading weights:  39%|███▉      | 92/234 [00:01<00:01, 113.58it/s]Loading weights:  47%|████▋     | 110/234 [00:01<00:00, 130.85it/s]Loading weights:  53%|█████▎    | 125/234 [00:01<00:00, 117.78it/s]Loading weights:  59%|█████▉    | 138/234 [00:01<00:01, 77.64it/s] Loading weights:  64%|██████▎   | 149/234 [00:01<00:01, 83.25it/s]Loading weights:  68%|██████▊   | 160/234 [00:02<00:01, 73.39it/s]Loading weights:  72%|███████▏  | 169/234 [00:02<00:00, 65.87it/s]Loading weights:  76%|███████▌  | 177/234 [00:02<00:01, 54.01it/s]Loading weights:  80%|████████  | 188/234 [00:02<00:00, 63.47it/s]Loading weights:  84%|████████▍ | 196/234 [00:02<00:00, 60.76it/s]Loading weights:  87%|████████▋ | 203/234 [00:02<00:00, 51.57it/s]Loading weights:  89%|████████▉ | 209/234 [00:02<00:00, 52.87it/s]Loading weights:  93%|█████████▎| 218/234 [00:03<00:00, 60.35it/s]Loading weights:  96%|█████████▌| 225/234 [00:03<00:00, 59.37it/s]Loading weights:  99%|█████████▉| 232/234 [00:03<00:00, 51.17it/s]Loading weights: 100%|██████████| 234/234 [00:03<00:00, 68.61it/s]
+load_failed=cpu_offload RuntimeError: Tensor.item() cannot be called on meta tensors
+load_fallback=cpu_offload_no_double_quant
+load_fallback=bf16_offload (unquantized, accelerate offload; slow)
+load_attempt=cpu_offload_no_dq
+load_failed=cpu_offload_no_dq OutOfMemoryError: CUDA out of memory. Tried to allocate 6.96 GiB. GPU 0 has a total capacity of 11.59 GiB of which 2.12 GiB is free. Process 11507 has 23.66 MiB memory in use. Including non-PyTorch memory, this process has 8.95 GiB memory in use. Of the allocated memory 7.85 GiB is allocated by PyTo
+load_attempt=bf16_offload
+load_failed=bf16_offload OutOfMemoryError: CUDA out of memory. Tried to allocate 8.05 GiB. GPU 0 has a total capacity of 11.59 GiB of which 2.12 GiB is free. Process 11507 has 23.66 MiB memory in use. Including non-PyTorch memory, this process has 8.95 GiB memory in use. Of the allocated memory 7.85 GiB is allocated by PyTo
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/scripts/som_ot_bank.py", line 276, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/intent-readout-search/scripts/som_ot_bank.py", line 272, in main
+    return {"extract": extract, "analyze": analyze, "smoke": smoke}[a.cmd](a)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/pauli/dockers/intent-readout-search/scripts/som_ot_bank.py", line 166, in extract
+    tok, model = load_tok_model(a.model)
+                 ~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 144, in load_tok_model
+    model = _load_model_with_fallbacks(name, torch, AutoModelForCausalLM, BitsAndBytesConfig, bnb)
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 107, in _load_model_with_fallbacks
+    raise last
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 64, in _load_model_with_fallbacks
+    return AutoModelForCausalLM.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        name, quantization_config=kw.pop("quantization_config", bnb), device_map="auto", **kw
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/auto/auto_factory.py", line 406, in from_pretrained
+    return model_class.from_pretrained(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        pretrained_model_name_or_path, *model_args, config=config, **hub_kwargs, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_utils.py", line 4353, in from_pretrained
+    loading_info, disk_offload_index = cls._load_pretrained_model(
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model, state_dict, checkpoint_files, load_config
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_utils.py", line 4435, in _load_pretrained_model
+    caching_allocator_warmup(model, expanded_device_map, load_config.hf_quantizer)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_utils.py", line 5148, in caching_allocator_warmup
+    _ = torch.empty(int(byte_count // 2), dtype=torch.float16, device=device, requires_grad=False)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 8.05 GiB. GPU 0 has a total capacity of 11.59 GiB of which 2.12 GiB is free. Process 11507 has 23.66 MiB memory in use. Including non-PyTorch memory, this process has 8.95 GiB memory in use. Of the allocated memory 7.85 GiB is allocated by PyTorch, and 898.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

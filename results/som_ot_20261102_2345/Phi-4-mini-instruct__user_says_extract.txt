@@ -1,0 +1,14 @@
+/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/configuration_utils.py:723: FutureWarning: `rope_scaling` is deprecated and will be removed in a future version. Set `rope_parameters` instead, with `rope_type` and `rope_theta` included.
+  warnings.warn(
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+load_attempt=native
+Loading weights:   0%|          | 0/194 [00:00<?, ?it/s]Loading weights:   2%|▏         | 3/194 [00:00<00:06, 27.91it/s]Loading weights:  25%|██▍       | 48/194 [00:00<00:00, 267.39it/s]Loading weights:  45%|████▌     | 88/194 [00:00<00:00, 323.75it/s]Loading weights:  65%|██████▌   | 127/194 [00:00<00:00, 342.32it/s]Loading weights:  89%|████████▊ | 172/194 [00:00<00:00, 375.04it/s]Loading weights: 100%|██████████| 194/194 [00:00<00:00, 344.19it/s]
+loaded=models/Phi-4-mini-instruct VRAM_GiB=2.69
+layer=8 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261102_2345/Phi-4-mini-instruct__user_says_h.npz n=114
+saved results/som_ot_20261102_2345/Phi-4-mini-instruct__user_says_ot.jsonl
