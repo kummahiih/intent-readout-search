@@ -21,6 +21,11 @@ from pathlib import Path
 import numpy as np
 
 from hide_bank import load_tok_model
+from cache_meta import cached_array, check_loaded, want_meta
+from prompt_text import encode_prompt
+
+NOTE_PROMPT_VERSION = "noteonly-v1"  # "Private note:\n" + note, last token
+MAX_LENGTH = 512
 
 SCENARIOS = "data/scenarios_all.jsonl"
 DUMPS = {
@@ -81,27 +86,24 @@ def extract_note_mid(model_name: str, model_path: str, rows: list[dict], layer: 
     suffix = f"_{tag}" if tag else ""
     cache = Path(f"results/noteonly_{model_name}{suffix}_L{layer}.npy")
     meta = Path(f"results/noteonly_{model_name}{suffix}_L{layer}.json")
-    if cache.exists() and meta.exists():
-        saved = json.loads(meta.read_text())
-        if saved.get("n") == len(rows) and saved.get("layer") == layer:
-            print(f"cache hit {cache}")
-            return np.load(cache)
+    want = want_meta(rows, layer, model_path, NOTE_PROMPT_VERSION, MAX_LENGTH)
+    return cached_array(cache, meta, want, lambda: _extract_note_mid(model_path, rows, layer))
+
+
+def _extract_note_mid(model_path: str, rows: list[dict], layer: int):
     tok, model = load_tok_model(model_path)
     import torch
     vecs = []
     for i, rec in enumerate(rows):
         text = "Private note:\n" + rec["note"]
-        enc = tok(text, return_tensors="pt", truncation=True, max_length=512)
+        enc = encode_prompt(tok, text, return_tensors="pt", truncation=True, max_length=MAX_LENGTH)
         enc = {k: v.to(model.device) for k, v in enc.items()}
         with torch.no_grad():
             out = model(**enc, output_hidden_states=True)
         vecs.append(out.hidden_states[layer][0, -1, :].float().cpu().numpy())
         if (i + 1) % 20 == 0:
             print(f"extracted {i+1}/{len(rows)}")
-    X = np.stack(vecs)
-    np.save(cache, X)
-    meta.write_text(json.dumps({"n": len(rows), "layer": layer}))
-    return X
+    return np.stack(vecs), getattr(tok, "name_or_path", model_path)
 
 
 def direction(X: np.ndarray, y: np.ndarray, fit: np.ndarray) -> np.ndarray:
@@ -111,11 +113,15 @@ def direction(X: np.ndarray, y: np.ndarray, fit: np.ndarray) -> np.ndarray:
     return d / n if n > 1e-8 else d
 
 
-def fit_logit(X: np.ndarray, y: np.ndarray) -> np.ndarray:
+def fit_logit(X: np.ndarray, y: np.ndarray, max_iter: int = 25, tol: float = 1e-6) -> tuple[np.ndarray, dict]:
+    """Newton logistic fit. Returns (w, info); info["converged"] is False when the step never fell
+    below tol within max_iter, the Hessian was singular, or the weights are not finite (audit 2026-11-03)."""
     n, d = X.shape
+    info = {"converged": False, "iters": 0, "reason": "max_iter"}
     Xb = np.concatenate([np.ones((n, 1)), X], 1)
     w = np.zeros(d + 1)
-    for _ in range(25):
+    for it in range(max_iter):
+        info["iters"] = it + 1
         z = np.clip(Xb @ w, -20, 20)
         p = 1 / (1 + np.exp(-z))
         W = p * (1 - p)
@@ -124,11 +130,13 @@ def fit_logit(X: np.ndarray, y: np.ndarray) -> np.ndarray:
         try:
             step = np.linalg.solve(H, g)
         except np.linalg.LinAlgError:
-            break
+            info["reason"] = "singular"; break
         w -= step
-        if np.max(np.abs(step)) < 1e-6:
-            break
-    return w
+        if np.max(np.abs(step)) < tol:
+            info.update(converged=True, reason="tol"); break
+    if not np.all(np.isfinite(w)):
+        info.update(converged=False, reason="nonfinite")
+    return w, info
 
 
 def main() -> None:
@@ -164,19 +172,23 @@ def main() -> None:
     if not pre_path.exists():
         raise SystemExit(f"missing {pre_path}; extract prebutton on this dump first")
     Xp = np.load(pre_path)
+    check_loaded(Xp, pre_path.with_suffix(".json"), rows, "prebutton Xp")
     Xn = extract_note_mid(args.model, path, rows, mid, tag=tag)
 
     sp = (Xp @ direction(Xp, y, fit))[:, None]
     sn = (Xn @ direction(Xn, y, fit))[:, None]
     X = np.concatenate([sp, sn], 1)
-    w = fit_logit(X[fit], y[fit])
+    w, conv = fit_logit(X[fit], y[fit])
+    if not conv["converged"]:
+        print(f"WARN fit_logit not converged ({conv['reason']}, {conv['iters']} iters): combine result INVALID")
     Xb = np.concatenate([np.ones((len(ev), 1)), X[ev]], 1)
     pred = (1 / (1 + np.exp(-np.clip(Xb @ w, -20, 20))) >= 0.5).astype(int)
     k = int((pred == y[ev]).sum())
     n = len(ev)
     acc, lo, hi = wilson(k, n)
     b = BASELINE.get(args.model)
-    print(f"combine mid={mid} {k}/{n} = {acc:.3f} [{lo:.3f}, {hi:.3f}]")
+    print(f"combine mid={mid} {k}/{n} = {acc:.3f} [{lo:.3f}, {hi:.3f}]"
+          + ("" if conv["converged"] else " INVALID (logit not converged)"))
     if b:
         print(f"note-text {b[0]}/{b[1]} = {b[2]:.3f}")
     if b:

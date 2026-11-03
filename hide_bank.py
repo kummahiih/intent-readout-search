@@ -235,7 +235,8 @@ def think_ban_ids(tok):
 
 def generate_short(model, tok, prompt, n_tokens, device, temperature):
     import torch
-    enc = tok(prompt, return_tensors="pt", truncation=True, max_length=512)
+    from prompt_text import encode_prompt  # no double BOS (audit 2026-11-03)
+    enc = encode_prompt(tok, prompt, return_tensors="pt", truncation=True, max_length=512)
     enc = {k: v.to(device) for k, v in enc.items()}
     kw = dict(max_new_tokens=n_tokens, pad_token_id=tok.eos_token_id)
     if temperature and temperature > 0:

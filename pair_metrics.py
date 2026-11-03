@@ -6,14 +6,43 @@ import json
 import sys
 from pathlib import Path
 
-import torch
-import torch.nn.functional as F
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from collections import Counter
+
+import numpy as np
+
+
+def _normalize(X):
+    X = np.asarray(X, dtype=np.float64)
+    return X / np.maximum(np.linalg.norm(X, axis=-1, keepdims=True), 1e-12)
+
+
+def topic_probe(X, topics_of, groups=None):
+    """Least-squares one-hot topic probe on L2-normalized features (audit 2026-11-03).
+    Returns in-sample acc, leave-one-out acc (held out by group: scenario_id if given, else row),
+    chance = 1/len(topics), and per-topic counts. Torch-free."""
+    topics = sorted(set(topics_of))
+    tid = {t: i for i, t in enumerate(topics)}
+    y = np.array([tid[t] for t in topics_of])
+    Xn = _normalize(X)
+    Y = np.eye(len(topics))[y]
+    W = np.linalg.lstsq(Xn, Y, rcond=None)[0]
+    ins = float(((Xn @ W).argmax(-1) == y).mean())
+    g = list(groups) if groups is not None else list(range(len(y)))
+    hits = 0
+    for gv in dict.fromkeys(g):
+        te = np.array([i for i, x in enumerate(g) if x == gv]); tr = np.array([i for i, x in enumerate(g) if x != gv])
+        if len(tr) == 0:
+            continue
+        Wl = np.linalg.lstsq(Xn[tr], Y[tr], rcond=None)[0]
+        hits += int(((Xn[te] @ Wl).argmax(-1) == y[te]).sum())
+    return {"insample_acc": ins, "loo_acc": hits / len(y), "loo_by": "scenario_id" if groups is not None else "row",
+            "chance": 1 / len(topics), "counts": dict(Counter(topics_of)), "topics": topics}
 
 
 def last_hidden(model, tokenizer, text, max_length, device):
-    toks = tokenizer(
-        text, return_tensors="pt", truncation=True, max_length=max_length
+    from prompt_text import encode_prompt
+    toks = encode_prompt(
+        tokenizer, text, return_tensors="pt", truncation=True, max_length=max_length
     )
     toks = {k: v.to(device) for k, v in toks.items()}
     out = model(**toks, output_hidden_states=True)
@@ -21,6 +50,7 @@ def last_hidden(model, tokenizer, text, max_length, device):
 
 
 def cosine(a, b):
+    import torch.nn.functional as F
     return float(
         (F.normalize(a.unsqueeze(0), dim=-1) @ F.normalize(b.unsqueeze(0), dim=-1).T)
         .clamp(-1, 1)
@@ -35,6 +65,8 @@ def main():
     p.add_argument("--max-length", type=int, default=256)
     p.add_argument("--u0", type=float, default=0.5, help="bank excluded if u > u0")
     args = p.parse_args()
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
     if not torch.cuda.is_available():
         print("ERROR: CUDA required", file=sys.stderr)
         sys.exit(1)
@@ -81,13 +113,10 @@ def main():
         )
     sure = [(s, r) for _, s, r in feats if r["u"] <= args.u0]
     unsure = [(s, r) for _, s, r in feats if r["u"] > args.u0]
-    topics = sorted({r["topic"] for _, _, r in feats})
-    topic_id = {t: i for i, t in enumerate(topics)}
-    X = torch.stack([h for h, _, _ in feats])
-    y = torch.tensor([topic_id[r["topic"]] for _, _, r in feats])
-    Xn = F.normalize(X, dim=-1)
-    W = torch.linalg.lstsq(Xn, F.one_hot(y, num_classes=len(topics)).float()).solution
-    acc = float(((Xn @ W).argmax(-1) == y).float().mean())
+    X = torch.stack([h for h, _, _ in feats]).numpy()
+    tops = [r["topic"] for _, _, r in feats]
+    grp = [r["scenario_id"] for _, _, r in feats] if all("scenario_id" in r for _, _, r in feats) else None
+    tp = topic_probe(X, tops, grp)
 
     def gap(pairs):
         dec = [s for s, r in pairs if r["strategy"] == "deceptive"]
@@ -102,8 +131,10 @@ def main():
         f"gap_sure={g_s if g_s is None else f'{g_s:.4f}'} "
         f"gap_unsure={g_u if g_u is None else f'{g_u:.4f}'}"
     )
-    print(f"topic_probe_acc_insample={acc:.2f} n={len(feats)} topics={topics}")
-    print("topic probe is in-sample. Not a held-out gate.")
+    print(f"topic_probe_acc_loo={tp['loo_acc']:.2f} (leave-one-{tp['loo_by']}-out) chance={tp['chance']:.2f} "
+          f"n={len(feats)} counts={tp['counts']}")
+    print(f"topic_probe_acc_insample={tp['insample_acc']:.2f} (in-sample, not held out; reference only)")
+    print("LOO topic probe is a held-out check, not a gate.")
     print("High-u rows must not enter D. Not a deception result.")
 
 

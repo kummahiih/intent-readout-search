@@ -12,6 +12,8 @@ import json
 import sys
 from pathlib import Path
 
+from prompt_text import encode_prompt  # no double BOS (audit 2026-11-03)
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
@@ -42,7 +44,7 @@ def first_token_id(tok, word: str) -> int:
 
 
 def logprob_next(model, tok, prompt: str, word: str, device, max_length: int) -> float:
-    enc = tok(prompt, return_tensors="pt", truncation=True, max_length=max_length)
+    enc = encode_prompt(tok, prompt, return_tensors="pt", truncation=True, max_length=max_length)
     enc = {k: v.to(device) for k, v in enc.items()}
     with torch.no_grad():
         out = model(**enc)
@@ -114,7 +116,7 @@ def chat(tok, messages: list[dict]) -> str:
 
 
 def generate(model, tok, prompt: str, n: int, device) -> str:
-    enc = tok(prompt, return_tensors="pt", truncation=True, max_length=512)
+    enc = encode_prompt(tok, prompt, return_tensors="pt", truncation=True, max_length=512)
     enc = {k: v.to(device) for k, v in enc.items()}
     with torch.no_grad():
         out = model.generate(
