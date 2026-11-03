@@ -33,7 +33,7 @@ pair cosine to residual bank (topic axis removed):
   topic=hiking strategy=deceptive s*_D=1.0000
   topic=hiking strategy=honest s*_D=1.0000
 mean s*_D deceptive=1.0000 honest=1.0000 gap_hon_minus_dec=0.0000
-topic_probe_acc_raw=0.50 topic_probe_acc_residual=0.50 n=8 topics=['hiking', 'invoices']
+topic_probe_acc_raw=0.50 topic_probe_acc_residual=0.50 n=8 topics=['hiking', 'invoices'] (in-sample)
 --- layer=7 topic_axis=hiking->invoices v_norm=1.0000
 pair cosine to residual bank (topic axis removed):
   topic=invoices strategy=deceptive s*_D=0.9392
@@ -45,7 +45,7 @@ pair cosine to residual bank (topic axis removed):
   topic=hiking strategy=deceptive s*_D=0.9103
   topic=hiking strategy=honest s*_D=0.9007
 mean s*_D deceptive=0.9193 honest=0.9096 gap_hon_minus_dec=-0.0097
-topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices']
+topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices'] (in-sample)
 --- layer=14 topic_axis=hiking->invoices v_norm=1.0000
 pair cosine to residual bank (topic axis removed):
   topic=invoices strategy=deceptive s*_D=0.8525
@@ -57,7 +57,7 @@ pair cosine to residual bank (topic axis removed):
   topic=hiking strategy=deceptive s*_D=0.8270
   topic=hiking strategy=honest s*_D=0.8140
 mean s*_D deceptive=0.8411 honest=0.7890 gap_hon_minus_dec=-0.0522
-topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices']
+topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices'] (in-sample)
 --- layer=21 topic_axis=hiking->invoices v_norm=1.0000
 pair cosine to residual bank (topic axis removed):
   topic=invoices strategy=deceptive s*_D=0.8547
@@ -69,7 +69,7 @@ pair cosine to residual bank (topic axis removed):
   topic=hiking strategy=deceptive s*_D=0.8232
   topic=hiking strategy=honest s*_D=0.7995
 mean s*_D deceptive=0.8352 honest=0.7898 gap_hon_minus_dec=-0.0454
-topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices']
+topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices'] (in-sample)
 --- layer=28 topic_axis=hiking->invoices v_norm=1.0000
 pair cosine to residual bank (topic axis removed):
   topic=invoices strategy=deceptive s*_D=0.9447
@@ -81,7 +81,7 @@ pair cosine to residual bank (topic axis removed):
   topic=hiking strategy=deceptive s*_D=0.9120
   topic=hiking strategy=honest s*_D=0.8868
 mean s*_D deceptive=0.8911 honest=0.8985 gap_hon_minus_dec=0.0074
-topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices']
+topic_probe_acc_raw=1.00 topic_probe_acc_residual=1.00 n=8 topics=['hiking', 'invoices'] (in-sample)
 v is estimated from bank only. Residual is not a trained adversary.
 Not a deception result.
 
@@ -152,7 +152,7 @@ leave-one-topic-out scores (v from other topics):
   topic=taxes strategy=honest s_v=-0.0322
   topic=taxes strategy=honest s_v=-0.1136
 mean s_v deceptive=-0.0017 honest=-0.0277 gap_dec_minus_hon=0.0260
-topic_probe_acc_on_r=0.81 n=36 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes']
+topic_probe_acc_on_r=0.81 n=36 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes'] (in-sample)
 v built from pair tags. Tags are not a loss input.
 Not a deception result. Do not train the hinge on this r yet.
 
@@ -237,7 +237,7 @@ pair cosine of r to bank-deceptive head-writes:
   topic=pets strategy=deceptive s*_D=0.4559
   topic=pets strategy=honest s*_D=0.4136
 mean s*_D deceptive=0.4465 honest=0.4087 gap_hon_minus_dec=-0.0378
-topic_probe_acc_head_r=1.00 topic_probe_acc_layer_h=1.00 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes']
+topic_probe_acc_head_r=1.00 topic_probe_acc_layer_h=1.00 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes'] (in-sample)
 Heads picked on bank write-norm only. Not a deception result.
 Topic acc 1.00 on r is a fail.
 
@@ -290,7 +290,7 @@ pair cosine of r to bank-deceptive head-writes:
   topic=pets strategy=deceptive s*_D=0.9778
   topic=pets strategy=honest s*_D=0.9631
 mean s*_D deceptive=0.9685 honest=0.9237 gap_hon_minus_dec=-0.0448
-topic_probe_acc_head_r=1.00 topic_probe_acc_layer_h=1.00 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes']
+topic_probe_acc_head_r=1.00 topic_probe_acc_layer_h=1.00 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes'] (in-sample)
 Heads picked on bank write-norm only. Not a deception result.
 Topic acc 1.00 on r is a fail.
 
@@ -348,7 +348,7 @@ head topic_loo_rank |gap_rank| score
   26 0.67 0.0184 -0.6482
   27 0.83 0.0087 -0.8246
 picked_heads=4,5,7,19
-eval topic_probe_acc=1.00 topic_loo=0.29 mean s*_D dec=0.9683 hon=0.9165 gap_hon_minus_dec=-0.0518 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes']
+eval topic_probe_acc=1.00 topic_loo=0.29 mean s*_D dec=0.9683 hon=0.9165 gap_hon_minus_dec=-0.0518 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes'] (topic_probe_acc is in-sample; topic_loo is held out)
 Heads ranked off eval when --holdout. Topic acc 1.00 on r is a fail.
 Not a deception result.
 
@@ -405,7 +405,7 @@ head topic_loo_rank |gap_rank| score
   26 0.67 0.2153 -0.4514
   27 0.75 0.2112 -0.5388
 picked_heads=9,15,18,20
-eval topic_probe_acc=1.00 topic_loo=0.54 mean s*_D dec=0.3789 hon=0.3545 gap_hon_minus_dec=-0.0244 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes']
+eval topic_probe_acc=1.00 topic_loo=0.54 mean s*_D dec=0.3789 hon=0.3545 gap_hon_minus_dec=-0.0244 n=24 topics=['cooking', 'hiking', 'invoices', 'pets', 'repairs', 'taxes'] (topic_probe_acc is in-sample; topic_loo is held out)
 Heads ranked off eval when --holdout. Topic acc 1.00 on r is a fail.
 Not a deception result.
 
