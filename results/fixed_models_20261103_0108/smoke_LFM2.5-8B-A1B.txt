@@ -1,0 +1,138 @@
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+freed_after_failed_load VRAM_GiB=0.00
+load_fallback=cpu_offload max_memory={0: '10GiB', 'cpu': '48GiB'}
+load_attempt=cpu_offload
+Loading weights:   0%|          | 0/234 [00:00<?, ?it/s]Loading weights:   9%|▊         | 20/234 [00:00<00:01, 160.85it/s]Loading weights:  16%|█▌        | 37/234 [00:00<00:01, 129.54it/s]Loading weights:  22%|██▏       | 51/234 [00:00<00:01, 121.92it/s]Loading weights:  27%|██▋       | 64/234 [00:00<00:01, 119.91it/s]Loading weights:  36%|███▌      | 84/234 [00:00<00:01, 137.30it/s]Loading weights:  42%|████▏     | 99/234 [00:00<00:00, 136.75it/s]Loading weights:  52%|█████▏    | 122/234 [00:00<00:00, 157.42it/s]Loading weights:  59%|█████▉    | 138/234 [00:01<00:00, 97.04it/s] Loading weights:  65%|██████▍   | 151/234 [00:01<00:00, 98.80it/s]Loading weights:  70%|██████▉   | 163/234 [00:01<00:00, 73.91it/s]Loading weights:  74%|███████▍  | 173/234 [00:01<00:00, 68.16it/s]Loading weights:  78%|███████▊  | 182/234 [00:01<00:00, 71.44it/s]Loading weights:  82%|████████▏ | 191/234 [00:02<00:00, 62.28it/s]Loading weights:  85%|████████▌ | 200/234 [00:02<00:00, 58.30it/s]Loading weights:  88%|████████▊ | 207/234 [00:02<00:00, 58.26it/s]Loading weights:  93%|█████████▎| 218/234 [00:02<00:00, 69.04it/s]Loading weights:  97%|█████████▋| 226/234 [00:02<00:00, 68.28it/s]Loading weights: 100%|██████████| 234/234 [00:02<00:00, 58.96it/s]Loading weights: 100%|██████████| 234/234 [00:02<00:00, 83.87it/s]
+load_failed=cpu_offload RuntimeError: Tensor.item() cannot be called on meta tensors
+freed_after_failed_load VRAM_GiB=0.00
+load_fallback=cpu_offload_no_double_quant
+load_fallback=bf16_offload (unquantized, accelerate offload; slow)
+load_attempt=cpu_offload_no_dq
+Loading weights:   0%|          | 0/234 [00:00<?, ?it/s]Loading weights:   9%|▉         | 21/234 [00:00<00:01, 192.78it/s]Loading weights:  19%|█▉        | 44/234 [00:00<00:00, 196.30it/s]Loading weights:  27%|██▋       | 64/234 [00:00<00:00, 173.44it/s]Loading weights:  36%|███▌      | 84/234 [00:00<00:00, 177.13it/s]Loading weights:  44%|████▎     | 102/234 [00:00<00:00, 174.80it/s]Loading weights:  53%|█████▎    | 123/234 [00:00<00:00, 176.24it/s]Loading weights:  60%|██████    | 141/234 [00:00<00:00, 112.07it/s]Loading weights:  66%|██████▌   | 155/234 [00:01<00:00, 94.58it/s] Loading weights:  71%|███████▏  | 167/234 [00:01<00:00, 77.98it/s]Loading weights:  76%|███████▌  | 177/234 [00:01<00:00, 67.47it/s]Loading weights:  80%|████████  | 188/234 [00:01<00:00, 74.87it/s]Loading weights:  84%|████████▍ | 197/234 [00:01<00:00, 67.49it/s]Loading weights:  88%|████████▊ | 205/234 [00:02<00:00, 67.66it/s]Loading weights:  91%|█████████ | 213/234 [00:02<00:00, 67.09it/s]Loading weights:  94%|█████████▍| 221/234 [00:02<00:00, 58.97it/s]Loading weights:  97%|█████████▋| 228/234 [00:02<00:00, 60.91it/s]Loading weights: 100%|██████████| 234/234 [00:02<00:00, 90.59it/s]
+Some parameters are on the meta device because they were offloaded to the cpu.
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=7.86
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 156, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/intent-readout-search/run_scenario.py", line 129, in main
+    text = generate_short(
+        model, tok, prompt(tok, rec, rec[field], args.incentive_in_user, args.role_frame, not args.allow_think),
+        args.new_tokens, device, 0
+    )
+  File "/home/pauli/dockers/intent-readout-search/hide_bank.py", line 187, in generate_short
+    out = model.generate(**enc, **kw)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/utils/_contextlib.py", line 158, in no_grad
+    return func(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/generation/utils.py", line 3000, in generate
+    result = decoding_method(
+        self,
+    ...<5 lines>...
+        **model_kwargs,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/generation/utils.py", line 3200, in _sample
+    outputs = self._prefill(
+        input_ids,
+    ...<2 lines>...
+        is_first_iteration=not generation_config.is_assistant,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/generation/utils.py", line 4312, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1798, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/generic.py", line 943, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/lfm2_moe/modeling_lfm2_moe.py", line 677, in forward
+    outputs: MoeModelOutputWithPast = self.model(
+                                      ~~~~~~~~~~^
+        input_ids=input_ids,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1798, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/generic.py", line 1081, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/output_capturing.py", line 287, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/lfm2_moe/modeling_lfm2_moe.py", line 613, in forward
+    hidden_states = decoder_layer(
+        hidden_states,
+    ...<4 lines>...
+        **kwargs,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/modeling_layers.py", line 111, in __call__
+    return super().__call__(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1798, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/lfm2_moe/modeling_lfm2_moe.py", line 506, in forward
+    hidden_states = self.conv(
+        hidden_states=self.operator_norm(hidden_states),
+    ...<2 lines>...
+        **kwargs,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1798, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/integrations/accelerate.py", line 1012, in wrapped
+    output = forward_func(self, *args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/models/lfm2_moe/modeling_lfm2_moe.py", line 437, in forward
+    BCx = self.in_proj(hidden_states).transpose(-1, -2)
+          ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1798, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/accelerate/hooks.py", line 187, in new_forward
+    args, kwargs = module._hf_hook.pre_forward(module, *args, **kwargs)
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/accelerate/hooks.py", line 50, in wrapper
+    return wrapper._compiled_fn(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_dynamo/eval_frame.py", line 1552, in _fn
+    return fn(*args, **kwargs)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/accelerate/hooks.py", line 388, in pre_forward
+    set_module_tensor_to_device(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        module,
+        ^^^^^^^
+    ...<4 lines>...
+        tied_params_map=self.tied_params_map,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/accelerate/utils/modeling.py", line 374, in set_module_tensor_to_device
+    new_value = param_cls(new_value, requires_grad=old_value.requires_grad, **kwargs).to(
+        device, non_blocking=non_blocking
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/bitsandbytes/nn/modules.py", line 431, in to
+    self.quant_state.to(device)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/bitsandbytes/functional.py", line 582, in to
+    self.code = self.code.to(device)
+                ~~~~~~~~~~~~^^^^^^^^
+NotImplementedError: Cannot copy out of meta tensor; no data!

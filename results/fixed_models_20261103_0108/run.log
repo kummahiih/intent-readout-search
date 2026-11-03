@@ -1,0 +1,11 @@
+HF_MODULES_CACHE=/home/pauli/dockers/intent-readout-search/.hf_modules_cache WANT_FILTER=LFM2.5
+=== start 2026-11-03T01:08:56+02:00 6106d2c NEW_TOKENS=256 ===
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+--- smoke LFM2.5-8B-A1B (2026-11-03T01:08:58+02:00)
+    self.code = self.code.to(device)
+                ~~~~~~~~~~~~^^^^^^^^
+NotImplementedError: Cannot copy out of meta tensor; no data!
+FAIL smoke LFM2.5-8B-A1B (skipping model)
+=== done 2026-11-03T01:09:10+02:00 ===
+  LFM2.5-8B-A1B: SMOKE FAIL
+Provisional banks, not confirmatory. Not a camera. Not handoverPass. D not filled. r not frozen. Negative handover unchanged.

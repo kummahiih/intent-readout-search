@@ -1,0 +1,22 @@
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+freed_after_failed_load VRAM_GiB=0.00
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+Loading weights:   0%|          | 0/234 [00:00<?, ?it/s]Loading weights:  15%|█▍        | 35/234 [00:00<00:00, 259.70it/s]Loading weights:  26%|██▌       | 61/234 [00:00<00:00, 196.39it/s]Loading weights:  36%|███▌      | 84/234 [00:00<00:00, 207.78it/s]Loading weights:  45%|████▌     | 106/234 [00:00<00:00, 175.42it/s]Loading weights:  53%|█████▎    | 125/234 [00:00<00:00, 134.90it/s]Loading weights:  60%|█████▉    | 140/234 [00:00<00:00, 109.38it/s]Loading weights:  65%|██████▌   | 153/234 [00:01<00:00, 112.84it/s]Loading weights:  71%|███████   | 166/234 [00:01<00:00, 115.44it/s]Loading weights:  76%|███████▋  | 179/234 [00:01<00:00, 93.24it/s] Loading weights:  82%|████████▏ | 192/234 [00:01<00:00, 98.87it/s]Loading weights:  87%|████████▋ | 203/234 [00:01<00:00, 98.07it/s]Loading weights:  91%|█████████▏| 214/234 [00:01<00:00, 76.60it/s]Loading weights:  95%|█████████▌| 223/234 [00:02<00:00, 46.54it/s]Loading weights:  98%|█████████▊| 230/234 [00:02<00:00, 36.10it/s]Loading weights: 100%|██████████| 234/234 [00:02<00:00, 86.79it/s]
+Some parameters are on the meta device because they were offloaded to the cpu.
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=6.19
+layer=8 of 24
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/som_ot_20261103_0112/LFM2.5-8B-A1B__defect_h.npz n=432
+saved results/som_ot_20261103_0112/LFM2.5-8B-A1B__defect_ot.jsonl

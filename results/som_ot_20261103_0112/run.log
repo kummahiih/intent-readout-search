@@ -1,0 +1,36 @@
+=== start 2026-11-03T01:12:43+02:00 fc85eac ===
+--- CPU smokes
+smoke defect OK
+smoke user_says OK
+smoke agent_stakes OK
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+models: LFM2.5-8B-A1B
+--- LFM2.5-8B-A1B__defect layer=8 (2026-11-03T01:12:45+02:00)
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=6.19
+layer=8 of 24
+button dump: missing
+--- LFM2.5-8B-A1B__user_says layer=8 (2026-11-03T03:46:23+02:00)
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=6.19
+layer=8 of 24
+button dump: missing
+--- LFM2.5-8B-A1B__agent_stakes layer=8 (2026-11-03T04:27:15+02:00)
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=6.19
+layer=8 of 24
+button dump: missing
+=== done 2026-11-03T05:08:08+02:00 ===
+  LFM2.5-8B-A1B__defect: OK
+  LFM2.5-8B-A1B__user_says: OK
+  LFM2.5-8B-A1B__agent_stakes: OK
+SOM/OT are diagnostics, not gates. Provisional banks. Not a camera. Not handoverPass. D not filled. r not frozen. Negative handover unchanged.

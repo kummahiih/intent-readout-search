@@ -1,0 +1,27 @@
+=== start 2026-11-03T01:09:10+02:00 6106d2c ===
+--- CPU smokes
+smoke defect OK
+smoke user_says OK
+smoke agent_stakes OK
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+models: LFM2.5-8B-A1B
+--- LFM2.5-8B-A1B__defect layer=8 (2026-11-03T01:09:12+02:00)
+    self.code = self.code.to(device)
+                ~~~~~~~~~~~~^^^^^^^^
+NotImplementedError: Cannot copy out of meta tensor; no data!
+FAIL extract LFM2.5-8B-A1B__defect (continuing)
+--- LFM2.5-8B-A1B__user_says layer=8 (2026-11-03T01:09:24+02:00)
+    self.code = self.code.to(device)
+                ~~~~~~~~~~~~^^^^^^^^
+NotImplementedError: Cannot copy out of meta tensor; no data!
+FAIL extract LFM2.5-8B-A1B__user_says (continuing)
+--- LFM2.5-8B-A1B__agent_stakes layer=8 (2026-11-03T01:09:36+02:00)
+    self.code = self.code.to(device)
+                ~~~~~~~~~~~~^^^^^^^^
+NotImplementedError: Cannot copy out of meta tensor; no data!
+FAIL extract LFM2.5-8B-A1B__agent_stakes (continuing)
+=== done 2026-11-03T01:09:48+02:00 ===
+  LFM2.5-8B-A1B__defect: EXTRACT FAIL
+  LFM2.5-8B-A1B__user_says: EXTRACT FAIL
+  LFM2.5-8B-A1B__agent_stakes: EXTRACT FAIL
+SOM/OT are diagnostics, not gates. Provisional banks. Not a camera. Not handoverPass. D not filled. r not frozen. Negative handover unchanged.

@@ -1,0 +1,97 @@
+Traceback (most recent call last):
+  File "/home/pauli/dockers/intent-readout-search/scripts/som_ot_bank.py", line 276, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/pauli/dockers/intent-readout-search/scripts/som_ot_bank.py", line 272, in main
+    return {"extract": extract, "analyze": analyze, "smoke": smoke}[a.cmd](a)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/pauli/dockers/intent-readout-search/scripts/som_ot_bank.py", line 162, in extract
+    import torch
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/__init__.py", line 3384, in <module>
+    from torch import _meta_registrations
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_meta_registrations.py", line 12, in <module>
+    from torch._decomp import (
+    ...<4 lines>...
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_decomp/__init__.py", line 301, in <module>
+    import torch._decomp.decompositions
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_decomp/decompositions.py", line 17, in <module>
+    import torch._prims as prims
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_prims/__init__.py", line 894, in <module>
+    neg = _make_elementwise_unary_prim(
+        "neg",
+    ...<2 lines>...
+        type_promotion=ELEMENTWISE_PRIM_TYPE_PROMOTION_KIND.DEFAULT,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_prims/__init__.py", line 513, in _make_elementwise_unary_prim
+    return _make_prim(
+        schema=f"{name}(Tensor self) -> Tensor",
+    ...<2 lines>...
+        **kwargs,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_prims/__init__.py", line 334, in _make_prim
+    prim_def = torch.library.custom_op(
+        "prims::" + name,
+    ...<2 lines>...
+        schema=schema,
+    )
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_library/custom_ops.py", line 269, in custom_op
+    return inner(fn)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_library/custom_ops.py", line 249, in inner
+    result = CustomOpDef(namespace, opname, schema_str, fn, normalized_tags)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_library/custom_ops.py", line 310, in __init__
+    self._register_to_dispatcher(self._tags)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_library/custom_ops.py", line 763, in _register_to_dispatcher
+    self._register_autograd_dispatcher_impl()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_library/custom_ops.py", line 801, in _register_autograd_dispatcher_impl
+    autograd_impl = autograd.make_autograd_impl(self._opoverload, self)
+  File "/home/pauli/rh-venv-314/lib/python3.14/site-packages/torch/_library/autograd.py", line 36, in make_autograd_impl
+    @dataclass
+     ^^^^^^^^^
+  File "/usr/lib/python3.14/dataclasses.py", line 1442, in dataclass
+    return wrap(cls)
+  File "/usr/lib/python3.14/dataclasses.py", line 1432, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+                          frozen, match_args, kw_only, slots,
+                          weakref_slot)
+  File "/usr/lib/python3.14/dataclasses.py", line 1222, in _process_class
+    text_sig = str(inspect.signature(
+                   ~~~~~~~~~~~~~~~~~^
+        cls,
+        ^^^^
+        annotation_format=annotationlib.Format.FORWARDREF,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )).replace(' -> None', '')
+    ^
+  File "/usr/lib/python3.14/inspect.py", line 3323, in signature
+    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   globals=globals, locals=locals, eval_str=eval_str,
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   annotation_format=annotation_format)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/inspect.py", line 3038, in from_callable
+    return _signature_from_callable(obj, sigcls=cls,
+                                    follow_wrapper_chains=follow_wrapped,
+                                    globals=globals, locals=locals, eval_str=eval_str,
+                                    annotation_format=annotation_format)
+  File "/usr/lib/python3.14/inspect.py", line 2558, in _signature_from_callable
+    return _get_signature_of(init)
+  File "/usr/lib/python3.14/inspect.py", line 2441, in _signature_from_callable
+    sig = _get_signature_of(obj.__func__)
+  File "/usr/lib/python3.14/inspect.py", line 2512, in _signature_from_callable
+    return _signature_from_function(sigcls, obj,
+                                    skip_bound_arg=skip_bound_arg,
+                                    globals=globals, locals=locals, eval_str=eval_str,
+                                    annotation_format=annotation_format)
+  File "/usr/lib/python3.14/inspect.py", line 2354, in _signature_from_function
+    parameters.append(Parameter(name, annotation=annotation,
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                kind=kind))
+                                ^^^^^^^^^^
+  File "/usr/lib/python3.14/inspect.py", line 2681, in __init__
+    def __init__(self, name, kind, *, default=_empty, annotation=_empty):
+    
+KeyboardInterrupt

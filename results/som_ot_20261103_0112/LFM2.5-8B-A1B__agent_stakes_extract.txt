@@ -1,0 +1,16 @@
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+freed_after_failed_load VRAM_GiB=0.00
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+Loading weights:   0%|          | 0/234 [00:00<?, ?it/s]Loading weights:   9%|▊         | 20/234 [00:00<00:01, 137.20it/s]Loading weights:  15%|█▍        | 35/234 [00:00<00:01, 108.38it/s]Loading weights:  20%|█▉        | 46/234 [00:00<00:02, 93.27it/s] Loading weights:  25%|██▌       | 59/234 [00:00<00:01, 97.26it/s]Loading weights:  35%|███▌      | 83/234 [00:00<00:01, 132.80it/s]Loading weights:  42%|████▏     | 98/234 [00:00<00:01, 118.22it/s]Loading weights:  48%|████▊     | 113/234 [00:00<00:01, 119.41it/s]Loading weights:  54%|█████▍    | 126/234 [00:01<00:00, 109.02it/s]Loading weights:  59%|█████▉    | 138/234 [00:01<00:01, 79.79it/s] Loading weights:  65%|██████▍   | 152/234 [00:01<00:00, 89.53it/s]Loading weights:  70%|██████▉   | 163/234 [00:01<00:00, 81.34it/s]Loading weights:  74%|███████▍  | 173/234 [00:01<00:00, 80.58it/s]Loading weights:  78%|███████▊  | 182/234 [00:01<00:00, 80.97it/s]Loading weights:  82%|████████▏ | 192/234 [00:02<00:00, 84.85it/s]Loading weights:  86%|████████▌ | 201/234 [00:02<00:00, 83.79it/s]Loading weights:  90%|████████▉ | 210/234 [00:02<00:00, 78.28it/s]Loading weights:  94%|█████████▍| 221/234 [00:02<00:00, 86.04it/s]Loading weights:  98%|█████████▊| 230/234 [00:02<00:00, 61.67it/s]Loading weights: 100%|██████████| 234/234 [00:02<00:00, 88.86it/s]
+Some parameters are on the meta device because they were offloaded to the cpu.
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=6.19
+layer=8 of 24
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261103_0112/LFM2.5-8B-A1B__agent_stakes_h.npz n=114
+saved results/som_ot_20261103_0112/LFM2.5-8B-A1B__agent_stakes_ot.jsonl

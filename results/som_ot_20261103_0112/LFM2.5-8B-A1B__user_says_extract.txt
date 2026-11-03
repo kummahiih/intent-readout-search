@@ -1,0 +1,16 @@
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+freed_after_failed_load VRAM_GiB=0.00
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+Loading weights:   0%|          | 0/234 [00:00<?, ?it/s]Loading weights:  15%|█▍        | 35/234 [00:00<00:00, 250.45it/s]Loading weights:  26%|██▌       | 61/234 [00:00<00:00, 194.76it/s]Loading weights:  39%|███▉      | 92/234 [00:00<00:00, 206.17it/s]Loading weights:  48%|████▊     | 113/234 [00:00<00:00, 146.13it/s]Loading weights:  56%|█████▌    | 130/234 [00:00<00:00, 142.78it/s]Loading weights:  62%|██████▏   | 146/234 [00:01<00:00, 113.71it/s]Loading weights:  68%|██████▊   | 159/234 [00:01<00:00, 112.52it/s]Loading weights:  73%|███████▎  | 171/234 [00:01<00:00, 71.56it/s] Loading weights:  77%|███████▋  | 181/234 [00:02<00:01, 44.94it/s]Loading weights:  82%|████████▏ | 191/234 [00:02<00:01, 38.60it/s]Loading weights:  84%|████████▍ | 197/234 [00:02<00:00, 38.77it/s]Loading weights:  87%|████████▋ | 203/234 [00:02<00:01, 30.74it/s]Loading weights:  89%|████████▉ | 208/234 [00:03<00:00, 32.44it/s]Loading weights:  94%|█████████▍| 221/234 [00:03<00:00, 43.72it/s]Loading weights:  98%|█████████▊| 230/234 [00:03<00:00, 30.59it/s]Loading weights: 100%|██████████| 234/234 [00:03<00:00, 61.41it/s]
+Some parameters are on the meta device because they were offloaded to the cpu.
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=6.19
+layer=8 of 24
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/som_ot_20261103_0112/LFM2.5-8B-A1B__user_says_h.npz n=114
+saved results/som_ot_20261103_0112/LFM2.5-8B-A1B__user_says_ot.jsonl
