@@ -106,7 +106,11 @@ def analyze_matrix(X, meta, grids=(3, 4, 5), seeds=3, steps=30, nulls=20, pca=32
         out["status"] = "missing split"; return out
     lab = {k: [m.get(k) for m in meta] for k in ("incentive", "public_button", "topic")}
     res = {}
-    for cond in ("raw", "topic_mean_subtracted"):
+    n_topics = len({lab["topic"][i] for i in fit + ev})
+    conds = ("raw", "topic_mean_subtracted") if n_topics >= 2 else ("raw",)
+    if n_topics < 2:  # one topic: topic purity is trivially 1.0 and topic-mean subtraction == raw
+        res["topic_mean_subtracted"] = "N/A (single topic; identical to raw)"
+    for cond in conds:
         Xf, Xe = X[fit].astype(np.float32), X[ev].astype(np.float32)
         if cond == "topic_mean_subtracted":
             Xf, Xe = subtract_topic_mean_fit(Xf, Xe, [lab["topic"][i] for i in fit], [lab["topic"][i] for i in ev])
@@ -124,13 +128,17 @@ def analyze_matrix(X, meta, grids=(3, 4, 5), seeds=3, steps=30, nulls=20, pca=32
         r = {"grid_fit_cv": sel, "grid_selected": g}
         rng = np.random.default_rng(0)
         for name, L in lab.items():
+            if name == "topic" and n_topics < 2:
+                r[name] = "N/A (single topic)"; continue
             le_all = [L[i] for i in ev]
             keep = [j for j, x in enumerate(le_all) if x is not None]  # drop rows with no valid label
             if not keep:  # (e.g. one 'other' public button used to blank the whole label)
                 r[name] = "missing"; continue
             le = [le_all[j] for j in keep]
-            ps = [purity(s.winners(Xe)[keep], le) for s in soms]
-            null = [purity(soms[0].winners(Xe)[keep], list(rng.permutation(le))) for _ in range(nulls)]
+            win = [s.winners(Xe)[keep] for s in soms]
+            ps = [purity(w, le) for w in win]
+            # null over all seeds (was seed 0 only before the 2026-11-03 audit)
+            null = [purity(win[j % len(win)], list(rng.permutation(le))) for j in range(nulls)]
             r[name] = {"n_eval_labelled": len(keep),"eval_purity_mean": float(np.mean(ps)), "per_seed": [float(p) for p in ps],
                        "shuffle_null_mean": float(np.mean(null)), "shuffle_null_p95": float(np.percentile(null, 95)),
                        "majority": Counter(le).most_common(1)[0][1] / len(le)}
@@ -157,6 +165,20 @@ def join_meta(bank, dump):
     return meta
 
 
+def ot_texts(tok, bank, mode, ask, incentive_in_user, role_frame):
+    """OT prompts. mode 'chat' (default since the 2026-11-03 audit): the same chat prompt the
+    extraction uses (note + incentive context + role frame), with ask --ot-ask (default ''), and an
+    empty-note/empty-context chat prompt as the empty baseline. mode 'note': the old raw
+    'Note: {note}' text and the empty string; it ignores the frame and the incentive context, so
+    user_says and agent_stakes gave byte-identical OT files in every run before the fix."""
+    if mode == "note":
+        return {"empty": "", "rows": [f"Note: {r['note']}" for r in bank]}
+    from run_scenario import prompt
+    blank = {"note": "", "incentive_context": ""}
+    return {"empty": prompt(tok, blank, ask, incentive_in_user, role_frame, True),
+            "rows": [prompt(tok, r, ask, incentive_in_user, role_frame, True) for r in bank]}
+
+
 # ---------------- GPU extraction ----------------
 def extract(a):
     import torch
@@ -170,8 +192,10 @@ def extract(a):
     layer = min(a.layer, nl)
     print(f"layer={layer} of {nl}")
 
+    from prompt_text import encode_prompt  # no double BOS (audit 2026-11-03)
+
     def last_h(text):
-        enc = tok(text, return_tensors="pt", truncation=True, max_length=512)
+        enc = encode_prompt(tok, text, return_tensors="pt", truncation=True, max_length=512)
         enc = {k: v.to(dev) for k, v in enc.items()}
         with torch.no_grad():
             o = model(**enc, output_hidden_states=True)
@@ -188,23 +212,23 @@ def extract(a):
     print(f"saved {a.out} n={len(bank)}")
     if a.ot:
         def sample(text):
-            enc = tok(text or " ", return_tensors="pt", truncation=True, max_length=256)
+            enc = encode_prompt(tok, text or " ", return_tensors="pt", truncation=True, max_length=256)
             enc = {k: v.to(dev) for k, v in enc.items()}
             with torch.no_grad():
                 g = model.generate(**enc, max_new_tokens=a.max_new, do_sample=True, temperature=0.7,
                                    num_return_sequences=a.n_samples, pad_token_id=tok.eos_token_id)
             return [tok.decode(x[enc["input_ids"].shape[1]:], skip_special_tokens=True) for x in g]
         torch.manual_seed(0)
-        empty = sample("")
-        for r in bank:
+        texts = ot_texts(tok, bank, a.ot_mode, a.ot_ask, a.incentive_in_user, a.role_frame)
+        empty = sample(texts["empty"])
+        for r, text in zip(bank, texts["rows"]):
             kws = keywords(r["proposition"])
             m0 = float(np.mean([in_fact_room(c, kws) for c in empty]))
-            text = f"Note: {r['note']}"
             m = float(np.mean([in_fact_room(c, kws) for c in sample(text)]))
             inr = m >= a.tau
             cost = 0 if m0 >= a.tau else (len(text) if inr else None)
             ot.append({"scenario_id": r["scenario_id"], "incentive": r["incentive"], "split": r.get("split", ""),
-                       "keywords": kws, "mass_empty": m0, "mass_note": m, "in_room": inr, "ot": cost})
+                       "ot_mode": a.ot_mode, "keywords": kws, "mass_empty": m0, "mass_note": m, "in_room": inr, "ot": cost})
         Path(a.ot).write_text("".join(json.dumps(x) + "\n" for x in ot))
         print(f"saved {a.ot}")
     return 0
@@ -264,7 +288,8 @@ def main():
     e.add_argument("--layer", type=int, default=8); e.add_argument("--out", required=True)
     e.add_argument("--incentive-in-user", action="store_true"); e.add_argument("--role-frame", default="")
     e.add_argument("--ot", default=""); e.add_argument("--n-samples", type=int, default=4)
-    e.add_argument("--max-new", type=int, default=24); e.add_argument("--tau", type=float, default=0.5)
+    e.add_argument("--max-new", type=int, default=24)
+    e.add_argument("--ot-mode", choices=["chat", "note"], default="chat"); e.add_argument("--ot-ask", default=""); e.add_argument("--tau", type=float, default=0.5)
     an = sub.add_parser("analyze"); an.add_argument("--data", required=True); an.add_argument("--npz", required=True)
     an.add_argument("--button-dump", default=""); an.add_argument("--ot", default=""); an.add_argument("--out", required=True)
     an.add_argument("--seeds", type=int, default=3); an.add_argument("--steps", type=int, default=30); an.add_argument("--nulls", type=int, default=20)

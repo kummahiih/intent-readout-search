@@ -17,6 +17,8 @@ from pathlib import Path
 
 import numpy as np
 
+from prompt_text import encode_prompt  # no double BOS (audit 2026-11-03)
+
 from hide_bank import load_tok_model
 from reply_mutate import chat
 
@@ -125,7 +127,7 @@ def note_end_offset(tok, rec: dict, full_ids: list[int]) -> int:
 def endnote_residual(model, tok, rec: dict, layer: int):
     import torch
     text = full_prompt(tok, rec)
-    enc = tok(text, return_tensors="pt", truncation=True, max_length=512)
+    enc = encode_prompt(tok, text, return_tensors="pt", truncation=True, max_length=512)
     ids = enc["input_ids"][0].tolist()
     off = note_end_offset(tok, rec, ids)
     off = min(off, enc["input_ids"].shape[1] - 1)

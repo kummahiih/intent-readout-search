@@ -19,6 +19,8 @@ from pathlib import Path
 
 import numpy as np
 
+from prompt_text import encode_prompt  # no double BOS (audit 2026-11-03)
+
 from hide_bank import load_tok_model
 from reply_mutate import chat
 
@@ -88,7 +90,7 @@ def extract_vecs(model_path: str, rows: list[dict], layer: int, cache: Path) -> 
     vecs = []
     for i, rec in enumerate(rows):
         text = prompt_of(tok, rec) if layer == -1 else ("Private note:\n" + rec["note"])
-        enc = tok(text, return_tensors="pt", truncation=True, max_length=512)
+        enc = encode_prompt(tok, text, return_tensors="pt", truncation=True, max_length=512)
         enc = {k: v.to(model.device) for k, v in enc.items()}
         with torch.no_grad():
             out = model(**enc, output_hidden_states=True)

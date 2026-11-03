@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """Visible-text baselines for a button dump (PROVISIONAL).
 Inputs: --dump (run_scenario.py output). Targets: realized public button, assigned incentive.
-Text inputs: note-only, note+public_ask. Model family (unigram NB, tfidf 1-2, tfidf 1-3 LR) is
+Text inputs: note-only, note+public_ask, incentive_context, note+incentive_context, and the full visible
+prompt (system + user text as run_scenario.py renders it, frame inferred from the bank row or set by
+--role-frame / --incentive-in-user; added 2026-11-03, see results/audit_2026-11-03.md). Model family (unigram NB, tfidf 1-2, tfidf 1-3 LR) is
 selected on the FIT split only by scenario-grouped CV; the chosen model is refit on fit and scored on eval.
 Does not fit residual readouts. Not a camera. Does not fill D."""
 import argparse,json,sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent.parent))
+from prompt_text import visible_text
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -15,11 +20,18 @@ M={"unigram_NB":lambda:make_pipeline(CountVectorizer(),MultinomialNB()),
    "tfidf12_LR":lambda:make_pipeline(TfidfVectorizer(ngram_range=(1,2)),LogisticRegression(max_iter=2000)),
    "tfidf13_LR":lambda:make_pipeline(TfidfVectorizer(ngram_range=(1,3)),LogisticRegression(max_iter=2000))}
 def main():
-    a=argparse.ArgumentParser();a.add_argument("--dump",required=True);a.add_argument("--bank",required=True);a.add_argument("--out",required=True);x=a.parse_args()
+    a=argparse.ArgumentParser();a.add_argument("--dump",required=True);a.add_argument("--bank",required=True);a.add_argument("--out",required=True);a.add_argument("--role-frame",default=None,choices=["","user-says","agent-stakes"]);a.add_argument("--incentive-in-user",action="store_true");x=a.parse_args()
     bank={(r["scenario_id"],r["incentive"],r["note"]):r for r in map(json.loads,open(x.bank))}
     rows=[r for r in map(json.loads,open(x.dump)) if r["arm"]=="public" and r["button"] in("YES","NO")]
-    for r in rows: r["public_ask"]=bank[(r["scenario_id"],r["incentive"],r["note"])]["public_ask"]
-    INP={"note":lambda r:r["note"],"note+public_ask":lambda r:r["note"]+" "+r["public_ask"]}
+    for r in rows:
+        b=bank[(r["scenario_id"],r["incentive"],r["note"])];r["public_ask"]=b["public_ask"];r["incentive_context"]=b.get("incentive_context") or ""
+        rf=x.role_frame if x.role_frame is not None else (b.get("framing") or "")
+        iiu=x.incentive_in_user or b.get("incentive_position")=="user"
+        r["full_prompt"]=visible_text(b,b["public_ask"],iiu,rf)
+    INP={"note":lambda r:r["note"],"note+public_ask":lambda r:r["note"]+" "+r["public_ask"],
+         "incentive_context":lambda r:r["incentive_context"] or "_empty_",
+         "note+incentive_context":lambda r:r["note"]+" "+r["incentive_context"],
+         "full_prompt":lambda r:r["full_prompt"]}
     TGT={"public_button":lambda r:r["button"]=="YES","incentive":lambda r:r["incentive"]=="hide"}
     fit=[r for r in rows if r["split"]=="fit"];ev=[r for r in rows if r["split"]=="eval"]
     res={"n_fit_valid_public":len(fit),"n_eval_valid_public":len(ev),"results":[]}
