@@ -170,4 +170,13 @@ o = reply_mutate.chat_nothink(TokLFM(), [{"role": "user", "content": "x"}])
 check(o.endswith("<think>\n</think>\n\n"), "LFM2.5 gets empty think prefill")
 class TokOther(TokLFM): name_or_path = "models/granite"
 check(not reply_mutate.chat_nothink(TokOther(), [{"role": "user", "content": "x"}]).endswith("</think>\n\n"), "non-LFM unchanged")
+
+import hide_bank as _hb
+class TokBan:
+    name_or_path = "models/LFM2.5-8B-A1B"; unk_token_id = 0
+    def convert_tokens_to_ids(self, t): return 42
+    def encode(self, t, add_special_tokens=False): return [42]
+check(_hb.think_ban_ids(TokBan()) == [[42]], "LFM2.5 bans reopening <think> during generation")
+class TokNoBan(TokBan): name_or_path = "models/granite"
+check(_hb.think_ban_ids(TokNoBan()) is None, "non-LFM: no bad_words_ids")
 raise SystemExit(0 if ok else 1)

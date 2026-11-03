@@ -211,6 +211,28 @@ def load_tok_model(name):
     return tok, model
 
 
+def think_ban_ids(tok):
+    """For models that reopen <think> after an empty prefilled block (LFM2.5),
+    forbid generating <think> again. Other models: None (unchanged)."""
+    from reply_mutate import needs_think_prefill
+    if not needs_think_prefill(tok):
+        return None
+    out = []
+    try:
+        tid = tok.convert_tokens_to_ids("<think>")
+        if isinstance(tid, int) and tid >= 0 and tid != getattr(tok, "unk_token_id", None):
+            out.append([tid])
+    except Exception:
+        pass
+    try:
+        seq = tok.encode("<think>", add_special_tokens=False)
+        if seq and [seq[0]] not in out and seq not in out:
+            out.append(list(seq))
+    except Exception:
+        pass
+    return out or None
+
+
 def generate_short(model, tok, prompt, n_tokens, device, temperature):
     import torch
     enc = tok(prompt, return_tensors="pt", truncation=True, max_length=512)
@@ -220,6 +242,9 @@ def generate_short(model, tok, prompt, n_tokens, device, temperature):
         kw.update(do_sample=True, temperature=temperature, top_p=0.9)
     else:
         kw.update(do_sample=False)
+    bad = think_ban_ids(tok)
+    if bad:
+        kw["bad_words_ids"] = bad
     with torch.no_grad():
         out = model.generate(**enc, **kw)
     new = out[0, enc["input_ids"].shape[1] :]
