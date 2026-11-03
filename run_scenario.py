@@ -32,8 +32,9 @@ def load(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
-def prompt(tok, rec, ask: str, incentive_in_user: bool, role_frame: str, no_think: bool = True) -> str:
-    msgs = visible_messages(rec, ask, incentive_in_user, role_frame)
+def prompt(tok, rec, ask: str, incentive_in_user: bool, role_frame: str, no_think: bool = True,
+           answer_format: str = "yesno") -> str:
+    msgs = visible_messages(rec, ask, incentive_in_user, role_frame, answer_format)
     return chat_nothink(tok, msgs) if no_think else chat(tok, msgs)
 
 

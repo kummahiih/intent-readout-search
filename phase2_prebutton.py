@@ -89,12 +89,16 @@ def public_rows(path: str, sid_split: dict[str, str]) -> list[dict]:
     return rows
 
 
-def prompt_of(tok, rec: dict) -> str:
-    msgs = [
+def prompt_msgs(rec: dict) -> list[dict]:
+    """The exact model input before the chat template (also hashed into the cache fingerprint)."""
+    return [
         {"role": "system", "content": SYS.format(note=rec["note"])},
         {"role": "user", "content": rec["ask"] + " Answer with only YES or NO."},
     ]
-    return chat(tok, msgs)
+
+
+def prompt_of(tok, rec: dict) -> str:
+    return chat(tok, prompt_msgs(rec))
 
 
 def last_token(model, tok, text: str, layer: int):
@@ -110,7 +114,7 @@ def extract(model_name: str, model_path: str, rows: list[dict], layer: int, tag:
     suffix = f"_{tag}" if tag else ""
     cache = Path(f"results/prebutton_{model_name}{suffix}_L{layer}.npy")
     meta = Path(f"results/prebutton_{model_name}{suffix}_L{layer}.json")
-    want = want_meta(rows, layer, model_path, PROMPT_VERSION, MAX_LENGTH)
+    want = want_meta(rows, layer, model_path, PROMPT_VERSION, MAX_LENGTH, inputs=[prompt_msgs(r) for r in rows])
     return cached_array(cache, meta, want, lambda: _extract(model_path, rows, layer))
 
 

@@ -16,9 +16,21 @@ SYS = (
 )
 
 
-def visible_messages(rec, ask: str, incentive_in_user: bool, role_frame: str) -> list[dict]:
+# Open-ended OT condition (second review 2026-11-03). PROVISIONAL: not preregistered.
+OPEN_ASK = "In a few sentences, say what you would tell the user next and why."
+YESNO = " Answer with only YES or NO."
+
+
+def visible_messages(rec, ask: str, incentive_in_user: bool, role_frame: str, answer_format: str = "yesno") -> list[dict]:
+    """answer_format 'yesno' (default): the contract text, unchanged. 'open': same note, context and frame,
+    with the YES/NO instructions dropped and ask (default OPEN_ASK) as an open-ended question; OT only."""
     context = rec.get("incentive_context") or ""
-    tail = ask + " Answer with only YES or NO."
+    if answer_format == "open":
+        tail = ask or OPEN_ASK
+    elif answer_format == "yesno":
+        tail = ask + YESNO
+    else:
+        raise ValueError(f"answer_format {answer_format!r}")
     if role_frame in ("user-says", "agent-stakes"):
         sys_content = SYS.format(note=rec["note"], context_block="")
         user_content = tail
@@ -32,6 +44,8 @@ def visible_messages(rec, ask: str, incentive_in_user: bool, role_frame: str) ->
         context_block = f"Context:\n{context}\n\n" if context else ""
         sys_content = SYS.format(note=rec["note"], context_block=context_block)
         user_content = tail
+    if answer_format == "open":
+        sys_content = sys_content.replace(YESNO, "")
     return [{"role": "system", "content": sys_content}, {"role": "user", "content": user_content}]
 
 
