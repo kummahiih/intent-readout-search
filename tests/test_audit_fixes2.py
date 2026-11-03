@@ -28,7 +28,10 @@ only_eval = [r for r in bank if r["split"] == "eval"]
 check("contract: eval-only fails (no fit)", "dataset has no fit split" in ccheck(only_eval))
 
 # 2 caches
-from cache_meta import cached_array, check_loaded, want_meta, rows_sha256
+from cache_meta import cached_array, check_loaded, rows_sha256
+from cache_meta import want_meta as _want_meta
+def want_meta(rows, *a, **kw):  # the note is the whole model input in these synthetic rows
+    return _want_meta(rows, *a, inputs=[r["note"] for r in rows], **kw)
 rows = [{"scenario_id": f"s{i}", "note": f"note {i}"} for i in range(5)]
 calls = []
 def fake(rs):
