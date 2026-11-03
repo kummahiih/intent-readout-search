@@ -1,0 +1,7 @@
+=== start 2026-11-03T21:08:57+02:00 f83d166 ===
+--- CPU smokes
+smoke defect OK
+smoke user_says OK
+smoke agent_stakes OK
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+FAIL no models
