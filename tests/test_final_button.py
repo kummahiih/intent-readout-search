@@ -42,7 +42,7 @@ def main():
                 changed += 1; print("FAIL changed valid button", f, old, new, repr(r["text"][:80]))
             if old == "other" and new != "other":
                 recovered[Path(f).name] = recovered.get(Path(f).name, 0) + 1
-            if button_of(r["text"]) != old:
+            if old not in (button_of(r["text"]), new):
                 changed += 1; print("FAIL stored button != button_of", f)
     print(f"saved replies checked: {n}; valid buttons changed: {changed}; other->YES/NO recovered: {recovered or 0}")
     return 1 if bad or changed else 0

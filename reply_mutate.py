@@ -55,15 +55,36 @@ def chat_nothink(tok, messages: list[dict]) -> str:
     """chat() with thinking disabled where the template supports it.
     Qwen3/3.5 templates read enable_thinking; Granite reads thinking.
     Templates that ignore these variables render the same prompt as chat()."""
+    out = None
     if hasattr(tok, "apply_chat_template"):
         try:
-            return tok.apply_chat_template(
+            out = tok.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=True,
                 enable_thinking=False, thinking=False,
             )
         except Exception:
-            pass
-    return chat(tok, messages)
+            out = None
+    if out is None:
+        out = chat(tok, messages)
+    return prefill_empty_think(tok, out)
+
+
+def needs_think_prefill(tok) -> bool:
+    """LFM2.5 ignores enable_thinking and always opens <think>.
+    Prefill an empty think block for it (or when RH_PREFILL_THINK=1)."""
+    import os
+    if os.environ.get("RH_PREFILL_THINK") == "1":
+        return True
+    name = str(getattr(tok, "name_or_path", "") or "").lower()
+    return "lfm" in name
+
+
+def prefill_empty_think(tok, prompt: str) -> str:
+    if not needs_think_prefill(tok):
+        return prompt
+    if prompt.rstrip().endswith("</think>"):
+        return prompt
+    return prompt + "<think>\n</think>\n\n"
 
 
 def chat(tok, messages: list[dict]) -> str:

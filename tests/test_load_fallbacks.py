@@ -162,4 +162,12 @@ class TokNoSys:
         return "folded:" + msgs[0]["content"]
 check(reply_mutate.chat_nothink(TokNoSys(), [{"role": "system", "content": "S"}, {"role": "user", "content": "U"}]).startswith("folded:S"),
       "chat_nothink falls back to chat() system folding")
+# LFM2.5 empty think prefill
+class TokLFM:
+    name_or_path = "models/LFM2.5-8B-A1B"
+    def apply_chat_template(self, m, **kw): return "<|im_start|>assistant\n"
+o = reply_mutate.chat_nothink(TokLFM(), [{"role": "user", "content": "x"}])
+check(o.endswith("<think>\n</think>\n\n"), "LFM2.5 gets empty think prefill")
+class TokOther(TokLFM): name_or_path = "models/granite"
+check(not reply_mutate.chat_nothink(TokOther(), [{"role": "user", "content": "x"}]).endswith("</think>\n\n"), "non-LFM unchanged")
 raise SystemExit(0 if ok else 1)
