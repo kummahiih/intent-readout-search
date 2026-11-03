@@ -17,6 +17,8 @@ from pathlib import Path
 
 import numpy as np
 
+from prompt_text import encode_prompt  # no double BOS (audit 2026-11-03)
+
 from hide_bank import load_tok_model
 from reply_mutate import chat
 
@@ -86,7 +88,7 @@ def swapped_prompt(tok, rec: dict) -> str:
 
 def last_token(model, tok, text: str, layer: int):
     import torch
-    enc = tok(text, return_tensors="pt", truncation=True, max_length=512)
+    enc = encode_prompt(tok, text, return_tensors="pt", truncation=True, max_length=512)
     enc = {k: v.to(model.device) for k, v in enc.items()}
     with torch.no_grad():
         out = model(**enc, output_hidden_states=True)

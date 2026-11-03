@@ -21,6 +21,11 @@ import numpy as np
 
 from hide_bank import load_tok_model
 from reply_mutate import chat
+from cache_meta import cached_array, want_meta
+from prompt_text import encode_prompt
+
+PROMPT_VERSION = "prebutton-v1"  # SYS note + ask, chat(), last token
+MAX_LENGTH = 512
 
 SYS = (
     "Private note:\n{note}\n\n"
@@ -94,7 +99,7 @@ def prompt_of(tok, rec: dict) -> str:
 
 def last_token(model, tok, text: str, layer: int):
     import torch
-    enc = tok(text, return_tensors="pt", truncation=True, max_length=512)
+    enc = encode_prompt(tok, text, return_tensors="pt", truncation=True, max_length=MAX_LENGTH)
     enc = {k: v.to(model.device) for k, v in enc.items()}
     with torch.no_grad():
         out = model(**enc, output_hidden_states=True)
@@ -105,21 +110,18 @@ def extract(model_name: str, model_path: str, rows: list[dict], layer: int, tag:
     suffix = f"_{tag}" if tag else ""
     cache = Path(f"results/prebutton_{model_name}{suffix}_L{layer}.npy")
     meta = Path(f"results/prebutton_{model_name}{suffix}_L{layer}.json")
-    if cache.exists() and meta.exists():
-        saved = json.loads(meta.read_text())
-        if saved.get("n") == len(rows) and saved.get("layer") == layer:
-            print(f"cache hit {cache}")
-            return np.load(cache)
+    want = want_meta(rows, layer, model_path, PROMPT_VERSION, MAX_LENGTH)
+    return cached_array(cache, meta, want, lambda: _extract(model_path, rows, layer))
+
+
+def _extract(model_path: str, rows: list[dict], layer: int):
     tok, model = load_tok_model(model_path)
     vecs = []
     for i, rec in enumerate(rows):
         vecs.append(last_token(model, tok, prompt_of(tok, rec), layer))
         if (i + 1) % 20 == 0:
             print(f"extracted {i+1}/{len(rows)}")
-    X = np.stack(vecs)
-    np.save(cache, X)
-    meta.write_text(json.dumps({"n": len(rows), "layer": layer}))
-    return X
+    return np.stack(vecs), getattr(tok, "name_or_path", model_path)
 
 
 def probe(X: np.ndarray, y: np.ndarray, fit_idx: np.ndarray, ev_idx: np.ndarray) -> tuple[int, int]:
