@@ -27,17 +27,23 @@
 # DOES NOT: change banks or contract semantics, fill D, freeze r, claim a camera or handoverPass,
 #   change the negative handover, or commit. Provisional banks.
 # Env:
-#   - Paths: HF_HOME (default /run/media/pauli/datapata/hf), MODELS_DIR (default ../regret-heuristic/models).
+#   - Paths: HF_HOME (default /run/media/pauli/datapata/hf).
+#     MODEL_DIRS: search path, default "models ../regret-heuristic/models", the same order as
+#     run_som_ot_new_banks.sh. Each model resolves to the first dir that has <name>/config.json.
+#     MODELS_DIR (old, one dir) is used alone when it is set and MODEL_DIRS is not.
 #   - Gemma: GEMMA (default gemma-2-9b-it), GEMMA_LAYER (24).
 #   - Generation: NEW_TOKENS (256), NSAMP (4).
 #   - OT: OT=0 skips OT; OT_ASKS; OT_ASK; OT_COMPARE_NOTE=1 adds a note-only OT extract.
 #   - Model selection: SKIP_GEMMA=1, SKIP_OTHERS=1, OTHER_MODELS (space list), MODEL_FILTER (regex on names).
+#   - RESOLVE_ONLY=1: print the resolved model paths and exit.
 #   - Reruns: RERUN_CONTRACT (0), AUTO_RERUN_BOS (1), ALLOW_MISSING (0), OUT.
 set -uo pipefail
 [[ -f run_scenario.py && -f scripts/som_ot_bank.py && -f prompt_text.py ]] || { echo "FAIL run from the intent-readout-search repo root"; exit 2; }
 export HF_HOME=${HF_HOME:-/run/media/pauli/datapata/hf}
 export PYTORCH_CUDA_ALLOC_CONF=${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
-MODELS_DIR=${MODELS_DIR:-../regret-heuristic/models}
+if [[ -n ${MODEL_DIRS:-} ]]; then :; elif [[ -n ${MODELS_DIR:-} ]]; then MODEL_DIRS=$MODELS_DIR; else MODEL_DIRS="models ../regret-heuristic/models"; fi
+declare -A MPATH=()
+resolve () { local d; for d in $MODEL_DIRS; do [[ -f $d/$1/config.json ]] && { MPATH[$1]=$d/$1; return 0; }; done; return 1; }
 GEMMA=${GEMMA:-gemma-2-9b-it}; GEMMA_LAYER=${GEMMA_LAYER:-24}; NEW_TOKENS=${NEW_TOKENS:-256}; NSAMP=${NSAMP:-4}
 OT=${OT:-1}; OT_COMPARE_NOTE=${OT_COMPARE_NOTE:-0}; SKIP_GEMMA=${SKIP_GEMMA:-0}; SKIP_OTHERS=${SKIP_OTHERS:-0}
 OT_ASKS=${OT_ASKS:-"yesno open"}; OT_ASK=${OT_ASK:-}
@@ -47,30 +53,33 @@ for c in $OT_ASKS; do [[ $c == yesno || $c == open ]] || { echo "FAIL OT_ASKS: u
 
 # --- preflight: hard failures before anything is written
 [[ -d $HF_HOME ]] || { echo "FAIL HF_HOME $HF_HOME does not exist (drive not mounted?)"; exit 2; }
-if [[ $SKIP_GEMMA != 1 && ! -f $MODELS_DIR/$GEMMA/config.json ]]; then
-  echo "FAIL $GEMMA missing: $MODELS_DIR/$GEMMA/config.json (set MODELS_DIR, or SKIP_GEMMA=1)"; exit 2; fi
+if [[ $SKIP_GEMMA != 1 ]] && ! resolve "$GEMMA"; then
+  echo "FAIL $GEMMA missing: no $GEMMA/config.json in MODEL_DIRS='$MODEL_DIRS' (set MODEL_DIRS, or SKIP_GEMMA=1)"; exit 2; fi
 ALL=(); MISSING=(); OTHERS=()
-[[ $SKIP_GEMMA != 1 ]] && ALL+=("$MODELS_DIR/$GEMMA")
+[[ $SKIP_GEMMA != 1 ]] && ALL+=("${MPATH[$GEMMA]}")
 if [[ $SKIP_OTHERS != 1 ]]; then
   for m in $OTHER_MODELS; do
     [[ $m =~ $MODEL_FILTER ]] || continue
-    if [[ -f $MODELS_DIR/$m/config.json ]]; then ALL+=("$MODELS_DIR/$m"); OTHERS+=("$m"); else MISSING+=("$m"); fi
+    if resolve "$m"; then ALL+=("${MPATH[$m]}"); OTHERS+=("$m"); else MISSING+=("$m"); fi
   done
 fi
-(( ${#ALL[@]} > 0 )) || { echo "FAIL no requested model found under $MODELS_DIR (missing: ${MISSING[*]:-none requested})"; exit 2; }
+(( ${#ALL[@]} > 0 )) || { echo "FAIL no requested model found in MODEL_DIRS='$MODEL_DIRS' (missing: ${MISSING[*]:-none requested})"; exit 2; }
+if [[ ${RESOLVE_ONLY:-0} == 1 ]]; then  # print model resolution and stop (for tests and checks)
+  for n in "${!MPATH[@]}"; do echo "model $n -> ${MPATH[$n]}"; done; for n in "${MISSING[@]}"; do echo "missing $n"; done; exit 0; fi
 python -c "import torch,transformers" 2>/dev/null || { echo "FAIL torch/transformers not importable"; exit 2; }
 
 export HF_MODULES_CACHE=${HF_MODULES_CACHE:-$PWD/.hf_modules_cache}; mkdir -p "$HF_MODULES_CACHE"
 OUT=${OUT:-results/fix_rerun_$(date +%Y%m%d_%H%M)}; mkdir -p "$OUT"; LOG=$OUT/run.log
 exec > >(tee -a "$LOG") 2>&1
 echo "=== start $(date -Is) $(git rev-parse --short HEAD 2>/dev/null) dirty=$(git status --porcelain 2>/dev/null | wc -l) OUT=$OUT HF_HOME=$HF_HOME OT_ASKS='$OT_ASKS' OT_ASK='$OT_ASK' ==="
+for n in "${!MPATH[@]}"; do echo "model $n -> ${MPATH[$n]}"; done
 python -c "import torch,transformers;print('torch',torch.__version__,'transformers',transformers.__version__,'cuda',torch.cuda.is_available())"
 FAIL=0; ST=()
 ok_ () { ST+=("$1: OK"); }
 bad () { ST+=("$1"); FAIL=1; echo "FAIL $1"; }
 for m in "${MISSING[@]}"; do
-  if [[ $ALLOW_MISSING == 1 ]]; then ST+=("model $m: SKIPPED (missing, ALLOW_MISSING=1)"); echo "SKIP missing model $MODELS_DIR/$m"
-  else bad "model $m: SKIPPED (missing $MODELS_DIR/$m/config.json)"; fi
+  if [[ $ALLOW_MISSING == 1 ]]; then ST+=("model $m: SKIPPED (missing, ALLOW_MISSING=1)"); echo "SKIP missing model $m (MODEL_DIRS='$MODEL_DIRS')"
+  else bad "model $m: SKIPPED (no $m/config.json in MODEL_DIRS='$MODEL_DIRS')"; fi
 done
 declare -A BANK=([defect]=data/prereg/scenarios_defect_bank_provisional.jsonl
                  [user_says]=data/prereg/scenarios_original_user_says.jsonl
@@ -152,7 +161,7 @@ somot () {  # model_dir name bank layer dump otmode otcond
 conds () { [[ $OT == 1 ]] && echo "$OT_ASKS" || echo yesno; }
 
 if [[ $SKIP_GEMMA != 1 ]]; then
-  GD=$MODELS_DIR/$GEMMA
+  GD=${MPATH[$GEMMA]}
   echo "--- 2. $GEMMA contract rerun (BOS fix)"
   for k in defect user_says agent_stakes; do contract "$GD" "$GEMMA" "$k" && baselines "$OUT/${GEMMA}__$k.jsonl" "${GEMMA}__$k" "$k"; done
   echo "--- 3. $GEMMA SOM/OT at layer $GEMMA_LAYER"
@@ -167,7 +176,7 @@ fi
 if [[ $SKIP_OTHERS != 1 ]]; then
   echo "--- 4. other models: chat-prompt OT + new baselines"
   for m in "${OTHERS[@]}"; do
-    md=$MODELS_DIR/$m
+    md=${MPATH[$m]}
     for k in defect user_says agent_stakes; do
       if [[ $RERUN_CONTRACT == 1 || -n ${BOSRERUN[$m]:-} ]]; then
         contract "$md" "$m" "$k" || continue   # failure recorded; no stale dump substituted

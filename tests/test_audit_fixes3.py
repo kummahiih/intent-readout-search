@@ -121,4 +121,26 @@ with tempfile.TemporaryDirectory() as d:
         g = Path(d) / "models/gemma-2-9b-it"; g.mkdir(parents=True); (g / "config.json").write_text("{}")
         p = run(HF_HOME=str(Path(d) / "hf"), MODELS_DIR=str(Path(d) / "models"), OUT=str(Path(d) / "o5"))
         check("run: dry run without torch -> nonzero, no OUT written", p.returncode != 0 and "torch" in p.stdout and not (Path(d) / "o5").exists())
+# 5 model resolution over MODEL_DIRS (the user's layout: repo models/ + ../regret-heuristic/models)
+with tempfile.TemporaryDirectory() as d:
+    a_, b_ = Path(d) / "a", Path(d) / "b"
+    for base, names in ((a_, ["Falcon3-7B-Instruct", "Qwen2.5-7B-Instruct"]), (b_, ["gemma-2-9b-it", "Qwen2.5-7B-Instruct", "Mistral-7B-Instruct-v0.3"])):
+        for n in names: (base / n).mkdir(parents=True); (base / n / "config.json").write_text("{}")
+    (Path(d) / "hf").mkdir()
+    e = {**os.environ, "HF_HOME": str(Path(d) / "hf"), "MODEL_DIRS": f"{a_} {b_}", "RESOLVE_ONLY": "1", "OUT": str(Path(d) / "o")}
+    e.pop("MODELS_DIR", None)
+    p = subprocess.run(["bash", str(sh)], cwd=ROOT, env=e, capture_output=True, text=True)
+    out = p.stdout
+    check("resolve: exit 0", p.returncode == 0)
+    check("resolve: gemma from 2nd dir", f"model gemma-2-9b-it -> {b_}/gemma-2-9b-it" in out)
+    check("resolve: Falcon from 1st dir", f"model Falcon3-7B-Instruct -> {a_}/Falcon3-7B-Instruct" in out)
+    check("resolve: first dir wins on duplicates", f"model Qwen2.5-7B-Instruct -> {a_}/Qwen2.5-7B-Instruct" in out)
+    check("resolve: Mistral from 2nd dir", f"model Mistral-7B-Instruct-v0.3 -> {b_}/Mistral-7B-Instruct-v0.3" in out)
+    check("resolve: absent model listed missing", "missing granite-4.2-8b" in out)
+    e2 = {**e, "MODELS_DIR": str(b_)}; e2.pop("MODEL_DIRS")
+    out2 = subprocess.run(["bash", str(sh)], cwd=ROOT, env=e2, capture_output=True, text=True).stdout
+    check("resolve: MODELS_DIR back-compat (single dir)", f"model Qwen2.5-7B-Instruct -> {b_}/" in out2 and "missing Falcon3-7B-Instruct" in out2)
+t2 = sh.read_text()
+check("resolve: downstream uses resolved paths", 'GD=${MPATH[$GEMMA]}' in t2 and 'md=${MPATH[$m]}' in t2 and '"$MODELS_DIR/' not in t2)
+check("resolve: default list has the 7-model batch + Qwen2.5/Mistral", all(n in t2 for n in ("Qwen2.5-7B-Instruct", "Mistral-7B-Instruct-v0.3", "granite-4.2-8b", "Qwen3.5-9B", "Phi-4-mini-instruct", "LFM2.5-8B-A1B", "aya-expanse-8b", "gemma-3-4b-it", "Falcon3-7B-Instruct")))
 print("ALL PASS" if ok else "SOME FAILED"); sys.exit(0 if ok else 1)
