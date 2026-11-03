@@ -82,11 +82,15 @@ def public_rows(path: str, sid_split: dict[str, str]) -> list[dict]:
     return rows
 
 
+def note_input(rec: dict) -> str:
+    return "Private note:\n" + rec["note"]
+
+
 def extract_note_mid(model_name: str, model_path: str, rows: list[dict], layer: int, tag: str = "") -> np.ndarray:
     suffix = f"_{tag}" if tag else ""
     cache = Path(f"results/noteonly_{model_name}{suffix}_L{layer}.npy")
     meta = Path(f"results/noteonly_{model_name}{suffix}_L{layer}.json")
-    want = want_meta(rows, layer, model_path, NOTE_PROMPT_VERSION, MAX_LENGTH)
+    want = want_meta(rows, layer, model_path, NOTE_PROMPT_VERSION, MAX_LENGTH, inputs=[note_input(r) for r in rows])
     return cached_array(cache, meta, want, lambda: _extract_note_mid(model_path, rows, layer))
 
 
@@ -95,7 +99,7 @@ def _extract_note_mid(model_path: str, rows: list[dict], layer: int):
     import torch
     vecs = []
     for i, rec in enumerate(rows):
-        text = "Private note:\n" + rec["note"]
+        text = note_input(rec)
         enc = encode_prompt(tok, text, return_tensors="pt", truncation=True, max_length=MAX_LENGTH)
         enc = {k: v.to(model.device) for k, v in enc.items()}
         with torch.no_grad():
@@ -172,7 +176,7 @@ def main() -> None:
     if not pre_path.exists():
         raise SystemExit(f"missing {pre_path}; extract prebutton on this dump first")
     Xp = np.load(pre_path)
-    check_loaded(Xp, pre_path.with_suffix(".json"), rows, "prebutton Xp")
+    check_loaded(Xp, pre_path.with_suffix(".json"), rows, "prebutton Xp", model_path=path)
     Xn = extract_note_mid(args.model, path, rows, mid, tag=tag)
 
     sp = (Xp @ direction(Xp, y, fit))[:, None]

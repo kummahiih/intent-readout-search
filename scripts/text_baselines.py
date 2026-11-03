@@ -3,7 +3,8 @@
 Inputs: --dump (run_scenario.py output). Targets: realized public button, assigned incentive.
 Text inputs: note-only, note+public_ask, incentive_context, note+incentive_context, and the full visible
 prompt (system + user text as run_scenario.py renders it, frame inferred from the bank row or set by
---role-frame / --incentive-in-user; added 2026-11-03, see results/audit_2026-11-03.md). Model family (unigram NB, tfidf 1-2, tfidf 1-3 LR) is
+--role-frame / --incentive-in-user; added 2026-11-03, see results/audit_2026-11-03.md). Model family (unigram NB, tfidf 1-2, tfidf 1-3 LR, and the order-sensitive word 1-5 gram / char_wb 3-6 gram LR
+added in the second review) is
 selected on the FIT split only by scenario-grouped CV; the chosen model is refit on fit and scored on eval.
 Does not fit residual readouts. Not a camera. Does not fill D."""
 import argparse,json,sys
@@ -18,7 +19,11 @@ from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import GroupKFold,cross_val_predict
 M={"unigram_NB":lambda:make_pipeline(CountVectorizer(),MultinomialNB()),
    "tfidf12_LR":lambda:make_pipeline(TfidfVectorizer(ngram_range=(1,2)),LogisticRegression(max_iter=2000)),
-   "tfidf13_LR":lambda:make_pipeline(TfidfVectorizer(ngram_range=(1,3)),LogisticRegression(max_iter=2000))}
+   "tfidf13_LR":lambda:make_pipeline(TfidfVectorizer(ngram_range=(1,3)),LogisticRegression(max_iter=2000)),
+   # order-sensitive (second review 2026-11-03): word 1-5 grams and char_wb 3-6 grams
+   "tfidf15_LR":lambda:make_pipeline(TfidfVectorizer(ngram_range=(1,5),sublinear_tf=True),LogisticRegression(max_iter=4000,C=10.0)),
+   "charwb36_LR":lambda:make_pipeline(TfidfVectorizer(analyzer="char_wb",ngram_range=(3,6),sublinear_tf=True),LogisticRegression(max_iter=4000,C=10.0))}
+ORDER_SENSITIVE=("tfidf15_LR","charwb36_LR")
 def main():
     a=argparse.ArgumentParser();a.add_argument("--dump",required=True);a.add_argument("--bank",required=True);a.add_argument("--out",required=True);a.add_argument("--role-frame",default=None,choices=["","user-says","agent-stakes"]);a.add_argument("--incentive-in-user",action="store_true");x=a.parse_args()
     bank={(r["scenario_id"],r["incentive"],r["note"]):r for r in map(json.loads,open(x.bank))}
@@ -48,6 +53,8 @@ def main():
             res["results"].append(dict(target=tn,input=iname,status=f"degenerate (CV fold has one class; fit counts True={int(yf.sum())} False={int((~yf).sum())})",
                                        error=str(e)[:200],eval_majority=float(maj)));continue
         best=max(cv,key=cv.get);acc=float((M[best]().fit([f(r) for r in fit],yf).predict([f(r) for r in ev])==ye).mean())
-        res["results"].append(dict(target=tn,input=iname,fit_cv=cv,selected=best,eval_acc=acc,eval_majority=float(maj)))
+        osb=max(ORDER_SENSITIVE,key=cv.get);acc_os=acc if best==osb else float((M[osb]().fit([f(r) for r in fit],yf).predict([f(r) for r in ev])==ye).mean())
+        res["results"].append(dict(target=tn,input=iname,fit_cv=cv,selected=best,eval_acc=acc,eval_majority=float(maj),
+                                   order_sensitive_selected=osb,order_sensitive_eval_acc=acc_os))
     json.dump(res,open(x.out,"w"),indent=1);print(json.dumps(res,indent=1))
 if __name__=="__main__":sys.exit(main())

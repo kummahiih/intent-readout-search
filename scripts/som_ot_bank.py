@@ -165,7 +165,7 @@ def join_meta(bank, dump):
     return meta
 
 
-def ot_texts(tok, bank, mode, ask, incentive_in_user, role_frame):
+def ot_texts(tok, bank, mode, ask, incentive_in_user, role_frame, answer_format="yesno"):
     """OT prompts. mode 'chat' (default since the 2026-11-03 audit): the same chat prompt the
     extraction uses (note + incentive context + role frame), with ask --ot-ask (default ''), and an
     empty-note/empty-context chat prompt as the empty baseline. mode 'note': the old raw
@@ -175,8 +175,8 @@ def ot_texts(tok, bank, mode, ask, incentive_in_user, role_frame):
         return {"empty": "", "rows": [f"Note: {r['note']}" for r in bank]}
     from run_scenario import prompt
     blank = {"note": "", "incentive_context": ""}
-    return {"empty": prompt(tok, blank, ask, incentive_in_user, role_frame, True),
-            "rows": [prompt(tok, r, ask, incentive_in_user, role_frame, True) for r in bank]}
+    return {"empty": prompt(tok, blank, ask, incentive_in_user, role_frame, True, answer_format),
+            "rows": [prompt(tok, r, ask, incentive_in_user, role_frame, True, answer_format) for r in bank]}
 
 
 # ---------------- GPU extraction ----------------
@@ -219,7 +219,7 @@ def extract(a):
                                    num_return_sequences=a.n_samples, pad_token_id=tok.eos_token_id)
             return [tok.decode(x[enc["input_ids"].shape[1]:], skip_special_tokens=True) for x in g]
         torch.manual_seed(0)
-        texts = ot_texts(tok, bank, a.ot_mode, a.ot_ask, a.incentive_in_user, a.role_frame)
+        texts = ot_texts(tok, bank, a.ot_mode, a.ot_ask, a.incentive_in_user, a.role_frame, a.ot_format)
         empty = sample(texts["empty"])
         for r, text in zip(bank, texts["rows"]):
             kws = keywords(r["proposition"])
@@ -228,7 +228,7 @@ def extract(a):
             inr = m >= a.tau
             cost = 0 if m0 >= a.tau else (len(text) if inr else None)
             ot.append({"scenario_id": r["scenario_id"], "incentive": r["incentive"], "split": r.get("split", ""),
-                       "ot_mode": a.ot_mode, "keywords": kws, "mass_empty": m0, "mass_note": m, "in_room": inr, "ot": cost})
+                       "ot_mode": a.ot_mode, "ot_ask": a.ot_ask, "ot_format": a.ot_format, "keywords": kws, "mass_empty": m0, "mass_note": m, "in_room": inr, "ot": cost})
         Path(a.ot).write_text("".join(json.dumps(x) + "\n" for x in ot))
         print(f"saved {a.ot}")
     return 0
@@ -289,7 +289,7 @@ def main():
     e.add_argument("--incentive-in-user", action="store_true"); e.add_argument("--role-frame", default="")
     e.add_argument("--ot", default=""); e.add_argument("--n-samples", type=int, default=4)
     e.add_argument("--max-new", type=int, default=24)
-    e.add_argument("--ot-mode", choices=["chat", "note"], default="chat"); e.add_argument("--ot-ask", default=""); e.add_argument("--tau", type=float, default=0.5)
+    e.add_argument("--ot-mode", choices=["chat", "note"], default="chat"); e.add_argument("--ot-ask", default=""); e.add_argument("--ot-format", choices=["yesno", "open"], default="yesno"); e.add_argument("--tau", type=float, default=0.5)
     an = sub.add_parser("analyze"); an.add_argument("--data", required=True); an.add_argument("--npz", required=True)
     an.add_argument("--button-dump", default=""); an.add_argument("--ot", default=""); an.add_argument("--out", required=True)
     an.add_argument("--seeds", type=int, default=3); an.add_argument("--steps", type=int, default=30); an.add_argument("--nulls", type=int, default=20)
