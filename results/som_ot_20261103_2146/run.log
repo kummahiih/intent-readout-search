@@ -1,0 +1,27 @@
+=== start 2026-11-03T21:46:07+02:00 1bb81a4 ===
+--- CPU smokes
+smoke defect OK
+smoke user_says OK
+smoke agent_stakes OK
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+models: gemma-2-9b-it
+--- gemma-2-9b-it__defect layer=8 (2026-11-03T21:46:09+02:00)
+load_attempt=remote_code
+loaded=../regret-heuristic/models/gemma-2-9b-it VRAM_GiB=5.71
+layer=8 of 42
+button dump: results/fixed_models_20261103_2137/gemma-2-9b-it__defect.jsonl
+--- gemma-2-9b-it__user_says layer=8 (2026-11-03T21:53:13+02:00)
+load_attempt=remote_code
+loaded=../regret-heuristic/models/gemma-2-9b-it VRAM_GiB=5.71
+layer=8 of 42
+button dump: results/fixed_models_20261103_2137/gemma-2-9b-it__user_says.jsonl
+--- gemma-2-9b-it__agent_stakes layer=8 (2026-11-03T21:55:11+02:00)
+load_attempt=remote_code
+loaded=../regret-heuristic/models/gemma-2-9b-it VRAM_GiB=5.71
+layer=8 of 42
+button dump: results/fixed_models_20261103_2137/gemma-2-9b-it__agent_stakes.jsonl
+=== done 2026-11-03T21:57:11+02:00 ===
+  gemma-2-9b-it__defect: OK
+  gemma-2-9b-it__user_says: OK
+  gemma-2-9b-it__agent_stakes: OK
+SOM/OT are diagnostics, not gates. Provisional banks. Not a camera. Not handoverPass. D not filled. r not frozen. Negative handover unchanged.

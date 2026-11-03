@@ -1,0 +1,158 @@
+{
+ "bank": "data/prereg/scenarios_original_agent_stakes.jsonl",
+ "button_dump": "results/fixed_models_20261103_2137/gemma-2-9b-it__agent_stakes.jsonl",
+ "provisional": true,
+ "H": {
+  "n_fit": 59,
+  "n_eval": 55,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.6610169491525424,
+     "4": 0.6610169491525424,
+     "5": 0.6666666666666666
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.703030303030303,
+     "per_seed": [
+      0.7090909090909091,
+      0.6909090909090909,
+      0.7090909090909091
+     ],
+     "shuffle_null_mean": 0.739090909090909,
+     "shuffle_null_p95": 0.7827272727272728,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.9151515151515152,
+     "per_seed": [
+      0.9272727272727272,
+      0.9090909090909091,
+      0.9090909090909091
+     ],
+     "shuffle_null_mean": 0.9072727272727275,
+     "shuffle_null_p95": 0.9272727272727272,
+     "majority": 0.8909090909090909
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.9454545454545454,
+     "per_seed": [
+      0.9636363636363636,
+      0.9454545454545454,
+      0.9272727272727272
+     ],
+     "shuffle_null_mean": 0.7963636363636365,
+     "shuffle_null_p95": 0.8181818181818182,
+     "majority": 0.7636363636363637
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.672316384180791,
+     "4": 0.6779661016949152,
+     "5": 0.672316384180791
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7151515151515152,
+     "per_seed": [
+      0.7272727272727273,
+      0.6909090909090909,
+      0.7272727272727273
+     ],
+     "shuffle_null_mean": 0.7081818181818182,
+     "shuffle_null_p95": 0.7481818181818183,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.890909090909091,
+     "per_seed": [
+      0.8909090909090909,
+      0.8909090909090909,
+      0.8909090909090909
+     ],
+     "shuffle_null_mean": 0.8927272727272726,
+     "shuffle_null_p95": 0.9090909090909091,
+     "majority": 0.8909090909090909
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.806060606060606,
+     "per_seed": [
+      0.8,
+      0.8363636363636363,
+      0.7818181818181819
+     ],
+     "shuffle_null_mean": 0.7727272727272727,
+     "shuffle_null_p95": 0.7818181818181819,
+     "majority": 0.7636363636363637
+    }
+   }
+  }
+ },
+ "H_noask": {
+  "n_fit": 59,
+  "n_eval": 55,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.672316384180791,
+     "4": 0.6779661016949152,
+     "5": 0.672316384180791
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.6969696969696969,
+     "per_seed": [
+      0.7090909090909091,
+      0.6909090909090909,
+      0.6909090909090909
+     ],
+     "shuffle_null_mean": 0.7190909090909091,
+     "shuffle_null_p95": 0.7472727272727273,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.890909090909091,
+     "per_seed": [
+      0.8909090909090909,
+      0.8909090909090909,
+      0.8909090909090909
+     ],
+     "shuffle_null_mean": 0.8954545454545453,
+     "shuffle_null_p95": 0.9090909090909091,
+     "majority": 0.8909090909090909
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.8181818181818182,
+     "per_seed": [
+      0.8,
+      0.8181818181818182,
+      0.8363636363636363
+     ],
+     "shuffle_null_mean": 0.7790909090909092,
+     "shuffle_null_p95": 0.8,
+     "majority": 0.7636363636363637
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.6666666666666666,
+     "4": 0.6610169491525424,
+     "5": 0.672316384180791
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7333333333333334,
+     "per_seed": [
+      0.7272727272727273
