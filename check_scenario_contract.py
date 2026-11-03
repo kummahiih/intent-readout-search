@@ -37,6 +37,8 @@ def load(path: Path) -> list[dict]:
 
 def check(rows: list[dict]) -> list[str]:
     """Return failures. Empty means the file matches the field contract."""
+    if not rows:
+        return ["dataset is empty"]
     fails = []
     by_id = defaultdict(list)
     for i, rec in enumerate(rows):
@@ -67,6 +69,10 @@ def check(rows: list[dict]) -> list[str]:
         splits = {r.get("split", "fit") for r in group}
         if len(splits) != 1:
             fails.append(f"{sid}: split is not constant. A paraphrase leaked.")
+    present = {r.get("split", "fit") for g in by_id.values() for r in g}
+    for need in ("fit", "eval"):  # audit 2026-11-03: a one-split file cannot be fit/eval scored
+        if by_id and need not in present:
+            fails.append(f"dataset has no {need} split")
     return fails
 
 
