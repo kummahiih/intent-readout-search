@@ -16,7 +16,8 @@
 #     FAIL=1; the run continues through the independent steps.
 #   - A missing model is not a failure with ALLOW_MISSING=1.
 #   - The run ends with "RUN FAILED: inspect <log>" (exit 1) or "RUN COMPLETED" (exit 0).
-# Resumable: reuse OUT=results/fix_rerun_... ; finished steps leave .done markers and are skipped.
+# Resumable: reuse OUT=results/fix_rerun_... ; finished steps leave .done markers and are skipped
+#   only when the run-configuration fingerprint matches the one that created the marker.
 # OT conditions:
 #   - OT_ASKS (default "yesno open"): yesno is the contract ask + "Answer with only YES or NO."; open
 #     drops the YES/NO instruction and asks an open-ended question.
@@ -64,13 +65,39 @@ if [[ $SKIP_OTHERS != 1 ]]; then
   done
 fi
 (( ${#ALL[@]} > 0 )) || { echo "FAIL no requested model found in MODEL_DIRS='$MODEL_DIRS' (missing: ${MISSING[*]:-none requested})"; exit 2; }
-if [[ ${RESOLVE_ONLY:-0} == 1 ]]; then  # print model resolution and stop (for tests and checks)
+if [[ ${RESOLVE_ONLY:-0} == 1 ]]; then
   for n in "${!MPATH[@]}"; do echo "model $n -> ${MPATH[$n]}"; done; for n in "${MISSING[@]}"; do echo "missing $n"; done; exit 0; fi
 python -c "import torch,transformers" 2>/dev/null || { echo "FAIL torch/transformers not importable"; exit 2; }
 
 export HF_MODULES_CACHE=${HF_MODULES_CACHE:-$PWD/.hf_modules_cache}; mkdir -p "$HF_MODULES_CACHE"
-OUT=${OUT:-results/fix_rerun_$(date +%Y%m%d_%H%M)}; mkdir -p "$OUT"; LOG=$OUT/run.log
+OUT=${OUT:-results/fix_rerun_$(date +%Y%m%d_%H%M%S)}; mkdir -p "$OUT"; LOG=$OUT/run.log
 exec > >(tee -a "$LOG") 2>&1
+
+# Fingerprint: refuse to reuse .done markers if the experimental configuration changed.
+FP_FILE=$OUT/.fingerprint
+FP=$(printf '%s\n' \
+  "git=$(git rev-parse --short HEAD 2>/dev/null || echo nogit)" \
+  "OT_ASKS=$OT_ASKS" \
+  "OT_ASK=$OT_ASK" \
+  "OT=$OT" \
+  "OT_COMPARE_NOTE=$OT_COMPARE_NOTE" \
+  "NEW_TOKENS=$NEW_TOKENS" \
+  "NSAMP=$NSAMP" \
+  "GEMMA_LAYER=$GEMMA_LAYER" \
+  "RERUN_CONTRACT=$RERUN_CONTRACT" \
+  "AUTO_RERUN_BOS=$AUTO_RERUN_BOS")
+if [[ -f $FP_FILE ]]; then
+  if ! cmp -s <(echo "$FP") "$FP_FILE"; then
+    echo "FAIL fingerprint mismatch; refusing to reuse .done markers in $OUT"
+    echo "  stored: $(cat "$FP_FILE" | tr '\n' ' ')"
+    echo "  current: $(echo "$FP" | tr '\n' ' ')"
+    echo "  set OUT to a new directory or remove $OUT to start fresh"
+    exit 2
+  fi
+else
+  echo "$FP" > "$FP_FILE"
+fi
+
 echo "=== start $(date -Is) $(git rev-parse --short HEAD 2>/dev/null) dirty=$(git status --porcelain 2>/dev/null | wc -l) OUT=$OUT HF_HOME=$HF_HOME OT_ASKS='$OT_ASKS' OT_ASK='$OT_ASK' ==="
 for n in "${!MPATH[@]}"; do echo "model $n -> ${MPATH[$n]}"; done
 python -c "import torch,transformers;print('torch',torch.__version__,'transformers',transformers.__version__,'cuda',torch.cuda.is_available())"
@@ -115,31 +142,30 @@ for m in "${OTHERS[@]}"; do
   fi
 done
 
-newest_dump () {  # old button dump for model $1 bank $2 (not from this OUT)
+newest_dump () {
   local m=$1 k=$2
   if [[ $k == defect ]]; then ls -t results/fixed_models_*/"${m}__defect.jsonl" results/gap_filler_*/"${m}.jsonl" 2>/dev/null | head -1
   else ls -t results/fixed_models_*/"${m}__${k}.jsonl" results/framed_original_*/"${m}__${k}.jsonl" 2>/dev/null | head -1; fi
 }
-contract () {  # model_dir name bank
+contract () {
   local md=$1 m=$2 k=$3 tag=${2}__$3
   done_ "contract_$tag" && { echo "skip contract $tag (done)"; return 0; }
   echo "--- contract $tag ($(date -Is))"
-  # shellcheck disable=SC2086
   if python run_scenario.py --model "$md" --data "${BANK[$k]}" --dump "$OUT/$tag.jsonl" ${ARGS[$k]} \
        --new-tokens "$NEW_TOKENS" > "$OUT/${tag}_summary.txt" 2>&1; then
     grep -E "loaded=|rows_in|lie_given_known|other=" "$OUT/${tag}_summary.txt" | tail -4; mark "contract_$tag"; ok_ "contract $tag"
   else tail -3 "$OUT/${tag}_summary.txt"; bad "contract $tag (continuing)"; return 1; fi
 }
-baselines () {  # dump tag bank
+baselines () {
   local d=$1 tag=$2 k=$3
-  [[ $HAS_SK == 1 ]] || return 0   # already counted as a failure
+  [[ $HAS_SK == 1 ]] || return 0
   [[ -s $d ]] || { bad "baselines $tag: no button dump"; return 1; }
   done_ "tb_$tag" && return 0
   if python scripts/text_baselines.py --dump "$d" --bank "${BANK[$k]}" --out "$OUT/${tag}_text_baselines.json" > "$OUT/${tag}_text_baselines.txt" 2>&1; then
     mark "tb_$tag"; ok_ "baselines $tag"; echo "baselines $tag OK (dump $d)"
   else tail -3 "$OUT/${tag}_text_baselines.txt"; bad "baselines $tag"; return 1; fi
 }
-somot () {  # model_dir name bank layer dump otmode otcond
+somot () {
   local md=$1 m=$2 k=$3 L=$4 bd=$5 mode=${6:-chat} cond=${7:-yesno} tag=${2}__$3
   [[ $mode == note ]] && tag=${tag}__otnote
   [[ $cond == open ]] && tag=${tag}__otopen
@@ -148,7 +174,6 @@ somot () {  # model_dir name bank layer dump otmode otcond
   echo "--- som/ot $tag layer=$L ot=$mode/$cond ask='${OT_ASK}' ($(date -Is)) dump=$bd"
   local otarg=(); [[ $OT == 1 ]] && otarg=(--ot "$OUT/${tag}_ot.jsonl" --n-samples "$NSAMP" --ot-mode "$mode" --ot-format "$cond" --ot-ask "$OT_ASK")
   local anarg=(); [[ $OT == 1 ]] && anarg=(--ot "$OUT/${tag}_ot.jsonl")
-  # shellcheck disable=SC2086
   if python scripts/som_ot_bank.py extract --model "$md" --data "${BANK[$k]}" --layer "$L" --out "$OUT/${tag}_h.npz" \
        ${ARGS[$k]} "${otarg[@]}" > "$OUT/${tag}_extract.txt" 2>&1; then
     grep -E "load_failed|load_fallback|loaded=|layer=" "$OUT/${tag}_extract.txt" || true
@@ -179,7 +204,7 @@ if [[ $SKIP_OTHERS != 1 ]]; then
     md=${MPATH[$m]}
     for k in defect user_says agent_stakes; do
       if [[ $RERUN_CONTRACT == 1 || -n ${BOSRERUN[$m]:-} ]]; then
-        contract "$md" "$m" "$k" || continue   # failure recorded; no stale dump substituted
+        contract "$md" "$m" "$k" || continue
         bd=$OUT/${m}__$k.jsonl
       else bd=$(newest_dump "$m" "$k"); fi
       baselines "$bd" "${m}__$k" "$k"
@@ -189,8 +214,6 @@ if [[ $SKIP_OTHERS != 1 ]]; then
   done
 fi
 echo "--- OT identity check (user_says vs agent_stakes must differ now)"
-# All-zero OT files (every row mass_note==0 and in_room false) are identical by construction: log them as
-# uninformative instead of failing. Identical files with any non-zero row still fail.
 ot_allzero() { python3 -c 'import json,sys
 rows=[json.loads(l) for l in open(sys.argv[1]) if l.strip()]
 sys.exit(0 if rows and all(float(r.get("mass_note") or 0)==0 and not r.get("in_room") for r in rows) else 1)' "$1"; }
