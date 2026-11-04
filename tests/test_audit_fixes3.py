@@ -51,9 +51,9 @@ with tempfile.TemporaryDirectory() as d:
     fp2 = model_fingerprint(md); (md / "config.json").write_text('{"model_type": "y"}')
     check("model_fp: config.json change changes fingerprint", model_fingerprint(md) != fp2)
     (md / "config.json").write_text('{"model_type": "y", "_commit_hash": "abc123"}')
-    check("model_fp: HF _commit_hash preferred", model_fingerprint(md) == "rev:abc123")
+    check("model_fp: HF _commit_hash preferred", model_fingerprint(md).startswith("rev:abc123+tok:"))  # tokenizer hash appended 2026-11-04
     snap = Path(d) / "hub/models--o--n/snapshots" / ("f" * 40); snap.mkdir(parents=True)
-    check("model_fp: HF snapshot path gives revision", model_fingerprint(snap) == "rev:" + "f" * 40)
+    check("model_fp: HF snapshot path gives revision", model_fingerprint(snap).startswith("rev:" + "f" * 40))
     X = np.load(c)
     try: check_loaded(X, m, ch, "Xp", model_path=md); check("xp: model change fails loudly", False)
     except SystemExit: check("xp: model change fails loudly", True)
@@ -62,7 +62,7 @@ with tempfile.TemporaryDirectory() as d:
 import phase2_combine as pc
 src = (ROOT / "phase2_combine.py").read_text()
 check("combine: note-only cache hashes note_input", "inputs=[note_input(r) for r in rows]" in src)
-check("combine: Xp check includes model fingerprint", "model_path=path)" in src)
+check("combine: Xp check includes model fingerprint", "model_path=path" in src)
 
 # 2 order-sensitive text baselines separate swapped-order contexts (bag-of-words cannot)
 import text_baselines as tb

@@ -6,10 +6,11 @@ A cache is reused only when its meta matches on all of these:
 - inputs_sha256: the exact model-input text per row, i.e. everything that reaches the chat template,
   including the ask;
 - model_fp: the HF revision if known, else sha256(config.json) plus the names, sizes and mtimes of the
-  weight files;
+  weight files; for a local model dir, plus sha256 of the tokenizer / chat-template files
+  (TOKENIZER_FILES) that are present;
 - prompt_version and max_length.
 
-Older metas without these fields are a miss and the cache is recomputed.
+Older metas without these fields, and corrupt/unparseable metas, are a miss and the cache is recomputed.
 """
 from __future__ import annotations
 import hashlib, json, os, re
@@ -17,6 +18,8 @@ from pathlib import Path
 
 KEYS = ("n", "layer", "model_path", "tokenizer", "rows_sha256", "inputs_sha256", "model_fp",
         "prompt_version", "max_length")
+TOKENIZER_FILES = ("tokenizer.json", "tokenizer_config.json", "special_tokens_map.json",
+                   "tokenizer.model", "chat_template.jinja", "chat_template.json")
 WEIGHT_RE = re.compile(r"\.(safetensors|bin|pt|pth|gguf|ckpt)$")
 
 
@@ -56,11 +59,22 @@ def _hf_revision(p: Path) -> str | None:
     return None
 
 
+def tokenizer_fingerprint(p: Path) -> str:
+    """sha256 over the contents of the tokenizer / chat-template files present in a model dir."""
+    h = hashlib.sha256()
+    for name in TOKENIZER_FILES:
+        f = p / name
+        if f.is_file():
+            h.update(name.encode() + b"\0"); h.update(hashlib.sha256(f.read_bytes()).digest())
+    return h.hexdigest()
+
+
 def model_fingerprint(model_path) -> str:
     p = Path(str(model_path))
+    tok = f"+tok:{tokenizer_fingerprint(p)}" if p.is_dir() else ""
     rev = _hf_revision(p)
     if rev:
-        return f"rev:{rev}"
+        return f"rev:{rev}{tok}"
     if p.is_dir():
         h = hashlib.sha256()
         cfg = p / "config.json"
@@ -68,7 +82,7 @@ def model_fingerprint(model_path) -> str:
         for f in sorted(p.iterdir()):
             if f.is_file() and WEIGHT_RE.search(f.name):
                 st = f.stat(); h.update(f"{f.name}\0{st.st_size}\0{st.st_mtime_ns}\n".encode())
-        return "files:" + h.hexdigest()
+        return "files:" + h.hexdigest() + tok
     return f"unresolved:{p}"
 
 
@@ -95,15 +109,22 @@ def cached_array(cache: Path, meta: Path, want: dict, compute):
     """compute() -> (X, tokenizer_name_or_path). A hit needs a full meta match and n rows."""
     import numpy as np
     if cache.exists() and meta.exists():
-        saved = json.loads(meta.read_text())
-        ok, bad = meta_matches(saved, want)
+        try:
+            saved = json.loads(meta.read_text())
+            if not isinstance(saved, dict):
+                raise ValueError("meta is not a JSON object")
+        except (ValueError, OSError, UnicodeDecodeError) as e:
+            saved = None
+            print(f"cache miss {cache} (corrupt meta {meta}: {e}); recomputing")
+        ok, bad = meta_matches(saved, want) if saved is not None else (False, ["corrupt meta"])
         if ok:
             X = np.load(cache)
             if X.shape[0] == want["n"]:
                 print(f"cache hit {cache}")
                 return X
             bad = ["shape"]
-        print(f"cache miss {cache} (mismatch: {', '.join(bad)}); recomputing")
+        if saved is not None:
+                print(f"cache miss {cache} (mismatch: {', '.join(bad)}); recomputing")
     X, tok_name = compute()
     if X.shape[0] != want["n"]:
         raise SystemExit(f"extractor returned {X.shape[0]} rows, expected {want['n']}")
@@ -117,7 +138,10 @@ def check_loaded(X, meta: Path, rows, what: str, model_path=None, inputs=None) -
     Checks the row hash and shape; also the model fingerprint and inputs hash when those are given."""
     if not meta.exists():
         raise SystemExit(f"{what}: no meta {meta}; re-extract (cache fingerprint required since 2026-11-03)")
-    saved = json.loads(meta.read_text())
+    try:
+        saved = json.loads(meta.read_text())
+    except (ValueError, OSError, UnicodeDecodeError) as e:
+        raise SystemExit(f"{what}: corrupt meta {meta} ({e}); re-extract")
     if saved.get("rows_sha256") != rows_sha256(rows):
         raise SystemExit(f"{what}: row hash mismatch vs {meta} (rows reordered or notes changed); re-extract")
     if X.shape[0] != len(rows):

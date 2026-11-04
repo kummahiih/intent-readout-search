@@ -23,6 +23,7 @@ import numpy as np
 from hide_bank import load_tok_model
 from cache_meta import cached_array, check_loaded, want_meta
 from prompt_text import encode_prompt
+from phase2_prebutton import prompt_msgs  # the exact prebutton model input (ask included)
 
 NOTE_PROMPT_VERSION = "noteonly-v1"  # "Private note:\n" + note, last token
 MAX_LENGTH = 512
@@ -77,6 +78,7 @@ def public_rows(path: str, sid_split: dict[str, str]) -> list[dict]:
                 "scenario_id": d["scenario_id"],
                 "split": d.get("split") or sid_split.get(d["scenario_id"], "unknown"),
                 "note": d.get("note", ""),
+                "ask": d.get("ask", ""),  # kept so the prebutton cache check covers the ask
                 "y": 1 if d["button"] == "YES" else 0,
             })
     return rows
@@ -176,7 +178,8 @@ def main() -> None:
     if not pre_path.exists():
         raise SystemExit(f"missing {pre_path}; extract prebutton on this dump first")
     Xp = np.load(pre_path)
-    check_loaded(Xp, pre_path.with_suffix(".json"), rows, "prebutton Xp", model_path=path)
+    check_loaded(Xp, pre_path.with_suffix(".json"), rows, "prebutton Xp", model_path=path,
+                 inputs=[prompt_msgs(r) for r in rows])
     Xn = extract_note_mid(args.model, path, rows, mid, tag=tag)
 
     sp = (Xp @ direction(Xp, y, fit))[:, None]
