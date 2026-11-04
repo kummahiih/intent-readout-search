@@ -1,0 +1,15 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights:   0%|          | 1/464 [00:00<00:58,  7.86it/s]Loading weights:   5%|▌         | 25/464 [00:00<00:03, 125.90it/s]Loading weights:  12%|█▎        | 58/464 [00:00<00:01, 211.85it/s]Loading weights:  22%|██▏       | 100/464 [00:00<00:01, 289.15it/s]Loading weights:  30%|██▉       | 137/464 [00:00<00:01, 314.99it/s]Loading weights:  39%|███▉      | 180/464 [00:00<00:00, 352.57it/s]Loading weights:  48%|████▊     | 223/464 [00:00<00:00, 376.27it/s]Loading weights:  58%|█████▊    | 267/464 [00:00<00:00, 389.87it/s]Loading weights:  67%|██████▋   | 311/464 [00:00<00:00, 398.10it/s]Loading weights:  76%|███████▌  | 351/464 [00:01<00:00, 384.35it/s]Loading weights:  84%|████████▍ | 390/464 [00:01<00:00, 356.54it/s]Loading weights:  92%|█████████▏| 427/464 [00:01<00:00, 346.07it/s]Loading weights: 100%|█████████▉| 462/464 [00:01<00:00, 328.43it/s]Loading weights: 100%|██████████| 464/464 [00:01<00:00, 325.03it/s]
+loaded=../regret-heuristic/models/gemma-2-9b-it VRAM_GiB=5.71
+layer=24 of 42
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/fix_rerun_20261103_233850/gemma-2-9b-it__defect__otopen_h.npz n=432
+saved results/fix_rerun_20261103_233850/gemma-2-9b-it__defect__otopen_ot.jsonl

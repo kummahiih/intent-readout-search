@@ -1,0 +1,13 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<01:03,  6.75it/s]Loading weights:   0%|          | 2/427 [00:00<00:56,  7.57it/s]Loading weights:   9%|▉         | 38/427 [00:00<00:02, 143.98it/s]Loading weights:  19%|█▉        | 82/427 [00:00<00:01, 244.83it/s]Loading weights:  31%|███       | 133/427 [00:00<00:00, 333.01it/s]Loading weights:  43%|████▎     | 182/427 [00:00<00:00, 380.94it/s]Loading weights:  53%|█████▎    | 226/427 [00:00<00:00, 397.88it/s]Loading weights:  65%|██████▌   | 278/427 [00:00<00:00, 427.75it/s]Loading weights:  77%|███████▋  | 327/427 [00:00<00:00, 444.16it/s]Loading weights:  87%|████████▋ | 372/427 [00:01<00:00, 432.74it/s]Loading weights:  98%|█████████▊| 417/427 [00:01<00:00, 433.69it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 348.43it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+loaded=models/Qwen3.5-9B VRAM_GiB=7.12
+layer=10 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/Qwen3.5-9B__agent_stakes_h.npz n=114
+saved results/fix_rerun_20261103_233850/Qwen3.5-9B__agent_stakes_ot.jsonl

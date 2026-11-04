@@ -1,0 +1,22 @@
+PASS bos: chat-rendered text gets one BOS
+PASS bos: plain text still gets BOS
+PASS bos: RH_KEEP_DOUBLE_BOS=1 restores old double BOS
+PASS bos: tokenizer without bos_token untouched
+PASS bos: generate_short/last_h/OT sample/reply_mutate use encode_prompt
+PASS ot chat: user_says prompt has 'The user says:'
+PASS ot chat: agent_stakes prompt has 'As the agent,'
+PASS ot chat: the two banks' OT prompts differ
+PASS ot chat: note is in the prompt
+PASS ot chat: empty baseline has no note
+PASS ot chat: defect hide/name prompts differ by incentive context
+PASS ot note mode: old raw text kept for comparison
+PASS topic: single-topic bank -> topic N/A
+PASS topic: topic_mean_subtracted N/A on single topic
+PASS topic: incentive still scored
+PASS topic: multi-topic bank keeps topic purity
+PASS baselines: new inputs present
+PASS baselines: incentive_context / full_prompt inputs scored
+PASS baselines: defect incentive at chance from note only (<0.6)
+PASS baselines: selection still fit-only (fit_cv present)
+PASS prompt: system holds note, user holds frame+ask
+PASS prompt: visible_text joins both

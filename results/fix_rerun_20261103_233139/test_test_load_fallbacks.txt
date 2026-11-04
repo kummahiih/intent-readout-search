@@ -1,0 +1,64 @@
+load_attempt=remote_code
+PASS plain load unchanged (1 call, trust_remote_code=True)
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils'
+load_attempt=native
+PASS Phi LossKwargs -> native trust_remote_code=False
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure ...
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+PASS LFM dispatch -> straight to unquantized bf16 offload, GPU 7GiB + CPU 48GiB (no 4-bit offload)
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils'
+load_attempt=native
+load_failed=native ValueError: Some modules are dispatched on the CPU or the disk. Make sure ...
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+PASS native then bf16 offload chain
+load_attempt=remote_code
+load_failed=remote_code RuntimeError: boom
+PASS unknown error raises after 1 attempt (runner logs FAIL, continues)
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure ...
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+load_failed=bf16_offload ValueError: Some modules are dispatched on the CPU or the disk. Make sure ...
+PASS bf16 offload failure raises after 2 attempts, no loop
+load_attempt=remote_code
+load_failed=remote_code PermissionError: [Errno 13] Permission denied: '/media/pauli/datapata'
+load_attempt=native
+PASS Phi PermissionError (unwritable modules cache) -> native
+load_attempt=remote_code
+load_failed=remote_code RuntimeError: Tensor.item() cannot be called on meta tensors
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+PASS meta-tensor error on a 4-bit stage -> bf16 offload
+load_attempt=remote_code
+load_failed=remote_code NotImplementedError: Cannot copy out of meta tensor; no data!
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+PASS offloaded 4-bit model failing first forward ('Cannot copy out of meta tensor') -> bf16 offload; bf16 not re-smoked
+load_attempt=remote_code
+offload_smoke=ok
+PASS working offloaded 4-bit model passes smoke; ids on embedding exec device cuda:0
+load_attempt=remote_code
+PASS fully-on-GPU model: no smoke forward (unchanged behaviour)
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk.
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+PASS bf16 stage is not smoke-tested (offload of plain bf16 is accelerate's normal path)
+PASS input_device: offloaded embedding -> execution GPU cuda:0
+PASS input_device: no map -> first non-meta param
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk.
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+PASS half-loaded model from a failed attempt is freed before the retry
+PASS chat_nothink passes enable_thinking=False and thinking=False
+PASS chat_nothink falls back to chat() system folding
+PASS LFM2.5 gets empty think prefill
+PASS non-LFM unchanged
+PASS LFM2.5 bans reopening <think> during generation
+PASS non-LFM: no bad_words_ids

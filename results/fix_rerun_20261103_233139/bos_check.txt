@@ -1,0 +1,3 @@
+bos_check gemma-2-9b-it: bos='<bos>' old_first=[2, 2, 106] new_first=[2, 106, 1645] bos_in_first3 old=2 new=1 DOUBLE_BOS_BEFORE_FIX
+bos_check Qwen2.5-7B-Instruct: bos=None old_first=[151644, 8948, 198] new_first=[151644, 8948, 198] bos_in_first3 old=0 new=0 ok
+bos_check Mistral-7B-Instruct-v0.3: bos='<s>' old_first=[1, 1, 3] new_first=[1, 3, 15131] bos_in_first3 old=2 new=1 DOUBLE_BOS_BEFORE_FIX

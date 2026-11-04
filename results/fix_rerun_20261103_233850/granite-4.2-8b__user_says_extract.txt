@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   1%|          | 4/363 [00:00<00:11, 30.01it/s]Loading weights:  10%|▉         | 36/363 [00:00<00:01, 178.30it/s]Loading weights:  17%|█▋        | 63/363 [00:00<00:01, 216.77it/s]Loading weights:  24%|██▍       | 87/363 [00:00<00:01, 224.23it/s]Loading weights:  34%|███▎      | 122/363 [00:00<00:00, 265.93it/s]Loading weights:  44%|████▎     | 158/363 [00:00<00:00, 291.54it/s]Loading weights:  53%|█████▎    | 193/363 [00:00<00:00, 310.05it/s]Loading weights:  63%|██████▎   | 229/363 [00:00<00:00, 320.73it/s]Loading weights:  73%|███████▎  | 265/363 [00:00<00:00, 326.57it/s]Loading weights:  83%|████████▎ | 301/363 [00:01<00:00, 332.55it/s]Loading weights:  92%|█████████▏| 335/363 [00:01<00:00, 323.69it/s]Loading weights: 100%|██████████| 363/363 [00:01<00:00, 286.56it/s]
+loaded=models/granite-4.2-8b VRAM_GiB=5.36
+layer=12 of 40
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/granite-4.2-8b__user_says_h.npz n=114
+saved results/fix_rerun_20261103_233850/granite-4.2-8b__user_says_ot.jsonl

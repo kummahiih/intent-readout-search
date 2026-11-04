@@ -1,0 +1,15 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:29,  9.94it/s]Loading weights:   1%|▏         | 4/291 [00:00<00:19, 14.81it/s]Loading weights:   3%|▎         | 9/291 [00:00<00:10, 26.80it/s]Loading weights:   5%|▍         | 14/291 [00:00<00:08, 33.99it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:05, 44.93it/s]Loading weights:   9%|▉         | 27/291 [00:00<00:05, 45.14it/s]Loading weights:  11%|█         | 32/291 [00:00<00:05, 45.61it/s]Loading weights:  14%|█▎        | 40/291 [00:00<00:04, 51.88it/s]Loading weights:  16%|█▌        | 46/291 [00:01<00:05, 48.44it/s]Loading weights:  18%|█▊        | 51/291 [00:01<00:05, 42.50it/s]Loading weights:  20%|██        | 59/291 [00:01<00:04, 48.25it/s]Loading weights:  23%|██▎       | 67/291 [00:01<00:04, 52.98it/s]Loading weights:  25%|██▌       | 73/291 [00:01<00:04, 51.41it/s]Loading weights:  27%|██▋       | 79/291 [00:01<00:04, 48.53it/s]Loading weights:  30%|██▉       | 86/291 [00:01<00:04, 50.47it/s]Loading weights:  32%|███▏      | 94/291 [00:02<00:03, 52.33it/s]Loading weights:  39%|███▉      | 113/291 [00:02<00:02, 84.33it/s]Loading weights:  50%|████▉     | 145/291 [00:02<00:01, 143.42it/s]Loading weights:  60%|██████    | 176/291 [00:02<00:00, 187.05it/s]Loading weights:  70%|██████▉   | 203/291 [00:02<00:00, 204.93it/s]Loading weights:  78%|███████▊  | 227/291 [00:02<00:00, 214.29it/s]Loading weights:  88%|████████▊ | 256/291 [00:02<00:00, 230.98it/s]Loading weights:  98%|█████████▊| 285/291 [00:02<00:00, 247.67it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 104.58it/s]
+loaded=../regret-heuristic/models/Mistral-7B-Instruct-v0.3 VRAM_GiB=3.85
+layer=9 of 32
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/fix_rerun_20261103_233850/Mistral-7B-Instruct-v0.3__defect_h.npz n=432
+saved results/fix_rerun_20261103_233850/Mistral-7B-Instruct-v0.3__defect_ot.jsonl

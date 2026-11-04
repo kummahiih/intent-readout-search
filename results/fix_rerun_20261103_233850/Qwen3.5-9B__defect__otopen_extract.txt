@@ -1,0 +1,19 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<06:06,  1.16it/s]Loading weights:   0%|          | 2/427 [00:00<03:01,  2.34it/s]Loading weights:   9%|▊         | 37/427 [00:01<00:06, 59.51it/s]Loading weights:  19%|█▉        | 81/427 [00:01<00:02, 130.95it/s]Loading weights:  30%|███       | 130/427 [00:01<00:01, 207.22it/s]Loading weights:  41%|████      | 173/427 [00:01<00:00, 258.21it/s]Loading weights:  52%|█████▏    | 222/427 [00:01<00:00, 314.20it/s]Loading weights:  62%|██████▏   | 263/427 [00:01<00:00, 330.78it/s]Loading weights:  73%|███████▎  | 311/427 [00:01<00:00, 369.15it/s]Loading weights:  84%|████████▍ | 360/427 [00:01<00:00, 397.67it/s]Loading weights:  96%|█████████▌| 408/427 [00:01<00:00, 417.78it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 216.52it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+loaded=models/Qwen3.5-9B VRAM_GiB=7.12
+layer=10 of 32
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/fix_rerun_20261103_233850/Qwen3.5-9B__defect__otopen_h.npz n=432
+saved results/fix_rerun_20261103_233850/Qwen3.5-9B__defect__otopen_ot.jsonl

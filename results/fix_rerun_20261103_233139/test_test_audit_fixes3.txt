@@ -1,0 +1,44 @@
+cache hit /tmp/tmpbns41s0x/pb.npy
+PASS cache: identical prebutton call is a hit
+cache miss /tmp/tmpbns41s0x/pb.npy (mismatch: inputs_sha256); recomputing
+PASS cache: change only ask -> miss
+PASS cache: the meta records inputs_sha256 and model_fp
+cache hit /tmp/tmpbns41s0x/pb.npy
+PASS cache: after recompute, hit again
+PASS model_fp: weight-file size change changes fingerprint
+cache miss /tmp/tmpbns41s0x/pb.npy (mismatch: model_fp); recomputing
+PASS cache: weight-file change -> miss
+PASS model_fp: weight mtime change changes fingerprint
+PASS model_fp: config.json change changes fingerprint
+PASS model_fp: HF _commit_hash preferred
+PASS model_fp: HF snapshot path gives revision
+PASS xp: model change fails loudly
+PASS want_meta: inputs required
+PASS combine: note-only cache hashes note_input
+PASS combine: Xp check includes model fingerprint
+PASS baselines: order-sensitive models registered
+synthetic swapped-order acc {"unigram_NB": 0.5, "tfidf12_LR": 1.0, "tfidf13_LR": 1.0, "tfidf15_LR": 1.0, "charwb36_LR": 1.0}
+PASS baselines: unigram NB cannot separate swapped order (<=0.6)
+PASS baselines: word 1-5 gram LR separates swapped order (>=0.9)
+PASS baselines: char_wb 3-6 LR separates swapped order (>=0.9)
+PASS baselines: result rows report order-sensitive eval
+PASS ot open (system): no YES/NO instruction
+PASS ot open (system): same note/context
+PASS ot yesno (system): default unchanged
+PASS ot open (user-says): no YES/NO instruction
+PASS ot open (user-says): same note/context
+PASS ot yesno (user-says): default unchanged
+PASS ot open (agent-stakes): no YES/NO instruction
+PASS ot open (agent-stakes): same note/context
+PASS ot yesno (agent-stakes): default unchanged
+PASS ot: rows record ot_ask and ot_format
+PASS run: bash -n
+PASS run: FAIL aggregate and final status
+PASS run: no WARN-only baseline failure
+PASS run: --ot-ask and --ot-format passed
+PASS run: BOS auto rerun
+PASS run: missing HF_HOME -> exit 2
+PASS run: missing gemma -> exit 2
+PASS run: zero models found -> exit 2
+PASS run: bad OT_ASKS -> exit 2
+ALL PASS

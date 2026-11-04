@@ -1,0 +1,159 @@
+{
+ "bank": "data/prereg/scenarios_original_agent_stakes.jsonl",
+ "button_dump": "results/fixed_models_20261103_1509/LFM2.5-8B-A1B__agent_stakes.jsonl",
+ "provisional": true,
+ "H": {
+  "n_fit": 59,
+  "n_eval": 55,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.6666666666666666,
+     "4": 0.6666666666666666,
+     "5": 0.672316384180791
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7151515151515152,
+     "per_seed": [
+      0.6909090909090909,
+      0.7454545454545455,
+      0.7090909090909091
+     ],
+     "shuffle_null_mean": 0.74,
+     "shuffle_null_p95": 0.7827272727272728,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 46,
+     "eval_purity_mean": 0.7753623188405797,
+     "per_seed": [
+      0.782608695652174,
+      0.782608695652174,
+      0.7608695652173914
+     ],
+     "shuffle_null_mean": 0.6902173913043479,
+     "shuffle_null_p95": 0.7836956521739131,
+     "majority": 0.5434782608695652
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.915151515151515,
+     "per_seed": [
+      0.9090909090909091,
+      0.9090909090909091,
+      0.9272727272727272
+     ],
+     "shuffle_null_mean": 0.7881818181818181,
+     "shuffle_null_p95": 0.8018181818181819,
+     "majority": 0.7636363636363637
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.7005649717514123,
+     "4": 0.7005649717514125,
+     "5": 0.6892655367231638
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7818181818181819,
+     "per_seed": [
+      0.7636363636363637,
+      0.8,
+      0.7818181818181819
+     ],
+     "shuffle_null_mean": 0.7227272727272728,
+     "shuffle_null_p95": 0.7827272727272728,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 46,
+     "eval_purity_mean": 0.6811594202898551,
+     "per_seed": [
+      0.6739130434782609,
+      0.6739130434782609,
+      0.6956521739130435
+     ],
+     "shuffle_null_mean": 0.657608695652174,
+     "shuffle_null_p95": 0.7402173913043478,
+     "majority": 0.5434782608695652
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.8181818181818182,
+     "per_seed": [
+      0.8181818181818182,
+      0.8,
+      0.8363636363636363
+     ],
+     "shuffle_null_mean": 0.78,
+     "shuffle_null_p95": 0.8190909090909092,
+     "majority": 0.7636363636363637
+    }
+   }
+  }
+ },
+ "H_noask": {
+  "n_fit": 59,
+  "n_eval": 55,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.6836158192090395,
+     "4": 0.6892655367231638,
+     "5": 0.7288135593220338
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7333333333333334,
+     "per_seed": [
+      0.7454545454545455,
+      0.7090909090909091,
+      0.7454545454545455
+     ],
+     "shuffle_null_mean": 0.7327272727272728,
+     "shuffle_null_p95": 0.7645454545454546,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 46,
+     "eval_purity_mean": 0.7318840579710143,
+     "per_seed": [
+      0.717391304347826,
+      0.7391304347826086,
+      0.7391304347826086
+     ],
+     "shuffle_null_mean": 0.7043478260869565,
+     "shuffle_null_p95": 0.7391304347826086,
+     "majority": 0.5434782608695652
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.8545454545454545,
+     "per_seed": [
+      0.8363636363636363,
+      0.8727272727272727,
+      0.8545454545454545
+     ],
+     "shuffle_null_mean": 0.7827272727272727,
+     "shuffle_null_p95": 0.800909090909091,
+     "majority": 0.7636363636363637
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.7005649717514123,
+     "4": 0.6949152542372881,
+     "5": 0.711864406779661
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7575757575757577,
+     "per_seed": [
+      0.7636363636363637,
+      0.7

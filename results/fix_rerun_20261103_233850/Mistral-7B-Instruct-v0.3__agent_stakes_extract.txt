@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   2%|▏         | 6/291 [00:00<00:05, 54.40it/s]Loading weights:  11%|█         | 32/291 [00:00<00:01, 168.91it/s]Loading weights:  20%|██        | 59/291 [00:00<00:01, 213.63it/s]Loading weights:  30%|██▉       | 87/291 [00:00<00:00, 230.55it/s]Loading weights:  41%|████      | 118/291 [00:00<00:00, 257.04it/s]Loading weights:  51%|█████     | 149/291 [00:00<00:00, 269.98it/s]Loading weights:  63%|██████▎   | 184/291 [00:00<00:00, 289.33it/s]Loading weights:  73%|███████▎  | 213/291 [00:00<00:00, 257.95it/s]Loading weights:  85%|████████▍ | 247/291 [00:00<00:00, 276.62it/s]Loading weights:  95%|█████████▍| 276/291 [00:01<00:00, 280.19it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 260.78it/s]
+loaded=../regret-heuristic/models/Mistral-7B-Instruct-v0.3 VRAM_GiB=3.85
+layer=9 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/Mistral-7B-Instruct-v0.3__agent_stakes_h.npz n=114
+saved results/fix_rerun_20261103_233850/Mistral-7B-Instruct-v0.3__agent_stakes_ot.jsonl

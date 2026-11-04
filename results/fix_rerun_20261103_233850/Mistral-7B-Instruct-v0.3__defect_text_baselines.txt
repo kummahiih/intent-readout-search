@@ -1,0 +1,166 @@
+{
+ "n_fit_valid_public": 269,
+ "n_eval_valid_public": 161,
+ "results": [
+  {
+   "target": "public_button",
+   "input": "note",
+   "fit_cv": {
+    "unigram_NB": 0.6877323420074349,
+    "tfidf12_LR": 0.7026022304832714,
+    "tfidf13_LR": 0.7026022304832714,
+    "tfidf15_LR": 0.7026022304832714,
+    "charwb36_LR": 0.7026022304832714
+   },
+   "selected": "tfidf12_LR",
+   "eval_acc": 0.6832298136645962,
+   "eval_majority": 0.6832298136645962,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.6832298136645962
+  },
+  {
+   "target": "public_button",
+   "input": "note+public_ask",
+   "fit_cv": {
+    "unigram_NB": 0.6431226765799256,
+    "tfidf12_LR": 0.7026022304832714,
+    "tfidf13_LR": 0.7026022304832714,
+    "tfidf15_LR": 0.7026022304832714,
+    "charwb36_LR": 0.7026022304832714
+   },
+   "selected": "tfidf12_LR",
+   "eval_acc": 0.6832298136645962,
+   "eval_majority": 0.6832298136645962,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.6832298136645962
+  },
+  {
+   "target": "public_button",
+   "input": "incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.6505576208178439,
+    "tfidf12_LR": 0.7026022304832714,
+    "tfidf13_LR": 0.7026022304832714,
+    "tfidf15_LR": 0.7620817843866171,
+    "charwb36_LR": 0.7100371747211895
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 0.7888198757763976,
+   "eval_majority": 0.6832298136645962,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.7888198757763976
+  },
+  {
+   "target": "public_button",
+   "input": "note+incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.6951672862453532,
+    "tfidf12_LR": 0.7026022304832714,
+    "tfidf13_LR": 0.7026022304832714,
+    "tfidf15_LR": 0.7657992565055762,
+    "charwb36_LR": 0.7100371747211895
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 0.7639751552795031,
+   "eval_majority": 0.6832298136645962,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.7639751552795031
+  },
+  {
+   "target": "public_button",
+   "input": "full_prompt",
+   "fit_cv": {
+    "unigram_NB": 0.6877323420074349,
+    "tfidf12_LR": 0.7026022304832714,
+    "tfidf13_LR": 0.7026022304832714,
+    "tfidf15_LR": 0.7546468401486989,
+    "charwb36_LR": 0.7026022304832714
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 0.7329192546583851,
+   "eval_majority": 0.6832298136645962,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.7329192546583851
+  },
+  {
+   "target": "incentive",
+   "input": "note",
+   "fit_cv": {
+    "unigram_NB": 0.5018587360594795,
+    "tfidf12_LR": 0.5018587360594795,
+    "tfidf13_LR": 0.5018587360594795,
+    "tfidf15_LR": 0.5018587360594795,
+    "charwb36_LR": 0.5018587360594795
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.5031055900621118,
+   "eval_majority": 0.5031055900621118,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.5031055900621118
+  },
+  {
+   "target": "incentive",
+   "input": "note+public_ask",
+   "fit_cv": {
+    "unigram_NB": 0.5018587360594795,
+    "tfidf12_LR": 0.5018587360594795,
+    "tfidf13_LR": 0.5018587360594795,
+    "tfidf15_LR": 0.5018587360594795,
+    "charwb36_LR": 0.5018587360594795
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.5031055900621118,
+   "eval_majority": 0.5031055900621118,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.5031055900621118
+  },
+  {
+   "target": "incentive",
+   "input": "incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.5018587360594795,
+    "tfidf12_LR": 0.5018587360594795,
+    "tfidf13_LR": 0.5018587360594795,
+    "tfidf15_LR": 1.0,
+    "charwb36_LR": 0.5018587360594795
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 1.0,
+   "eval_majority": 0.5031055900621118,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 1.0
+  },
+  {
+   "target": "incentive",
+   "input": "note+incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.5018587360594795,
+    "tfidf12_LR": 0.5018587360594795,
+    "tfidf13_LR": 0.5018587360594795,
+    "tfidf15_LR": 1.0,
+    "charwb36_LR": 0.5018587360594795
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 1.0,
+   "eval_majority": 0.5031055900621118,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 1.0
+  },
+  {
+   "target": "incentive",
+   "input": "full_prompt",
+   "fit_cv": {
+    "unigram_NB": 0.5018587360594795,
+    "tfidf12_LR": 0.5018587360594795,
+    "tfidf13_LR": 0.5018587360594795,
+    "tfidf15_LR": 1.0,
+    "charwb36_LR": 0.5018587360594795
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 1.0,
+   "eval_majority": 0.5031055900621118,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 1.0
+  }
+ ]
+}

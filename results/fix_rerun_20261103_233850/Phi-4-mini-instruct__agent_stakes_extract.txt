@@ -1,0 +1,15 @@
+/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/configuration_utils.py:723: FutureWarning: `rope_scaling` is deprecated and will be removed in a future version. Set `rope_parameters` instead, with `rope_type` and `rope_theta` included.
+  warnings.warn(
+[transformers] This model config has set a `rope_parameters['original_max_position_embeddings']` field, to be used together with `max_position_embeddings` to determine a scaling factor. Please set the `factor` field of `rope_parameters`with this ratio instead -- we recommend the use of this field over `original_max_position_embeddings`, as it is compatible with most model architectures.
+load_attempt=remote_code
+load_failed=remote_code ImportError: cannot import name 'LossKwargs' from 'transformers.utils' (/home/pauli/rh-venv-314/lib/python3.14/site-packages/transformers/utils/__init__.py)
+freed_after_failed_load VRAM_GiB=0.00
+load_attempt=native
+Loading weights:   0%|          | 0/194 [00:00<?, ?it/s]Loading weights:   2%|▏         | 3/194 [00:00<00:06, 28.74it/s]Loading weights:  21%|██        | 40/194 [00:00<00:00, 217.66it/s]Loading weights:  39%|███▉      | 76/194 [00:00<00:00, 278.32it/s]Loading weights:  61%|██████    | 118/194 [00:00<00:00, 330.10it/s]Loading weights:  85%|████████▌ | 165/194 [00:00<00:00, 378.37it/s]Loading weights: 100%|██████████| 194/194 [00:00<00:00, 333.89it/s]
+loaded=models/Phi-4-mini-instruct VRAM_GiB=2.69
+layer=8 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/Phi-4-mini-instruct__agent_stakes_h.npz n=114
+saved results/fix_rerun_20261103_233850/Phi-4-mini-instruct__agent_stakes_ot.jsonl

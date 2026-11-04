@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   1%|          | 2/339 [00:00<00:27, 12.16it/s]Loading weights:   6%|▋         | 22/339 [00:00<00:03, 98.51it/s]Loading weights:  19%|█▉        | 64/339 [00:00<00:01, 219.76it/s]Loading weights:  29%|██▉       | 100/339 [00:00<00:00, 269.15it/s]Loading weights:  38%|███▊      | 129/339 [00:00<00:00, 275.57it/s]Loading weights:  47%|████▋     | 161/339 [00:00<00:00, 286.27it/s]Loading weights:  58%|█████▊    | 196/339 [00:00<00:00, 302.28it/s]Loading weights:  67%|██████▋   | 227/339 [00:00<00:00, 301.50it/s]Loading weights:  76%|███████▌  | 258/339 [00:01<00:00, 290.42it/s]Loading weights:  86%|████████▋ | 293/339 [00:01<00:00, 305.55it/s]Loading weights:  97%|█████████▋| 329/339 [00:01<00:00, 314.90it/s]Loading weights: 100%|██████████| 339/339 [00:01<00:00, 275.93it/s]
+loaded=../regret-heuristic/models/Qwen2.5-7B-Instruct VRAM_GiB=5.17
+layer=8 of 28
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/Qwen2.5-7B-Instruct__agent_stakes_h.npz n=114
+saved results/fix_rerun_20261103_233850/Qwen2.5-7B-Instruct__agent_stakes_ot.jsonl

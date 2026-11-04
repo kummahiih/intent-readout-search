@@ -1,0 +1,2 @@
+synthetic cases: 18/18 pass
+saved replies checked: 38493; valid buttons changed: 0; other->YES/NO recovered: 0

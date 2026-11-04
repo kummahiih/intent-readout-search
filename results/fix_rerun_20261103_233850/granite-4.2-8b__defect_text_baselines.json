@@ -1,0 +1,166 @@
+{
+ "n_fit_valid_public": 270,
+ "n_eval_valid_public": 162,
+ "results": [
+  {
+   "target": "public_button",
+   "input": "note",
+   "fit_cv": {
+    "unigram_NB": 0.6370370370370371,
+    "tfidf12_LR": 0.6592592592592592,
+    "tfidf13_LR": 0.6518518518518519,
+    "tfidf15_LR": 0.562962962962963,
+    "charwb36_LR": 0.6222222222222222
+   },
+   "selected": "tfidf12_LR",
+   "eval_acc": 0.6172839506172839,
+   "eval_majority": 0.654320987654321,
+   "order_sensitive_selected": "charwb36_LR",
+   "order_sensitive_eval_acc": 0.5925925925925926
+  },
+  {
+   "target": "public_button",
+   "input": "note+public_ask",
+   "fit_cv": {
+    "unigram_NB": 0.6148148148148148,
+    "tfidf12_LR": 0.6592592592592592,
+    "tfidf13_LR": 0.6518518518518519,
+    "tfidf15_LR": 0.5777777777777777,
+    "charwb36_LR": 0.6370370370370371
+   },
+   "selected": "tfidf12_LR",
+   "eval_acc": 0.6172839506172839,
+   "eval_majority": 0.654320987654321,
+   "order_sensitive_selected": "charwb36_LR",
+   "order_sensitive_eval_acc": 0.6049382716049383
+  },
+  {
+   "target": "public_button",
+   "input": "incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.762962962962963,
+    "tfidf12_LR": 0.7703703703703704,
+    "tfidf13_LR": 0.7703703703703704,
+    "tfidf15_LR": 0.825925925925926,
+    "charwb36_LR": 0.7703703703703704
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 0.8209876543209876,
+   "eval_majority": 0.654320987654321,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.8209876543209876
+  },
+  {
+   "target": "public_button",
+   "input": "note+incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.7481481481481481,
+    "tfidf12_LR": 0.7703703703703704,
+    "tfidf13_LR": 0.7703703703703704,
+    "tfidf15_LR": 0.8148148148148148,
+    "charwb36_LR": 0.7703703703703704
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 0.8209876543209876,
+   "eval_majority": 0.654320987654321,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.8209876543209876
+  },
+  {
+   "target": "public_button",
+   "input": "full_prompt",
+   "fit_cv": {
+    "unigram_NB": 0.7407407407407407,
+    "tfidf12_LR": 0.7407407407407407,
+    "tfidf13_LR": 0.7555555555555555,
+    "tfidf15_LR": 0.8185185185185185,
+    "charwb36_LR": 0.7703703703703704
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 0.8271604938271605,
+   "eval_majority": 0.654320987654321,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.8271604938271605
+  },
+  {
+   "target": "incentive",
+   "input": "note",
+   "fit_cv": {
+    "unigram_NB": 0.5,
+    "tfidf12_LR": 0.5,
+    "tfidf13_LR": 0.5,
+    "tfidf15_LR": 0.5,
+    "charwb36_LR": 0.5
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.5,
+   "eval_majority": 0.5,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.5
+  },
+  {
+   "target": "incentive",
+   "input": "note+public_ask",
+   "fit_cv": {
+    "unigram_NB": 0.5,
+    "tfidf12_LR": 0.5,
+    "tfidf13_LR": 0.5,
+    "tfidf15_LR": 0.5,
+    "charwb36_LR": 0.5
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.5,
+   "eval_majority": 0.5,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.5
+  },
+  {
+   "target": "incentive",
+   "input": "incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.5,
+    "tfidf12_LR": 0.5,
+    "tfidf13_LR": 0.5,
+    "tfidf15_LR": 1.0,
+    "charwb36_LR": 0.5
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 1.0,
+   "eval_majority": 0.5,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 1.0
+  },
+  {
+   "target": "incentive",
+   "input": "note+incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.5,
+    "tfidf12_LR": 0.5,
+    "tfidf13_LR": 0.5,
+    "tfidf15_LR": 1.0,
+    "charwb36_LR": 0.5
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 1.0,
+   "eval_majority": 0.5,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 1.0
+  },
+  {
+   "target": "incentive",
+   "input": "full_prompt",
+   "fit_cv": {
+    "unigram_NB": 0.5,
+    "tfidf12_LR": 0.5,
+    "tfidf13_LR": 0.5,
+    "tfidf15_LR": 1.0,
+    "charwb36_LR": 0.5
+   },
+   "selected": "tfidf15_LR",
+   "eval_acc": 1.0,
+   "eval_majority": 0.5,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 1.0
+  }
+ ]
+}

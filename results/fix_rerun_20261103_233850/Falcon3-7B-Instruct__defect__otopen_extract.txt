@@ -1,0 +1,16 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/255 [00:00<?, ?it/s]Loading weights:   0%|          | 1/255 [00:00<01:17,  3.30it/s]Loading weights:   1%|          | 2/255 [00:00<01:16,  3.30it/s]Loading weights:   2%|▏         | 5/255 [00:00<00:30,  8.29it/s]Loading weights:   5%|▌         | 13/255 [00:00<00:10, 22.63it/s]Loading weights:   7%|▋         | 17/255 [00:00<00:09, 25.75it/s]Loading weights:   9%|▉         | 23/255 [00:01<00:07, 30.43it/s]Loading weights:  12%|█▏        | 31/255 [00:01<00:05, 38.48it/s]Loading weights:  14%|█▍        | 36/255 [00:01<00:05, 38.99it/s]Loading weights:  16%|█▌        | 41/255 [00:01<00:05, 39.73it/s]Loading weights:  19%|█▉        | 49/255 [00:01<00:04, 46.22it/s]Loading weights:  21%|██        | 54/255 [00:01<00:04, 45.11it/s]Loading weights:  30%|███       | 77/255 [00:01<00:01, 90.39it/s]Loading weights:  41%|████      | 104/255 [00:01<00:01, 135.66it/s]Loading weights:  51%|█████▏    | 131/255 [00:02<00:00, 167.38it/s]Loading weights:  62%|██████▏   | 157/255 [00:02<00:00, 189.97it/s]Loading weights:  69%|██████▉   | 177/255 [00:02<00:00, 192.42it/s]Loading weights:  79%|███████▉  | 202/255 [00:02<00:00, 205.69it/s]Loading weights:  90%|█████████ | 230/255 [00:02<00:00, 225.63it/s]Loading weights: 100%|██████████| 255/255 [00:02<00:00, 98.64it/s] 
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+loaded=models/Falcon3-7B-Instruct VRAM_GiB=4.70
+layer=8 of 28
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/fix_rerun_20261103_233850/Falcon3-7B-Instruct__defect__otopen_h.npz n=432
+saved results/fix_rerun_20261103_233850/Falcon3-7B-Instruct__defect__otopen_ot.jsonl

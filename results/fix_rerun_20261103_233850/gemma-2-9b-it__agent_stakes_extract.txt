@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights:   0%|          | 1/464 [00:00<00:59,  7.83it/s]Loading weights:   5%|▌         | 25/464 [00:00<00:03, 125.98it/s]Loading weights:  13%|█▎        | 59/464 [00:00<00:01, 210.65it/s]Loading weights:  22%|██▏       | 102/464 [00:00<00:01, 291.10it/s]Loading weights:  31%|███       | 143/464 [00:00<00:00, 331.27it/s]Loading weights:  39%|███▉      | 181/464 [00:00<00:00, 344.24it/s]Loading weights:  48%|████▊     | 224/464 [00:00<00:00, 367.32it/s]Loading weights:  58%|█████▊    | 267/464 [00:00<00:00, 386.30it/s]Loading weights:  66%|██████▋   | 308/464 [00:00<00:00, 393.05it/s]Loading weights:  75%|███████▌  | 348/464 [00:01<00:00, 372.68it/s]Loading weights:  83%|████████▎ | 386/464 [00:01<00:00, 365.71it/s]Loading weights:  91%|█████████ | 423/464 [00:01<00:00, 329.86it/s]Loading weights:  98%|█████████▊| 457/464 [00:01<00:00, 319.71it/s]Loading weights: 100%|██████████| 464/464 [00:01<00:00, 322.11it/s]
+loaded=../regret-heuristic/models/gemma-2-9b-it VRAM_GiB=5.71
+layer=24 of 42
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/gemma-2-9b-it__agent_stakes_h.npz n=114
+saved results/fix_rerun_20261103_233850/gemma-2-9b-it__agent_stakes_ot.jsonl

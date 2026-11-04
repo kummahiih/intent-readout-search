@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:00<01:31,  9.68it/s]Loading weights:   5%|▍         | 43/883 [00:00<00:03, 246.65it/s]Loading weights:  16%|█▌        | 141/883 [00:00<00:01, 577.47it/s]Loading weights:  27%|██▋       | 238/883 [00:00<00:00, 728.51it/s]Loading weights:  37%|███▋      | 329/883 [00:00<00:00, 781.39it/s]Loading weights:  48%|████▊     | 428/883 [00:00<00:00, 851.10it/s]Loading weights:  90%|████████▉ | 791/883 [00:00<00:00, 1749.45it/s]Loading weights: 100%|██████████| 883/883 [00:00<00:00, 1205.24it/s]
+loaded=models/gemma-3-4b-it VRAM_GiB=3.01
+layer=8 of 34
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/gemma-3-4b-it__agent_stakes_h.npz n=114
+saved results/fix_rerun_20261103_233850/gemma-3-4b-it__agent_stakes_ot.jsonl

@@ -1,0 +1,15 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   0%|          | 1/363 [00:00<01:52,  3.23it/s]Loading weights:   1%|          | 2/363 [00:00<01:54,  3.14it/s]Loading weights:   1%|▏         | 5/363 [00:00<00:41,  8.64it/s]Loading weights:   5%|▍         | 17/363 [00:00<00:10, 33.95it/s]Loading weights:  11%|█▏        | 41/363 [00:00<00:03, 83.78it/s]Loading weights:  19%|█▊        | 68/363 [00:01<00:02, 129.25it/s]Loading weights:  26%|██▌       | 95/363 [00:01<00:01, 166.02it/s]Loading weights:  36%|███▌      | 131/363 [00:01<00:01, 216.68it/s]Loading weights:  46%|████▌     | 167/363 [00:01<00:00, 251.95it/s]Loading weights:  56%|█████▌    | 203/363 [00:01<00:00, 278.64it/s]Loading weights:  66%|██████▌   | 239/363 [00:01<00:00, 297.57it/s]Loading weights:  76%|███████▌  | 275/363 [00:01<00:00, 311.38it/s]Loading weights:  86%|████████▌ | 311/363 [00:01<00:00, 322.55it/s]Loading weights:  95%|█████████▍| 344/363 [00:01<00:00, 311.17it/s]Loading weights: 100%|██████████| 363/363 [00:01<00:00, 185.72it/s]
+loaded=models/granite-4.2-8b VRAM_GiB=5.36
+layer=12 of 40
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/fix_rerun_20261103_233850/granite-4.2-8b__defect__otopen_h.npz n=432
+saved results/fix_rerun_20261103_233850/granite-4.2-8b__defect__otopen_ot.jsonl

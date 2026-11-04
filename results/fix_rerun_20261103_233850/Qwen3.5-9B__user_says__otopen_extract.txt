@@ -1,0 +1,13 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/427 [00:00<?, ?it/s]Loading weights:   0%|          | 1/427 [00:00<01:04,  6.64it/s]Loading weights:   0%|          | 2/427 [00:00<00:57,  7.43it/s]Loading weights:   9%|▉         | 38/427 [00:00<00:02, 141.81it/s]Loading weights:  19%|█▉        | 81/427 [00:00<00:01, 242.60it/s]Loading weights:  31%|███       | 132/427 [00:00<00:00, 329.94it/s]Loading weights:  41%|████      | 174/427 [00:00<00:00, 353.44it/s]Loading weights:  53%|█████▎    | 225/427 [00:00<00:00, 400.06it/s]Loading weights:  64%|██████▍   | 274/427 [00:00<00:00, 423.38it/s]Loading weights:  74%|███████▍  | 318/427 [00:00<00:00, 422.39it/s]Loading weights:  85%|████████▌ | 364/427 [00:01<00:00, 432.63it/s]Loading weights:  96%|█████████▋| 412/427 [00:01<00:00, 441.94it/s]Loading weights: 100%|██████████| 427/427 [00:01<00:00, 342.59it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `fused_recurrent_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+loaded=models/Qwen3.5-9B VRAM_GiB=7.12
+layer=10 of 32
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/Qwen3.5-9B__user_says__otopen_h.npz n=114
+saved results/fix_rerun_20261103_233850/Qwen3.5-9B__user_says__otopen_ot.jsonl

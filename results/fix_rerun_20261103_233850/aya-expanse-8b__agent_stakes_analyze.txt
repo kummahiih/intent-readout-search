@@ -1,0 +1,162 @@
+{
+ "bank": "data/prereg/scenarios_original_agent_stakes.jsonl",
+ "button_dump": "results/fix_rerun_20261103_233850/aya-expanse-8b__agent_stakes.jsonl",
+ "provisional": true,
+ "H": {
+  "n_fit": 59,
+  "n_eval": 55,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.6610169491525424,
+     "4": 0.6610169491525424,
+     "5": 0.672316384180791
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.6909090909090909,
+     "per_seed": [
+      0.7090909090909091,
+      0.6727272727272727,
+      0.6909090909090909
+     ],
+     "shuffle_null_mean": 0.7118181818181818,
+     "shuffle_null_p95": 0.7654545454545455,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.9212121212121213,
+     "per_seed": [
+      0.9090909090909091,
+      0.9272727272727272,
+      0.9272727272727272
+     ],
+     "shuffle_null_mean": 0.9200000000000002,
+     "shuffle_null_p95": 0.9454545454545454,
+     "majority": 0.9090909090909091
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.9272727272727272,
+     "per_seed": [
+      0.9272727272727272,
+      0.9272727272727272,
+      0.9272727272727272
+     ],
+     "shuffle_null_mean": 0.7754545454545455,
+     "shuffle_null_p95": 0.8,
+     "majority": 0.7636363636363637
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.6779661016949152,
+     "4": 0.7005649717514125,
+     "5": 0.6779661016949152
+    },
+    "grid_selected": 4,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7333333333333334,
+     "per_seed": [
+      0.7818181818181819,
+      0.6909090909090909,
+      0.7272727272727273
+     ],
+     "shuffle_null_mean": 0.7136363636363636,
+     "shuffle_null_p95": 0.7463636363636365,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.9090909090909091,
+     "per_seed": [
+      0.9090909090909091,
+      0.9090909090909091,
+      0.9090909090909091
+     ],
+     "shuffle_null_mean": 0.9154545454545456,
+     "shuffle_null_p95": 0.9454545454545454,
+     "majority": 0.9090909090909091
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.787878787878788,
+     "per_seed": [
+      0.8,
+      0.7636363636363637,
+      0.8
+     ],
+     "shuffle_null_mean": 0.7745454545454545,
+     "shuffle_null_p95": 0.8,
+     "majority": 0.7636363636363637
+    }
+   }
+  }
+ },
+ "H_noask": {
+  "n_fit": 59,
+  "n_eval": 55,
+  "som": {
+   "raw": {
+    "grid_fit_cv": {
+     "3": 0.6610169491525424,
+     "4": 0.6610169491525424,
+     "5": 0.6779661016949152
+    },
+    "grid_selected": 5,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.6969696969696969,
+     "per_seed": [
+      0.7090909090909091,
+      0.7090909090909091,
+      0.6727272727272727
+     ],
+     "shuffle_null_mean": 0.72,
+     "shuffle_null_p95": 0.7654545454545455,
+     "majority": 0.6727272727272727
+    },
+    "public_button": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.9090909090909091,
+     "per_seed": [
+      0.9090909090909091,
+      0.9090909090909091,
+      0.9090909090909091
+     ],
+     "shuffle_null_mean": 0.9118181818181819,
+     "shuffle_null_p95": 0.9272727272727272,
+     "majority": 0.9090909090909091
+    },
+    "topic": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.8000000000000002,
+     "per_seed": [
+      0.8,
+      0.8,
+      0.8
+     ],
+     "shuffle_null_mean": 0.7763636363636365,
+     "shuffle_null_p95": 0.8,
+     "majority": 0.7636363636363637
+    }
+   },
+   "topic_mean_subtracted": {
+    "grid_fit_cv": {
+     "3": 0.672316384180791,
+     "4": 0.6666666666666666,
+     "5": 0.672316384180791
+    },
+    "grid_selected": 3,
+    "incentive": {
+     "n_eval_labelled": 55,
+     "eval_purity_mean": 0.7333333333333334,
+     "per_seed": [
+      0.7272727272727273,
+      0.7272727272727273,
+      0.7454545454545455
+     ],
+     "shuffle_null_mea

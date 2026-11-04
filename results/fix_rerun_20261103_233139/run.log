@@ -1,0 +1,23 @@
+=== start 2026-11-03T23:31:40+02:00 34ebb8d dirty=2 OUT=results/fix_rerun_20261103_233139 HF_HOME=/run/media/pauli/datapata/hf OT_ASKS='yesno open' OT_ASK='' ===
+torch 2.15.0+cu132 transformers 5.22.1 cuda True
+FAIL model granite-4.2-8b: SKIPPED (missing ../regret-heuristic/models/granite-4.2-8b/config.json)
+FAIL model Qwen3.5-9B: SKIPPED (missing ../regret-heuristic/models/Qwen3.5-9B/config.json)
+FAIL model Phi-4-mini-instruct: SKIPPED (missing ../regret-heuristic/models/Phi-4-mini-instruct/config.json)
+FAIL model LFM2.5-8B-A1B: SKIPPED (missing ../regret-heuristic/models/LFM2.5-8B-A1B/config.json)
+FAIL model aya-expanse-8b: SKIPPED (missing ../regret-heuristic/models/aya-expanse-8b/config.json)
+FAIL model gemma-3-4b-it: SKIPPED (missing ../regret-heuristic/models/gemma-3-4b-it/config.json)
+FAIL model Falcon3-7B-Instruct: SKIPPED (missing ../regret-heuristic/models/Falcon3-7B-Instruct/config.json)
+--- 0. CPU tests
+PASS tests/test_audit_fixes2.py (26 checks)
+PASS tests/test_audit_fixes3.py (38 checks)
+PASS tests/test_audit_fixes.py (22 checks)
+PASS tests/test_final_button.py (0 checks)
+PASS tests/test_load_fallbacks.py (21 checks)
+smokes OK
+--- 1. double-BOS check (tokenizer only)
+bos_check gemma-2-9b-it: bos='<bos>' old_first=[2, 2, 106] new_first=[2, 106, 1645] bos_in_first3 old=2 new=1 DOUBLE_BOS_BEFORE_FIX
+bos_check Qwen2.5-7B-Instruct: bos=None old_first=[151644, 8948, 198] new_first=[151644, 8948, 198] bos_in_first3 old=0 new=0 ok
+bos_check Mistral-7B-Instruct-v0.3: bos='<s>' old_first=[1, 1, 3] new_first=[1, 3, 15131] bos_in_first3 old=2 new=1 DOUBLE_BOS_BEFORE_FIX
+BOS: Mistral-7B-Instruct-v0.3 had double BOS before the fix -> contract rerun
+--- 2. gemma-2-9b-it contract rerun (BOS fix)
+--- contract gemma-2-9b-it__defect (2026-11-03T23:31:54+02:00)

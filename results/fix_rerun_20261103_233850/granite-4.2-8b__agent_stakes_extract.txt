@@ -1,0 +1,9 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/363 [00:00<?, ?it/s]Loading weights:   1%|          | 4/363 [00:00<00:11, 30.03it/s]Loading weights:  10%|▉         | 35/363 [00:00<00:01, 174.85it/s]Loading weights:  17%|█▋        | 62/363 [00:00<00:01, 215.08it/s]Loading weights:  24%|██▍       | 87/363 [00:00<00:01, 224.14it/s]Loading weights:  34%|███▎      | 122/363 [00:00<00:00, 266.22it/s]Loading weights:  44%|████▎     | 158/363 [00:00<00:00, 292.20it/s]Loading weights:  53%|█████▎    | 193/363 [00:00<00:00, 309.93it/s]Loading weights:  63%|██████▎   | 229/363 [00:00<00:00, 319.76it/s]Loading weights:  72%|███████▏  | 262/363 [00:00<00:00, 321.05it/s]Loading weights:  81%|████████▏ | 295/363 [00:01<00:00, 323.08it/s]Loading weights:  91%|█████████ | 329/363 [00:01<00:00, 319.10it/s]Loading weights: 100%|█████████▉| 362/363 [00:01<00:00, 307.36it/s]Loading weights: 100%|██████████| 363/363 [00:01<00:00, 283.55it/s]
+loaded=models/granite-4.2-8b VRAM_GiB=5.36
+layer=12 of 40
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/granite-4.2-8b__agent_stakes_h.npz n=114
+saved results/fix_rerun_20261103_233850/granite-4.2-8b__agent_stakes_ot.jsonl

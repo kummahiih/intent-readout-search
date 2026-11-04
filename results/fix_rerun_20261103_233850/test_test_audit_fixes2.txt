@@ -1,0 +1,34 @@
+PASS contract: empty dataset fails
+PASS contract: real bank with fit+eval passes
+PASS contract: fit-only fails (no eval)
+PASS contract: eval-only fails (no fit)
+cache hit /tmp/tmp91cx8h4b/x.npy
+PASS cache: second identical call is a hit
+PASS cache: meta has all fingerprint fields
+cache miss /tmp/tmp91cx8h4b/x.npy (mismatch: rows_sha256, inputs_sha256); recomputing
+PASS cache: reordered rows -> miss
+cache miss /tmp/tmp91cx8h4b/x.npy (mismatch: rows_sha256, inputs_sha256); recomputing
+PASS cache: changed note -> miss
+cache miss /tmp/tmp91cx8h4b/x.npy (mismatch: layer); recomputing
+PASS cache: changed layer -> miss
+cache miss /tmp/tmp91cx8h4b/x.npy (mismatch: layer, model_path, model_fp); recomputing
+PASS cache: changed model_path -> miss
+cache miss /tmp/tmp91cx8h4b/x.npy (mismatch: model_path, model_fp, prompt_version); recomputing
+PASS cache: changed prompt_version -> miss
+cache miss /tmp/tmp91cx8h4b/x.npy (mismatch: prompt_version, max_length); recomputing
+PASS cache: changed max_length -> miss
+cache miss /tmp/tmp91cx8h4b/x.npy (mismatch: model_path, rows_sha256, inputs_sha256, model_fp, prompt_version, max_length, tokenizer); recomputing
+PASS cache: old {n,layer}-only meta -> miss
+PASS xp: matching rows accepted
+PASS xp: reordered fails loudly
+PASS xp: fewer rows fails loudly
+PASS xp: missing meta fails loudly
+PASS cache: phase2_combine and phase2_prebutton use cached_array
+PASS cache: phase2_combine checks Xp
+PASS loo: random features -> in-sample high, LOO near chance
+PASS loo: chance and counts reported
+PASS loo: separable topics -> LOO high
+PASS loo: in-sample still printed but labelled
+PASS logit: overlapping classes converge
+PASS logit: max_iter=1 reported not converged
+PASS logit: caller marks INVALID when not converged

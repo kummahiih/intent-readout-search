@@ -1,0 +1,16 @@
+load_attempt=remote_code
+load_failed=remote_code ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `dev
+freed_after_failed_load VRAM_GiB=0.00
+load_fallback=bf16_offload max_memory={0: '7GiB', 'cpu': '48GiB'} (unquantized, accelerate offload; slow)
+load_attempt=bf16_offload
+Loading weights:   0%|          | 0/234 [00:00<?, ?it/s]Loading weights:   9%|▊         | 20/234 [00:00<00:01, 141.27it/s]Loading weights:  15%|█▍        | 35/234 [00:00<00:01, 136.17it/s]Loading weights:  21%|██        | 49/234 [00:00<00:01, 117.37it/s]Loading weights:  26%|██▌       | 61/234 [00:00<00:02, 85.08it/s] Loading weights:  35%|███▌      | 83/234 [00:00<00:01, 101.65it/s]Loading weights:  40%|████      | 94/234 [00:00<00:01, 103.06it/s]Loading weights:  45%|████▍     | 105/234 [00:01<00:01, 65.91it/s]Loading weights:  49%|████▊     | 114/234 [00:01<00:02, 53.26it/s]Loading weights:  52%|█████▏    | 122/234 [00:01<00:02, 48.11it/s]Loading weights:  56%|█████▌    | 131/234 [00:02<00:02, 41.52it/s]Loading weights:  59%|█████▊    | 137/234 [00:02<00:02, 34.80it/s]Loading weights:  65%|██████▍   | 152/234 [00:02<00:01, 42.55it/s]Loading weights:  69%|██████▉   | 161/234 [00:02<00:01, 39.90it/s]Loading weights:  73%|███████▎  | 170/234 [00:02<00:01, 44.46it/s]Loading weights:  75%|███████▌  | 176/234 [00:03<00:01, 45.83it/s]Loading weights:  82%|████████▏ | 191/234 [00:03<00:00, 63.60it/s]Loading weights:  86%|████████▌ | 201/234 [00:03<00:00, 68.44it/s]Loading weights:  89%|████████▉ | 209/234 [00:03<00:00, 69.65it/s]Loading weights:  94%|█████████▍| 221/234 [00:03<00:00, 77.94it/s]Loading weights:  98%|█████████▊| 230/234 [00:03<00:00, 52.85it/s]Loading weights: 100%|██████████| 234/234 [00:03<00:00, 60.65it/s]
+Some parameters are on the meta device because they were offloaded to the cpu.
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+loaded=models/LFM2.5-8B-A1B VRAM_GiB=6.19
+layer=8 of 24
+extract 0/114
+extract 50/114
+extract 100/114
+saved results/fix_rerun_20261103_233850/LFM2.5-8B-A1B__user_says__otopen_h.npz n=114
+saved results/fix_rerun_20261103_233850/LFM2.5-8B-A1B__user_says__otopen_ot.jsonl

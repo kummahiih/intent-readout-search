@@ -1,0 +1,15 @@
+load_attempt=remote_code
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   2%|▏         | 6/291 [00:00<00:05, 54.19it/s]Loading weights:  11%|█         | 32/291 [00:00<00:01, 168.52it/s]Loading weights:  20%|██        | 59/291 [00:00<00:01, 212.65it/s]Loading weights:  30%|██▉       | 87/291 [00:00<00:00, 229.42it/s]Loading weights:  41%|████      | 118/291 [00:00<00:00, 255.92it/s]Loading weights:  51%|█████     | 149/291 [00:00<00:00, 268.99it/s]Loading weights:  63%|██████▎   | 184/291 [00:00<00:00, 288.17it/s]Loading weights:  73%|███████▎  | 213/291 [00:00<00:00, 257.15it/s]Loading weights:  85%|████████▍ | 247/291 [00:00<00:00, 275.77it/s]Loading weights:  95%|█████████▍| 276/291 [00:01<00:00, 279.36it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 259.85it/s]
+loaded=../regret-heuristic/models/Mistral-7B-Instruct-v0.3 VRAM_GiB=3.85
+layer=9 of 32
+extract 0/432
+extract 50/432
+extract 100/432
+extract 150/432
+extract 200/432
+extract 250/432
+extract 300/432
+extract 350/432
+extract 400/432
+saved results/fix_rerun_20261103_233850/Mistral-7B-Instruct-v0.3__defect__otopen_h.npz n=432
+saved results/fix_rerun_20261103_233850/Mistral-7B-Instruct-v0.3__defect__otopen_ot.jsonl

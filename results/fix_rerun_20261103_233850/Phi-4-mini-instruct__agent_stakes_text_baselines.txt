@@ -1,0 +1,121 @@
+{
+ "n_fit_valid_public": 59,
+ "n_eval_valid_public": 55,
+ "results": [
+  {
+   "target": "public_button",
+   "input": "note",
+   "status": "degenerate (CV fold has one class; fit counts True=58 False=1)",
+   "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.True_",
+   "eval_majority": 0.9818181818181818
+  },
+  {
+   "target": "public_button",
+   "input": "note+public_ask",
+   "status": "degenerate (CV fold has one class; fit counts True=58 False=1)",
+   "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.True_",
+   "eval_majority": 0.9818181818181818
+  },
+  {
+   "target": "public_button",
+   "input": "incentive_context",
+   "status": "degenerate (CV fold has one class; fit counts True=58 False=1)",
+   "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.True_",
+   "eval_majority": 0.9818181818181818
+  },
+  {
+   "target": "public_button",
+   "input": "note+incentive_context",
+   "status": "degenerate (CV fold has one class; fit counts True=58 False=1)",
+   "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.True_",
+   "eval_majority": 0.9818181818181818
+  },
+  {
+   "target": "public_button",
+   "input": "full_prompt",
+   "status": "degenerate (CV fold has one class; fit counts True=58 False=1)",
+   "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.True_",
+   "eval_majority": 0.9818181818181818
+  },
+  {
+   "target": "incentive",
+   "input": "note",
+   "fit_cv": {
+    "unigram_NB": 0.7796610169491526,
+    "tfidf12_LR": 0.6610169491525424,
+    "tfidf13_LR": 0.6610169491525424,
+    "tfidf15_LR": 0.711864406779661,
+    "charwb36_LR": 0.6610169491525424
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.7818181818181819,
+   "eval_majority": 0.6727272727272727,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.8181818181818182
+  },
+  {
+   "target": "incentive",
+   "input": "note+public_ask",
+   "fit_cv": {
+    "unigram_NB": 0.6949152542372882,
+    "tfidf12_LR": 0.6610169491525424,
+    "tfidf13_LR": 0.6610169491525424,
+    "tfidf15_LR": 0.6779661016949152,
+    "charwb36_LR": 0.6610169491525424
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.7090909090909091,
+   "eval_majority": 0.6727272727272727,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.7090909090909091
+  },
+  {
+   "target": "incentive",
+   "input": "incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.6610169491525424,
+    "tfidf12_LR": 0.6610169491525424,
+    "tfidf13_LR": 0.6610169491525424,
+    "tfidf15_LR": 0.6610169491525424,
+    "charwb36_LR": 0.6610169491525424
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.6727272727272727,
+   "eval_majority": 0.6727272727272727,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.6727272727272727
+  },
+  {
+   "target": "incentive",
+   "input": "note+incentive_context",
+   "fit_cv": {
+    "unigram_NB": 0.711864406779661,
+    "tfidf12_LR": 0.6610169491525424,
+    "tfidf13_LR": 0.6610169491525424,
+    "tfidf15_LR": 0.6610169491525424,
+    "charwb36_LR": 0.6610169491525424
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.7818181818181819,
+   "eval_majority": 0.6727272727272727,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.7090909090909091
+  },
+  {
+   "target": "incentive",
+   "input": "full_prompt",
+   "fit_cv": {
+    "unigram_NB": 0.6779661016949152,
+    "tfidf12_LR": 0.6610169491525424,
+    "tfidf13_LR": 0.6610169491525424,
+    "tfidf15_LR": 0.6610169491525424,
+    "charwb36_LR": 0.6610169491525424
+   },
+   "selected": "unigram_NB",
+   "eval_acc": 0.6909090909090909,
+   "eval_majority": 0.6727272727272727,
+   "order_sensitive_selected": "tfidf15_LR",
+   "order_sensitive_eval_acc": 0.6909090909090909
+  }
+ ]
+}
