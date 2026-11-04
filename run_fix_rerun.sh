@@ -189,8 +189,17 @@ if [[ $SKIP_OTHERS != 1 ]]; then
   done
 fi
 echo "--- OT identity check (user_says vs agent_stakes must differ now)"
+# All-zero OT files (every row mass_note==0 and in_room false) are identical by construction: log them as
+# uninformative instead of failing. Identical files with any non-zero row still fail.
+ot_allzero() { python3 -c 'import json,sys
+rows=[json.loads(l) for l in open(sys.argv[1]) if l.strip()]
+sys.exit(0 if rows and all(float(r.get("mass_note") or 0)==0 and not r.get("in_room") for r in rows) else 1)' "$1"; }
+ot_identity() { local f=$1 g=$2
+  if ! cmp -s "$f" "$g"; then echo "differ $(basename "$f")"
+  elif ot_allzero "$f"; then echo "OT uninformative (all-zero) $(basename "$f") vs agent_stakes"
+  else bad "OT IDENTICAL $(basename "$f") vs agent_stakes"; fi; }
 for f in "$OUT"/*__user_says_ot.jsonl "$OUT"/*__user_says__otopen_ot.jsonl; do [[ -f $f ]] || continue; g=${f/__user_says/__agent_stakes}
-  [[ -f $g ]] && { cmp -s "$f" "$g" && bad "OT IDENTICAL $(basename "$f") vs agent_stakes" || echo "differ $(basename "$f")"; }; done
+  [[ -f $g ]] && ot_identity "$f" "$g"; done
 echo "=== done $(date -Is) ==="; for s in "${ST[@]}"; do echo "  $s"; done
 echo "Provisional banks. SOM/OT are diagnostics, not gates. OT YES/NO is not evidence of room-entry behaviour."
 echo "Not a camera. Not handoverPass. D not filled. r not frozen. Negative handover unchanged."

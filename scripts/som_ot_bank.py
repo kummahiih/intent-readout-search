@@ -119,13 +119,13 @@ def analyze_matrix(X, meta, grids=(3, 4, 5), seeds=3, steps=30, nulls=20, pca=32
             _, _, Vt = np.linalg.svd(Xf - Xf.mean(0), full_matrices=False)
             P = Vt[:pca].T; Xf, Xe = Xf @ P, Xe @ P
         sel = {}
-        for g in grids:  # grid selected on FIT purity of incentive only
+        for g in grids:  # grid selected on in-sample FIT purity of incentive (not cross-validated)
             sel[g] = float(np.mean([purity(
                                            _fit(MiniSOM(g, g, Xf.shape[1], steps=steps, seed=s), Xf).winners(Xf),
                                            [lab["incentive"][i] for i in fit]) for s in range(seeds)]))
         g = max(sel, key=sel.get)
         soms = [_fit(MiniSOM(g, g, Xf.shape[1], steps=steps, seed=s), Xf) for s in range(seeds)]
-        r = {"grid_fit_cv": sel, "grid_selected": g}
+        r = {"grid_fit_purity_insample": sel, "grid_selected": g}  # was "grid_fit_cv" (misnamed; read both)
         rng = np.random.default_rng(0)
         for name, L in lab.items():
             if name == "topic" and n_topics < 2:
