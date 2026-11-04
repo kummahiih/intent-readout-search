@@ -1,0 +1,56 @@
+{
+ "n_fit_valid_public": 0,
+ "n_eval_valid_public": 0,
+ "results": [
+  {
+   "target": "public_button",
+   "input": "note",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "public_button",
+   "input": "note+public_ask",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "public_button",
+   "input": "incentive_context",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "public_button",
+   "input": "note+incentive_context",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "public_button",
+   "input": "full_prompt",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "incentive",
+   "input": "note",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "incentive",
+   "input": "note+public_ask",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "incentive",
+   "input": "incentive_context",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "incentive",
+   "input": "note+incentive_context",
+   "status": "degenerate (one class on fit or empty eval)"
+  },
+  {
+   "target": "incentive",
+   "input": "full_prompt",
+   "status": "degenerate (one class on fit or empty eval)"
+  }
+ ]
+}
