@@ -128,18 +128,22 @@ def _extract(model_path: str, rows: list[dict], layer: int):
     return np.stack(vecs), getattr(tok, "name_or_path", model_path)
 
 
-def probe(X: np.ndarray, y: np.ndarray, fit_idx: np.ndarray, ev_idx: np.ndarray) -> tuple[int, int]:
-    """Mean-difference direction, threshold fit on train only."""
+def probe(X: np.ndarray, y: np.ndarray, fit_idx: np.ndarray, ev_idx: np.ndarray) -> tuple[int | None, int]:
+    """Mean-difference direction, threshold fit on train only.
+
+    Returns (None, n) when the direction is degenerate (zero norm). A zero direction
+    means the representation contains no usable mean-difference signal; it is not
+    evidence of 0% accuracy.
+    """
     Xf, yf = X[fit_idx], y[fit_idx]
     yes = Xf[yf == 1].mean(axis=0)
     no = Xf[yf == 0].mean(axis=0)
     direction = yes - no
     norm = np.linalg.norm(direction)
     if norm < 1e-8:
-        return 0, len(ev_idx)
+        return None, len(ev_idx)
     direction /= norm
     train_scores = Xf @ direction
-    # threshold: midpoint of class means on the projected train scores
     thr = 0.5 * (train_scores[yf == 1].mean() + train_scores[yf == 0].mean())
     pred = (X[ev_idx] @ direction >= thr).astype(int)
     k = int((pred == y[ev_idx]).sum())
@@ -175,6 +179,10 @@ def main() -> None:
     if (y[fit_idx] == 1).sum() == 0 or (y[fit_idx] == 0).sum() == 0:
         raise SystemExit("fit split has only one class; cannot form a direction")
     k, n = probe(X, y, fit_idx, ev_idx)
+    if k is None:
+        print(f"prebutton INVALID (degenerate zero-norm direction) n={n}")
+        print("not a camera. not handoverPass. Do not fill D.")
+        return
     acc, lo, hi = wilson(k, n)
     b = BASELINE.get(args.model)
     print(f"prebutton {k}/{n} = {acc:.3f} [{lo:.3f}, {hi:.3f}]")
